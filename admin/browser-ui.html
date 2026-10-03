@@ -27,16 +27,16 @@
 
         /* =========================
            LAYOUT
-        ========================= */
+        ========================== */
 
-        .admin-layout {
+        .layout {
             min-height: 100vh;
             display: flex;
         }
 
         /* =========================
            SIDEBAR
-        ========================= */
+        ========================== */
 
         .sidebar {
             width: 260px;
@@ -44,9 +44,7 @@
             color: #fff;
             padding: 24px 16px;
             position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
+            inset: 0 auto 0 0;
             overflow-y: auto;
         }
 
@@ -122,7 +120,7 @@
 
         /* =========================
            MAIN
-        ========================= */
+        ========================== */
 
         .main {
             margin-left: 260px;
@@ -131,8 +129,16 @@
         }
 
         /* =========================
+           MOBILE HEADER
+        ========================== */
+
+        .mobile-header {
+            display: none;
+        }
+
+        /* =========================
            TOPBAR
-        ========================= */
+        ========================== */
 
         .topbar {
             height: 74px;
@@ -158,6 +164,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 13px;
         }
 
         .avatar {
@@ -174,150 +181,141 @@
 
         /* =========================
            CONTENT
-        ========================= */
+        ========================== */
 
         .content {
             padding: 30px 34px 50px;
+            max-width: 1250px;
         }
 
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
+        .intro {
+            margin-bottom: 24px;
         }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 12px;
-            border-radius: 20px;
-            background: #e8f8ef;
-            color: #18864a;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            background: #21a45c;
-            border-radius: 50%;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 430px;
-            gap: 24px;
-            align-items: start;
-        }
-
-        /* =========================
-           CARD
-        ========================= */
-
-        .card {
-            background: #fff;
-            border: 1px solid #e4ecee;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(20,50,60,.04);
-        }
-
-        .card-header {
-            padding: 22px 24px;
-            border-bottom: 1px solid #edf1f2;
-        }
-
-        .card-header h2 {
-            font-size: 16px;
+        .intro h2 {
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .card-header p {
+        .intro p {
+            color: #7d9094;
             font-size: 12px;
-            color: #7c9094;
         }
 
-        .card-body {
-            padding: 24px;
+        /* =========================
+           GRID
+        ========================== */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 390px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e2eaeb;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(20,50,60,.035);
+        }
+
+        .panel + .panel {
+            margin-top: 20px;
+        }
+
+        .panel-header {
+            border-bottom: 1px solid #edf1f2;
+            padding-bottom: 15px;
+            margin-bottom: 5px;
+        }
+
+        .panel-header h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .panel-header p {
+            color: #849397;
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         /* =========================
            FORM
-        ========================= */
+        ========================== */
 
         .form-group {
-            margin-bottom: 20px;
+            margin-top: 17px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 13px;
+            font-size: 10px;
             font-weight: 700;
+            color: #4d656a;
+            margin-bottom: 7px;
         }
 
-        .input,
-        textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            border: 1px solid #dbe5e7;
+            border: 1px solid #dce6e7;
             border-radius: 9px;
-            padding: 12px 13px;
+            padding: 11px 12px;
             outline: none;
-            background: #fbfcfc;
             color: #17353b;
+            background: #fff;
+            font-size: 11px;
             transition: .2s;
         }
 
-        .input:focus,
-        textarea:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             border-color: #087f86;
             box-shadow: 0 0 0 3px rgba(8,127,134,.08);
-            background: #fff;
         }
 
-        textarea {
-            min-height: 90px;
+        .form-group textarea {
+            min-height: 75px;
             resize: vertical;
         }
 
-        .help {
-            font-size: 11px;
-            color: #87999d;
-            margin-top: 6px;
-        }
-
         /* =========================
-           TOGGLE
-        ========================= */
+           ENABLE ROW
+        ========================== */
 
-        .setting-box {
+        .enable-row {
+            background: #f2faf9;
+            border: 1px solid #d8eeec;
+            border-radius: 11px;
+            padding: 13px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            border: 1px solid #e4ecee;
-            border-radius: 12px;
-            background: #fafcfc;
-            margin-bottom: 22px;
         }
 
-        .setting-info strong {
+        .enable-text strong {
             display: block;
-            font-size: 13px;
+            font-size: 11px;
             margin-bottom: 3px;
         }
 
-        .setting-info span {
-            font-size: 11px;
-            color: #87999d;
+        .enable-text span {
+            color: #7a9094;
+            font-size: 9px;
         }
+
+        /* =========================
+           SWITCH
+        ========================== */
 
         .switch {
             position: relative;
-            width: 48px;
-            height: 27px;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
         }
 
         .switch input {
@@ -329,23 +327,23 @@
         .slider {
             position: absolute;
             inset: 0;
+            background: #cbd6d8;
+            border-radius: 30px;
             cursor: pointer;
-            background: #ccd7d9;
-            border-radius: 50px;
-            transition: .25s;
+            transition: .2s;
         }
 
         .slider:before {
             content: "";
             position: absolute;
-            width: 21px;
-            height: 21px;
+            width: 18px;
+            height: 18px;
             left: 3px;
             top: 3px;
-            background: #fff;
             border-radius: 50%;
-            transition: .25s;
-            box-shadow: 0 2px 5px rgba(0,0,0,.15);
+            background: #fff;
+            transition: .2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.12);
         }
 
         .switch input:checked + .slider {
@@ -353,113 +351,101 @@
         }
 
         .switch input:checked + .slider:before {
-            transform: translateX(21px);
+            transform: translateX(20px);
         }
 
         /* =========================
-           TWO COLUMN FORM
-        ========================= */
+           IMAGE INPUT
+        ========================== */
 
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .image-box {
+            border: 1px dashed #cbd9db;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            background: #fafcfc;
+        }
+
+        .image-preview {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            background: #e8f5f4;
+            color: #087f86;
+            margin: 0 auto 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-box input {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            font-size: 9px;
         }
 
         /* =========================
            COLOR
-        ========================= */
+        ========================== */
 
         .color-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
-        .color-picker {
-            width: 52px;
-            height: 45px;
-            border: 1px solid #dbe5e7;
-            border-radius: 8px;
-            padding: 3px;
+        .color-input {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid #dce6e7;
+            border-radius: 9px;
+            padding: 7px;
+        }
+
+        .color-input input[type="color"] {
+            width: 36px;
+            height: 30px;
+            padding: 0;
+            border: 0;
+            background: none;
             cursor: pointer;
         }
 
-        /* =========================
-           IMAGE
-        ========================= */
-
-        .upload-box {
-            border: 1.5px dashed #cbdadc;
-            border-radius: 11px;
-            padding: 18px;
-            text-align: center;
-            background: #fbfcfc;
-        }
-
-        .upload-icon {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
-
-        .upload-box p {
-            font-size: 12px;
-            color: #7d9094;
-            margin-bottom: 10px;
-        }
-
-        .upload-btn {
-            display: inline-block;
-            background: #e8f6f5;
-            color: #087f86;
-            padding: 8px 13px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .upload-box input {
-            display: none;
-        }
-
-        .image-preview {
-            margin-top: 12px;
-            display: none;
-        }
-
-        .image-preview img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid #dde6e7;
+        .color-input input[type="text"] {
+            border: 0;
+            padding: 5px;
+            outline: none;
+            width: 100%;
+            font-size: 10px;
         }
 
         /* =========================
            BUTTONS
-        ========================= */
+        ========================== */
 
         .actions {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #edf1f2;
+            gap: 8px;
+            margin-top: 22px;
         }
 
         .btn {
             border: 0;
             border-radius: 9px;
-            padding: 11px 17px;
+            padding: 11px 16px;
             cursor: pointer;
+            font-size: 10px;
             font-weight: 700;
-            font-size: 12px;
-        }
-
-        .btn-secondary {
-            background: #eef3f4;
-            color: #48666b;
         }
 
         .btn-primary {
@@ -471,165 +457,259 @@
             background: #056b71;
         }
 
+        .btn-secondary {
+            background: #edf3f4;
+            color: #4d686d;
+        }
+
         /* =========================
            PREVIEW
-        ========================= */
+        ========================== */
 
-        .preview-card {
-            position: sticky;
-            top: 20px;
+        .preview-panel {
+            min-height: 550px;
         }
 
-        .preview-wrapper {
-            padding: 24px;
-        }
-
-        .browser-preview {
-            border: 1px solid #dce6e7;
-            border-radius: 10px;
+        .browser-frame {
+            border: 1px solid #dbe5e6;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(20,50,60,.07);
         }
 
-        .browser-bar {
-            height: 34px;
-            background: #f0f3f4;
+        .browser-top {
+            height: 42px;
+            background: #f3f5f6;
+            border-bottom: 1px solid #e1e6e7;
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 0 10px;
+            padding: 0 14px;
+            gap: 6px;
         }
 
         .browser-dot {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #b8c4c6;
+            background: #c6ced0;
         }
 
-        .fake-url {
-            height: 19px;
-            flex: 1;
-            margin-left: 6px;
+        .browser-address {
+            height: 25px;
             background: #fff;
-            border-radius: 5px;
+            border: 1px solid #dce3e4;
+            border-radius: 6px;
+            margin-left: 10px;
+            flex: 1;
+            color: #9aa8aa;
             font-size: 8px;
-            color: #99a7aa;
             display: flex;
             align-items: center;
-            padding-left: 8px;
+            padding: 0 10px;
         }
+
+        .fake-site {
+            background: #f8fbfb;
+            min-height: 460px;
+        }
+
+        /* =========================
+           AD PREVIEW
+        ========================== */
 
         .ad-preview {
-            min-height: 125px;
-            padding: 15px;
-            position: relative;
-            color: #fff;
-        }
-
-        .preview-label {
-            font-size: 8px;
-            opacity: .7;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-
-        .preview-content {
+            width: 100%;
+            min-height: 82px;
+            padding: 13px 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            position: relative;
         }
 
-        .preview-image {
-            width: 42px;
-            height: 42px;
-            border-radius: 9px;
+        .ad-label {
+            position: absolute;
+            left: 18px;
+            top: 5px;
+            font-size: 7px;
+            opacity: .7;
+        }
+
+        .ad-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
             background: rgba(255,255,255,.18);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            overflow: hidden;
+            color: #fff;
+            font-size: 20px;
             flex-shrink: 0;
+            margin-top: 5px;
         }
 
-        .preview-image img {
-            width: 100%;
-            height: 100%;
+        .ad-image {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
             object-fit: cover;
+            display: none;
+            margin-top: 5px;
         }
 
-        .preview-text {
+        .ad-copy {
             flex: 1;
-            min-width: 0;
+            color: #fff;
+            padding-top: 7px;
         }
 
-        .preview-text strong {
+        .ad-copy strong {
             display: block;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 3px;
         }
 
-        .preview-text span {
+        .ad-copy span {
             display: block;
-            font-size: 8px;
-            opacity: .82;
-            line-height: 1.4;
+            font-size: 9px;
+            opacity: .85;
         }
 
-        .preview-button {
+        .ad-action {
             border: 0;
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 8px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .preview-close {
-            position: absolute;
-            right: 8px;
-            top: 7px;
-            width: 18px;
-            height: 18px;
-            border: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,.18);
-            color: #fff;
-            font-size: 12px;
+            border-radius: 7px;
+            padding: 9px 12px;
+            font-size: 9px;
+            font-weight: 800;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
-        .preview-note {
-            margin-top: 15px;
-            padding: 11px;
-            border-radius: 8px;
-            background: #f1f7f7;
-            color: #698084;
-            font-size: 11px;
-            line-height: 1.5;
+        .close-ad {
+            position: absolute;
+            right: 7px;
+            top: 5px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            opacity: .8;
+            cursor: pointer;
+            font-size: 13px;
         }
 
         /* =========================
-           MOBILE
-        ========================= */
+           FAKE WEBSITE
+        ========================== */
 
-        .mobile-header {
-            display: none;
+        .fake-navbar {
+            height: 55px;
+            background: #fff;
+            border-bottom: 1px solid #edf1f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
         }
 
-        @media (max-width: 1050px) {
+        .fake-logo {
+            width: 95px;
+            height: 10px;
+            border-radius: 5px;
+            background: #087f86;
+        }
+
+        .fake-nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .fake-nav-links span {
+            width: 35px;
+            height: 6px;
+            border-radius: 5px;
+            background: #d7e1e2;
+        }
+
+        .fake-hero {
+            padding: 45px 35px;
+            text-align: center;
+        }
+
+        .fake-hero-badge {
+            width: 110px;
+            height: 9px;
+            background: #d9eeee;
+            border-radius: 5px;
+            margin: 0 auto 14px;
+        }
+
+        .fake-hero-title {
+            width: 260px;
+            height: 18px;
+            background: #17353b;
+            border-radius: 5px;
+            margin: 0 auto 10px;
+        }
+
+        .fake-hero-title.small {
+            width: 180px;
+            height: 12px;
+            background: #aebdc0;
+        }
+
+        .fake-cards {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 35px;
+        }
+
+        .fake-card {
+            width: 110px;
+            height: 90px;
+            background: #fff;
+            border: 1px solid #e4ebec;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           INFO BOX
+        ========================== */
+
+        .info-box {
+            margin-top: 18px;
+            padding: 13px;
+            background: #eef8f7;
+            border: 1px solid #d9ecea;
+            border-radius: 10px;
+            color: #537276;
+            font-size: 9px;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #087f86;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1000px) {
+
             .grid {
                 grid-template-columns: 1fr;
             }
 
-            .preview-card {
-                position: static;
+            .preview-panel {
+                order: -1;
             }
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 850px) {
+
             .sidebar {
                 display: none;
             }
@@ -650,19 +730,15 @@
             }
 
             .mobile-brand {
+                font-size: 14px;
                 font-weight: 800;
             }
 
             .mobile-menu-btn {
-                background: none;
                 border: 0;
+                background: none;
                 color: #fff;
-                font-size: 24px;
-                cursor: pointer;
-            }
-
-            .topbar {
-                padding: 0 20px;
+                font-size: 23px;
             }
 
             .content {
@@ -671,30 +747,35 @@
         }
 
         @media (max-width: 550px) {
-            .two-col {
-                grid-template-columns: 1fr;
+
+            .topbar {
+                padding: 0 18px;
             }
 
             .admin-user {
                 display: none;
             }
 
-            .page-title h1 {
-                font-size: 17px;
+            .color-row {
+                grid-template-columns: 1fr;
             }
 
-            .card-header,
-            .card-body,
-            .preview-wrapper {
-                padding: 18px;
+            .ad-preview {
+                padding: 12px;
+                gap: 8px;
             }
 
-            .preview-content {
-                align-items: flex-start;
+            .ad-copy strong {
+                font-size: 10px;
             }
 
-            .preview-button {
-                display: none;
+            .ad-copy span {
+                font-size: 7px;
+            }
+
+            .ad-action {
+                padding: 7px;
+                font-size: 7px;
             }
         }
     </style>
@@ -702,7 +783,7 @@
 
 <body>
 
-<div class="admin-layout">
+<div class="layout">
 
     <!-- =========================
          SIDEBAR
@@ -711,22 +792,32 @@
     <aside class="sidebar">
 
         <div class="brand">
-            <div class="brand-icon">✚</div>
+
+            <div class="brand-icon">
+                ✚
+            </div>
 
             <div class="brand-text">
                 <strong>Doctor Poster</strong>
                 <span>Admin Panel</span>
             </div>
+
         </div>
 
-        <div class="menu-title">Main</div>
+
+        <div class="menu-title">
+            Main
+        </div>
 
         <a href="dashboard.html">
             <span>▦</span>
             Dashboard
         </a>
 
-        <div class="menu-title">Website</div>
+
+        <div class="menu-title">
+            Website
+        </div>
 
         <a href="website.html">
             <span>◉</span>
@@ -738,7 +829,10 @@
             Edit Website
         </a>
 
-        <div class="menu-title">Advertisement</div>
+
+        <div class="menu-title">
+            Advertisement
+        </div>
 
         <a href="browser-ui.html" class="active">
             <span>▣</span>
@@ -750,25 +844,34 @@
             Banner
         </a>
 
-        <div class="menu-title">Designs</div>
+
+        <div class="menu-title">
+            Designs
+        </div>
 
         <a href="design-manage.html">
             <span>◇</span>
             Design Management
         </a>
 
-        <div class="menu-title">System</div>
+
+        <div class="menu-title">
+            System
+        </div>
 
         <a href="system.html">
             <span>⚙</span>
             System Settings
         </a>
 
+
         <div class="logout">
+
             <a href="index.html">
                 <span>↪</span>
                 Logout
             </a>
+
         </div>
 
     </aside>
@@ -780,9 +883,8 @@
 
     <main class="main">
 
-        <!-- Mobile Header -->
-
         <div class="mobile-header">
+
             <div class="mobile-brand">
                 Doctor Poster Admin
             </div>
@@ -793,23 +895,32 @@
             >
                 ☰
             </button>
+
         </div>
 
 
-        <!-- Topbar -->
+        <!-- TOPBAR -->
 
         <div class="topbar">
 
             <div class="page-title">
-                <h1>Browser UI Advertisement</h1>
-                <p>Control the advertisement shown above your website navbar.</p>
+
+                <h1>
+                    Browser UI Advertisement
+                </h1>
+
+                <p>
+                    Control the advertisement displayed above your website navigation.
+                </p>
+
             </div>
+
 
             <div class="admin-user">
 
-                <div>
-                    <strong>Administrator</strong>
-                </div>
+                <strong>
+                    Administrator
+                </strong>
 
                 <div class="avatar">
                     A
@@ -820,58 +931,64 @@
         </div>
 
 
-        <!-- Content -->
+        <!-- CONTENT -->
 
         <section class="content">
 
-            <div class="status-row">
+            <div class="intro">
 
-                <div>
-                    <strong>Advertisement Settings</strong>
-                    <p style="font-size:12px;color:#819397;margin-top:4px;">
-                        Configure your website's top advertisement.
-                    </p>
-                </div>
+                <h2>
+                    Advertisement Control
+                </h2>
 
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    Advertisement Active
-                </div>
+                <p>
+                    Configure your global browser UI advertisement.
+                </p>
 
             </div>
 
 
             <div class="grid">
 
+
                 <!-- =========================
-                     SETTINGS
+                     LEFT FORM
                 ========================== -->
 
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <h2>Advertisement Configuration</h2>
-
-                        <p>
-                            These settings will control the Browser UI advertisement.
-                        </p>
-
-                    </div>
+                <div>
 
 
-                    <div class="card-body">
+                    <!-- STATUS -->
 
-                        <!-- ON / OFF -->
+                    <div class="panel">
 
-                        <div class="setting-box">
+                        <div class="panel-header">
 
-                            <div class="setting-info">
-                                <strong>Advertisement Status</strong>
+                            <h3>
+                                Advertisement Status
+                            </h3>
+
+                            <p>
+                                Enable or disable the advertisement globally.
+                            </p>
+
+                        </div>
+
+
+                        <div class="enable-row">
+
+                            <div class="enable-text">
+
+                                <strong>
+                                    Browser UI Advertisement
+                                </strong>
+
                                 <span>
-                                    Turn the advertisement ON or OFF.
+                                    Display advertisement above the navbar.
                                 </span>
+
                             </div>
+
 
                             <label class="switch">
 
@@ -888,19 +1005,51 @@
 
                         </div>
 
+                    </div>
 
-                        <!-- TITLE -->
+
+                    <!-- CONTENT -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                Advertisement Content
+                            </h3>
+
+                            <p>
+                                Enter the text visitors will see.
+                            </p>
+
+                        </div>
+
 
                         <div class="form-group">
 
-                            <label for="adTitle">
+                            <label>
+                                Advertisement Label
+                            </label>
+
+                            <input
+                                type="text"
+                                id="adLabel"
+                                value="Advertisement"
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
                                 Advertisement Title
                             </label>
 
                             <input
                                 type="text"
                                 id="adTitle"
-                                class="input"
                                 value="Promote Your Healthcare Brand"
                                 oninput="updatePreview()"
                             >
@@ -908,11 +1057,9 @@
                         </div>
 
 
-                        <!-- DESCRIPTION -->
-
                         <div class="form-group">
 
-                            <label for="adDescription">
+                            <label>
                                 Description
                             </label>
 
@@ -924,114 +1071,125 @@
                         </div>
 
 
-                        <!-- IMAGE -->
+                        <div class="form-group">
+
+                            <label>
+                                Button Text
+                            </label>
+
+                            <input
+                                type="text"
+                                id="adButton"
+                                value="Advertise With Us →"
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
 
                         <div class="form-group">
 
                             <label>
-                                Advertisement Image / Logo
+                                Button Link
                             </label>
 
-                            <div class="upload-box">
+                            <input
+                                type="text"
+                                id="adLink"
+                                value="#"
+                                placeholder="https://example.com"
+                            >
 
-                                <div class="upload-icon">
-                                    🖼️
-                                </div>
+                        </div>
 
-                                <p>
-                                    Upload an image or brand logo
-                                </p>
+                    </div>
 
-                                <label class="upload-btn">
 
-                                    Choose Image
+                    <!-- IMAGE -->
 
-                                    <input
-                                        type="file"
-                                        id="adImage"
-                                        accept="image/*"
-                                        onchange="previewImage(event)"
-                                    >
+                    <div class="panel">
 
-                                </label>
+                        <div class="panel-header">
 
-                                <div
-                                    class="image-preview"
-                                    id="imagePreview"
-                                >
-                                    <img id="uploadedImage" src="" alt="">
-                                </div>
+                            <h3>
+                                Advertisement Image
+                            </h3>
 
-                            </div>
+                            <p>
+                                Optional logo or promotional image.
+                            </p>
 
                         </div>
 
 
-                        <!-- BUTTON -->
+                        <div class="image-box">
 
-                        <div class="two-col">
-
-                            <div class="form-group">
-
-                                <label for="buttonText">
-                                    Button Text
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="buttonText"
-                                    class="input"
-                                    value="Advertise With Us →"
-                                    oninput="updatePreview()"
-                                >
-
+                            <div
+                                class="image-preview"
+                                id="imagePreview"
+                            >
+                                ✦
                             </div>
 
+                            <input
+                                type="file"
+                                id="adImage"
+                                accept="image/*"
+                                onchange="previewImage(event)"
+                            >
 
-                            <div class="form-group">
+                        </div>
 
-                                <label for="buttonLink">
-                                    Button Link
-                                </label>
+                    </div>
 
-                                <input
-                                    type="url"
-                                    id="buttonLink"
-                                    class="input"
-                                    value="#"
-                                >
 
-                            </div>
+                    <!-- DESIGN -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                Advertisement Style
+                            </h3>
+
+                            <p>
+                                Customize the colors of the advertisement.
+                            </p>
 
                         </div>
 
 
-                        <!-- COLORS -->
+                        <div class="color-row">
 
-                        <div class="two-col">
+                            <div>
 
-                            <div class="form-group">
-
-                                <label>
-                                    Background Color
+                                <label
+                                    style="
+                                        display:block;
+                                        font-size:10px;
+                                        font-weight:700;
+                                        margin-bottom:7px;
+                                        color:#4d656a;
+                                    "
+                                >
+                                    Background
                                 </label>
 
-                                <div class="color-row">
+                                <div class="color-input">
 
                                     <input
                                         type="color"
-                                        id="backgroundColor"
-                                        class="color-picker"
+                                        id="bgColorPicker"
                                         value="#087f86"
-                                        onchange="updatePreview()"
+                                        oninput="syncColor('bg')"
                                     >
 
                                     <input
                                         type="text"
-                                        id="backgroundText"
-                                        class="input"
+                                        id="bgColorText"
                                         value="#087f86"
-                                        oninput="changeBackgroundText()"
+                                        oninput="syncTextColor('bg')"
                                     >
 
                                 </div>
@@ -1039,28 +1197,34 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div>
 
-                                <label>
-                                    Button Color
+                                <label
+                                    style="
+                                        display:block;
+                                        font-size:10px;
+                                        font-weight:700;
+                                        margin-bottom:7px;
+                                        color:#4d656a;
+                                    "
+                                >
+                                    Button
                                 </label>
 
-                                <div class="color-row">
+                                <div class="color-input">
 
                                     <input
                                         type="color"
-                                        id="buttonColor"
-                                        class="color-picker"
+                                        id="buttonColorPicker"
                                         value="#ffffff"
-                                        onchange="updatePreview()"
+                                        oninput="syncColor('button')"
                                     >
 
                                     <input
                                         type="text"
                                         id="buttonColorText"
-                                        class="input"
                                         value="#ffffff"
-                                        oninput="changeButtonTextColor()"
+                                        oninput="syncTextColor('button')"
                                     >
 
                                 </div>
@@ -1070,21 +1234,37 @@
                         </div>
 
 
-                        <!-- CLOSE BUTTON -->
+                        <div class="setting-row"
+                             style="
+                                display:flex;
+                                justify-content:space-between;
+                                align-items:center;
+                                margin-top:20px;
+                             ">
 
-                        <div class="setting-box">
+                            <div>
 
-                            <div class="setting-info">
-
-                                <strong>
+                                <strong
+                                    style="
+                                        display:block;
+                                        font-size:11px;
+                                        margin-bottom:3px;
+                                    "
+                                >
                                     Show Close Button
                                 </strong>
 
-                                <span>
+                                <span
+                                    style="
+                                        color:#829397;
+                                        font-size:9px;
+                                    "
+                                >
                                     Allow visitors to close the advertisement.
                                 </span>
 
                             </div>
+
 
                             <label class="switch">
 
@@ -1102,22 +1282,20 @@
                         </div>
 
 
-                        <!-- ACTIONS -->
-
                         <div class="actions">
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="resetForm()"
-                            >
-                                Reset
-                            </button>
 
                             <button
                                 class="btn btn-primary"
                                 onclick="saveAdvertisement()"
                             >
                                 Save Advertisement
+                            </button>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="resetAdvertisement()"
+                            >
+                                Reset
                             </button>
 
                         </div>
@@ -1128,101 +1306,165 @@
 
 
                 <!-- =========================
-                     PREVIEW
+                     RIGHT PREVIEW
                 ========================== -->
 
-                <div class="card preview-card">
+                <div>
 
-                    <div class="card-header">
+                    <div class="panel preview-panel">
 
-                        <h2>Live Preview</h2>
+                        <div class="panel-header">
 
-                        <p>
-                            This is how the advertisement will appear on your website.
-                        </p>
+                            <h3>
+                                Live Preview
+                            </h3>
 
-                    </div>
+                            <p>
+                                This is how the advertisement will appear
+                                above your website navbar.
+                            </p>
+
+                        </div>
 
 
-                    <div class="preview-wrapper">
+                        <div class="browser-frame">
 
-                        <div class="browser-preview">
+                            <!-- Browser top -->
 
-                            <!-- Fake browser -->
-
-                            <div class="browser-bar">
+                            <div class="browser-top">
 
                                 <span class="browser-dot"></span>
                                 <span class="browser-dot"></span>
                                 <span class="browser-dot"></span>
 
-                                <div class="fake-url">
-                                    doctorpostermaker.github.io
+                                <div class="browser-address">
+                                    doctorpostermaker.com
                                 </div>
 
                             </div>
 
 
-                            <!-- Advertisement -->
+                            <!-- Fake Website -->
 
-                            <div
-                                class="ad-preview"
-                                id="adPreview"
-                            >
+                            <div class="fake-site">
 
-                                <div class="preview-label">
-                                    Advertisement
-                                </div>
 
-                                <div class="preview-content">
+                                <!-- AD -->
+
+                                <div
+                                    class="ad-preview"
+                                    id="adPreview"
+                                >
 
                                     <div
-                                        class="preview-image"
-                                        id="previewImage"
+                                        class="ad-label"
+                                        id="previewLabel"
+                                    >
+                                        Advertisement
+                                    </div>
+
+
+                                    <div
+                                        class="ad-icon"
+                                        id="previewIcon"
                                     >
                                         ✦
                                     </div>
 
-                                    <div class="preview-text">
+
+                                    <img
+                                        class="ad-image"
+                                        id="previewImage"
+                                        alt="Advertisement"
+                                    >
+
+
+                                    <div class="ad-copy">
 
                                         <strong id="previewTitle">
                                             Promote Your Healthcare Brand
                                         </strong>
 
                                         <span id="previewDescription">
-                                            Reach doctors, clinics & healthcare professionals
+                                            Reach doctors, clinics &
+                                            healthcare professionals
                                         </span>
 
                                     </div>
 
+
                                     <button
-                                        class="preview-button"
+                                        class="ad-action"
                                         id="previewButton"
                                     >
                                         Advertise With Us →
                                     </button>
 
+
+                                    <button
+                                        class="close-ad"
+                                        id="previewClose"
+                                    >
+                                        ×
+                                    </button>
+
                                 </div>
 
 
-                                <button
-                                    class="preview-close"
-                                    id="previewClose"
-                                >
-                                    ×
-                                </button>
+                                <!-- NAVBAR -->
+
+                                <div class="fake-navbar">
+
+                                    <div class="fake-logo"></div>
+
+                                    <div class="fake-nav-links">
+
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- HERO -->
+
+                                <div class="fake-hero">
+
+                                    <div class="fake-hero-badge"></div>
+
+                                    <div class="fake-hero-title"></div>
+
+                                    <div class="fake-hero-title small"></div>
+
+
+                                    <div class="fake-cards">
+
+                                        <div class="fake-card"></div>
+                                        <div class="fake-card"></div>
+                                        <div class="fake-card"></div>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
                         </div>
 
 
-                        <div class="preview-note">
+                        <div class="info-box">
 
-                            <strong>Note:</strong>
-                            Advertisement will appear above the website navbar.
-                            It will not be included inside any poster design or
-                            downloaded poster image.
+                            <strong>
+                                Important:
+                            </strong>
+
+                            This advertisement belongs only to the website
+                            browser interface. It will never be inserted into
+                            Design 1, Design 2, Design 3 or Design 4 poster
+                            exports.
 
                         </div>
 
@@ -1242,99 +1484,270 @@
 <script>
 
     /* =========================
+       DEFAULT DATA
+    ========================== */
+
+    const defaultAdvertisement = {
+
+        enabled: true,
+
+        label: "Advertisement",
+
+        title: "Promote Your Healthcare Brand",
+
+        description:
+            "Reach doctors, clinics & healthcare professionals",
+
+        buttonText:
+            "Advertise With Us →",
+
+        buttonLink:
+            "#",
+
+        backgroundColor:
+            "#087f86",
+
+        buttonColor:
+            "#ffffff",
+
+        showCloseButton:
+            true,
+
+        image:
+            ""
+
+    };
+
+
+    /* =========================
+       GET DATA
+    ========================== */
+
+    function getAdvertisementData() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterAdvertisement"
+            );
+
+
+        return saved
+            ? {
+                ...defaultAdvertisement,
+                ...JSON.parse(saved)
+            }
+            : {
+                ...defaultAdvertisement
+            };
+
+    }
+
+
+    /* =========================
+       LOAD
+    ========================== */
+
+    function loadAdvertisement() {
+
+        const data =
+            getAdvertisementData();
+
+
+        document.getElementById(
+            "adEnabled"
+        ).checked =
+            data.enabled;
+
+
+        document.getElementById(
+            "adLabel"
+        ).value =
+            data.label;
+
+
+        document.getElementById(
+            "adTitle"
+        ).value =
+            data.title;
+
+
+        document.getElementById(
+            "adDescription"
+        ).value =
+            data.description;
+
+
+        document.getElementById(
+            "adButton"
+        ).value =
+            data.buttonText;
+
+
+        document.getElementById(
+            "adLink"
+        ).value =
+            data.buttonLink;
+
+
+        document.getElementById(
+            "bgColorPicker"
+        ).value =
+            data.backgroundColor;
+
+
+        document.getElementById(
+            "bgColorText"
+        ).value =
+            data.backgroundColor;
+
+
+        document.getElementById(
+            "buttonColorPicker"
+        ).value =
+            data.buttonColor;
+
+
+        document.getElementById(
+            "buttonColorText"
+        ).value =
+            data.buttonColor;
+
+
+        document.getElementById(
+            "closeButton"
+        ).checked =
+            data.showCloseButton;
+
+
+        if (data.image) {
+
+            document.getElementById(
+                "previewImage"
+            ).src =
+                data.image;
+
+            document.getElementById(
+                "previewImage"
+            ).style.display =
+                "block";
+
+            document.getElementById(
+                "previewIcon"
+            ).style.display =
+                "none";
+
+        }
+
+
+        updatePreview();
+
+    }
+
+
+    /* =========================
        UPDATE PREVIEW
     ========================== */
 
     function updatePreview() {
 
         const enabled =
-            document.getElementById("adEnabled").checked;
-
-        const title =
-            document.getElementById("adTitle").value;
-
-        const description =
-            document.getElementById("adDescription").value;
-
-        const buttonText =
-            document.getElementById("buttonText").value;
-
-        const backgroundColor =
-            document.getElementById("backgroundColor").value;
-
-        const buttonColor =
-            document.getElementById("buttonColor").value;
-
-        const closeButton =
-            document.getElementById("closeButton").checked;
+            document.getElementById(
+                "adEnabled"
+            ).checked;
 
 
         const preview =
-            document.getElementById("adPreview");
-
-        const previewTitle =
-            document.getElementById("previewTitle");
-
-        const previewDescription =
-            document.getElementById("previewDescription");
-
-        const previewButton =
-            document.getElementById("previewButton");
-
-        const previewClose =
-            document.getElementById("previewClose");
+            document.getElementById(
+                "adPreview"
+            );
 
 
-        previewTitle.textContent =
-            title || "Advertisement Title";
-
-        previewDescription.textContent =
-            description || "Advertisement description";
-
-        previewButton.textContent =
-            buttonText || "Learn More";
-
-        preview.style.background =
-            backgroundColor;
-
-        previewButton.style.background =
-            buttonColor;
+        preview.style.display =
+            enabled
+                ? "flex"
+                : "none";
 
 
-        /* Button text color */
+        document.getElementById(
+            "previewLabel"
+        ).textContent =
+            document.getElementById(
+                "adLabel"
+            ).value;
 
-        if (buttonColor.toLowerCase() === "#ffffff") {
 
-            previewButton.style.color = "#087f86";
+        document.getElementById(
+            "previewTitle"
+        ).textContent =
+            document.getElementById(
+                "adTitle"
+            ).value;
+
+
+        document.getElementById(
+            "previewDescription"
+        ).textContent =
+            document.getElementById(
+                "adDescription"
+            ).value;
+
+
+        document.getElementById(
+            "previewButton"
+        ).textContent =
+            document.getElementById(
+                "adButton"
+            ).value;
+
+
+        document.getElementById(
+            "adPreview"
+        ).style.background =
+            document.getElementById(
+                "bgColorText"
+            ).value;
+
+
+        document.getElementById(
+            "previewButton"
+        ).style.background =
+            document.getElementById(
+                "buttonColorText"
+            ).value;
+
+
+        const closeButton =
+            document.getElementById(
+                "previewClose"
+            );
+
+
+        closeButton.style.display =
+            document.getElementById(
+                "closeButton"
+            ).checked
+                ? "block"
+                : "none";
+
+
+        if (
+            document.getElementById(
+                "buttonColorText"
+            ).value.toLowerCase()
+            === "#ffffff"
+        ) {
+
+            document.getElementById(
+                "previewButton"
+            ).style.color =
+                "#087f86";
 
         } else {
 
-            previewButton.style.color = "#ffffff";
-
-        }
-
-
-        /* Close button */
-
-        previewClose.style.display =
-            closeButton ? "flex" : "none";
-
-
-        /*
-            Advertisement OFF
-        */
-
-        if (!enabled) {
-
-            preview.style.opacity = "0.35";
-
-            previewLabelDisabled();
-
-        } else {
-
-            preview.style.opacity = "1";
-
-            previewLabelEnabled();
+            document.getElementById(
+                "previewButton"
+            ).style.color =
+                "#ffffff";
 
         }
 
@@ -1342,69 +1755,99 @@
 
 
     /* =========================
-       PREVIEW STATUS
+       COLOR PICKER
     ========================== */
 
-    function previewLabelDisabled() {
+    function syncColor(type) {
 
-        const label =
-            document.querySelector(".preview-label");
+        if (type === "bg") {
 
-        label.textContent =
-            "Advertisement Disabled";
-
-    }
-
-
-    function previewLabelEnabled() {
-
-        const label =
-            document.querySelector(".preview-label");
-
-        label.textContent =
-            "Advertisement";
-
-    }
+            const value =
+                document.getElementById(
+                    "bgColorPicker"
+                ).value;
 
 
-    /* =========================
-       BACKGROUND COLOR
-    ========================== */
-
-    function changeBackgroundText() {
-
-        const value =
-            document.getElementById("backgroundText").value;
-
-        if (/^#[0-9A-F]{6}$/i.test(value)) {
-
-            document.getElementById("backgroundColor").value =
+            document.getElementById(
+                "bgColorText"
+            ).value =
                 value;
 
-            updatePreview();
+        }
+
+
+        if (type === "button") {
+
+            const value =
+                document.getElementById(
+                    "buttonColorPicker"
+                ).value;
+
+
+            document.getElementById(
+                "buttonColorText"
+            ).value =
+                value;
 
         }
+
+
+        updatePreview();
 
     }
 
 
     /* =========================
-       BUTTON COLOR
+       COLOR TEXT
     ========================== */
 
-    function changeButtonTextColor() {
+    function syncTextColor(type) {
 
-        const value =
-            document.getElementById("buttonColorText").value;
+        if (type === "bg") {
 
-        if (/^#[0-9A-F]{6}$/i.test(value)) {
+            let value =
+                document.getElementById(
+                    "bgColorText"
+                ).value;
 
-            document.getElementById("buttonColor").value =
-                value;
 
-            updatePreview();
+            if (
+                /^#[0-9A-Fa-f]{6}$/.test(value)
+            ) {
+
+                document.getElementById(
+                    "bgColorPicker"
+                ).value =
+                    value;
+
+            }
 
         }
+
+
+        if (type === "button") {
+
+            let value =
+                document.getElementById(
+                    "buttonColorText"
+                ).value;
+
+
+            if (
+                /^#[0-9A-Fa-f]{6}$/.test(value)
+            ) {
+
+                document.getElementById(
+                    "buttonColorPicker"
+                ).value =
+                    value;
+
+            }
+
+        }
+
+
+        updatePreview();
 
     }
 
@@ -1418,33 +1861,40 @@
         const file =
             event.target.files[0];
 
-        if (!file) return;
+
+        if (!file) {
+            return;
+        }
+
 
         const reader =
             new FileReader();
 
-        reader.onload = function(e) {
 
-            const image =
-                document.getElementById("uploadedImage");
+        reader.onload =
+            function(e) {
 
-            const imageBox =
-                document.getElementById("imagePreview");
-
-            const previewImage =
-                document.getElementById("previewImage");
+                const image =
+                    document.getElementById(
+                        "previewImage"
+                    );
 
 
-            image.src =
-                e.target.result;
+                image.src =
+                    e.target.result;
 
-            previewImage.innerHTML =
-                `<img src="${e.target.result}" alt="Ad Image">`;
 
-            imageBox.style.display =
-                "block";
+                image.style.display =
+                    "block";
 
-        };
+
+                document.getElementById(
+                    "previewIcon"
+                ).style.display =
+                    "none";
+
+            };
+
 
         reader.readAsDataURL(file);
 
@@ -1460,40 +1910,52 @@
         const data = {
 
             enabled:
-                document.getElementById("adEnabled").checked,
+                document.getElementById(
+                    "adEnabled"
+                ).checked,
+
+            label:
+                document.getElementById(
+                    "adLabel"
+                ).value,
 
             title:
-                document.getElementById("adTitle").value,
+                document.getElementById(
+                    "adTitle"
+                ).value,
 
             description:
-                document.getElementById("adDescription").value,
+                document.getElementById(
+                    "adDescription"
+                ).value,
 
             buttonText:
-                document.getElementById("buttonText").value,
+                document.getElementById(
+                    "adButton"
+                ).value,
 
             buttonLink:
-                document.getElementById("buttonLink").value,
+                document.getElementById(
+                    "adLink"
+                ).value,
 
             backgroundColor:
-                document.getElementById("backgroundColor").value,
+                document.getElementById(
+                    "bgColorText"
+                ).value,
 
             buttonColor:
-                document.getElementById("buttonColor").value,
+                document.getElementById(
+                    "buttonColorText"
+                ).value,
 
             showCloseButton:
-                document.getElementById("closeButton").checked
+                document.getElementById(
+                    "closeButton"
+                ).checked
 
         };
 
-
-        /*
-            Temporary frontend storage.
-
-            Later this will be replaced with:
-            PUT /api/advertisement
-
-            MongoDB will store the settings.
-        */
 
         localStorage.setItem(
             "doctorPosterAdvertisement",
@@ -1502,68 +1964,8 @@
 
 
         alert(
-            "Advertisement settings saved successfully!"
+            "Advertisement settings saved successfully."
         );
-
-    }
-
-
-    /* =========================
-       LOAD SAVED DATA
-    ========================== */
-
-    function loadAdvertisement() {
-
-        const saved =
-            localStorage.getItem(
-                "doctorPosterAdvertisement"
-            );
-
-        if (!saved) {
-
-            updatePreview();
-
-            return;
-
-        }
-
-
-        const data =
-            JSON.parse(saved);
-
-
-        document.getElementById("adEnabled").checked =
-            data.enabled;
-
-        document.getElementById("adTitle").value =
-            data.title;
-
-        document.getElementById("adDescription").value =
-            data.description;
-
-        document.getElementById("buttonText").value =
-            data.buttonText;
-
-        document.getElementById("buttonLink").value =
-            data.buttonLink;
-
-        document.getElementById("backgroundColor").value =
-            data.backgroundColor;
-
-        document.getElementById("backgroundText").value =
-            data.backgroundColor;
-
-        document.getElementById("buttonColor").value =
-            data.buttonColor;
-
-        document.getElementById("buttonColorText").value =
-            data.buttonColor;
-
-        document.getElementById("closeButton").checked =
-            data.showCloseButton;
-
-
-        updatePreview();
 
     }
 
@@ -1572,14 +1974,17 @@
        RESET
     ========================== */
 
-    function resetForm() {
+    function resetAdvertisement() {
 
-        const confirmReset =
+        const confirmed =
             confirm(
                 "Reset advertisement settings?"
             );
 
-        if (!confirmReset) return;
+
+        if (!confirmed) {
+            return;
+        }
 
 
         localStorage.removeItem(
@@ -1587,51 +1992,37 @@
         );
 
 
-        document.getElementById("adEnabled").checked =
-            true;
-
-        document.getElementById("adTitle").value =
-            "Promote Your Healthcare Brand";
-
-        document.getElementById("adDescription").value =
-            "Reach doctors, clinics & healthcare professionals";
-
-        document.getElementById("buttonText").value =
-            "Advertise With Us →";
-
-        document.getElementById("buttonLink").value =
-            "#";
-
-        document.getElementById("backgroundColor").value =
-            "#087f86";
-
-        document.getElementById("backgroundText").value =
-            "#087f86";
-
-        document.getElementById("buttonColor").value =
-            "#ffffff";
-
-        document.getElementById("buttonColorText").value =
-            "#ffffff";
-
-        document.getElementById("closeButton").checked =
-            true;
+        loadAdvertisement();
 
 
-        document.getElementById("imagePreview").style.display =
-            "none";
-
-        document.getElementById("previewImage").innerHTML =
-            "✦";
-
-
-        updatePreview();
+        alert(
+            "Advertisement settings reset."
+        );
 
     }
 
 
     /* =========================
-       INITIALIZE
+       CLOSE PREVIEW
+    ========================== */
+
+    document.getElementById(
+        "previewClose"
+    ).addEventListener(
+        "click",
+        function() {
+
+            document.getElementById(
+                "adPreview"
+            ).style.display =
+                "none";
+
+        }
+    );
+
+
+    /* =========================
+       INIT
     ========================== */
 
     loadAdvertisement();
