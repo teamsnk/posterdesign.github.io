@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>System Settings - Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f8fa;
+            color: #17353b;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================== */
+
+        .layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            width: 260px;
+            background: #073f45;
+            color: #fff;
+            padding: 24px 16px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #fff;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            color: #a9c7ca;
+        }
+
+        .menu-title {
+            margin: 28px 10px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #7faeb2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #c8dfe1;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
+        }
+
+        .sidebar a.active {
+            background: #087f86;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 18px;
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           MOBILE HEADER
+        ========================== */
+
+        .mobile-header {
+            display: none;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================== */
+
+        .topbar {
+            height: 74px;
+            background: #fff;
+            border-bottom: 1px solid #e6edef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: #789095;
+            font-size: 12px;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: #e7f6f5;
+            color: #087f86;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           CONTENT
+        ========================== */
+
+        .content {
+            padding: 30px 34px 50px;
+            max-width: 1200px;
+        }
+
+        .intro {
+            margin-bottom: 24px;
+        }
+
+        .intro h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #7d9094;
+            font-size: 12px;
+        }
+
+        /* =========================
+           STATUS CARDS
+        ========================== */
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .status-card {
+            background: #fff;
+            border: 1px solid #e3eaeb;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e8f7f5;
+            color: #087f86;
+            font-size: 17px;
+            margin-bottom: 13px;
+        }
+
+        .status-card h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .status-card p {
+            color: #7d9094;
+            font-size: 10px;
+        }
+
+        .online {
+            color: #1d9355;
+            font-weight: 700;
+        }
+
+        /* =========================
+           GRID
+        ========================== */
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1.35fr .85fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e3eaeb;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .panel-header {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf1f2;
+            margin-bottom: 5px;
+        }
+
+        .panel-header h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .panel-header p {
+            font-size: 10px;
+            color: #849397;
+        }
+
+        /* =========================
+           SETTING ROW
+        ========================== */
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 17px 0;
+            border-bottom: 1px solid #f0f3f3;
+        }
+
+        .setting-row:last-child {
+            border-bottom: 0;
+        }
+
+        .setting-info h4 {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .setting-info p {
+            font-size: 10px;
+            color: #85969a;
+            line-height: 1.5;
+            max-width: 450px;
+        }
+
+        /* =========================
+           TOGGLE
+        ========================== */
+
+        .switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd6d8;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.12);
+        }
+
+        .switch input:checked + .slider {
+            background: #087f86;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* =========================
+           DANGER TOGGLE
+        ========================== */
+
+        .danger-switch input:checked + .slider {
+            background: #d65a5a;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: #087f86;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #056b71;
+        }
+
+        .btn-secondary {
+            background: #edf3f4;
+            color: #4d686d;
+        }
+
+        .btn-danger {
+            background: #fff0f0;
+            color: #c64b4b;
+        }
+
+        /* =========================
+           SYSTEM STATUS
+        ========================== */
+
+        .system-status {
+            border: 1px solid #d9ece8;
+            background: #f3fbf8;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .system-status-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #dff5e9;
+            color: #1d9255;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .system-status strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .system-status span {
+            font-size: 10px;
+            color: #6d8387;
+        }
+
+        /* =========================
+           INFORMATION
+        ========================== */
+
+        .info-list {
+            margin-top: 5px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f0f3f3;
+        }
+
+        .info-row:last-child {
+            border-bottom: 0;
+        }
+
+        .info-row span:first-child {
+            color: #849397;
+            font-size: 10px;
+        }
+
+        .info-row span:last-child {
+            font-size: 10px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 4px 7px;
+            border-radius: 5px;
+            font-size: 9px;
+        }
+
+        .badge-green {
+            background: #e7f7ed;
+            color: #208b53;
+        }
+
+        .badge-gray {
+            background: #eef2f3;
+            color: #738589;
+        }
+
+        /* =========================
+           WARNING
+        ========================== */
+
+        .warning {
+            background: #fff9e9;
+            border: 1px solid #f2dfaa;
+            border-radius: 11px;
+            padding: 13px;
+            margin-top: 18px;
+        }
+
+        .warning strong {
+            display: block;
+            font-size: 11px;
+            color: #8d6d1b;
+            margin-bottom: 4px;
+        }
+
+        .warning p {
+            color: #967d3c;
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER NOTE
+        ========================== */
+
+        .page-note {
+            color: #8b9a9d;
+            text-align: center;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1050px) {
+
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-header {
+                display: flex;
+                height: 64px;
+                background: #073f45;
+                color: #fff;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 18px;
+            }
+
+            .mobile-brand {
+                font-weight: 800;
+                font-size: 14px;
+            }
+
+            .mobile-menu-btn {
+                border: 0;
+                background: none;
+                color: #fff;
+                font-size: 23px;
+                cursor: pointer;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .admin-user {
+                display: none;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✚
+            </div>
+
+            <div class="brand-text">
+                <strong>Doctor Poster</strong>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            Main
+        </div>
+
+        <a href="dashboard.html">
+            <span>▦</span>
+            Dashboard
+        </a>
+
+
+        <div class="menu-title">
+            Website
+        </div>
+
+        <a href="website.html">
+            <span>◉</span>
+            Website Overview
+        </a>
+
+        <a href="website-edit.html">
+            <span>✎</span>
+            Edit Website
+        </a>
+
+
+        <div class="menu-title">
+            Advertisement
+        </div>
+
+        <a href="browser-ui.html">
+            <span>▣</span>
+            Browser UI Ad
+        </a>
+
+        <a href="banner.html">
+            <span>▰</span>
+            Banner
+        </a>
+
+
+        <div class="menu-title">
+            Designs
+        </div>
+
+        <a href="design-manage.html">
+            <span>◇</span>
+            Design Management
+        </a>
+
+
+        <div class="menu-title">
+            System
+        </div>
+
+        <a href="system.html" class="active">
+            <span>⚙</span>
+            System Settings
+        </a>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <!-- MOBILE HEADER -->
+
+        <div class="mobile-header">
+
+            <div class="mobile-brand">
+                Doctor Poster Admin
+            </div>
+
+            <button
+                class="mobile-menu-btn"
+                onclick="alert('Mobile menu can be added later.')"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+                    System Settings
+                </h1>
+
+                <p>
+                    Manage platform status and system configuration.
+                </p>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <div class="intro">
+
+                <h2>
+                    System Overview
+                </h2>
+
+                <p>
+                    Monitor and control the core settings of Doctor Poster Maker.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 STATUS CARDS
+            ========================== -->
+
+            <div class="status-grid">
+
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        ●
+                    </div>
+
+                    <h3>
+                        Website
+                    </h3>
+
+                    <p class="online">
+                        ● Online
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        Designs
+                    </h3>
+
+                    <p>
+                        4 Active Designs
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        ▣
+                    </div>
+
+                    <h3>
+                        Advertisement
+                    </h3>
+
+                    <p>
+                        Browser Ad Enabled
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        ●
+                    </div>
+
+                    <h3>
+                        System
+                    </h3>
+
+                    <p class="online">
+                        Healthy
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+                <!-- =========================
+                     LEFT
+                ========================== -->
+
+                <div>
+
+
+                    <!-- PLATFORM SETTINGS -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                Platform Settings
+                            </h3>
+
+                            <p>
+                                Control the general availability of your website.
+                            </p>
+
+                        </div>
+
+
+                        <!-- WEBSITE -->
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Website Status
+                                </h4>
+
+                                <p>
+                                    When enabled, visitors can access the
+                                    Doctor Poster Maker website normally.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="websiteStatus"
+                                    checked
+                                    onchange="websiteToggle(this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- MAINTENANCE -->
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Maintenance Mode
+                                </h4>
+
+                                <p>
+                                    Temporarily show a maintenance page
+                                    instead of the normal website.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch danger-switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="maintenanceMode"
+                                    onchange="maintenanceToggle(this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- CREATE POSTER -->
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Poster Creation
+                                </h4>
+
+                                <p>
+                                    Allow visitors to open and create
+                                    posters from available designs.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="posterCreation"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- ADVERTISEMENT -->
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Advertisement System
+                                </h4>
+
+                                <p>
+                                    Enable the global Browser UI Advertisement
+                                    system.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="advertisementSystem"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="saveSettings()"
+                            >
+                                Save Settings
+                            </button>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="resetSettings()"
+                            >
+                                Reset
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATA MANAGEMENT -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                Data Management
+                            </h3>
+
+                            <p>
+                                Manage your local website configuration.
+                            </p>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Export Settings
+                                </h4>
+
+                                <p>
+                                    Download the current frontend settings
+                                    as a JSON file.
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="exportSettings()"
+                            >
+                                Export JSON
+                            </button>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+
+                                <h4>
+                                    Clear Local Settings
+                                </h4>
+
+                                <p>
+                                    Remove locally saved website and design
+                                    settings from this browser.
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="clearLocalData()"
+                            >
+                                Clear Data
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     RIGHT
+                ========================== -->
+
+                <div>
+
+
+                    <!-- SYSTEM INFORMATION -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                System Information
+                            </h3>
+
+                            <p>
+                                Current platform information.
+                            </p>
+
+                        </div>
+
+
+                        <div class="info-list">
+
+                            <div class="info-row">
+
+                                <span>
+                                    Platform
+                                </span>
+
+                                <span>
+                                    Doctor Poster Maker
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Version
+                                </span>
+
+                                <span>
+                                    1.0.0
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Frontend
+                                </span>
+
+                                <span>
+                                    HTML / CSS / JS
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Designs
+                                </span>
+
+                                <span>
+                                    4
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Database
+                                </span>
+
+                                <span class="badge badge-gray">
+                                    Not Connected
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Backend
+                                </span>
+
+                                <span class="badge badge-gray">
+                                    Not Connected
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="system-status">
+
+                            <div class="system-status-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Frontend System Healthy
+                                </strong>
+
+                                <span>
+                                    All current frontend modules are available.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FUTURE BACKEND -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h3>
+                                Backend Connection
+                            </h3>
+
+                            <p>
+                                Future Node.js and MongoDB connection.
+                            </p>
+
+                        </div>
+
+
+                        <div class="info-list">
+
+                            <div class="info-row">
+
+                                <span>
+                                    Node.js API
+                                </span>
+
+                                <span class="badge badge-gray">
+                                    Offline
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    MongoDB
+                                </span>
+
+                                <span class="badge badge-gray">
+                                    Not Connected
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <span>
+                                    Authentication
+                                </span>
+
+                                <span class="badge badge-gray">
+                                    Frontend Only
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="warning">
+
+                            <strong>
+                                Future Backend Required
+                            </strong>
+
+                            <p>
+                                These settings currently work only in this
+                                browser. After Node.js + MongoDB integration,
+                                system settings can be managed globally.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="page-note">
+                Doctor Poster Maker Admin Panel • System Settings
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       DEFAULT SETTINGS
+    ========================== */
+
+    const defaultSettings = {
+
+        websiteStatus: true,
+
+        maintenanceMode: false,
+
+        posterCreation: true,
+
+        advertisementSystem: true
+
+    };
+
+
+    /* =========================
+       LOAD SETTINGS
+    ========================== */
+
+    function loadSettings() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterSystemSettings"
+            );
+
+
+        const settings =
+            saved
+                ? {
+                    ...defaultSettings,
+                    ...JSON.parse(saved)
+                }
+                : defaultSettings;
+
+
+        document.getElementById(
+            "websiteStatus"
+        ).checked =
+            settings.websiteStatus;
+
+
+        document.getElementById(
+            "maintenanceMode"
+        ).checked =
+            settings.maintenanceMode;
+
+
+        document.getElementById(
+            "posterCreation"
+        ).checked =
+            settings.posterCreation;
+
+
+        document.getElementById(
+            "advertisementSystem"
+        ).checked =
+            settings.advertisementSystem;
+
+    }
+
+
+    /* =========================
+       SAVE SETTINGS
+    ========================== */
+
+    function saveSettings() {
+
+        const settings = {
+
+            websiteStatus:
+                document.getElementById(
+                    "websiteStatus"
+                ).checked,
+
+            maintenanceMode:
+                document.getElementById(
+                    "maintenanceMode"
+                ).checked,
+
+            posterCreation:
+                document.getElementById(
+                    "posterCreation"
+                ).checked,
+
+            advertisementSystem:
+                document.getElementById(
+                    "advertisementSystem"
+                ).checked
+
+        };
+
+
+        localStorage.setItem(
+            "doctorPosterSystemSettings",
+            JSON.stringify(settings)
+        );
+
+
+        alert(
+            "System settings saved successfully."
+        );
+
+    }
+
+
+    /* =========================
+       WEBSITE TOGGLE
+    ========================== */
+
+    function websiteToggle(input) {
+
+        if (!input.checked) {
+
+            const confirmDisable =
+                confirm(
+                    "Website will be disabled. Continue?"
+                );
+
+
+            if (!confirmDisable) {
+
+                input.checked = true;
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================
+       MAINTENANCE TOGGLE
+    ========================== */
+
+    function maintenanceToggle(input) {
+
+        if (input.checked) {
+
+            const confirmMaintenance =
+                confirm(
+                    "Enable Maintenance Mode?"
+                );
+
+
+            if (!confirmMaintenance) {
+
+                input.checked = false;
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
+    function resetSettings() {
+
+        const confirmed =
+            confirm(
+                "Reset all system settings?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            "doctorPosterSystemSettings"
+        );
+
+
+        loadSettings();
+
+
+        alert(
+            "System settings have been reset."
+        );
+
+    }
+
+
+    /* =========================
+       EXPORT
+    ========================== */
+
+    function exportSettings() {
+
+        const websiteSettings =
+            localStorage.getItem(
+                "doctorPosterWebsiteSettings"
+            );
+
+
+        const designSettings =
+            localStorage.getItem(
+                "doctorPosterDesignStatus"
+            );
+
+
+        const systemSettings =
+            localStorage.getItem(
+                "doctorPosterSystemSettings"
+            );
+
+
+        const exportData = {
+
+            website:
+                websiteSettings
+                    ? JSON.parse(websiteSettings)
+                    : {},
+
+            designs:
+                designSettings
+                    ? JSON.parse(designSettings)
+                    : {},
+
+            system:
+                systemSettings
+                    ? JSON.parse(systemSettings)
+                    : defaultSettings,
+
+            exportedAt:
+                new Date().toISOString()
+
+        };
+
+
+        const blob =
+            new Blob(
+                [
+                    JSON.stringify(
+                        exportData,
+                        null,
+                        2
+                    )
+                ],
+                {
+                    type: "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.href = url;
+
+        link.download =
+            "doctor-poster-settings.json";
+
+
+        link.click();
+
+
+        URL.revokeObjectURL(url);
+
+    }
+
+
+    /* =========================
+       CLEAR LOCAL DATA
+    ========================== */
+
+    function clearLocalData() {
+
+        const confirmed =
+            confirm(
+                "This will remove locally saved website, design and system settings. Continue?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            "doctorPosterWebsiteSettings"
+        );
+
+        localStorage.removeItem(
+            "doctorPosterDesignStatus"
+        );
+
+        localStorage.removeItem(
+            "doctorPosterSystemSettings"
+        );
+
+
+        loadSettings();
+
+
+        alert(
+            "Local settings cleared successfully."
+        );
+
+    }
+
+
+    /* =========================
+       INIT
+    ========================== */
+
+    loadSettings();
+
+</script>
+
+</body>
+</html>
