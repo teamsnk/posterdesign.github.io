@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>System Settings - Admin</title>
+    <title>System Manager | Design System</title>
 
     <style>
         * {
@@ -13,199 +13,203 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --border: #e5e9f0;
+            --text: #172033;
+            --muted: #778195;
+            --primary: #111827;
+            --success: #16a05d;
+            --danger: #dc3545;
+            --warning: #d89000;
+            --sidebar: #111827;
+        }
+
         body {
-            font-family: Inter, Arial, sans-serif;
-            background: #f5f8fa;
-            color: #17353b;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
         }
 
-        button,
-        input,
-        select {
-            font: inherit;
-        }
-
-        /* =========================
-           LAYOUT
-        ========================== */
-
-        .layout {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* =========================
+        /* =====================================================
            SIDEBAR
-        ========================== */
+        ===================================================== */
 
         .sidebar {
-            width: 260px;
-            background: #073f45;
-            color: #fff;
-            padding: 24px 16px;
             position: fixed;
-            inset: 0 auto 0 0;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--sidebar);
+            color: #fff;
+            padding: 22px 15px;
             overflow-y: auto;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0 10px 28px;
-            border-bottom: 1px solid rgba(255,255,255,.12);
+            padding: 5px 12px 25px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            margin-bottom: 18px;
         }
 
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: #fff;
-            color: #087f86;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
-            font-weight: 800;
+        .brand h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
         }
 
-        .brand-text strong {
-            display: block;
-            font-size: 16px;
-        }
-
-        .brand-text span {
+        .brand p {
             font-size: 12px;
-            color: #a9c7ca;
+            color: #9ca3af;
         }
 
-        .menu-title {
-            margin: 28px 10px 10px;
+        .nav-title {
             font-size: 10px;
-            font-weight: 700;
-            color: #7faeb2;
             text-transform: uppercase;
+            color: #7f8898;
+            padding: 12px;
             letter-spacing: 1px;
         }
 
-        .sidebar a {
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #c8dfe1;
+            gap: 11px;
             text-decoration: none;
-            padding: 12px 13px;
-            border-radius: 10px;
+            color: #cbd5e1;
+            padding: 11px 12px;
+            border-radius: 9px;
             margin-bottom: 4px;
             font-size: 14px;
             transition: .2s;
         }
 
-        .sidebar a:hover {
-            background: rgba(255,255,255,.08);
+        .nav-link:hover {
+            background: rgba(255,255,255,.07);
             color: #fff;
         }
 
-        .sidebar a.active {
-            background: #087f86;
-            color: #fff;
-            font-weight: 600;
+        .nav-link.active {
+            background: #fff;
+            color: #111827;
+            font-weight: 700;
         }
 
-        .logout {
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,.12);
-            padding-top: 18px;
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
         }
 
-        /* =========================
+        /* =====================================================
            MAIN
-        ========================== */
+        ===================================================== */
 
         .main {
-            margin-left: 260px;
-            width: calc(100% - 260px);
+            margin-left: 250px;
             min-height: 100vh;
         }
 
-        /* =========================
-           MOBILE HEADER
-        ========================== */
-
-        .mobile-header {
-            display: none;
-        }
-
-        /* =========================
-           TOPBAR
-        ========================== */
-
         .topbar {
-            height: 74px;
+            height: 70px;
             background: #fff;
-            border-bottom: 1px solid #e6edef;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 34px;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
         }
 
-        .page-title h1 {
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .menu-btn {
+            display: none;
+            border: 0;
+            background: #f1f4f8;
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
+            cursor: pointer;
             font-size: 20px;
-            margin-bottom: 4px;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
         }
 
         .page-title p {
-            color: #789095;
             font-size: 12px;
+            color: var(--muted);
+            margin-top: 3px;
         }
 
-        .admin-user {
+        .admin-info {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13px;
         }
 
-        .avatar {
+        .role-badge {
+            background: #eef2ff;
+            color: #3b4cca;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .admin-avatar {
             width: 38px;
             height: 38px;
-            background: #e7f6f5;
-            color: #087f86;
             border-radius: 50%;
+            background: #111827;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 700;
         }
 
-        /* =========================
+        /* =====================================================
            CONTENT
-        ========================== */
+        ===================================================== */
 
         .content {
-            padding: 30px 34px 50px;
-            max-width: 1200px;
+            padding: 28px;
+            max-width: 1250px;
         }
 
-        .intro {
-            margin-bottom: 24px;
+        .welcome {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 22px;
         }
 
-        .intro h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
+        .welcome h2 {
+            font-size: 23px;
+            margin-bottom: 7px;
         }
 
-        .intro p {
-            color: #7d9094;
-            font-size: 12px;
+        .welcome p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        /* =========================
-           STATUS CARDS
-        ========================== */
+        /* =====================================================
+           SYSTEM STATUS
+        ===================================================== */
 
         .status-grid {
             display: grid;
@@ -216,120 +220,136 @@
 
         .status-card {
             background: #fff;
-            border: 1px solid #e3eaeb;
+            border: 1px solid var(--border);
             border-radius: 14px;
             padding: 18px;
         }
 
-        .status-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #e8f7f5;
-            color: #087f86;
-            font-size: 17px;
-            margin-bottom: 13px;
-        }
-
-        .status-card h3 {
+        .status-card small {
+            color: var(--muted);
             font-size: 12px;
-            margin-bottom: 5px;
         }
 
-        .status-card p {
-            color: #7d9094;
-            font-size: 10px;
+        .status-value {
+            margin-top: 8px;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         .online {
-            color: #1d9355 !important;
-            font-weight: 700;
+            color: var(--success);
         }
 
         .offline {
-            color: #c64b4b !important;
-            font-weight: 700;
+            color: var(--danger);
         }
 
-        .warning-text {
-            color: #b07a18 !important;
-            font-weight: 700;
-        }
+        /* =====================================================
+           SECTION
+        ===================================================== */
 
-        /* =========================
-           GRID
-        ========================== */
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: 1.35fr .85fr;
-            gap: 20px;
-        }
-
-        .panel {
+        .section {
             background: #fff;
-            border: 1px solid #e3eaeb;
+            border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 22px;
+            padding: 23px;
+            margin-bottom: 22px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .panel-header {
-            padding-bottom: 16px;
-            border-bottom: 1px solid #edf1f2;
+        .section-header h3 {
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .panel-header h3 {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
-
-        .panel-header p {
-            font-size: 10px;
-            color: #849397;
-        }
-
-        /* =========================
-           SETTING ROW
-        ========================== */
-
-        .setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            padding: 17px 0;
-            border-bottom: 1px solid #f0f3f3;
-        }
-
-        .setting-row:last-child {
-            border-bottom: 0;
-        }
-
-        .setting-info h4 {
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .setting-info p {
-            font-size: 10px;
-            color: #85969a;
+        .section-header p {
+            font-size: 13px;
+            color: var(--muted);
             line-height: 1.5;
-            max-width: 450px;
         }
 
-        /* =========================
-           TOGGLE
-        ========================== */
+        .section-label {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #eef2ff;
+            color: #4351b9;
+            text-transform: uppercase;
+        }
+
+        /* =====================================================
+           FEATURE ROW
+        ===================================================== */
+
+        .feature-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #edf0f4;
+            border-radius: 12px;
+            transition: .2s;
+        }
+
+        .feature-row:hover {
+            border-color: #dfe4eb;
+        }
+
+        .feature-info {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .feature-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
+            background: #fff;
+            border: 1px solid #e8ecf1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            flex-shrink: 0;
+        }
+
+        .feature-info h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .feature-info p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* =====================================================
+           SWITCH
+        ===================================================== */
 
         .switch {
             position: relative;
-            width: 44px;
-            height: 24px;
+            width: 52px;
+            height: 29px;
+            display: inline-block;
             flex-shrink: 0;
         }
 
@@ -342,1071 +362,1201 @@
         .slider {
             position: absolute;
             inset: 0;
-            background: #cbd6d8;
+            background: #cdd3dc;
             border-radius: 30px;
             cursor: pointer;
-            transition: .2s;
+            transition: .25s;
         }
 
-        .slider:before {
+        .slider::before {
             content: "";
             position: absolute;
-            width: 18px;
-            height: 18px;
-            left: 3px;
-            top: 3px;
+            width: 21px;
+            height: 21px;
+            left: 4px;
+            top: 4px;
             background: #fff;
             border-radius: 50%;
-            transition: .2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,.12);
+            box-shadow: 0 2px 5px rgba(0,0,0,.18);
+            transition: .25s;
         }
 
         .switch input:checked + .slider {
-            background: #087f86;
+            background: var(--success);
         }
 
-        .switch input:checked + .slider:before {
-            transform: translateX(20px);
+        .switch input:checked + .slider::before {
+            transform: translateX(23px);
         }
 
-        /* =========================
-           DANGER TOGGLE
-        ========================== */
+        /* =====================================================
+           MASTER CONTROL
+        ===================================================== */
 
-        .danger-switch input:checked + .slider {
-            background: #d65a5a;
+        .master-control {
+            background: #f7f8fa;
+            border: 1px solid #e7eaf0;
+            border-radius: 13px;
+            padding: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* =========================
-           BUTTONS
-        ========================== */
+        .master-control h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .master-control p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* =====================================================
+           SECURITY NOTICE
+        ===================================================== */
+
+        .security-notice {
+            padding: 17px;
+            border-radius: 12px;
+            background: #eefbf3;
+            border: 1px solid #ccefd8;
+            color: #176b39;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .security-notice strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
 
         .actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
 
         .btn {
             border: 0;
             border-radius: 9px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 11px;
+            padding: 11px 16px;
+            font-size: 13px;
             font-weight: 700;
+            cursor: pointer;
         }
 
         .btn-primary {
-            background: #087f86;
+            background: #111827;
             color: #fff;
         }
 
-        .btn-primary:hover {
-            background: #056b71;
-        }
-
         .btn-secondary {
-            background: #edf3f4;
-            color: #4d686d;
-        }
-
-        .btn-secondary:hover {
-            background: #e1eaec;
+            background: #edf1f5;
+            color: #273246;
         }
 
         .btn-danger {
             background: #fff0f0;
-            color: #c64b4b;
+            color: #c62828;
         }
 
-        .btn-danger:hover {
-            background: #ffe3e3;
+        .btn:hover {
+            opacity: .9;
         }
 
-        /* =========================
-           SYSTEM STATUS
-        ========================== */
+        /* =====================================================
+           ACTIVITY
+        ===================================================== */
 
-        .system-status {
-            border: 1px solid #d9ece8;
-            background: #f3fbf8;
-            border-radius: 12px;
-            padding: 15px;
+        .activity-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .activity-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 18px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 9px;
         }
 
-        .system-status.warning-state {
-            border-color: #f0dfad;
-            background: #fffaf0;
-        }
-
-        .system-status.danger-state {
-            border-color: #f0cccc;
-            background: #fff5f5;
-        }
-
-        .system-status-icon {
-            width: 36px;
-            height: 36px;
+        .activity-dot {
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
-            background: #dff5e9;
-            color: #1d9255;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            flex-shrink: 0;
+            background: var(--success);
         }
 
-        .warning-state .system-status-icon {
-            background: #fff0c8;
-            color: #a47716;
-        }
-
-        .danger-state .system-status-icon {
-            background: #ffe0e0;
-            color: #c64b4b;
-        }
-
-        .system-status strong {
-            display: block;
+        .activity-text {
             font-size: 12px;
-            margin-bottom: 3px;
+            color: #4f5b6e;
         }
 
-        .system-status span {
-            font-size: 10px;
-            color: #6d8387;
-        }
-
-        /* =========================
-           INFORMATION
-        ========================== */
-
-        .info-list {
-            margin-top: 5px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 13px 0;
-            border-bottom: 1px solid #f0f3f3;
-        }
-
-        .info-row:last-child {
-            border-bottom: 0;
-        }
-
-        .info-row span:first-child {
-            color: #849397;
-            font-size: 10px;
-        }
-
-        .info-row span:last-child {
-            font-size: 10px;
-            font-weight: 700;
-            text-align: right;
-        }
-
-        .badge {
-            display: inline-flex;
-            padding: 4px 7px;
-            border-radius: 5px;
-            font-size: 9px;
-        }
-
-        .badge-green {
-            background: #e7f7ed;
-            color: #208b53;
-        }
-
-        .badge-gray {
-            background: #eef2f3;
-            color: #738589;
-        }
-
-        .badge-red {
-            background: #fff0f0;
-            color: #c64b4b;
-        }
-
-        /* =========================
-           WARNING
-        ========================== */
-
-        .warning {
-            background: #fff9e9;
-            border: 1px solid #f2dfaa;
-            border-radius: 11px;
-            padding: 13px;
-            margin-top: 18px;
-        }
-
-        .warning strong {
-            display: block;
+        .activity-time {
+            margin-left: auto;
             font-size: 11px;
-            color: #8d6d1b;
-            margin-bottom: 4px;
+            color: #929aaa;
         }
 
-        .warning p {
-            color: #967d3c;
-            font-size: 9px;
-            line-height: 1.5;
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            background: #111827;
+            color: #fff;
+            padding: 13px 17px;
+            border-radius: 10px;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: .25s;
+            z-index: 5000;
         }
 
-        /* =========================
-           SAVE MESSAGE
-        ========================== */
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .save-message {
+        /* =====================================================
+           OVERLAY
+        ===================================================== */
+
+        .overlay {
             display: none;
-            margin-top: 12px;
-            padding: 10px 12px;
-            background: #e9f8f0;
-            border: 1px solid #c9ead8;
-            color: #218451;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 999;
         }
 
-        .save-message.show {
-            display: block;
-        }
+        /* =====================================================
+           MOBILE
+        ===================================================== */
 
-        /* =========================
-           FOOTER NOTE
-        ========================== */
-
-        .page-note {
-            color: #8b9a9d;
-            text-align: center;
-            font-size: 10px;
-            margin-top: 10px;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
-
-        @media (max-width: 1050px) {
+        @media (max-width: 1000px) {
 
             .status-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
-        @media (max-width: 850px) {
+        @media (max-width: 750px) {
 
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .overlay.show {
+                display: block;
             }
 
             .main {
                 margin-left: 0;
-                width: 100%;
             }
 
-            .mobile-header {
-                display: flex;
-                height: 64px;
-                background: #073f45;
-                color: #fff;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 18px;
-            }
-
-            .mobile-brand {
-                font-weight: 800;
-                font-size: 14px;
-            }
-
-            .mobile-menu-btn {
-                border: 0;
-                background: none;
-                color: #fff;
-                font-size: 23px;
-                cursor: pointer;
+            .menu-btn {
+                display: block;
             }
 
             .content {
-                padding: 22px 18px 40px;
+                padding: 18px;
             }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .role-badge {
+                display: none;
+            }
+
         }
 
         @media (max-width: 550px) {
-
-            .topbar {
-                padding: 0 18px;
-            }
-
-            .admin-user {
-                display: none;
-            }
 
             .status-grid {
                 grid-template-columns: 1fr;
             }
 
-            .setting-row {
+            .feature-row {
                 align-items: flex-start;
             }
 
-            .setting-info {
-                max-width: calc(100% - 55px);
+            .feature-info {
+                align-items: flex-start;
             }
 
-            .panel {
-                padding: 18px;
+            .admin-info {
+                display: none;
             }
+
+            .section {
+                padding: 17px;
+            }
+
         }
     </style>
 </head>
 
 <body>
 
-<div class="layout">
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+<aside class="sidebar" id="sidebar">
 
-    <aside class="sidebar">
+    <div class="brand">
+        <h1>Design System</h1>
+        <p>Administration Panel</p>
+    </div>
 
-        <div class="brand">
+    <div class="nav-title">Main</div>
 
-            <div class="brand-icon">
-                ✚
-            </div>
+    <a href="dashboard.html" class="nav-link">
+        <span class="nav-icon">📊</span>
+        Dashboard
+    </a>
 
-            <div class="brand-text">
-                <strong>Doctor Poster</strong>
-                <span>Admin Panel</span>
-            </div>
+    <a href="banner.html" class="nav-link">
+        <span class="nav-icon">🖼️</span>
+        Banner Manager
+    </a>
 
-        </div>
+    <a href="design-manage.html" class="nav-link">
+        <span class="nav-icon">🎨</span>
+        Design Manager
+    </a>
 
+    <a href="website.html" class="nav-link">
+        <span class="nav-icon">🌐</span>
+        Website
+    </a>
 
-        <div class="menu-title">
-            Main
-        </div>
+    <div class="nav-title">Chatter</div>
 
-        <a href="dashboard.html">
-            <span>▦</span>
-            Dashboard
-        </a>
+    <a href="chatter.html" class="nav-link">
+        <span class="nav-icon">💬</span>
+        Chatter Manager
+    </a>
 
+    <a href="live-monitor.html" class="nav-link">
+        <span class="nav-icon">📡</span>
+        Live Monitor
+    </a>
 
-        <div class="menu-title">
-            Website
-        </div>
+    <div class="nav-title">System</div>
 
-        <a href="website.html">
-            <span>◉</span>
-            Website Overview
-        </a>
+    <a href="browser-ui.html" class="nav-link">
+        <span class="nav-icon">🧩</span>
+        Browser UI
+    </a>
 
-        <a href="website-edit.html">
-            <span>✎</span>
-            Edit Website
-        </a>
+    <a href="system.html" class="nav-link active">
+        <span class="nav-icon">⚙️</span>
+        System Manager
+    </a>
 
+    <a href="website-edit.html" class="nav-link">
+        <span class="nav-icon">✏️</span>
+        Website Edit
+    </a>
 
-        <div class="menu-title">
-            Advertisement
-        </div>
+</aside>
 
-        <a href="browser-ui.html">
-            <span>▣</span>
-            Browser UI Ad
-        </a>
-
-        <a href="banner.html">
-            <span>▰</span>
-            Banner
-        </a>
-
-
-        <div class="menu-title">
-            Designs
-        </div>
-
-        <a href="design-manage.html">
-            <span>◇</span>
-            Design Management
-        </a>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 
-        <div class="menu-title">
-            System
-        </div>
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
-        <a href="system.html" class="active">
-            <span>⚙</span>
-            System Settings
-        </a>
+<main class="main">
 
+    <header class="topbar">
 
-        <div class="logout">
-
-            <a href="index.html">
-                <span>↪</span>
-                Logout
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
-    <main class="main">
-
-        <!-- MOBILE HEADER -->
-
-        <div class="mobile-header">
-
-            <div class="mobile-brand">
-                Doctor Poster Admin
-            </div>
+        <div class="topbar-left">
 
             <button
-                class="mobile-menu-btn"
-                onclick="alert('Mobile menu can be added later.')"
+                class="menu-btn"
+                onclick="toggleSidebar()"
+                aria-label="Open menu"
             >
                 ☰
             </button>
 
-        </div>
-
-
-        <!-- TOPBAR -->
-
-        <div class="topbar">
-
             <div class="page-title">
 
-                <h1>
-                    System Settings
-                </h1>
+                <h2>System Manager</h2>
 
                 <p>
-                    Manage platform status and system configuration.
+                    Manage platform and Chatter system controls
                 </p>
-
-            </div>
-
-
-            <div class="admin-user">
-
-                <strong>
-                    Administrator
-                </strong>
-
-                <div class="avatar">
-                    A
-                </div>
 
             </div>
 
         </div>
 
 
-        <!-- CONTENT -->
+        <div class="admin-info">
 
-        <section class="content">
+            <span
+                class="role-badge"
+                id="roleBadge"
+            >
+                ADMIN
+            </span>
 
-            <div class="intro">
-
-                <h2>
-                    System Overview
-                </h2>
-
-                <p>
-                    Monitor and control the core settings of Doctor Poster Maker.
-                </p>
-
+            <div
+                class="admin-avatar"
+                id="adminAvatar"
+            >
+                A
             </div>
 
+        </div>
 
-            <!-- =========================
-                 STATUS CARDS
-            ========================== -->
-
-            <div class="status-grid">
-
-                <div class="status-card">
-
-                    <div class="status-icon">
-                        ●
-                    </div>
-
-                    <h3>
-                        Website
-                    </h3>
-
-                    <p
-                        id="websiteCardStatus"
-                        class="online"
-                    >
-                        ● Online
-                    </p>
-
-                </div>
+    </header>
 
 
-                <div class="status-card">
+    <div class="content">
 
-                    <div class="status-icon">
-                        ◇
-                    </div>
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
 
-                    <h3>
-                        Designs
-                    </h3>
+        <section class="welcome">
 
-                    <p id="designCardStatus">
-                        4 Active Designs
-                    </p>
+            <h2>System Control Center</h2>
 
-                </div>
+            <p>
+                এখান থেকে আপনার website-এর বিভিন্ন system এবং
+                Chatter communication features ON/OFF করতে পারবেন।
+                Settings browser-এর local storage-এ সংরক্ষিত থাকবে।
+            </p>
 
-
-                <div class="status-card">
-
-                    <div class="status-icon">
-                        ▣
-                    </div>
-
-                    <h3>
-                        Advertisement
-                    </h3>
-
-                    <p id="adCardStatus">
-                        Browser Ad Enabled
-                    </p>
-
-                </div>
+        </section>
 
 
-                <div class="status-card">
+        <!-- =================================================
+             STATUS
+        ================================================== -->
 
-                    <div class="status-icon">
-                        ●
-                    </div>
+        <section class="status-grid">
 
-                    <h3>
-                        System
-                    </h3>
+            <div class="status-card">
 
-                    <p
-                        id="systemCardStatus"
-                        class="online"
-                    >
-                        Healthy
-                    </p>
+                <small>System Status</small>
 
+                <div class="status-value online">
+                    Online
                 </div>
 
             </div>
 
 
-            <div class="settings-grid">
-
-
-                <!-- =========================
-                     LEFT
-                ========================== -->
-
-                <div>
-
-
-                    <!-- PLATFORM SETTINGS -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Platform Settings
-                            </h3>
-
-                            <p>
-                                Control the general availability of your website.
-                            </p>
-
-                        </div>
-
-
-                        <!-- WEBSITE -->
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Website Status
-                                </h4>
-
-                                <p>
-                                    When enabled, visitors can access the
-                                    Doctor Poster Maker website normally.
-                                </p>
-
-                            </div>
-
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="websiteStatus"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <!-- MAINTENANCE -->
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Maintenance Mode
-                                </h4>
-
-                                <p>
-                                    Temporarily show a maintenance page
-                                    instead of the normal website.
-                                </p>
-
-                            </div>
-
-
-                            <label class="switch danger-switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="maintenanceMode"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <!-- CREATE POSTER -->
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Poster Creation
-                                </h4>
-
-                                <p>
-                                    Allow visitors to open and create
-                                    posters from available designs.
-                                </p>
-
-                            </div>
-
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="posterCreation"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <!-- ADVERTISEMENT -->
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Advertisement System
-                                </h4>
-
-                                <p>
-                                    Enable the global Browser UI Advertisement
-                                    system.
-                                </p>
-
-                            </div>
-
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="advertisementSystem"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="saveSettings()"
-                            >
-                                Save Settings
-                            </button>
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="resetSettings()"
-                            >
-                                Reset
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="saveMessage"
-                            class="save-message"
-                        >
-                            ✓ System settings saved successfully.
-                        </div>
-
-                    </div>
-
-
-                    <!-- DATA MANAGEMENT -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Data Management
-                            </h3>
-
-                            <p>
-                                Manage your local website configuration.
-                            </p>
-
-                        </div>
-
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Export Settings
-                                </h4>
-
-                                <p>
-                                    Download the current frontend settings
-                                    as a JSON file.
-                                </p>
-
-                            </div>
-
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="exportSettings()"
-                            >
-                                Export JSON
-                            </button>
-
-                        </div>
-
-
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-
-                                <h4>
-                                    Clear Local Settings
-                                </h4>
-
-                                <p>
-                                    Remove locally saved website, design,
-                                    advertisement and system settings.
-                                </p>
-
-                            </div>
-
-
-                            <button
-                                class="btn btn-danger"
-                                onclick="clearLocalData()"
-                            >
-                                Clear Data
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     RIGHT
-                ========================== -->
-
-                <div>
-
-
-                    <!-- SYSTEM INFORMATION -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                System Information
-                            </h3>
-
-                            <p>
-                                Current platform information.
-                            </p>
-
-                        </div>
-
-
-                        <div class="info-list">
-
-                            <div class="info-row">
-
-                                <span>
-                                    Platform
-                                </span>
-
-                                <span>
-                                    Doctor Poster Maker
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Version
-                                </span>
-
-                                <span>
-                                    1.0.0
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Frontend
-                                </span>
-
-                                <span>
-                                    HTML / CSS / JS
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Designs
-                                </span>
-
-                                <span id="designInfoCount">
-                                    4
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Database
-                                </span>
-
-                                <span class="badge badge-gray">
-                                    Not Connected
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Backend
-                                </span>
-
-                                <span class="badge badge-gray">
-                                    Not Connected
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            id="systemStatusBox"
-                            class="system-status"
-                        >
-
-                            <div
-                                id="systemStatusIcon"
-                                class="system-status-icon"
-                            >
-                                ✓
-                            </div>
-
-                            <div>
-
-                                <strong id="systemStatusTitle">
-                                    Frontend System Healthy
-                                </strong>
-
-                                <span id="systemStatusDescription">
-                                    All current frontend modules are available.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- BACKEND -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Backend Connection
-                            </h3>
-
-                            <p>
-                                Future Node.js and MongoDB connection.
-                            </p>
-
-                        </div>
-
-
-                        <div class="info-list">
-
-                            <div class="info-row">
-
-                                <span>
-                                    Node.js API
-                                </span>
-
-                                <span class="badge badge-gray">
-                                    Offline
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    MongoDB
-                                </span>
-
-                                <span class="badge badge-gray">
-                                    Not Connected
-                                </span>
-
-                            </div>
-
-
-                            <div class="info-row">
-
-                                <span>
-                                    Authentication
-                                </span>
-
-                                <span class="badge badge-gray">
-                                    Frontend Only
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="warning">
-
-                            <strong>
-                                Future Backend Required
-                            </strong>
-
-                            <p>
-                                These settings currently work only in this
-                                browser. After Node.js + MongoDB integration,
-                                system settings can be managed globally.
-                            </p>
-
-                        </div>
-
-                    </div>
-
+            <div class="status-card">
+
+                <small>Chatter</small>
+
+                <div
+                    class="status-value"
+                    id="chatterStatus"
+                >
+                    ON
                 </div>
 
             </div>
 
 
-            <div class="page-note">
-                Doctor Poster Maker Admin Panel • System Settings
+            <div class="status-card">
+
+                <small>Device Access</small>
+
+                <div
+                    class="status-value"
+                    id="deviceStatus"
+                >
+                    ON
+                </div>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <small>Active Features</small>
+
+                <div
+                    class="status-value"
+                    id="activeCount"
+                >
+                    0
+                </div>
+
             </div>
 
         </section>
 
-    </main>
 
+        <!-- =================================================
+             CHATTER MASTER CONTROL
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>💬 Chatter System</h3>
+
+                    <p>
+                        Main Chatter communication system control.
+                    </p>
+
+                </div>
+
+                <span class="section-label">
+                    Master Control
+                </span>
+
+            </div>
+
+
+            <div class="master-control">
+
+                <div>
+
+                    <h4>Enable Chatter System</h4>
+
+                    <p>
+                        Chatter-এর সব communication feature
+                        globally enable/disable করুন।
+                    </p>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="chatterEnabled"
+                        onchange="toggleMaster('chatterEnabled')"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="security-notice">
+
+                <strong>
+                    🔒 Privacy & Security Rule
+                </strong>
+
+                Admin বা Super Admin কোনোভাবেই user-এর
+                permission bypass করে Camera, Microphone বা
+                Screen access করতে পারবে না।
+
+                System Manager শুধু feature availability
+                control করবে। Browser/device permission সবসময়
+                user-এর control-এ থাকবে।
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             COMMUNICATION FEATURES
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>📞 Communication Features</h3>
+
+                    <p>
+                        User-to-user communication features
+                        control করুন।
+                    </p>
+
+                </div>
+
+                <span class="section-label">
+                    Chatter
+                </span>
+
+            </div>
+
+
+            <div class="feature-list">
+
+                <!-- Messaging -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            💬
+                        </div>
+
+                        <div>
+
+                            <h4>Messaging</h4>
+
+                            <p>
+                                User-to-user text messaging.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="messaging"
+                            onchange="toggleFeature('messaging')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Voice Call -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            📞
+                        </div>
+
+                        <div>
+
+                            <h4>Voice Call</h4>
+
+                            <p>
+                                Voice calling between users.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="voiceCall"
+                            onchange="toggleFeature('voiceCall')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Video Call -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            📹
+                        </div>
+
+                        <div>
+
+                            <h4>Video Call</h4>
+
+                            <p>
+                                Video calling with Camera permission.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="videoCall"
+                            onchange="toggleFeature('videoCall')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Voice Message -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🎙️
+                        </div>
+
+                        <div>
+
+                            <h4>Voice Messages</h4>
+
+                            <p>
+                                Record and send voice messages.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="voiceMessages"
+                            onchange="toggleFeature('voiceMessages')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DEVICE FEATURES
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>📱 Device Features</h3>
+
+                    <p>
+                        Camera, microphone, screen sharing এবং
+                        recording availability control করুন।
+                    </p>
+
+                </div>
+
+                <span class="section-label">
+                    Device
+                </span>
+
+            </div>
+
+
+            <div class="feature-list">
+
+                <!-- Camera -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            📷
+                        </div>
+
+                        <div>
+
+                            <h4>Camera</h4>
+
+                            <p>
+                                Camera feature available থাকবে।
+                                Browser permission অবশ্যই প্রয়োজন।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="camera"
+                            onchange="toggleFeature('camera')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Microphone -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🎤
+                        </div>
+
+                        <div>
+
+                            <h4>Microphone</h4>
+
+                            <p>
+                                Microphone feature available থাকবে।
+                                Browser permission অবশ্যই প্রয়োজন।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="microphone"
+                            onchange="toggleFeature('microphone')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Screen Share -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🖥️
+                        </div>
+
+                        <div>
+
+                            <h4>Screen Share</h4>
+
+                            <p>
+                                User নিজে screen share শুরু করবে।
+                                Browser selection dialog বাধ্যতামূলক।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="screenShare"
+                            onchange="toggleFeature('screenShare')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Video Recording -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🎥
+                        </div>
+
+                        <div>
+
+                            <h4>Video Recording</h4>
+
+                            <p>
+                                User-initiated video recording feature.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="videoRecording"
+                            onchange="toggleFeature('videoRecording')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-notice">
+
+                <strong>
+                    🛡️ Browser Security
+                </strong>
+
+                Camera, Microphone এবং Screen Share ON থাকলেও
+                browser-এর native permission ছাড়া কোনো device
+                access করা যাবে না। User permission না দিলে
+                feature কাজ করবে না।
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SHARING & UI FEATURES
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>📁 Sharing & Chat UI</h3>
+
+                    <p>
+                        Chat experience এবং sharing controls।
+                    </p>
+
+                </div>
+
+                <span class="section-label">
+                    Features
+                </span>
+
+            </div>
+
+
+            <div class="feature-list">
+
+                <!-- File Sharing -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            📁
+                        </div>
+
+                        <div>
+
+                            <h4>File Sharing</h4>
+
+                            <p>
+                                Chat-এর মাধ্যমে file পাঠানো।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="fileSharing"
+                            onchange="toggleFeature('fileSharing')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Image Sharing -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🖼️
+                        </div>
+
+                        <div>
+
+                            <h4>Image Sharing</h4>
+
+                            <p>
+                                Chat-এর মাধ্যমে image পাঠানো।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="imageSharing"
+                            onchange="toggleFeature('imageSharing')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Typing Indicator -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            ⌨️
+                        </div>
+
+                        <div>
+
+                            <h4>Typing Indicator</h4>
+
+                            <p>
+                                User typing করলে typing status দেখাবে।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="typingIndicator"
+                            onchange="toggleFeature('typingIndicator')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Notifications -->
+
+                <div class="feature-row">
+
+                    <div class="feature-info">
+
+                        <div class="feature-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h4>Notifications</h4>
+
+                            <p>
+                                New message/call notification system।
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="notifications"
+                            onchange="toggleFeature('notifications')"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>⚡ System Actions</h3>
+
+                    <p>
+                        দ্রুত system configuration manage করুন।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="enableAll()"
+                >
+                    Enable All
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="disableAll()"
+                >
+                    Disable All
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="resetSettings()"
+                >
+                    Reset Defaults
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVITY
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>📝 Recent System Activity</h3>
+
+                    <p>
+                        এই browser-এ করা latest system changes।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="activity-list"
+                id="activityList"
+            >
+                <div class="activity-item">
+
+                    <span class="activity-dot"></span>
+
+                    <span class="activity-text">
+                        System Manager initialized
+                    </span>
+
+                    <span class="activity-time">
+                        Now
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Setting updated
 </div>
 
 
@@ -1414,685 +1564,554 @@
 
     /* =========================================================
        STORAGE KEY
-    ========================================================== */
+    ========================================================= */
 
-    const SYSTEM_STORAGE_KEY =
-        "doctorPosterSystemSettings";
+    const SETTINGS_KEY =
+        "chatterSystemSettings";
+
+    const ACTIVITY_KEY =
+        "chatterSystemActivity";
 
 
     /* =========================================================
        DEFAULT SETTINGS
-    ========================================================== */
+    ========================================================= */
 
-    const defaultSettings = {
+    const DEFAULT_SETTINGS = {
 
-        websiteStatus: true,
+        chatterEnabled: true,
 
-        maintenanceMode: false,
+        messaging: true,
 
-        posterCreation: true,
+        voiceCall: true,
 
-        advertisementSystem: true
+        videoCall: true,
+
+        voiceMessages: true,
+
+        camera: true,
+
+        microphone: true,
+
+        screenShare: true,
+
+        videoRecording: false,
+
+        fileSharing: true,
+
+        imageSharing: true,
+
+        typingIndicator: true,
+
+        notifications: true
 
     };
 
 
     /* =========================================================
-       SAFE JSON PARSER
-    ========================================================== */
+       SESSION
+    ========================================================= */
 
-    function getStoredSettings() {
+    function getSession() {
+
+        let session = null;
 
         try {
 
-            const saved =
-                localStorage.getItem(
-                    SYSTEM_STORAGE_KEY
+            session =
+                JSON.parse(
+                    localStorage.getItem(
+                        "chatterAdminSession"
+                    )
                 );
-
-
-            if (!saved) {
-
-                return {
-                    ...defaultSettings
-                };
-
-            }
-
-
-            const parsed =
-                JSON.parse(saved);
-
-
-            return {
-
-                ...defaultSettings,
-
-                ...parsed
-
-            };
 
         } catch (error) {
 
-            console.error(
-                "Unable to read system settings:",
-                error
-            );
-
-
-            return {
-                ...defaultSettings
-            };
+            session = null;
 
         }
+
+
+        if (!session) {
+
+            try {
+
+                session =
+                    JSON.parse(
+                        sessionStorage.getItem(
+                            "chatterAdminSession"
+                        )
+                    );
+
+            } catch (error) {
+
+                session = null;
+
+            }
+
+        }
+
+
+        return session;
 
     }
 
 
     /* =========================================================
-       SAVE SETTINGS TO LOCAL STORAGE
-    ========================================================== */
+       CHECK LOGIN
+    ========================================================= */
 
-    function setStoredSettings(settings) {
+    function checkLogin() {
 
-        localStorage.setItem(
+        const session =
+            getSession();
 
-            SYSTEM_STORAGE_KEY,
+        if (!session) {
 
-            JSON.stringify(settings)
+            window.location.href =
+                "../login/index.html";
 
-        );
+            return false;
+
+        }
+
+        return true;
 
     }
 
 
     /* =========================================================
        LOAD SETTINGS
-    ========================================================== */
+    ========================================================= */
 
     function loadSettings() {
 
-        const settings =
-            getStoredSettings();
+        let saved = {};
+
+        try {
+
+            saved =
+                JSON.parse(
+                    localStorage.getItem(
+                        SETTINGS_KEY
+                    )
+                ) || {};
+
+        } catch (error) {
+
+            saved = {};
+
+        }
 
 
-        document.getElementById(
-            "websiteStatus"
-        ).checked =
-            Boolean(settings.websiteStatus);
-
-
-        document.getElementById(
-            "maintenanceMode"
-        ).checked =
-            Boolean(settings.maintenanceMode);
-
-
-        document.getElementById(
-            "posterCreation"
-        ).checked =
-            Boolean(settings.posterCreation);
-
-
-        document.getElementById(
-            "advertisementSystem"
-        ).checked =
-            Boolean(settings.advertisementSystem);
-
-
-        updateSystemOverview(
-            settings
-        );
+        return {
+            ...DEFAULT_SETTINGS,
+            ...saved
+        };
 
     }
 
 
     /* =========================================================
        SAVE SETTINGS
-    ========================================================== */
+    ========================================================= */
 
-    function saveSettings() {
+    function saveSettings(settings) {
 
-        const settings = {
+        localStorage.setItem(
+            SETTINGS_KEY,
+            JSON.stringify(settings)
+        );
 
-            websiteStatus:
-                document.getElementById(
-                    "websiteStatus"
-                ).checked,
-
-
-            maintenanceMode:
-                document.getElementById(
-                    "maintenanceMode"
-                ).checked,
+    }
 
 
-            posterCreation:
-                document.getElementById(
-                    "posterCreation"
-                ).checked,
+    /* =========================================================
+       LOAD UI
+    ========================================================= */
 
+    function loadUI() {
 
-            advertisementSystem:
-                document.getElementById(
-                    "advertisementSystem"
-                ).checked
-
-        };
+        const settings =
+            loadSettings();
 
 
         /*
-         * Maintenance mode should only work
-         * when website itself is enabled.
+         * Master switch
          */
 
-        if (
-            !settings.websiteStatus &&
-            settings.maintenanceMode
-        ) {
-
-            settings.maintenanceMode =
-                false;
+        document.getElementById(
+            "chatterEnabled"
+        ).checked =
+            settings.chatterEnabled;
 
 
-            document.getElementById(
-                "maintenanceMode"
-            ).checked = false;
+        /*
+         * Feature switches
+         */
 
-        }
+        document
+            .querySelectorAll(
+                "[data-feature]"
+            )
+            .forEach(input => {
+
+                const feature =
+                    input.dataset.feature;
+
+                input.checked =
+                    Boolean(
+                        settings[feature]
+                    );
+
+            });
 
 
-        setStoredSettings(
-            settings
-        );
+        /*
+         * Status
+         */
 
-
-        updateSystemOverview(
-            settings
-        );
-
-
-        showSaveMessage();
-
-
-        alert(
-            "System settings saved successfully."
-        );
+        updateStatus(settings);
 
     }
 
 
     /* =========================================================
-       SAVE MESSAGE
-    ========================================================== */
+       UPDATE STATUS
+    ========================================================= */
 
-    function showSaveMessage() {
+    function updateStatus(settings) {
 
-        const message =
+        const chatterStatus =
             document.getElementById(
-                "saveMessage"
+                "chatterStatus"
             );
 
-
-        message.classList.add(
-            "show"
-        );
-
-
-        setTimeout(
-            function () {
-
-                message.classList.remove(
-                    "show"
-                );
-
-            },
-            2500
-        );
-
-    }
-
-
-    /* =========================================================
-       WEBSITE TOGGLE
-    ========================================================== */
-
-    document.getElementById(
-        "websiteStatus"
-    ).addEventListener(
-        "change",
-        function () {
-
-            if (!this.checked) {
-
-                const confirmDisable =
-                    confirm(
-                        "Website will be disabled. Continue?"
-                    );
-
-
-                if (!confirmDisable) {
-
-                    this.checked = true;
-
-                    return;
-
-                }
-
-
-                /*
-                 * Maintenance cannot remain active
-                 * when website is disabled.
-                 */
-
-                document.getElementById(
-                    "maintenanceMode"
-                ).checked = false;
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       MAINTENANCE TOGGLE
-    ========================================================== */
-
-    document.getElementById(
-        "maintenanceMode"
-    ).addEventListener(
-        "change",
-        function () {
-
-            if (this.checked) {
-
-                const websiteEnabled =
-                    document.getElementById(
-                        "websiteStatus"
-                    ).checked;
-
-
-                if (!websiteEnabled) {
-
-                    alert(
-                        "Please enable Website Status first."
-                    );
-
-
-                    this.checked = false;
-
-                    return;
-
-                }
-
-
-                const confirmMaintenance =
-                    confirm(
-                        "Enable Maintenance Mode?"
-                    );
-
-
-                if (!confirmMaintenance) {
-
-                    this.checked = false;
-
-                }
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       UPDATE SYSTEM OVERVIEW
-    ========================================================== */
-
-    function updateSystemOverview(
-        settings
-    ) {
-
-        /* ---------------------------------
-           WEBSITE CARD
-        ---------------------------------- */
-
-        const websiteCardStatus =
+        const deviceStatus =
             document.getElementById(
-                "websiteCardStatus"
+                "deviceStatus"
             );
-
-
-        if (!settings.websiteStatus) {
-
-            websiteCardStatus.textContent =
-                "● Offline";
-
-            websiteCardStatus.className =
-                "offline";
-
-        } else if (
-            settings.maintenanceMode
-        ) {
-
-            websiteCardStatus.textContent =
-                "● Maintenance";
-
-            websiteCardStatus.className =
-                "warning-text";
-
-        } else {
-
-            websiteCardStatus.textContent =
-                "● Online";
-
-            websiteCardStatus.className =
-                "online";
-
-        }
-
-
-        /* ---------------------------------
-           DESIGN COUNT
-        ---------------------------------- */
-
-        updateDesignCount();
-
-
-        /* ---------------------------------
-           ADVERTISEMENT
-        ---------------------------------- */
-
-        updateAdvertisementStatus(
-            settings
-        );
-
-
-        /* ---------------------------------
-           SYSTEM STATUS
-        ---------------------------------- */
-
-        const systemCardStatus =
-            document.getElementById(
-                "systemCardStatus"
-            );
-
-
-        const systemStatusBox =
-            document.getElementById(
-                "systemStatusBox"
-            );
-
-
-        const systemStatusIcon =
-            document.getElementById(
-                "systemStatusIcon"
-            );
-
-
-        const systemStatusTitle =
-            document.getElementById(
-                "systemStatusTitle"
-            );
-
-
-        const systemStatusDescription =
-            document.getElementById(
-                "systemStatusDescription"
-            );
-
-
-        systemStatusBox.classList.remove(
-            "warning-state",
-            "danger-state"
-        );
-
-
-        if (!settings.websiteStatus) {
-
-            systemCardStatus.textContent =
-                "Offline";
-
-            systemCardStatus.className =
-                "offline";
-
-
-            systemStatusBox.classList.add(
-                "danger-state"
-            );
-
-
-            systemStatusIcon.textContent =
-                "!";
-
-
-            systemStatusTitle.textContent =
-                "Website System Offline";
-
-
-            systemStatusDescription.textContent =
-                "Website Status is currently disabled by administrator.";
-
-        } else if (
-            settings.maintenanceMode
-        ) {
-
-            systemCardStatus.textContent =
-                "Maintenance";
-
-            systemCardStatus.className =
-                "warning-text";
-
-
-            systemStatusBox.classList.add(
-                "warning-state"
-            );
-
-
-            systemStatusIcon.textContent =
-                "!";
-
-
-            systemStatusTitle.textContent =
-                "Maintenance Mode Active";
-
-
-            systemStatusDescription.textContent =
-                "The website is temporarily in maintenance mode.";
-
-        } else {
-
-            systemCardStatus.textContent =
-                "Healthy";
-
-            systemCardStatus.className =
-                "online";
-
-
-            systemStatusIcon.textContent =
-                "✓";
-
-
-            systemStatusTitle.textContent =
-                "Frontend System Healthy";
-
-
-            systemStatusDescription.textContent =
-                "All current frontend modules are available.";
-
-        }
-
-    }
-
-
-    /* =========================================================
-       DESIGN COUNT
-    ========================================================== */
-
-    function updateDesignCount() {
-
-        let designSettings = null;
-
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    "doctorPosterDesignStatus"
-                );
-
-
-            if (saved) {
-
-                designSettings =
-                    JSON.parse(saved);
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Unable to read design settings:",
-                error
-            );
-
-        }
-
-
-        const defaultDesigns = {
-
-            design1: true,
-            design2: true,
-            design3: true,
-            design4: true
-
-        };
-
-
-        const designs = {
-
-            ...defaultDesigns,
-
-            ...(designSettings || {})
-
-        };
-
 
         const activeCount =
-            Object.values(
-                designs
-            ).filter(
-                Boolean
+            document.getElementById(
+                "activeCount"
+            );
+
+
+        /*
+         * Chatter status
+         */
+
+        if (settings.chatterEnabled) {
+
+            chatterStatus.textContent =
+                "ON";
+
+            chatterStatus.className =
+                "status-value online";
+
+        } else {
+
+            chatterStatus.textContent =
+                "OFF";
+
+            chatterStatus.className =
+                "status-value offline";
+
+        }
+
+
+        /*
+         * Device status
+         */
+
+        const deviceFeatures = [
+            "camera",
+            "microphone",
+            "screenShare",
+            "videoRecording"
+        ];
+
+
+        const deviceEnabled =
+            deviceFeatures.some(
+                feature =>
+                    settings[feature]
+            );
+
+
+        if (
+            settings.chatterEnabled &&
+            deviceEnabled
+        ) {
+
+            deviceStatus.textContent =
+                "ON";
+
+            deviceStatus.className =
+                "status-value online";
+
+        } else {
+
+            deviceStatus.textContent =
+                "OFF";
+
+            deviceStatus.className =
+                "status-value offline";
+
+        }
+
+
+        /*
+         * Active feature count
+         */
+
+        const features =
+            Object.keys(DEFAULT_SETTINGS)
+                .filter(
+                    key =>
+                        key !== "chatterEnabled"
+                );
+
+
+        const count =
+            features.filter(
+                feature =>
+                    settings[feature] === true
             ).length;
 
 
-        document.getElementById(
-            "designCardStatus"
-        ).textContent =
-            `${activeCount} Active Design${activeCount === 1 ? "" : "s"}`;
-
-
-        document.getElementById(
-            "designInfoCount"
-        ).textContent =
-            activeCount;
+        activeCount.textContent =
+            count;
 
     }
 
 
     /* =========================================================
-       ADVERTISEMENT STATUS
-    ========================================================== */
+       MASTER TOGGLE
+    ========================================================= */
 
-    function updateAdvertisementStatus(
-        systemSettings
-    ) {
+    function toggleMaster() {
 
-        const adCardStatus =
+        const settings =
+            loadSettings();
+
+        const master =
             document.getElementById(
-                "adCardStatus"
+                "chatterEnabled"
             );
 
 
-        let advertisement = {
+        settings.chatterEnabled =
+            master.checked;
 
-            enabled: true
+
+        saveSettings(settings);
+
+
+        addActivity(
+            settings.chatterEnabled
+                ? "Chatter System enabled"
+                : "Chatter System disabled"
+        );
+
+
+        updateStatus(settings);
+
+
+        showToast(
+            settings.chatterEnabled
+                ? "Chatter System ON"
+                : "Chatter System OFF"
+        );
+
+    }
+
+
+    /* =========================================================
+       FEATURE TOGGLE
+    ========================================================= */
+
+    function toggleFeature(feature) {
+
+        const settings =
+            loadSettings();
+
+        const input =
+            document.querySelector(
+                `[data-feature="${feature}"]`
+            );
+
+
+        if (!input) {
+
+            return;
+
+        }
+
+
+        settings[feature] =
+            input.checked;
+
+
+        saveSettings(settings);
+
+
+        addActivity(
+            `${formatFeatureName(feature)} ${
+                input.checked ? "enabled" : "disabled"
+            }`
+        );
+
+
+        updateStatus(settings);
+
+
+        showToast(
+            `${formatFeatureName(feature)} ${
+                input.checked ? "ON" : "OFF"
+            }`
+        );
+
+    }
+
+
+    /* =========================================================
+       FORMAT FEATURE NAME
+    ========================================================= */
+
+    function formatFeatureName(feature) {
+
+        const names = {
+
+            messaging:
+                "Messaging",
+
+            voiceCall:
+                "Voice Call",
+
+            videoCall:
+                "Video Call",
+
+            voiceMessages:
+                "Voice Messages",
+
+            camera:
+                "Camera",
+
+            microphone:
+                "Microphone",
+
+            screenShare:
+                "Screen Share",
+
+            videoRecording:
+                "Video Recording",
+
+            fileSharing:
+                "File Sharing",
+
+            imageSharing:
+                "Image Sharing",
+
+            typingIndicator:
+                "Typing Indicator",
+
+            notifications:
+                "Notifications"
 
         };
 
 
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    "doctorPosterAdvertisement"
-                );
-
-
-            if (saved) {
-
-                advertisement =
-                    {
-                        ...advertisement,
-                        ...JSON.parse(saved)
-                    };
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Unable to read advertisement settings:",
-                error
-            );
-
-        }
-
-
-        if (
-            !systemSettings.advertisementSystem
-        ) {
-
-            adCardStatus.textContent =
-                "System Disabled";
-
-            adCardStatus.className =
-                "offline";
-
-
-        } else if (
-            advertisement.enabled
-        ) {
-
-            adCardStatus.textContent =
-                "Browser Ad Enabled";
-
-            adCardStatus.className =
-                "online";
-
-
-        } else {
-
-            adCardStatus.textContent =
-                "Browser Ad Disabled";
-
-            adCardStatus.className =
-                "offline";
-
-        }
+        return names[feature] ||
+            feature;
 
     }
 
 
     /* =========================================================
-       RESET SETTINGS
-    ========================================================== */
+       ENABLE ALL
+    ========================================================= */
+
+    function enableAll() {
+
+        const settings =
+            loadSettings();
+
+
+        Object.keys(
+            settings
+        ).forEach(key => {
+
+            settings[key] =
+                true;
+
+        });
+
+
+        saveSettings(settings);
+
+        loadUI();
+
+
+        addActivity(
+            "All Chatter features enabled"
+        );
+
+
+        showToast(
+            "All features ON"
+        );
+
+    }
+
+
+    /* =========================================================
+       DISABLE ALL
+    ========================================================= */
+
+    function disableAll() {
+
+        const settings =
+            loadSettings();
+
+
+        Object.keys(
+            settings
+        ).forEach(key => {
+
+            settings[key] =
+                false;
+
+        });
+
+
+        saveSettings(settings);
+
+        loadUI();
+
+
+        addActivity(
+            "All Chatter features disabled"
+        );
+
+
+        showToast(
+            "All features OFF"
+        );
+
+    }
+
+
+    /* =========================================================
+       RESET
+    ========================================================= */
 
     function resetSettings() {
 
         const confirmed =
             confirm(
-                "Reset all system settings to default?"
+                "Reset all Chatter settings to default?"
             );
 
 
@@ -2103,286 +2122,351 @@
         }
 
 
-        setStoredSettings(
+        const settings =
             {
-                ...defaultSettings
-            }
+                ...DEFAULT_SETTINGS
+            };
+
+
+        saveSettings(settings);
+
+        loadUI();
+
+
+        addActivity(
+            "Chatter settings reset to defaults"
         );
 
 
-        loadSettings();
-
-
-        alert(
-            "System settings have been reset."
-        );
-
-    }
-
-
-    /* =========================================================
-       EXPORT SETTINGS
-    ========================================================== */
-
-    function exportSettings() {
-
-        const websiteSettings =
-            readJSON(
-                "doctorPosterWebsiteSettings",
-                {}
-            );
-
-
-        const designSettings =
-            readJSON(
-                "doctorPosterDesignStatus",
-                {}
-            );
-
-
-        const advertisementSettings =
-            readJSON(
-                "doctorPosterAdvertisement",
-                {}
-            );
-
-
-        const systemSettings =
-            getStoredSettings();
-
-
-        const exportData = {
-
-            website:
-                websiteSettings,
-
-
-            designs:
-                designSettings,
-
-
-            advertisement:
-                advertisementSettings,
-
-
-            system:
-                systemSettings,
-
-
-            exportedAt:
-                new Date().toISOString()
-
-        };
-
-
-        const blob =
-            new Blob(
-                [
-                    JSON.stringify(
-                        exportData,
-                        null,
-                        2
-                    )
-                ],
-                {
-                    type: "application/json"
-                }
-            );
-
-
-        const url =
-            URL.createObjectURL(
-                blob
-            );
-
-
-        const link =
-            document.createElement(
-                "a"
-            );
-
-
-        link.href =
-            url;
-
-
-        link.download =
-            "doctor-poster-settings.json";
-
-
-        document.body.appendChild(
-            link
-        );
-
-
-        link.click();
-
-
-        document.body.removeChild(
-            link
-        );
-
-
-        setTimeout(
-            function () {
-
-                URL.revokeObjectURL(
-                    url
-                );
-
-            },
-            100
+        showToast(
+            "Settings reset"
         );
 
     }
 
 
     /* =========================================================
-       SAFE JSON READER
-    ========================================================== */
+       ACTIVITY
+    ========================================================= */
 
-    function readJSON(
-        key,
-        fallback
-    ) {
+    function getActivities() {
 
         try {
 
-            const saved =
-                localStorage.getItem(
-                    key
-                );
-
-
-            if (!saved) {
-
-                return fallback;
-
-            }
-
-
             return JSON.parse(
-                saved
-            );
+                localStorage.getItem(
+                    ACTIVITY_KEY
+                )
+            ) || [];
 
         } catch (error) {
 
-            console.error(
-                `Unable to read ${key}:`,
-                error
-            );
-
-
-            return fallback;
+            return [];
 
         }
 
     }
 
 
-    /* =========================================================
-       CLEAR LOCAL DATA
-    ========================================================== */
+    function saveActivities(items) {
 
-    function clearLocalData() {
+        localStorage.setItem(
+            ACTIVITY_KEY,
+            JSON.stringify(items.slice(0, 15))
+        );
 
-        const confirmed =
-            confirm(
-                "This will remove locally saved website, design, advertisement and system settings. Continue?"
+    }
+
+
+    function addActivity(message) {
+
+        const items =
+            getActivities();
+
+
+        items.unshift({
+
+            message: message,
+
+            time: new Date().toLocaleTimeString(
+                [],
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            )
+
+        });
+
+
+        saveActivities(items);
+
+        renderActivities();
+
+    }
+
+
+    function renderActivities() {
+
+        const list =
+            document.getElementById(
+                "activityList"
             );
 
 
-        if (!confirmed) {
+        const items =
+            getActivities();
+
+
+        if (!items.length) {
+
+            list.innerHTML = `
+                <div class="activity-item">
+                    <span class="activity-dot"></span>
+                    <span class="activity-text">
+                        No recent activity
+                    </span>
+                </div>
+            `;
 
             return;
 
         }
 
 
-        localStorage.removeItem(
-            "doctorPosterWebsiteSettings"
-        );
+        list.innerHTML =
+            items
+                .slice(0, 8)
+                .map(item => {
 
+                    return `
+                        <div class="activity-item">
 
-        localStorage.removeItem(
-            "doctorPosterDesignStatus"
-        );
+                            <span class="activity-dot"></span>
 
+                            <span class="activity-text">
+                                ${escapeHTML(item.message)}
+                            </span>
 
-        localStorage.removeItem(
-            "doctorPosterAdvertisement"
-        );
+                            <span class="activity-time">
+                                ${escapeHTML(item.time)}
+                            </span>
 
+                        </div>
+                    `;
 
-        localStorage.removeItem(
-            SYSTEM_STORAGE_KEY
-        );
-
-
-        loadSettings();
-
-
-        alert(
-            "Local settings cleared successfully."
-        );
+                })
+                .join("");
 
     }
 
 
     /* =========================================================
-       STORAGE EVENT
-       Updates this page when another admin page
-       changes localStorage.
-    ========================================================== */
+       ESCAPE HTML
+    ========================================================= */
 
-    window.addEventListener(
-        "storage",
-        function (event) {
+    function escapeHTML(value) {
 
-            if (
-                event.key ===
-                SYSTEM_STORAGE_KEY
-            ) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
 
-                loadSettings();
-
-            }
+    }
 
 
-            if (
-                event.key ===
-                "doctorPosterDesignStatus"
-            ) {
+    /* =========================================================
+       TOAST
+    ========================================================= */
 
-                updateDesignCount();
+    let toastTimer = null;
 
-            }
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
 
 
-            if (
-                event.key ===
-                "doctorPosterAdvertisement"
-            ) {
+        toast.textContent =
+            message;
 
-                updateAdvertisementStatus(
-                    getStoredSettings()
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        clearTimeout(
+            toastTimer
+        );
+
+
+        toastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
                 );
 
-            }
+            }, 2200);
+
+    }
+
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .toggle("open");
+
+        document
+            .getElementById("overlay")
+            .classList
+            .toggle("show");
+
+    }
+
+
+    function closeSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .remove("open");
+
+        document
+            .getElementById("overlay")
+            .classList
+            .remove("show");
+
+    }
+
+
+    /* =========================================================
+       ADMIN INFO
+    ========================================================= */
+
+    function loadAdminInfo() {
+
+        const session =
+            getSession();
+
+
+        if (!session) {
+
+            return;
 
         }
+
+
+        const roleBadge =
+            document.getElementById(
+                "roleBadge"
+            );
+
+        const avatar =
+            document.getElementById(
+                "adminAvatar"
+            );
+
+
+        const role =
+            String(
+                session.role || "admin"
+            ).toLowerCase();
+
+
+        if (
+            role === "superadmin"
+        ) {
+
+            roleBadge.textContent =
+                "SUPER ADMIN";
+
+        } else {
+
+            roleBadge.textContent =
+                "ADMIN";
+
+        }
+
+
+        const name =
+            session.name ||
+            session.email ||
+            "Admin";
+
+
+        avatar.textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+    /* =========================================================
+       PAGE INIT
+    ========================================================= */
+
+    function init() {
+
+        if (!checkLogin()) {
+
+            return;
+
+        }
+
+
+        loadAdminInfo();
+
+        loadUI();
+
+        renderActivities();
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        init
     );
 
 
     /* =========================================================
-       INITIAL LOAD
-    ========================================================== */
+       STORAGE SYNC
+       অন্য tab থেকে setting পরিবর্তন হলে
+       এই page update হবে।
+    ========================================================= */
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+    window.addEventListener(
+        "storage",
+        event => {
 
-            loadSettings();
+            if (
+                event.key === SETTINGS_KEY
+            ) {
+
+                loadUI();
+
+            }
+
+            if (
+                event.key === ACTIVITY_KEY
+            ) {
+
+                renderActivities();
+
+            }
 
         }
     );
