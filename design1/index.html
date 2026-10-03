@@ -1,1943 +1,1495 @@
-<!doctype html>
-
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doctor Poster Maker — Design 1</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-    margin:0;
-    background:#f4f7f8;
-    color:#17343d;
-    font-family:"Noto Sans Bengali",Arial,sans-serif;
+    font-family:Inter,"Noto Sans Bengali",sans-serif;
+    background:#eef5f5;
+    color:#12343b;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
 }
 
 .app{
-    max-width:1480px;
-    margin:auto;
-    padding:16px;
+    min-height:100vh;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .top{
-    height:68px;
-    background:#fff;
-    border:1px solid #e7eeee;
-    border-radius:18px;
+    height:72px;
+    background:#ffffff;
+    border-bottom:1px solid #dce8e8;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 20px;
-    box-shadow:0 8px 28px #183d4610;
-    margin-bottom:14px;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .brand{
     display:flex;
-    gap:12px;
     align-items:center;
+    gap:12px;
 }
 
-.brandIcon{
+.brand-icon{
     width:42px;
     height:42px;
-    border-radius:13px;
+    border-radius:12px;
     background:#087f86;
-    color:#fff;
-    display:grid;
-    place-items:center;
-    font-size:21px;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:800;
 }
 
-.brand h1{
-    font-size:18px;
-    margin:0;
+.brand-text h1{
+    font-size:17px;
+    font-weight:800;
 }
 
-.brand p{
+.brand-text p{
     font-size:11px;
-    color:#75868c;
-    margin:2px 0 0;
+    color:#789095;
+    margin-top:2px;
 }
 
-.free{
-    background:#e9f7f6;
+.home-btn{
+    border:1px solid #d7e5e5;
+    background:#fff;
+    color:#34565c;
+    padding:10px 16px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.2s;
+}
+
+.home-btn:hover{
+    border-color:#087f86;
     color:#087f86;
-    border-radius:999px;
-    padding:7px 12px;
-    font-size:11px;
-    font-weight:700;
 }
 
-.layout{
+/* =========================
+   MAIN
+========================= */
+
+.main{
     display:grid;
-    grid-template-columns:360px minmax(0,1fr);
-    gap:14px;
+    grid-template-columns:380px 1fr;
+    min-height:calc(100vh - 72px);
 }
+
+/* =========================
+   EDITOR
+========================= */
 
 .panel{
-    background:#fff;
-    border:1px solid #e5edef;
-    border-radius:20px;
-    box-shadow:0 8px 30px #183d460d;
-    overflow:hidden;
+    background:#ffffff;
+    border-right:1px solid #dce8e8;
+    padding:24px;
+    overflow-y:auto;
+}
+
+.panel-title{
+    margin-bottom:20px;
+}
+
+.panel-title h2{
+    font-size:20px;
+    font-weight:800;
+}
+
+.panel-title p{
+    color:#7a9095;
+    font-size:13px;
+    margin-top:5px;
 }
 
 .tabs{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    padding:8px;
-    border-bottom:1px solid #edf1f2;
+    display:flex;
+    background:#f1f6f6;
+    border-radius:11px;
+    padding:4px;
+    margin-bottom:22px;
 }
 
-.tab{
+.tab-btn{
+    flex:1;
     border:0;
     background:transparent;
-    padding:11px 5px;
-    border-radius:12px;
-    color:#718187;
-    font-weight:700;
+    padding:10px 6px;
+    border-radius:8px;
     font-size:12px;
-    cursor:pointer;
+    font-weight:700;
+    color:#71868b;
 }
 
-.tab.active{
-    background:#edf8f7;
+.tab-btn.active{
+    background:#ffffff;
     color:#087f86;
+    box-shadow:0 2px 8px rgba(18,52,59,.08);
 }
 
-.pane{
-    padding:15px;
-}
-
-.pane.hidden{
+.tab-content{
     display:none;
 }
 
-.section{
-    margin-bottom:18px;
-}
-
-.sectionTitle{
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:9px;
-    color:#244650;
+.tab-content.active{
+    display:block;
 }
 
 .field{
-    margin-bottom:9px;
+    margin-bottom:15px;
 }
 
 .field label{
     display:block;
-    font-size:11px;
-    font-weight:700;
-    color:#6b7c82;
-    margin-bottom:5px;
-}
-
-.input,
-.select{
-    width:100%;
-    border:1px solid #dce6e8;
-    background:#fbfdfd;
-    border-radius:11px;
-    padding:10px 11px;
-    font:inherit;
     font-size:12px;
-    outline:none;
+    font-weight:700;
+    margin-bottom:7px;
+    color:#35565c;
 }
 
-.input:focus,
-.select:focus{
-    border-color:#6db9bc;
-    box-shadow:0 0 0 3px #087f8610;
+.field input,
+.field select{
+    width:100%;
+    height:42px;
+    border:1px solid #d9e5e5;
+    border-radius:9px;
+    padding:0 12px;
+    outline:none;
+    color:#193e44;
+    background:#fff;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:#087f86;
+    box-shadow:0 0 0 3px rgba(8,127,134,.08);
+}
+
+.file-box{
+    border:1px dashed #b9cece;
+    border-radius:10px;
+    padding:13px;
+    background:#f9fcfc;
+}
+
+.file-box input{
+    height:auto;
+    border:0;
+    padding:0;
+    background:transparent;
 }
 
 .row{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px;
+    gap:12px;
 }
 
-.templates{
+.section-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#91a5a9;
+    font-weight:800;
+    margin:22px 0 12px;
+}
+
+/* =========================
+   TEMPLATE BUTTONS
+========================= */
+
+.template-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px;
+    gap:10px;
 }
 
-.tpl{
-    border:1px solid #dce7e9;
+.template-btn{
+    border:1px solid #d9e5e5;
     background:#fff;
-    border-radius:12px;
-    padding:6px;
-    cursor:pointer;
-    text-align:left;
+    padding:13px 8px;
+    border-radius:10px;
+    text-align:center;
+    color:#567177;
+    font-size:12px;
+    font-weight:700;
 }
 
-.tpl.active{
-    border:2px solid #087f86;
-    padding:5px;
+.template-btn.active{
+    border-color:#087f86;
+    background:#e9f8f7;
+    color:#087f86;
 }
 
-.thumb{
-    height:70px;
-    border-radius:8px;
-    background:#f2f8f8;
-    position:relative;
-    overflow:hidden;
-}
+/* =========================
+   COLORS
+========================= */
 
-.thumb:before{
-    content:"";
-    position:absolute;
-    left:8px;
-    top:8px;
-    width:46%;
-    height:8px;
-    background:#087f86;
-    border-radius:4px;
-}
-
-.thumb:after{
-    content:"";
-    position:absolute;
-    right:7px;
-    top:20px;
-    width:30%;
-    height:42px;
-    background:#d8ebec;
-    border-radius:7px;
-}
-
-.thumb.mod:before{
-    background:#173c46;
-}
-
-.thumb.split{
-    background:linear-gradient(90deg,#fff 0 60%,#dff3f2 60%);
-}
-
-.thumb.min{
-    background:#fafafa;
-}
-
-.tpl span{
-    display:block;
-    font-size:10px;
-    color:#536970;
-    margin:5px 2px 1px;
-}
-
-.swatches{
+.colors{
     display:flex;
-    gap:7px;
+    flex-wrap:wrap;
+    gap:9px;
 }
 
-.sw{
-    width:30px;
-    height:30px;
-    border-radius:9px;
-    border:2px solid #dbe5e7;
-    cursor:pointer;
+.color-btn{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:3px solid #fff;
+    box-shadow:0 0 0 1px #d1dddd;
 }
 
-.range{
-    width:100%;
-    accent-color:#087f86;
+.color-btn.active{
+    box-shadow:0 0 0 2px #087f86;
 }
 
-.upload{
-    border:1px dashed #b9ced1;
-    background:#f8fbfb;
-    padding:11px;
-    border-radius:11px;
-    font-size:11px;
-    width:100%;
+/* =========================
+   ACTIONS
+========================= */
+
+.actions{
+    margin-top:22px;
+    display:grid;
+    gap:10px;
 }
 
-.hint{
-    font-size:10px;
-    color:#849398;
-    line-height:1.5;
-    margin:6px 0;
-}
-
-.primary{
+.primary-btn{
     width:100%;
     border:0;
-    border-radius:12px;
-    padding:12px;
     background:#087f86;
     color:#fff;
+    height:46px;
+    border-radius:10px;
     font-weight:800;
-    cursor:pointer;
-    box-shadow:0 8px 18px #087f8625;
+    box-shadow:0 7px 18px rgba(8,127,134,.18);
 }
 
-.primary:hover{
-    background:#056d73;
+.primary-btn:hover{
+    background:#05656b;
 }
 
-.primary:disabled{
-    opacity:.65;
-    cursor:not-allowed;
-}
-
-.secondary{
+.secondary-btn{
     width:100%;
-    border:1px solid #dce7e9;
-    border-radius:12px;
-    padding:11px;
+    border:1px solid #d8e5e5;
     background:#fff;
-    color:#45636b;
+    color:#3e5d62;
+    height:44px;
+    border-radius:10px;
     font-weight:700;
-    cursor:pointer;
 }
 
-.secondary:hover{
+.secondary-btn:hover{
     border-color:#087f86;
     color:#087f86;
 }
 
-.previewWrap{
-    background:#eaf0f2;
-    border:1px solid #e0e8ea;
-    border-radius:20px;
-    min-height:calc(100vh - 115px);
-    padding:18px;
+.danger-btn{
+    width:100%;
+    border:1px solid #ecd3d3;
+    background:#fff;
+    color:#b34c4c;
+    height:44px;
+    border-radius:10px;
+    font-weight:700;
+}
+
+/* =========================
+   PREVIEW
+========================= */
+
+.preview-area{
+    background:#edf4f4;
     display:flex;
     flex-direction:column;
-}
-
-.previewBar{
-    height:38px;
-    display:flex;
     align-items:center;
-    justify-content:space-between;
-    margin-bottom:8px;
+    justify-content:center;
+    padding:35px;
+    overflow:auto;
 }
 
-.previewBar b{
+.preview-head{
+    width:min(1080px,100%);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+
+.preview-head h3{
+    font-size:14px;
+    font-weight:800;
+}
+
+.preview-head span{
+    color:#82969a;
     font-size:12px;
 }
 
-.previewBar span{
-    font-size:10px;
-    color:#819096;
+.poster-wrap{
+    width:540px;
+    max-width:100%;
+    box-shadow:0 22px 55px rgba(25,62,68,.16);
 }
-
-.preview{
-    flex:1;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    overflow:auto;
-    padding:4px;
-}
-
 
 /* =========================
    POSTER
 ========================= */
 
-.poster{
-    width:min(760px,100%);
-    aspect-ratio:1080/1350;
-    background:#fff;
-    overflow:hidden;
+#poster{
+    width:540px;
+    height:675px;
+    background:#ffffff;
     position:relative;
-    box-shadow:0 18px 50px #163b451c;
-    border-radius:6px;
-    font-family:"Noto Sans Bengali",sans-serif;
+    overflow:hidden;
+    transform-origin:top left;
+    font-family:Inter,"Noto Sans Bengali",sans-serif;
 }
 
-.head{
-    padding:23px 38px 13px;
+.poster-top{
+    height:105px;
+    padding:23px 30px;
     display:flex;
     justify-content:space-between;
-    gap:20px;
-}
-
-.clinic h2{
-    font-size:29px;
-    margin:0;
-    color:#087f86;
-}
-
-.sub{
-    font-size:14px;
-    font-weight:700;
-    color:#536970;
-}
-
-.addr{
-    font-size:12px;
-    color:#77878c;
-    margin-top:7px;
-}
-
-.logo{
-    width:76px;
-    height:76px;
-    border-radius:50%;
-    border:3px solid #087f86;
-    object-fit:cover;
-    background:#eef7f7;
-    display:none;
-}
-
-.hero{
-    display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:18px;
-    padding:8px 38px 18px;
     align-items:center;
+    position:relative;
+    z-index:2;
 }
 
-.name{
-    font-size:36px;
+.clinic-name{
+    font-size:19px;
     font-weight:800;
-    color:#173c47;
-    line-height:1.15;
+    color:#12343b;
 }
 
-.degree{
-    font-size:15px;
-    font-weight:700;
-    color:#536a71;
-    margin-top:5px;
+.clinic-tagline{
+    font-size:10px;
+    color:#769095;
+    margin-top:4px;
 }
 
-.special{
-    display:inline-block;
-    background:#087f86;
-    color:#fff;
-    border-radius:999px;
-    padding:7px 14px;
-    margin-top:12px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.docbox{
-    height:275px;
-    overflow:hidden;
-    border-radius:23px;
-    background:#e8f4f5;
-    border:1px solid #cfe1e3;
+.logo-box{
+    width:58px;
+    height:58px;
+    border:1px solid #d8e4e4;
+    border-radius:12px;
     display:flex;
-    align-items:flex-end;
+    align-items:center;
     justify-content:center;
+    overflow:hidden;
+    background:#fff;
 }
 
-.docbox img{
+.logo-box img{
     width:100%;
     height:100%;
     object-fit:contain;
-    transform-origin:center bottom;
-    display:none;
 }
 
-.info{
-    padding:0 38px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+.logo-placeholder{
+    font-size:9px;
+    color:#a2b2b5;
+    text-align:center;
 }
 
-.card{
-    border:1px solid #dbe7e9;
-    border-radius:13px;
-    padding:12px 14px;
-    background:#fcfefe;
-    font-size:12px;
-}
-
-.card b{
-    display:block;
-    color:#087f86;
-    font-size:11px;
-    margin-bottom:2px;
-}
-
-.serial{
-    margin:16px 38px 0;
-    background:#087f86;
+.hero{
+    margin:0 25px;
+    height:335px;
+    border-radius:20px;
+    background:linear-gradient(145deg,#087f86,#05656b);
+    position:relative;
+    overflow:hidden;
     color:#fff;
-    border-radius:14px;
-    padding:15px;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:rgba(255,255,255,.07);
+    right:-85px;
+    top:-75px;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    left:-80px;
+    bottom:-80px;
+}
+
+.photo-area{
+    position:absolute;
+    right:0;
+    bottom:0;
+    width:52%;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:2;
+}
+
+.doctor-photo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+    mix-blend-mode:normal;
+}
+
+.photo-placeholder{
+    width:180px;
+    height:230px;
+    border-radius:100px 100px 0 0;
+    background:rgba(255,255,255,.14);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:rgba(255,255,255,.65);
+    font-size:11px;
+    text-align:center;
+    padding:20px;
+}
+
+.hero-content{
+    position:absolute;
+    left:27px;
+    top:35px;
+    width:49%;
+    z-index:3;
+}
+
+.small-label{
+    font-size:9px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:#bfeeed;
+    margin-bottom:12px;
+}
+
+.doctor-name{
+    font-size:31px;
+    line-height:1.05;
+    font-weight:800;
+    max-width:230px;
+}
+
+.degrees{
+    font-size:11px;
+    color:#d3f1ef;
+    margin-top:8px;
+    line-height:1.5;
+}
+
+.specialty{
+    display:inline-block;
+    margin-top:15px;
+    background:rgba(255,255,255,.13);
+    border:1px solid rgba(255,255,255,.15);
+    padding:8px 11px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.info-area{
+    padding:18px 25px 0;
+}
+
+.info-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
+    gap:9px;
 }
 
-.serial strong{
-    font-size:16px;
+.info-card{
+    border:1px solid #dce8e8;
+    border-radius:10px;
+    padding:10px 12px;
+    min-height:55px;
 }
 
-.serial span{
-    display:block;
-    font-size:12px;
-    margin-top:2px;
+.info-card .label{
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#94a7aa;
+    font-weight:800;
 }
 
-.foot{
-    padding:13px 38px;
-    font-size:11px;
-    color:#74848a;
+.info-card .value{
+    font-size:10px;
+    color:#34575d;
+    font-weight:700;
+    margin-top:4px;
+    line-height:1.35;
+}
+
+.appointment{
+    margin:13px 25px 0;
+    background:#e9f8f7;
+    border:1px solid #c9e8e6;
+    border-radius:10px;
+    padding:11px 13px;
     display:flex;
+    align-items:center;
     justify-content:space-between;
 }
 
-.poster.modern .head{
-    background:#f1faf9;
+.appointment-label{
+    font-size:8px;
+    color:#6f888d;
+    text-transform:uppercase;
+    font-weight:800;
 }
 
-.poster.split .hero{
-    background:linear-gradient(
-        100deg,
-        #fff 0 61%,
-        #e7f7f7 61%
-    );
+.appointment-number{
+    font-size:13px;
+    color:#087f86;
+    font-weight:800;
 }
 
-.poster.split .docbox{
-    border-radius:0;
-    border:0;
-    background:transparent;
-    height:305px;
+.footer{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:43px;
+    border-top:1px solid #e2ebeb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#91a2a5;
+    font-size:8px;
 }
-
-.poster.minimal{
-    background:#fafafa;
-}
-
-.poster.minimal .special,
-.poster.minimal .serial{
-    background:#173c46;
-}
-
-.poster.minimal .docbox{
-    border-radius:8px;
-    background:#fff;
-}
-
 
 /* =========================
-   EXPORT INFO
+   DISABLED STATE
 ========================= */
 
-.exportBox{
-    background:#f3f9f9;
-    border-radius:14px;
-    padding:12px;
-    margin-bottom:10px;
+.creation-disabled{
+    pointer-events:none;
+    opacity:.52;
+    filter:grayscale(.25);
 }
 
-.exportBox b{
-    font-size:12px;
+.action-disabled{
+    opacity:.45 !important;
+    cursor:not-allowed !important;
+    box-shadow:none !important;
 }
 
-.exportBox p{
-    font-size:10px;
-    color:#74868b;
-    margin:4px 0 0;
-}
-
-.export-status{
-    margin-top:10px;
-    padding:9px 10px;
-    border-radius:9px;
-    background:#fff;
-    border:1px solid #e0ebec;
-    color:#718287;
-    font-size:10px;
-    display:none;
-}
-
-
-/* =========================================================
-   POSTER CREATION DISABLED OVERLAY
-========================================================= */
-
-.creation-disabled-overlay{
-
+#creationOverlay{
     position:fixed;
-
     inset:0;
-
-    z-index:99999;
-
+    background:rgba(10,35,39,.62);
+    backdrop-filter:blur(5px);
     display:none;
-
     align-items:center;
-
     justify-content:center;
-
+    z-index:9999;
     padding:20px;
-
-    background:rgba(13,42,49,.72);
-
-    backdrop-filter:blur(7px);
-
 }
 
-.creation-disabled-card{
+#creationOverlay.show{
+    display:flex;
+}
 
-    width:min(440px,100%);
-
+.overlay-card{
+    width:min(430px,100%);
     background:#fff;
-
-    border-radius:24px;
-
-    padding:34px 28px;
-
-    text-align:center;
-
-    box-shadow:0 25px 80px rgba(0,0,0,.22);
-
-    border:1px solid #e4eeee;
-
-}
-
-.creation-disabled-icon{
-
-    width:68px;
-
-    height:68px;
-
-    margin:0 auto 18px;
-
     border-radius:20px;
-
-    display:grid;
-
-    place-items:center;
-
-    background:#edf7f7;
-
-    color:#087f86;
-
-    font-size:28px;
-
+    padding:32px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.22);
 }
 
-.creation-disabled-card h2{
-
-    margin:0 0 9px;
-
-    color:#173c46;
-
-    font-size:22px;
-
-    font-weight:800;
-
+.overlay-icon{
+    width:58px;
+    height:58px;
+    margin:0 auto 17px;
+    border-radius:50%;
+    background:#fff3e8;
+    color:#c97828;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
 }
 
-.creation-disabled-card p{
+.overlay-card h2{
+    font-size:21px;
+    color:#12343b;
+    margin-bottom:9px;
+}
 
-    margin:0;
-
-    color:#6f8086;
-
+.overlay-card p{
+    color:#70868b;
     font-size:13px;
-
     line-height:1.7;
-
+    margin-bottom:20px;
 }
 
-.creation-disabled-badge{
-
-    display:inline-block;
-
-    margin-top:18px;
-
-    padding:7px 13px;
-
-    border-radius:999px;
-
-    background:#f1f4f5;
-
-    color:#64767c;
-
-    font-size:11px;
-
+.overlay-home{
+    border:0;
+    background:#087f86;
+    color:#fff;
+    padding:12px 22px;
+    border-radius:10px;
     font-weight:800;
-
 }
-
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media(max-width:950px){
-
-    .layout{
+@media(max-width:900px){
+    .main{
         grid-template-columns:1fr;
     }
 
-    .previewWrap{
-        min-height:auto;
-    }
-
     .panel{
-        order:2;
+        border-right:0;
+        border-bottom:1px solid #dce8e8;
     }
 
-    .previewWrap{
-        order:1;
-    }
-
-    .preview{
-        min-height:500px;
-    }
-
-    .poster{
-        width:min(720px,100%);
+    .preview-area{
+        padding:25px 15px 50px;
     }
 }
 
 @media(max-width:600px){
-
-    .app{
-        padding:8px;
-    }
-
     .top{
-        height:60px;
-        padding:0 12px;
+        padding:0 15px;
+        height:64px;
     }
 
-    .brand p{
+    .brand-text p{
         display:none;
     }
 
-    .free{
-        display:none;
+    .brand-icon{
+        width:38px;
+        height:38px;
     }
 
-    .previewWrap{
-        padding:8px;
-        border-radius:16px;
+    .panel{
+        padding:18px;
     }
 
-    .previewBar{
-        padding:0 5px;
+    .preview-head{
+        margin-bottom:12px;
+    }
+
+    .poster-wrap{
+        width:100%;
+    }
+
+    #poster{
+        width:100%;
+        height:auto;
+        aspect-ratio:540 / 675;
     }
 
     .hero{
-        grid-template-columns:1fr;
+        margin:0 4.6%;
     }
 
-    .docbox{
-        height:225px;
+    .poster-top{
+        padding-left:5.5%;
+        padding-right:5.5%;
     }
 
-    .info,
-    .serial{
-        grid-template-columns:1fr;
+    .info-area{
+        padding-left:4.6%;
+        padding-right:4.6%;
     }
 
-    .head,
-    .hero,
-    .info{
-        padding-left:18px;
-        padding-right:18px;
+    .appointment{
+        margin-left:4.6%;
+        margin-right:4.6%;
     }
-
-    .serial{
-        margin-left:18px;
-        margin-right:18px;
-    }
-
-    .foot{
-        padding:12px 18px;
-    }
-
-    .name{
-        font-size:28px;
-    }
-
-    .clinic h2{
-        font-size:24px;
-    }
-
-    .layout{
-        gap:8px;
-    }
-
-    .creation-disabled-card{
-        padding:28px 20px;
-    }
-
 }
-
 
 /* =========================
    PRINT
 ========================= */
 
 @media print{
-
     body{
         background:#fff;
     }
 
     .top,
     .panel,
-    .previewBar{
+    .preview-head,
+    #creationOverlay{
         display:none !important;
     }
 
-    .creation-disabled-overlay{
-        display:none !important;
-    }
-
-    .app{
-        padding:0;
-        max-width:none;
-    }
-
-    .layout{
+    .main{
         display:block;
+        min-height:auto;
     }
 
-    .previewWrap{
-        border:0;
+    .preview-area{
         padding:0;
-        min-height:0;
+        display:block;
         background:#fff;
     }
 
-    .preview{
-        padding:0;
-        display:block;
-        overflow:visible;
+    .poster-wrap{
+        width:1080px;
+        box-shadow:none;
     }
 
-    .poster{
+    #poster{
         width:1080px;
         height:1350px;
-        max-width:none;
-        box-shadow:none;
-        border-radius:0;
+        transform:none;
+    }
+
+    @page{
+        size:1080px 1350px;
+        margin:0;
     }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- =========================================================
-     POSTER CREATION DISABLED MESSAGE
-========================================================= -->
-
-<div
-    id="creationDisabledOverlay"
-    class="creation-disabled-overlay"
->
-
-<div class="creation-disabled-card">
-
-    <div class="creation-disabled-icon">
-        🔒
-    </div>
-
-    <h2>
-        Poster Creation Disabled
-    </h2>
-
-    <p>
-        Poster creation is currently unavailable.
-        Please try again later.
-    </p>
-
-    <span class="creation-disabled-badge">
-        Disabled by Administrator
-    </span>
-
-</div>
-
-</div>
-
 <div class="app">
 
-<header class="top">
+    <!-- HEADER -->
+    <header class="top">
+        <div class="brand">
+            <div class="brand-icon">✚</div>
 
-<div class="brand">
+            <div class="brand-text">
+                <h1>Doctor Poster Maker</h1>
+                <p>Design 1 • Professional Medical Poster</p>
+            </div>
+        </div>
 
-    <div class="brandIcon">
-        🩺
-    </div>
+        <button class="home-btn" onclick="goHome()">
+            ← Back to Home
+        </button>
+    </header>
 
-    <div>
 
-        <h1>
-            Doctor Poster Maker
-        </h1>
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- EDITOR -->
+        <aside class="panel" id="editorPanel">
+
+            <div class="panel-title">
+                <h2>Design Your Poster</h2>
+                <p>Customize your doctor poster easily.</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="tab('content',this)">
+                    Content
+                </button>
+
+                <button class="tab-btn" onclick="tab('design',this)">
+                    Design
+                </button>
+
+                <button class="tab-btn" onclick="tab('export',this)">
+                    Export
+                </button>
+            </div>
+
+
+            <!-- CONTENT TAB -->
+            <div class="tab-content active" id="content">
+
+                <div class="section-label">
+                    Clinic Information
+                </div>
+
+                <div class="field">
+                    <label>Clinic Name</label>
+                    <input
+                        id="clinicName"
+                        type="text"
+                        value="MediCare Diagnostic Center"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Clinic Tagline</label>
+                    <input
+                        id="clinicTagline"
+                        type="text"
+                        value="Advanced Healthcare • Trusted Care"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Clinic Logo</label>
+
+                    <div class="file-box">
+                        <input
+                            id="logoInput"
+                            type="file"
+                            accept="image/*"
+                            onchange="loadLogo(event)"
+                        >
+                    </div>
+                </div>
+
+
+                <div class="section-label">
+                    Doctor Information
+                </div>
+
+                <div class="field">
+                    <label>Doctor Name</label>
+                    <input
+                        id="doctorName"
+                        type="text"
+                        value="Dr. Sarah Ahmed"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Degrees</label>
+                    <input
+                        id="degrees"
+                        type="text"
+                        value="MBBS, FCPS (Medicine)"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Specialty</label>
+                    <input
+                        id="specialty"
+                        type="text"
+                        value="Consultant Physician"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Doctor Photo</label>
+
+                    <div class="file-box">
+                        <input
+                            id="photoInput"
+                            type="file"
+                            accept="image/*"
+                            onchange="loadPhoto(event)"
+                        >
+                    </div>
+                </div>
+
+
+                <div class="section-label">
+                    Chamber Information
+                </div>
+
+                <div class="field">
+                    <label>Chamber</label>
+                    <input
+                        id="chamber"
+                        type="text"
+                        value="Room 305, 3rd Floor"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Visiting Hours</label>
+                    <input
+                        id="visiting"
+                        type="text"
+                        value="5:00 PM — 9:00 PM"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Location</label>
+                    <input
+                        id="location"
+                        type="text"
+                        value="Dhanmondi, Dhaka"
+                        oninput="sync()"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Appointment Number</label>
+                    <input
+                        id="appointment"
+                        type="text"
+                        value="+880 1700-000000"
+                        oninput="sync()"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- DESIGN TAB -->
+            <div class="tab-content" id="design">
+
+                <div class="section-label">
+                    Template
+                </div>
+
+                <div class="template-grid">
+
+                    <button
+                        class="template-btn active"
+                        onclick="setTemplate('classic',this)"
+                    >
+                        Classic
+                    </button>
+
+                    <button
+                        class="template-btn"
+                        onclick="setTemplate('modern',this)"
+                    >
+                        Modern
+                    </button>
+
+                    <button
+                        class="template-btn"
+                        onclick="setTemplate('split',this)"
+                    >
+                        Split
+                    </button>
+
+                    <button
+                        class="template-btn"
+                        onclick="setTemplate('minimal',this)"
+                    >
+                        Minimal
+                    </button>
+
+                </div>
+
+
+                <div class="section-label">
+                    Font
+                </div>
+
+                <div class="field">
+                    <select id="fontSelect" onchange="setFont(this.value)">
+
+                        <option value="Inter">
+                            Inter
+                        </option>
+
+                        <option value="Noto Sans Bengali">
+                            Noto Sans Bengali
+                        </option>
+
+                        <option value="Arial">
+                            Arial
+                        </option>
+
+                        <option value="Georgia">
+                            Georgia
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="section-label">
+                    Photo Zoom
+                </div>
+
+                <div class="field">
+
+                    <input
+                        id="photoZoom"
+                        type="range"
+                        min="80"
+                        max="150"
+                        value="100"
+                        oninput="applyPhotoTransform()"
+                    >
+
+                </div>
+
+
+                <div class="section-label">
+                    Photo Vertical Position
+                </div>
+
+                <div class="field">
+
+                    <input
+                        id="photoPosition"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="0"
+                        oninput="applyPhotoTransform()"
+                    >
+
+                </div>
+
+
+                <div class="section-label">
+                    Background
+                </div>
+
+                <div class="colors">
+
+                    <button
+                        class="color-btn active"
+                        style="background:#087f86"
+                        onclick="setBg('#087f86',this)"
+                    ></button>
+
+                    <button
+                        class="color-btn"
+                        style="background:#12343b"
+                        onclick="setBg('#12343b',this)"
+                    ></button>
+
+                    <button
+                        class="color-btn"
+                        style="background:#276b72"
+                        onclick="setBg('#276b72',this)"
+                    ></button>
+
+                    <button
+                        class="color-btn"
+                        style="background:#315c78"
+                        onclick="setBg('#315c78',this)"
+                    ></button>
+
+                    <button
+                        class="color-btn"
+                        style="background:#4d6b57"
+                        onclick="setBg('#4d6b57',this)"
+                    ></button>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXPORT TAB -->
+            <div class="tab-content" id="export">
+
+                <div class="section-label">
+                    Export Poster
+                </div>
+
+                <p style="
+                    font-size:13px;
+                    color:#71868b;
+                    line-height:1.7;
+                    margin-bottom:18px;
+                ">
+                    Download your finished poster as a high-quality
+                    1080 × 1350 PNG image.
+                </p>
+
+                <div class="actions">
+
+                    <button
+                        class="primary-btn"
+                        id="downloadBtn"
+                        onclick="downloadPoster()"
+                    >
+                        Download PNG
+                    </button>
+
+                    <button
+                        class="secondary-btn"
+                        id="printBtn"
+                        onclick="printPoster()"
+                    >
+                        Print Poster
+                    </button>
+
+                    <button
+                        class="danger-btn"
+                        onclick="resetPoster()"
+                    >
+                        Reset Design
+                    </button>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- PREVIEW -->
+        <section class="preview-area">
+
+            <div class="preview-head">
+                <h3>Live Preview</h3>
+                <span>1080 × 1350 px</span>
+            </div>
+
+            <div class="poster-wrap">
+
+                <div id="poster">
+
+                    <!-- POSTER HEADER -->
+                    <div class="poster-top">
+
+                        <div>
+                            <div
+                                class="clinic-name"
+                                id="previewClinicName"
+                            >
+                                MediCare Diagnostic Center
+                            </div>
+
+                            <div
+                                class="clinic-tagline"
+                                id="previewClinicTagline"
+                            >
+                                Advanced Healthcare • Trusted Care
+                            </div>
+                        </div>
+
+                        <div class="logo-box">
+
+                            <img
+                                id="previewLogo"
+                                style="display:none"
+                                alt="Clinic Logo"
+                            >
+
+                            <div
+                                class="logo-placeholder"
+                                id="logoPlaceholder"
+                            >
+                                CLINIC<br>LOGO
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HERO -->
+                    <div class="hero" id="hero">
+
+                        <div class="hero-content">
+
+                            <div class="small-label">
+                                Specialist Doctor
+                            </div>
+
+                            <div
+                                class="doctor-name"
+                                id="previewDoctorName"
+                            >
+                                Dr. Sarah Ahmed
+                            </div>
+
+                            <div
+                                class="degrees"
+                                id="previewDegrees"
+                            >
+                                MBBS, FCPS (Medicine)
+                            </div>
+
+                            <div
+                                class="specialty"
+                                id="previewSpecialty"
+                            >
+                                Consultant Physician
+                            </div>
+
+                        </div>
+
+
+                        <div class="photo-area">
+
+                            <img
+                                id="previewPhoto"
+                                class="doctor-photo"
+                                style="display:none"
+                                alt="Doctor"
+                            >
+
+                            <div
+                                class="photo-placeholder"
+                                id="photoPlaceholder"
+                            >
+                                Upload Doctor Photo
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INFO -->
+                    <div class="info-area">
+
+                        <div class="info-grid">
+
+                            <div class="info-card">
+                                <div class="label">
+                                    Chamber
+                                </div>
+
+                                <div
+                                    class="value"
+                                    id="previewChamber"
+                                >
+                                    Room 305, 3rd Floor
+                                </div>
+                            </div>
+
+
+                            <div class="info-card">
+                                <div class="label">
+                                    Visiting Hours
+                                </div>
+
+                                <div
+                                    class="value"
+                                    id="previewVisiting"
+                                >
+                                    5:00 PM — 9:00 PM
+                                </div>
+                            </div>
+
+
+                            <div class="info-card">
+                                <div class="label">
+                                    Location
+                                </div>
+
+                                <div
+                                    class="value"
+                                    id="previewLocation"
+                                >
+                                    Dhanmondi, Dhaka
+                                </div>
+                            </div>
+
+
+                            <div class="info-card">
+                                <div class="label">
+                                    Consultation
+                                </div>
+
+                                <div
+                                    class="value"
+                                    id="previewAppointment"
+                                >
+                                    By Appointment
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="appointment">
+
+                            <div>
+                                <div class="appointment-label">
+                                    Appointment
+                                </div>
+
+                                <div class="appointment-number">
+                                    Call Now
+                                </div>
+                            </div>
+
+                            <div
+                                class="appointment-number"
+                                id="previewPhone"
+                            >
+                                +880 1700-000000
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FOOTER -->
+                    <div class="footer">
+                        Professional Healthcare • Trusted Care
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- CREATION DISABLED OVERLAY -->
+
+<div id="creationOverlay">
+
+    <div class="overlay-card">
+
+        <div class="overlay-icon">
+            🔒
+        </div>
+
+        <h2>
+            Poster Creation Unavailable
+        </h2>
 
         <p>
-            Professional poster তৈরি করুন কয়েক মিনিটে
+            Poster creation is currently disabled by the administrator.
+            Please try again later.
         </p>
+
+        <button
+            class="overlay-home"
+            onclick="goHome()"
+        >
+            ← Back to Home
+        </button>
 
     </div>
 
 </div>
 
-<div class="free">
-    100% FREE
-</div>
 
-</header>
-
-<div class="layout">
-
-<!-- =========================
-     EDITOR
-========================= -->
-
-<aside class="panel">
-
-<div class="tabs">
-
-<button
-    class="tab active"
-    onclick="tab('content',this)"
->
-    ① তথ্য
-</button>
-
-<button
-    class="tab"
-    onclick="tab('design',this)"
->
-    ② ডিজাইন
-</button>
-
-<button
-    class="tab"
-    onclick="tab('export',this)"
->
-    ③ Export
-</button>
-
-</div>
-
-<!-- =========================
-     CONTENT TAB
-========================= -->
-
-<div id="content" class="pane">
-
-<div class="section">
-
-<div class="sectionTitle">
-    ডাক্তারের তথ্য
-</div>
-
-<div class="field">
-
-<label>
-    Doctor Name
-</label>
-
-<input
-class="input"
-id="name"
-value="ডাঃ মোঃ আব্দুল করিম"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="field">
-
-<label>
-    Degrees
-</label>
-
-<input
-class="input"
-id="degree"
-value="MBBS, FCPS (Medicine)"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="field">
-
-<label>
-    Specialty
-</label>
-
-<input
-class="input"
-id="specialty"
-value="মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>
-    Consultant
-</label>
-
-<input
-class="input"
-id="consultant"
-value="কনসালটেন্ট, মেডিসিন বিভাগ"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="field">
-
-<label>
-    Visiting
-</label>
-
-<input
-class="input"
-id="visiting"
-value="বিকাল ৫টা — রাত ৯টা"
-oninput="sync()"
-
-
-
-</div>
-
-</div>
-
-<div class="field">
-
-<label>
-    Chamber
-</label>
-
-<input
-class="input"
-id="chamber"
-value="রয়েল মাল্টিকেয়ার, মৌলভীবাজার"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="field">
-
-<label>
-    Serial / Appointment
-</label>
-
-<input
-class="input"
-id="serial"
-value="01718-005011 | 01718-002112"
-oninput="sync()"
-
-
-
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-    Clinic Branding
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>
-    Clinic Name
-</label>
-
-<input
-class="input"
-id="clinic"
-value="রয়েল মাল্টিকেয়ার"
-oninput="sync()"
-
-
-
-</div>
-
-<div class="field">
-
-<label>
-    Tagline
-</label>
-
-<input
-class="input"
-id="tagline"
-value="ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার"
-oninput="sync()"
-
-
-
-</div>
-
-</div>
-
-<div class="field">
-
-<label>
-    Address
-</label>
-
-<input
-class="input"
-id="address"
-value="শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার"
-oninput="sync()"
-
-
-
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-    Photos
-</div>
-
-<label class="field">
-
-<span
-style="
-font-size:11px;
-color:#6b7c82;
-display:block;
-margin-bottom:5px
-">
-Doctor Photo
-</span>
-
-<input
-id="doctorFile"
-class="upload"
-type="file"
-accept="image/*"
-onchange="loadPhoto(event)"
-
-
-
-</label>
-
-<label class="field">
-
-<span
-style="
-font-size:11px;
-color:#6b7c82;
-display:block;
-margin-bottom:5px
-">
-Clinic Logo
-</span>
-
-<input
-id="logoFile"
-class="upload"
-type="file"
-accept="image/*"
-onchange="loadLogo(event)"
-
-
-
-</label>
-
-</div>
-
-<button
-class="primary"
-onclick="tab('design',document.querySelectorAll('.tab')[1])"
-
-
-
-Next: Design →
-
-</button>
-
-</div>
-
-<!-- =========================
-     DESIGN TAB
-========================= -->
-
-<div id="design" class="pane hidden">
-
-<div class="section">
-
-<div class="sectionTitle">
-    Choose a Template
-</div>
-
-<div class="templates">
-
-<button
-class="tpl active"
-onclick="setTemplate('classic',this)"
-
-
-
-<div class="thumb"></div>
-
-<span>
-    Classic
-</span>
-
-</button>
-
-<button
-class="tpl"
-onclick="setTemplate('modern',this)"
-
-
-
-<div class="thumb mod"></div>
-
-<span>
-    Modern
-</span>
-
-</button>
-
-<button
-class="tpl"
-onclick="setTemplate('split',this)"
-
-
-
-<div class="thumb split"></div>
-
-<span>
-    Split
-</span>
-
-</button>
-
-<button
-class="tpl"
-onclick="setTemplate('minimal',this)"
-
-
-
-<div class="thumb min"></div>
-
-<span>
-    Minimal
-</span>
-
-</button>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-    Font
-</div>
-
-<select
-id="font"
-class="select"
-onchange="setFont(this.value)"
-
-
-
-<option>
-    Noto Sans Bengali
-</option>
-
-<option>
-    Hind Siliguri
-</option>
-
-<option>
-    SolaimanLipi
-</option>
-
-</select>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-    Photo Adjust
-</div>
-
-<label
-style="
-font-size:10px;
-color:#7b8b90
-">
-Zoom
-</label>
-
-<input
-id="zoom"
-class="range"
-type="range"
-min="80"
-max="140"
-value="100"
-oninput="applyPhotoTransform()"
-
-
-
-<label
-style="
-font-size:10px;
-color:#7b8b90
-">
-Vertical Position
-</label>
-
-<input
-id="photoY"
-class="range"
-type="range"
-min="-40"
-max="40"
-value="0"
-oninput="applyPhotoTransform()"
-
-
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-    Background
-</div>
-
-<div class="swatches">
-
-<button
-class="sw"
-style="background:#fff"
-onclick="setBg('#fff')"
-
-<button
-class="sw"
-style="background:#f4fbfb"
-onclick="setBg('#f4fbfb')"
-
-<button
-class="sw"
-style="background:#fffaf4"
-onclick="setBg('#fffaf4')"
-
-<button
-class="sw"
-style="background:#f5f6f7"
-onclick="setBg('#f5f6f7')"
-
-</div>
-
-</div>
-
-<button
-class="primary"
-onclick="tab('export',document.querySelectorAll('.tab')[2])"
-
-
-
-Next: Export →
-
-</button>
-
-</div>
-
-<!-- =========================
-     EXPORT TAB
-========================= -->
-
-<div id="export" class="pane hidden">
-
-<div class="exportBox">
-
-<b>
-    Poster Ready ✓
-</b>
-
-<p>
-    আপনার তথ্য অনুযায়ী poster তৈরি হয়েছে।
-    এখন 1080 × 1350 PNG হিসেবে save করুন।
-</p>
-
-</div>
-
-<button
-id="downloadBtn"
-class="primary"
-onclick="downloadPoster()"
-
-
-
-⬇ Download PNG
-
-</button>
-
-<div style="height:8px"></div>
-
-<button
-id="printBtn"
-class="secondary"
-onclick="printPoster()"
-
-
-
-🖨 Print Poster
-
-</button>
-
-<div style="height:8px"></div>
-
-<button
-id="resetBtn"
-class="secondary"
-onclick="resetPoster()"
-
-
-
-↺ Start Over
-
-</button>
-
-<div
-    id="exportStatus"
-    class="export-status"
-></div>
-
-<p
-class="hint"
-style="margin-top:14px"
->
-Tip: Download করার আগে preview-তে নাম,
-ছবি ও serial একবার দেখে নিন।
-</p>
-
-</div>
-
-</aside>
-
-<!-- =========================
-     PREVIEW
-========================= -->
-
-<main class="previewWrap">
-
-<div class="previewBar">
-
-<b>
-    Live Preview
-</b>
-
-<span>
-    1080 × 1350 • Social Media Ready
-</span>
-
-</div>
-
-<div class="preview">
-
-<div
-    id="poster"
-    class="poster"
->
-
-<!-- NO ADVERTISEMENT HERE -->
-
-<div class="head">
-
-<div class="clinic">
-
-<h2 id="pClinic">
-    রয়েল মাল্টিকেয়ার
-</h2>
-
-<div
-    class="sub"
-    id="pTagline"
->
-    ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার
-</div>
-
-<div
-    class="addr"
-    id="pAddress"
->
-    শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার
-</div>
-
-</div>
-
-<img
-id="logoImg"
-class="logo"
-alt="Clinic Logo"
-
-
-
-</div>
-
-<div class="hero">
-
-<div>
-
-<div
-    class="name"
-    id="pName"
->
-    ডাঃ মোঃ আব্দুল করিম
-</div>
-
-<div
-    class="degree"
-    id="pDegree"
->
-    MBBS, FCPS (Medicine)
-</div>
-
-<div
-    class="special"
-    id="pSpecial"
->
-    মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ
-</div>
-
-</div>
-
-<div class="docbox">
-
-<img
-id="docImg"
-alt="Doctor Photo"
-
-
-
-</div>
-
-</div>
-
-<div class="info">
-
-<div class="card">
-
-<b>
-    Consultant
-</b>
-
-<div id="pConsultant">
-    কনসালটেন্ট, মেডিসিন বিভাগ
-</div>
-
-</div>
-
-<div class="card">
-
-<b>
-    Chamber
-</b>
-
-<div id="pChamber">
-    রয়েল মাল্টিকেয়ার, মৌলভীবাজার
-</div>
-
-</div>
-
-<div class="card">
-
-<b>
-    Visiting Hours
-</b>
-
-<div id="pVisiting">
-    বিকাল ৫টা — রাত ৯টা
-</div>
-
-</div>
-
-<div class="card">
-
-<b>
-    Serial / Appointment
-</b>
-
-<div id="pSerialSmall">
-    01718-005011 | 01718-002112
-</div>
-
-</div>
-
-</div>
-
-<div class="serial">
-
-<div>
-
-<strong>
-    📞 Serial & Appointment
-</strong>
-
-<span id="pSerial">
-    01718-005011 | 01718-002112
-</span>
-
-</div>
-
-<div>
-
-<strong>
-    📍 Chamber
-</strong>
-
-<span id="pChamber2">
-    রয়েল মাল্টিকেয়ার, মৌলভীবাজার
-</span>
-
-</div>
-
-</div>
-
-<div class="foot">
-
-<span>
-    royaldiagnostic21@gmail.com
-</span>
-
-<span>
-    @royaldiagnostic21
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-</div>
-
-</div>
-
-<!-- html2canvas -->
+<!-- HTML2CANVAS -->
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 
 <script>
 
 /* =========================
-   HELPER
+   BASIC HELPERS
 ========================= */
 
-const $ = id =>
-    document.getElementById(id);
-
-
-/* =========================================================
-   SYSTEM SETTINGS
-========================================================= */
-
-const SYSTEM_KEY =
-    "doctorPosterSystemSettings";
-
-
-const defaultSystemSettings = {
-
-    websiteStatus:true,
-
-    maintenanceMode:false,
-
-    posterCreation:true,
-
-    advertisementSystem:true
-
-};
-
-
-function getSystemSettings(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                SYSTEM_KEY
-            );
-
-
-        if(!saved){
-
-            return {
-                ...defaultSystemSettings
-            };
-
-        }
-
-
-        const parsed =
-            JSON.parse(saved);
-
-
-        return {
-
-            ...defaultSystemSettings,
-
-            ...parsed
-
-        };
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Unable to read system settings:",
-            error
-        );
-
-
-        return {
-            ...defaultSystemSettings
-        };
-
-    }
-
-}
-
-
-/* =========================================================
-   POSTER CREATION CONTROL
-========================================================= */
-
-let posterCreationEnabled =
-    true;
-
-
-function isPosterCreationEnabled(){
-
-    const settings =
-        getSystemSettings();
-
-
-    return settings.posterCreation !== false;
-
-}
-
-
-function applyPosterCreationControl(){
-
-    posterCreationEnabled =
-        isPosterCreationEnabled();
-
-
-    const overlay =
-        $("creationDisabledOverlay");
-
-
-    const controls =
-        document.querySelectorAll(
-            ".panel button, .panel input, .panel select"
-        );
-
-
-    if(
-        !posterCreationEnabled
-    ){
-
-        /*
-         * Show full-page disabled message.
-         */
-
-        if(overlay){
-
-            overlay.style.display =
-                "flex";
-
-        }
-
-
-        /*
-         * Disable editor controls.
-         */
-
-        controls.forEach(function(control){
-
-            control.disabled =
-                true;
-
-        });
-
-
-        document.body.style.overflow =
-            "hidden";
-
-
-        document.title =
-            "Poster Creation Disabled";
-
-    }
-
-    else{
-
-        /*
-         * Hide disabled message.
-         */
-
-        if(overlay){
-
-            overlay.style.display =
-                "none";
-
-        }
-
-
-        /*
-         * Re-enable editor controls.
-         */
-
-        controls.forEach(function(control){
-
-            control.disabled =
-                false;
-
-        });
-
-
-        document.body.style.overflow =
-            "";
-
-
-        document.title =
-            "Doctor Poster Maker — Design 1";
-
-    }
-
-}
-
-
-/* =========================================================
-   TAB SYSTEM
-========================================================= */
-
-function tab(id,el){
-
-    if(!isPosterCreationEnabled()){
-
-        return;
-
-    }
-
-
-    document
-        .querySelectorAll(".pane")
-        .forEach(x =>
-            x.classList.add("hidden")
-        );
-
-
-    $(id).classList.remove("hidden");
-
-
-    document
-        .querySelectorAll(".tab")
-        .forEach(x =>
-            x.classList.remove("active")
-        );
-
-
-    el.classList.add("active");
-
+function $(id){
+    return document.getElementById(id);
 }
 
 
 /* =========================
-   LIVE SYNC
+   HOME
+========================= */
+
+function goHome(){
+    window.location.href="../index.html";
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+function tab(name, button){
+
+    document.querySelectorAll(".tab-content")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
+
+    document.querySelectorAll(".tab-btn")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
+
+    $(name).classList.add("active");
+
+    if(button){
+        button.classList.add("active");
+    }
+}
+
+
+/* =========================
+   CONTENT SYNC
 ========================= */
 
 function sync(){
 
-    if(!isPosterCreationEnabled()){
+    $("previewClinicName").textContent =
+        $("clinicName").value || "Clinic Name";
 
-        return;
+    $("previewClinicTagline").textContent =
+        $("clinicTagline").value || "Healthcare • Trusted Care";
 
-    }
+    $("previewDoctorName").textContent =
+        $("doctorName").value || "Doctor Name";
 
+    $("previewDegrees").textContent =
+        $("degrees").value || "MBBS";
 
-    pName.textContent =
-        name.value;
+    $("previewSpecialty").textContent =
+        $("specialty").value || "Specialist Doctor";
 
-    pDegree.textContent =
-        degree.value;
+    $("previewChamber").textContent =
+        $("chamber").value || "Chamber Information";
 
-    pSpecial.textContent =
-        specialty.value;
+    $("previewVisiting").textContent =
+        $("visiting").value || "Visiting Hours";
 
-    pConsultant.textContent =
-        consultant.value;
+    $("previewLocation").textContent =
+        $("location").value || "Location";
 
-    pChamber.textContent =
-        chamber.value;
-
-    pChamber2.textContent =
-        chamber.value;
-
-    pVisiting.textContent =
-        visiting.value;
-
-    pSerial.textContent =
-        serial.value;
-
-    pSerialSmall.textContent =
-        serial.value;
-
-    pClinic.textContent =
-        clinic.value;
-
-    pTagline.textContent =
-        tagline.value;
-
-    pAddress.textContent =
-        address.value;
-
+    $("previewPhone").textContent =
+        $("appointment").value || "Appointment Number";
 }
 
 
@@ -1945,38 +1497,42 @@ function sync(){
    TEMPLATE
 ========================= */
 
-function setTemplate(t,el){
+function setTemplate(type, button){
 
-    if(!isPosterCreationEnabled()){
+    document.querySelectorAll(".template-btn")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
 
-        return;
-
+    if(button){
+        button.classList.add("active");
     }
 
+    const hero = $("hero");
 
-    poster.classList.remove(
-        "modern",
-        "split",
-        "minimal"
-    );
-
-
-    if(t !== "classic"){
-
-        poster.classList.add(t);
-
+    if(type === "classic"){
+        hero.style.borderRadius="20px";
+        hero.style.height="335px";
     }
 
+    if(type === "modern"){
+        hero.style.borderRadius="10px";
+        hero.style.height="350px";
+    }
 
-    document
-        .querySelectorAll(".tpl")
-        .forEach(x =>
-            x.classList.remove("active")
-        );
+    if(type === "split"){
+        hero.style.borderRadius="0";
+        hero.style.height="355px";
+        hero.style.marginLeft="0";
+        hero.style.marginRight="0";
+    }
 
-
-    el.classList.add("active");
-
+    if(type === "minimal"){
+        hero.style.borderRadius="14px";
+        hero.style.height="315px";
+        hero.style.marginLeft="25px";
+        hero.style.marginRight="25px";
+    }
 }
 
 
@@ -1984,39 +1540,53 @@ function setTemplate(t,el){
    FONT
 ========================= */
 
-function setFont(v){
+function setFont(font){
 
-    if(!isPosterCreationEnabled()){
-
-        return;
-
-    }
-
-
-    poster.style.fontFamily =
-        '"' +
-        v +
-        '","Noto Sans Bengali",sans-serif';
-
+    $("poster").style.fontFamily =
+        '"' + font + '", sans-serif';
 }
 
 
 /* =========================
-   BACKGROUND
+   BACKGROUND / ACCENT
 ========================= */
 
-function setBg(c){
+function setBg(color, button){
 
-    if(!isPosterCreationEnabled()){
+    document.querySelectorAll(".color-btn")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
 
-        return;
-
+    if(button){
+        button.classList.add("active");
     }
 
+    $("hero").style.background =
+        "linear-gradient(145deg," + color + "," + darkenColor(color) + ")";
+}
 
-    poster.style.background =
-        c;
 
+/* =========================
+   DARKEN COLOR
+========================= */
+
+function darkenColor(hex){
+
+    hex = hex.replace("#","");
+
+    let r = parseInt(hex.substring(0,2),16);
+    let g = parseInt(hex.substring(2,4),16);
+    let b = parseInt(hex.substring(4,6),16);
+
+    r = Math.max(0,Math.floor(r*.78));
+    g = Math.max(0,Math.floor(g*.78));
+    b = Math.max(0,Math.floor(b*.78));
+
+    return "#" +
+        r.toString(16).padStart(2,"0") +
+        g.toString(16).padStart(2,"0") +
+        b.toString(16).padStart(2,"0");
 }
 
 
@@ -2026,355 +1596,176 @@ function setBg(c){
 
 function applyPhotoTransform(){
 
-    if(!isPosterCreationEnabled()){
+    const zoom = $("photoZoom").value;
 
-        return;
+    const position = $("photoPosition").value;
 
-    }
+    const photo = $("previewPhoto");
 
+    photo.style.transform =
+        "scale(" + (zoom / 100) + ")";
 
-    let z =
-        (+zoom.value || 100) / 100;
-
-
-    let y =
-        +photoY.value || 0;
-
-
-    docImg.style.transform =
-        `translateY(${y}px) scale(${z})`;
-
+    photo.style.objectPosition =
+        "center " + position + "%";
 }
 
 
 /* =========================
-   LOAD DOCTOR PHOTO
+   LOAD PHOTO
 ========================= */
 
-function loadPhoto(e){
+function loadPhoto(event){
 
-    if(!isPosterCreationEnabled()){
-
+    if(isPosterCreationDisabled()){
+        showCreationDisabled();
         return;
-
     }
-
 
     const file =
-        e.target.files[0];
+        event.target.files[0];
 
-
-    if(!file) return;
-
-
-    if(
-        !file.type.startsWith("image/")
-    ){
-
-        alert(
-            "Please select an image file."
-        );
-
-
-        e.target.value =
-            "";
-
-
+    if(!file){
         return;
-
     }
-
 
     const reader =
         new FileReader();
 
+    reader.onload = function(e){
 
-    reader.onload =
-        function(event){
+        $("previewPhoto").src =
+            e.target.result;
 
-            docImg.src =
-                event.target.result;
+        $("previewPhoto").style.display =
+            "block";
 
+        $("photoPlaceholder").style.display =
+            "none";
 
-            docImg.style.display =
-                "block";
-
-
-            applyPhotoTransform();
-
-        };
-
+        applyPhotoTransform();
+    };
 
     reader.readAsDataURL(file);
-
 }
 
 
 /* =========================
-   LOAD CLINIC LOGO
+   LOAD LOGO
 ========================= */
 
-function loadLogo(e){
+function loadLogo(event){
 
-    if(!isPosterCreationEnabled()){
-
+    if(isPosterCreationDisabled()){
+        showCreationDisabled();
         return;
-
     }
-
 
     const file =
-        e.target.files[0];
+        event.target.files[0];
 
-
-    if(!file) return;
-
-
-    if(
-        !file.type.startsWith("image/")
-    ){
-
-        alert(
-            "Please select an image file."
-        );
-
-
-        e.target.value =
-            "";
-
-
+    if(!file){
         return;
-
     }
-
 
     const reader =
         new FileReader();
 
+    reader.onload = function(e){
 
-    reader.onload =
-        function(event){
+        $("previewLogo").src =
+            e.target.result;
 
-            logoImg.src =
-                event.target.result;
+        $("previewLogo").style.display =
+            "block";
 
-
-            logoImg.style.display =
-                "block";
-
-        };
-
+        $("logoPlaceholder").style.display =
+            "none";
+    };
 
     reader.readAsDataURL(file);
-
 }
 
 
 /* =========================
-   IMAGE WAIT
+   WAIT FOR IMAGES
 ========================= */
 
-function waitForImages(container){
+function waitForImages(element){
 
     const images =
-        Array.from(
-            container.querySelectorAll("img")
-        );
-
+        element.querySelectorAll("img");
 
     return Promise.all(
+        Array.from(images).map(function(img){
 
-        images.map(img => {
-
-            if(
-                img.complete &&
-                img.naturalWidth > 0
-            ){
-
+            if(img.complete){
                 return Promise.resolve();
-
             }
 
-
-            return new Promise(resolve => {
-
-                img.onload =
-                    resolve;
-
-                img.onerror =
-                    resolve;
-
+            return new Promise(function(resolve){
+                img.onload = resolve;
+                img.onerror = resolve;
             });
 
         })
-
     );
-
 }
 
 
 /* =========================
-   DOWNLOAD PNG
+   DOWNLOAD POSTER
 ========================= */
 
 async function downloadPoster(){
 
-    if(!isPosterCreationEnabled()){
-
-        alert(
-            "Poster creation is currently disabled by the administrator."
-        );
-
+    if(isPosterCreationDisabled()){
+        showCreationDisabled();
         return;
-
     }
 
+    if(typeof html2canvas === "undefined"){
+        alert("Poster export system is loading. Please try again.");
+        return;
+    }
+
+    const poster =
+        $("poster");
 
     const button =
         $("downloadBtn");
 
+    button.disabled = true;
 
-    const status =
-        $("exportStatus");
-
-
-    if(
-        typeof html2canvas ===
-        "undefined"
-    ){
-
-        alert(
-            "Export engine load হয়নি। Internet connection check করুন এবং আবার চেষ্টা করুন."
-        );
-
-
-        return;
-
-    }
-
-
-    const originalText =
+    const oldText =
         button.textContent;
 
-
-    button.disabled =
-        true;
-
-
     button.textContent =
-        "Creating PNG...";
-
-
-    status.style.display =
-        "block";
-
-
-    status.textContent =
-        "Poster image তৈরি হচ্ছে...";
-
+        "Generating PNG...";
 
     try{
 
-        await waitForImages(
-            poster
-        );
-
+        await waitForImages(poster);
 
         const canvas =
-            await html2canvas(
-                poster,
-                {
+            await html2canvas(poster,{
+                scale:2,
+                useCORS:true,
+                backgroundColor:"#ffffff",
+                width:540,
+                height:675,
+                logging:false
+            });
 
-                    width:
-                        poster.clientWidth,
+        const output =
+            document.createElement("canvas");
 
-                    height:
-                        poster.clientHeight,
+        output.width=1080;
+        output.height=1350;
 
-                    scale:
-                        1080 /
-                        poster.clientWidth,
+        const ctx =
+            output.getContext("2d");
 
-                    useCORS:
-                        true,
-
-                    allowTaint:
-                        false,
-
-                    backgroundColor:
-                        "#ffffff",
-
-                    logging:
-                        false,
-
-                    imageTimeout:
-                        20000,
-
-                    onclone:
-                        function(
-                            clonedDocument
-                        ){
-
-                            const clonedPoster =
-                                clonedDocument.getElementById(
-                                    "poster"
-                                );
-
-
-                            if(
-                                clonedPoster
-                            ){
-
-                                clonedPoster.style.width =
-                                    poster.clientWidth +
-                                    "px";
-
-
-                                clonedPoster.style.height =
-                                    poster.clientHeight +
-                                    "px";
-
-
-                                clonedPoster.style.maxWidth =
-                                    "none";
-
-
-                                clonedPoster.style.boxShadow =
-                                    "none";
-
-
-                                clonedPoster.style.borderRadius =
-                                    "0";
-
-                            }
-
-                        }
-
-                }
-            );
-
-
-        const finalCanvas =
-            document.createElement(
-                "canvas"
-            );
-
-
-        finalCanvas.width =
-            1080;
-
-
-        finalCanvas.height =
-            1350;
-
-
-        const finalContext =
-            finalCanvas.getContext(
-                "2d"
-            );
-
-
-        finalContext.drawImage(
+        ctx.drawImage(
             canvas,
             0,
             0,
@@ -2382,75 +1773,30 @@ async function downloadPoster(){
             1350
         );
 
-
-        const image =
-            finalCanvas.toDataURL(
-                "image/png",
-                1.0
-            );
-
-
         const link =
-            document.createElement(
-                "a"
-            );
-
+            document.createElement("a");
 
         link.download =
             "doctor-poster-design-1.png";
 
-
         link.href =
-            image;
-
-
-        document.body.appendChild(
-            link
-        );
-
+            output.toDataURL("image/png");
 
         link.click();
 
+    }catch(error){
 
-        link.remove();
-
-
-        status.textContent =
-            "✓ PNG successfully created — 1080 × 1350";
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Design 1 export error:",
-            error
-        );
-
-
-        status.textContent =
-            "Export failed. আবার চেষ্টা করুন.";
-
+        console.error(error);
 
         alert(
-            "PNG export failed.\n\n" +
-            "Please try again. যদি সমস্যা থাকে, " +
-            "doctor photo/logo image check করুন."
+            "Poster export failed. Please try again."
         );
 
+    }finally{
+
+        button.disabled=false;
+        button.textContent=oldText;
     }
-
-    finally{
-
-        button.disabled =
-            false;
-
-
-        button.textContent =
-            originalText;
-
-    }
-
 }
 
 
@@ -2460,19 +1806,12 @@ async function downloadPoster(){
 
 function printPoster(){
 
-    if(!isPosterCreationEnabled()){
-
-        alert(
-            "Poster creation is currently disabled by the administrator."
-        );
-
+    if(isPosterCreationDisabled()){
+        showCreationDisabled();
         return;
-
     }
 
-
     window.print();
-
 }
 
 
@@ -2482,59 +1821,270 @@ function printPoster(){
 
 function resetPoster(){
 
-    if(!isPosterCreationEnabled()){
-
+    if(isPosterCreationDisabled()){
+        showCreationDisabled();
         return;
-
     }
 
+    $("clinicName").value =
+        "MediCare Diagnostic Center";
 
-    const confirmReset =
-        confirm(
-            "সব তথ্য reset করে default design-এ ফিরে যেতে চান?"
-        );
+    $("clinicTagline").value =
+        "Advanced Healthcare • Trusted Care";
+
+    $("doctorName").value =
+        "Dr. Sarah Ahmed";
+
+    $("degrees").value =
+        "MBBS, FCPS (Medicine)";
+
+    $("specialty").value =
+        "Consultant Physician";
+
+    $("chamber").value =
+        "Room 305, 3rd Floor";
+
+    $("visiting").value =
+        "5:00 PM — 9:00 PM";
+
+    $("location").value =
+        "Dhanmondi, Dhaka";
+
+    $("appointment").value =
+        "+880 1700-000000";
 
 
-    if(!confirmReset)
-        return;
+    $("photoInput").value="";
+    $("logoInput").value="";
 
 
-    location.reload();
+    $("previewPhoto").src="";
+    $("previewPhoto").style.display="none";
 
-}
-
-
-/* =========================================================
-   INITIAL LOAD
-========================================================= */
-
-applyPosterCreationControl();
+    $("photoPlaceholder").style.display="flex";
 
 
-if(
-    posterCreationEnabled
-){
+    $("previewLogo").src="";
+    $("previewLogo").style.display="none";
+
+    $("logoPlaceholder").style.display="block";
+
+
+    $("photoZoom").value=100;
+    $("photoPosition").value=0;
+
+
+    document.querySelectorAll(".template-btn")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
+
+    document.querySelector(".template-btn")
+        .classList.add("active");
+
+
+    document.querySelectorAll(".color-btn")
+        .forEach(function(item){
+            item.classList.remove("active");
+        });
+
+    document.querySelector(".color-btn")
+        .classList.add("active");
+
+
+    $("hero").style.background =
+        "linear-gradient(145deg,#087f86,#05656b)";
+
+    $("hero").style.borderRadius="20px";
+    $("hero").style.height="335px";
+    $("hero").style.marginLeft="25px";
+    $("hero").style.marginRight="25px";
+
 
     sync();
-
 }
 
 
-/* =========================================================
-   STORAGE SYNC
-========================================================= */
+/* =========================
+   SYSTEM SETTINGS
+========================= */
+
+const SYSTEM_KEY =
+    "doctorPosterSystemSettings";
+
+
+const DEFAULT_SYSTEM_SETTINGS = {
+    websiteStatus:true,
+    maintenanceMode:false,
+    posterCreation:true,
+    advertisementSystem:true
+};
+
+
+/* =========================
+   READ SYSTEM SETTINGS
+========================= */
+
+function getSystemSettings(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(SYSTEM_KEY);
+
+        if(!saved){
+            return {
+                ...DEFAULT_SYSTEM_SETTINGS
+            };
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        return {
+            ...DEFAULT_SYSTEM_SETTINGS,
+            ...parsed
+        };
+
+    }catch(error){
+
+        console.error(
+            "System settings error:",
+            error
+        );
+
+        return {
+            ...DEFAULT_SYSTEM_SETTINGS
+        };
+    }
+}
+
+
+/* =========================
+   CHECK POSTER CREATION
+========================= */
+
+function isPosterCreationDisabled(){
+
+    const settings =
+        getSystemSettings();
+
+    return settings.posterCreation === false;
+}
+
+
+/* =========================
+   SHOW DISABLED MESSAGE
+========================= */
+
+function showCreationDisabled(){
+
+    $("creationOverlay")
+        .classList.add("show");
+}
+
+
+/* =========================
+   HIDE DISABLED MESSAGE
+========================= */
+
+function hideCreationDisabled(){
+
+    $("creationOverlay")
+        .classList.remove("show");
+}
+
+
+/* =========================
+   APPLY POSTER CREATION STATUS
+========================= */
+
+function applyPosterCreationStatus(){
+
+    const disabled =
+        isPosterCreationDisabled();
+
+    const editor =
+        $("editorPanel");
+
+    const download =
+        $("downloadBtn");
+
+    const print =
+        $("printBtn");
+
+
+    if(disabled){
+
+        editor.classList.add(
+            "creation-disabled"
+        );
+
+        download.classList.add(
+            "action-disabled"
+        );
+
+        print.classList.add(
+            "action-disabled"
+        );
+
+        download.disabled=true;
+        print.disabled=true;
+
+        showCreationDisabled();
+
+    }else{
+
+        editor.classList.remove(
+            "creation-disabled"
+        );
+
+        download.classList.remove(
+            "action-disabled"
+        );
+
+        print.classList.remove(
+            "action-disabled"
+        );
+
+        download.disabled=false;
+        print.disabled=false;
+
+        hideCreationDisabled();
+    }
+}
+
+
+/* =========================
+   STORAGE CHANGE
+========================= */
 
 window.addEventListener(
     "storage",
     function(event){
 
-        if(
-            event.key === SYSTEM_KEY
-        ){
+        if(event.key === SYSTEM_KEY){
 
-            applyPosterCreationControl();
-
+            applyPosterCreationStatus();
         }
+
+    }
+);
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        sync();
+
+        applyPhotoTransform();
+
+        applyPosterCreationStatus();
 
     }
 );
