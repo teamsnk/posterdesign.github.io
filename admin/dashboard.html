@@ -391,7 +391,7 @@
         .stats-grid {
             display: grid;
 
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
 
             gap: 17px;
 
@@ -467,6 +467,11 @@
         .stat-icon.orange {
             background: var(--warning-bg);
             color: var(--warning);
+        }
+
+        .stat-icon.purple {
+            background: #f2edff;
+            color: #7c4dff;
         }
 
         .stat-icon.red {
@@ -1276,6 +1281,44 @@
                         id="adStatusSub"
                     >
                         Advertisement is active
+                    </div>
+
+                </div>
+
+
+                <!-- Website Banners -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon purple">
+                            🖼️
+                        </div>
+
+                        <span
+                            class="status-dot"
+                            id="bannerDot"
+                        ></span>
+
+                    </div>
+
+                    <div class="stat-label">
+                        Website Banners
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="bannerStatus"
+                    >
+                        2 Active
+                    </div>
+
+                    <div
+                        class="stat-sub"
+                        id="bannerStatusSub"
+                    >
+                        Website banners are active
                     </div>
 
                 </div>
@@ -2508,8 +2551,33 @@
                     "platformBanners"
                 );
 
+            const bannerDot =
+                document.getElementById(
+                    "bannerDot"
+                );
+
+            const bannerStatus =
+                document.getElementById(
+                    "bannerStatus"
+                );
+
+            const bannerStatusSub =
+                document.getElementById(
+                    "bannerStatusSub"
+                );
+
 
             if (!systemEnabled) {
+
+                bannerStatus.textContent =
+                    "Disabled";
+
+                bannerStatusSub.textContent =
+                    "Banner system is disabled";
+
+                bannerDot.classList.add(
+                    "danger"
+                );
 
                 platformBanners.textContent =
                     "System Disabled";
@@ -2519,9 +2587,63 @@
             }
 
 
+            if (activeCount === 0) {
+
+                bannerStatus.textContent =
+                    "0 Active";
+
+                bannerStatusSub.textContent =
+                    "No website banners are active";
+
+                bannerDot.classList.add(
+                    "danger"
+                );
+
+                platformBanners.textContent =
+                    "0 Active";
+
+                return;
+
+            }
+
+
+            if (activeCount < bannerKeys.length) {
+
+                bannerStatus.textContent =
+                    activeCount + " Active";
+
+                bannerStatusSub.textContent =
+                    "Some website banners are disabled";
+
+                bannerDot.classList.add(
+                    "warning"
+                );
+
+                bannerDot.classList.remove(
+                    "danger"
+                );
+
+                platformBanners.textContent =
+                    activeCount + " Active";
+
+                return;
+
+            }
+
+
+            bannerStatus.textContent =
+                activeCount + " Active";
+
+            bannerStatusSub.textContent =
+                "Website banners are active";
+
+            bannerDot.classList.remove(
+                "danger",
+                "warning"
+            );
+
             platformBanners.textContent =
-                activeCount +
-                " Active";
+                activeCount + " Active";
 
         }
 
