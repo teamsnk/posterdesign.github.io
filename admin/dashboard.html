@@ -1,10 +1,12 @@
+<!-- File: admin/dashboard.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard - Doctor Poster Maker</title>
+    <title>Admin Dashboard - Doctor Poster Maker</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,528 +17,927 @@
     >
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #087f86;
+            --primary-dark: #05656b;
+            --primary-light: #e9f8f7;
+
+            --dark: #12343b;
+            --text: #344b52;
+            --muted: #71858b;
+
+            --bg: #f5f8f9;
+            --white: #ffffff;
+
+            --border: #e5edef;
+
+            --success: #159447;
+            --success-bg: #eaf8ef;
+
+            --warning: #d88a00;
+            --warning-bg: #fff7e5;
+
+            --danger: #d64545;
+            --danger-bg: #fff0f0;
+
+            --shadow: 0 10px 35px rgba(18, 52, 59, 0.07);
+
+            --sidebar-width: 260px;
+        }
+
         body {
             font-family: "Inter", "Noto Sans Bengali", sans-serif;
-            background: #f4f7f9;
-            color: #12343b;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        a,
+        input {
+            font-family: inherit;
         }
 
         a {
             text-decoration: none;
-            color: inherit;
         }
 
-        button {
-            font: inherit;
-        }
-
-        /* =================================================
-           LAYOUT
-        ================================================= */
-
-        .admin-layout {
-            min-height: 100vh;
-            display: flex;
-        }
-
-
-        /* =================================================
+        /* =========================
            SIDEBAR
-        ================================================= */
+        ========================== */
 
         .sidebar {
-            width: 250px;
-            background: #ffffff;
-            border-right: 1px solid #e4ebed;
             position: fixed;
-            left: 0;
             top: 0;
-            bottom: 0;
-            z-index: 100;
+            left: 0;
+
+            width: var(--sidebar-width);
+            height: 100vh;
+
+            background: var(--white);
+            border-right: 1px solid var(--border);
+
             display: flex;
             flex-direction: column;
+
+            z-index: 1000;
         }
 
         .sidebar-brand {
-            height: 76px;
+            height: 80px;
+
+            padding: 0 24px;
+
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 0 22px;
-            border-bottom: 1px solid #edf1f2;
+
+            border-bottom: 1px solid var(--border);
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: #087f86;
-            color: #ffffff;
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
             display: flex;
             align-items: center;
             justify-content: center;
+
+            font-size: 21px;
             font-weight: 800;
-            font-size: 18px;
+
+            margin-right: 12px;
         }
 
-        .brand-text strong {
-            display: block;
-            font-size: 13px;
+        .brand-text h2 {
+            color: var(--dark);
+            font-size: 16px;
             font-weight: 800;
+
+            line-height: 1.2;
         }
 
         .brand-text span {
-            display: block;
-            font-size: 10px;
-            color: #829297;
-            margin-top: 2px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
-
-        /* =================================================
-           NAVIGATION
-        ================================================= */
-
-        .sidebar-nav {
-            padding: 20px 13px;
+        .sidebar-menu {
             flex: 1;
+            padding: 20px 14px;
+            overflow-y: auto;
         }
 
-        .nav-label {
+        .menu-title {
+            padding: 0 12px 10px;
+
+            color: #9aabb0;
             font-size: 10px;
-            color: #9aa9ad;
-            font-weight: 800;
-            letter-spacing: .08em;
-            padding: 0 10px;
-            margin-bottom: 9px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
         }
 
-        .nav-item {
+        .menu-item {
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 11px 12px;
-            border-radius: 9px;
-            color: #61757b;
+
+            width: 100%;
+
+            padding: 12px 13px;
+            margin-bottom: 5px;
+
+            border-radius: 10px;
+
+            color: #61767c;
+
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 4px;
-            transition: .2s;
+
+            transition: 0.2s ease;
         }
 
-        .nav-item:hover {
-            background: #eef7f7;
-            color: #087f86;
+        .menu-item:hover {
+            background: #f5f9fa;
+            color: var(--primary);
         }
 
-        .nav-item.active {
-            background: #e8f6f5;
-            color: #087f86;
-            font-weight: 700;
+        .menu-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
         }
 
-        .nav-icon {
-            width: 22px;
+        .menu-icon {
+            width: 24px;
+            margin-right: 10px;
+
+            font-size: 16px;
             text-align: center;
-            font-size: 15px;
         }
 
+        .sidebar-bottom {
+            padding: 16px 14px;
 
-        /* =================================================
-           SIDEBAR FOOTER
-        ================================================= */
+            border-top: 1px solid var(--border);
+        }
 
-        .sidebar-footer {
-            padding: 15px;
-            border-top: 1px solid #edf1f2;
+        .admin-profile {
+            display: flex;
+            align-items: center;
+
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+            font-size: 13px;
+
+            margin-right: 10px;
+        }
+
+        .admin-info strong {
+            display: block;
+
+            color: var(--dark);
+            font-size: 12px;
+        }
+
+        .admin-info span {
+            color: var(--muted);
+            font-size: 10px;
         }
 
         .logout-btn {
             width: 100%;
+
             border: none;
-            background: #fff2f2;
-            color: #b94a4a;
-            border-radius: 9px;
-            padding: 11px;
+            background: transparent;
+
+            padding: 11px 13px;
+
+            border-radius: 10px;
+
+            color: #76898e;
+
+            text-align: left;
+
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
         }
 
         .logout-btn:hover {
-            background: #ffe6e6;
+            background: var(--danger-bg);
+            color: var(--danger);
         }
 
-
-        /* =================================================
+        /* =========================
            MAIN
-        ================================================= */
+        ========================== */
 
-        .main-content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
+        .main {
+            margin-left: var(--sidebar-width);
             min-height: 100vh;
         }
 
-
-        /* =================================================
-           TOPBAR
-        ================================================= */
-
         .topbar {
-            height: 76px;
-            background: #ffffff;
-            border-bottom: 1px solid #e4ebed;
+            height: 80px;
+
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             padding: 0 30px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 500;
         }
 
         .topbar-left h1 {
+            color: var(--dark);
+
             font-size: 20px;
             font-weight: 800;
+
+            margin-bottom: 3px;
         }
 
         .topbar-left p {
-            font-size: 12px;
-            color: #839398;
-            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .topbar-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .view-site {
+        .view-site-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
             padding: 9px 14px;
-            background: #eef7f7;
-            color: #087f86;
-            border-radius: 8px;
-            font-size: 12px;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            background: var(--white);
+
+            color: var(--dark);
+
+            font-size: 11px;
             font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .view-site-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .mobile-menu-btn {
             display: none;
-            border: none;
-            background: #eef7f7;
-            color: #087f86;
-            width: 38px;
-            height: 38px;
+
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid var(--border);
             border-radius: 9px;
+
+            background: var(--white);
+
             cursor: pointer;
+
+            font-size: 18px;
         }
 
-
-        /* =================================================
+        /* =========================
            CONTENT
-        ================================================= */
+        ========================== */
 
-        .dashboard-content {
+        .content {
             padding: 30px;
-            max-width: 1450px;
+            max-width: 1500px;
+            margin: auto;
         }
 
+        .welcome-box {
+            background: linear-gradient(
+                135deg,
+                #087f86 0%,
+                #05656b 100%
+            );
 
-        /* =================================================
-           STATUS GRID
-        ================================================= */
+            border-radius: 18px;
+
+            padding: 27px 30px;
+
+            color: white;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 12px 35px rgba(8, 127, 134, 0.15);
+        }
+
+        .welcome-box h2 {
+            font-size: 22px;
+            font-weight: 800;
+
+            margin-bottom: 6px;
+        }
+
+        .welcome-box p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* =========================
+           STATUS CARDS
+        ========================== */
 
         .stats-grid {
             display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 17px;
+
+            margin-bottom: 25px;
         }
 
         .stat-card {
-            background: #ffffff;
-            border: 1px solid #e4ebed;
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
             border-radius: 15px;
+
             padding: 20px;
-            min-height: 145px;
-            box-shadow:
-                0 8px 25px rgba(18, 52, 59, .035);
+
+            box-shadow: var(--shadow);
+
+            min-height: 155px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            border-radius: 50%;
+
+            right: -35px;
+            bottom: -35px;
+
+            background: var(--primary-light);
+
+            opacity: 0.7;
         }
 
         .stat-top {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 17px;
+
+            margin-bottom: 15px;
         }
 
         .stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #eef7f7;
-            color: #087f86;
+            width: 42px;
+            height: 42px;
+
+            border-radius: 11px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+
+            font-size: 18px;
+        }
+
+        .stat-icon.teal {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .stat-icon.green {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .stat-icon.orange {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .stat-icon.red {
+            background: var(--danger-bg);
+            color: var(--danger);
         }
 
         .status-dot {
-            width: 9px;
-            height: 9px;
+            width: 8px;
+            height: 8px;
+
             border-radius: 50%;
-            background: #35a66b;
+
+            background: var(--success);
+
+            box-shadow: 0 0 0 4px var(--success-bg);
         }
 
-        .status-dot.offline {
-            background: #d75c5c;
+        .status-dot.warning {
+            background: var(--warning);
+            box-shadow: 0 0 0 4px var(--warning-bg);
         }
 
-        .stat-card h3 {
-            font-size: 13px;
-            color: #708187;
+        .status-dot.danger {
+            background: var(--danger);
+            box-shadow: 0 0 0 4px var(--danger-bg);
+        }
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 600;
+
             margin-bottom: 5px;
         }
 
         .stat-value {
-            font-size: 21px;
+            color: var(--dark);
+
+            font-size: 22px;
             font-weight: 800;
+
+            line-height: 1.2;
         }
 
         .stat-sub {
-            font-size: 11px;
-            color: #91a0a4;
+            color: #92a2a7;
+
+            font-size: 10px;
+
             margin-top: 5px;
         }
 
+        /* =========================
+           SYSTEM STATUS PANEL
+        ========================== */
 
-        /* =================================================
-           SECTION GRID
-        ================================================= */
-
-        .content-grid {
-            display: grid;
-            grid-template-columns:
-                minmax(0, 1.45fr)
-                minmax(300px, .85fr);
-            gap: 22px;
-        }
-
-        .card {
-            background: #ffffff;
-            border: 1px solid #e4ebed;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow:
-                0 8px 25px rgba(18, 52, 59, .035);
-        }
-
-        .card-header {
+        .section-title {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+
+            margin-bottom: 14px;
         }
 
-        .card-header h2 {
-            font-size: 16px;
+        .section-title h3 {
+            color: var(--dark);
+
+            font-size: 15px;
             font-weight: 800;
         }
 
-        .card-header a {
+        .section-title a {
+            color: var(--primary);
+
             font-size: 11px;
-            color: #087f86;
             font-weight: 700;
         }
 
-
-        /* =================================================
-           QUICK ACTIONS
-        ================================================= */
-
-        .actions-grid {
+        .system-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+
+            grid-template-columns: 1.35fr 0.65fr;
+
+            gap: 18px;
+
+            margin-bottom: 25px;
         }
 
-        .action-card {
-            border: 1px solid #e4ebed;
-            border-radius: 11px;
-            padding: 15px;
-            transition: .2s;
+        .panel {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
         }
 
-        .action-card:hover {
-            border-color: #b9dfe0;
-            transform: translateY(-2px);
-        }
+        .panel-header {
+            padding: 17px 20px;
 
-        .action-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 9px;
-            background: #eef7f7;
-            color: #087f86;
+            border-bottom: 1px solid var(--border);
+
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            font-size: 14px;
+            justify-content: space-between;
+        }
+
+        .panel-header h3 {
+            color: var(--dark);
+
+            font-size: 13px;
             font-weight: 800;
         }
 
-        .action-card strong {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
+        .panel-header span {
+            color: var(--muted);
 
-        .action-card span {
             font-size: 10px;
-            color: #859499;
-            line-height: 1.5;
         }
 
+        .panel-body {
+            padding: 18px 20px;
+        }
 
-        /* =================================================
-           ACTIVITY
-        ================================================= */
+        /* System controls */
 
-        .activity-list {
+        .system-list {
             display: flex;
             flex-direction: column;
+
+            gap: 0;
+        }
+
+        .system-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #f0f3f4;
+        }
+
+        .system-row:last-child {
+            border-bottom: none;
+        }
+
+        .system-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .system-mini-icon {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            background: #f4f8f9;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+        }
+
+        .system-info strong {
+            display: block;
+
+            color: var(--dark);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            margin-bottom: 2px;
+        }
+
+        .system-info span {
+            color: var(--muted);
+
+            font-size: 9px;
+        }
+
+        .system-status-text {
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .system-status-text.online {
+            color: var(--success);
+        }
+
+        .system-status-text.warning {
+            color: var(--warning);
+        }
+
+        .system-status-text.offline {
+            color: var(--danger);
+        }
+
+        /* Quick actions */
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 13px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            color: var(--dark);
+
+            background: var(--white);
+
+            transition: 0.2s ease;
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .quick-action-icon {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 8px;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+
+            flex-shrink: 0;
+        }
+
+        .quick-action strong {
+            display: block;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            margin-bottom: 2px;
+        }
+
+        .quick-action span {
+            color: var(--muted);
+
+            font-size: 8px;
+        }
+
+        /* =========================
+           RECENT ACTIVITY
+        ========================== */
+
+        .bottom-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
         }
 
         .activity-item {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            padding: 13px 0;
-            border-bottom: 1px solid #edf1f2;
+            gap: 11px;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid #f0f3f4;
         }
 
         .activity-item:last-child {
             border-bottom: none;
         }
 
-        .activity-dot {
-            width: 8px;
-            height: 8px;
-            background: #087f86;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
+        .activity-icon {
+            width: 32px;
+            height: 32px;
 
-        .activity-item strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .activity-item span {
-            display: block;
-            color: #8a999d;
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-
-        /* =================================================
-           WEBSITE STATUS PANEL
-        ================================================= */
-
-        .status-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .status-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 13px 14px;
-            background: #f8fafb;
-            border-radius: 10px;
-        }
-
-        .status-row-left {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .status-row-icon {
-            width: 30px;
-            height: 30px;
             border-radius: 8px;
-            background: #ffffff;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-size: 12px;
+
+            flex-shrink: 0;
         }
 
-        .status-row strong {
-            font-size: 11px;
+        .activity-text strong {
+            display: block;
+
+            color: var(--dark);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            margin-bottom: 3px;
         }
 
-        .status-badge {
-            padding: 5px 9px;
-            border-radius: 20px;
+        .activity-text span {
+            display: block;
+
+            color: var(--muted);
+
             font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .activity-time {
+            margin-left: auto;
+
+            color: #a2afb2;
+
+            font-size: 8px;
+
+            white-space: nowrap;
+        }
+
+        /* Platform status */
+
+        .platform-status {
+            text-align: center;
+
+            padding: 18px 10px 10px;
+        }
+
+        .platform-circle {
+            width: 66px;
+            height: 66px;
+
+            margin: 0 auto 12px;
+
+            border-radius: 50%;
+
+            background: var(--success-bg);
+            color: var(--success);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            box-shadow: 0 0 0 8px #f5fbf7;
+        }
+
+        .platform-circle.warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+
+            box-shadow: 0 0 0 8px #fffbf2;
+        }
+
+        .platform-circle.danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+
+            box-shadow: 0 0 0 8px #fff6f6;
+        }
+
+        .platform-status h4 {
+            color: var(--dark);
+
+            font-size: 13px;
             font-weight: 800;
-            background: #e8f7ef;
-            color: #218050;
+
+            margin-bottom: 5px;
         }
 
-        .status-badge.offline {
-            background: #fff0f0;
-            color: #b94a4a;
+        .platform-status p {
+            color: var(--muted);
+
+            font-size: 9px;
+
+            line-height: 1.6;
+
+            max-width: 260px;
+            margin: auto;
         }
 
+        .platform-details {
+            margin-top: 18px;
 
-        /* =================================================
+            border-top: 1px solid var(--border);
+
+            padding-top: 15px;
+        }
+
+        .platform-detail {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 7px 0;
+
+            font-size: 9px;
+        }
+
+        .platform-detail span:first-child {
+            color: var(--muted);
+        }
+
+        .platform-detail span:last-child {
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        /* =========================
            RESPONSIVE
-        ================================================= */
+        ========================== */
 
-        @media (max-width: 1100px) {
-
+        @media (max-width: 1150px) {
             .stats-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .content-grid {
+            .system-grid {
                 grid-template-columns: 1fr;
             }
-
         }
 
-
-        @media (max-width: 800px) {
+        @media (max-width: 850px) {
+            :root {
+                --sidebar-width: 240px;
+            }
 
             .sidebar {
                 transform: translateX(-100%);
-                transition: .25s;
+
+                transition: 0.25s ease;
             }
 
             .sidebar.open {
                 transform: translateX(0);
             }
 
-            .main-content {
+            .main {
                 margin-left: 0;
-                width: 100%;
             }
 
             .mobile-menu-btn {
@@ -547,159 +948,156 @@
                 padding: 0 18px;
             }
 
-            .dashboard-content {
-                padding: 20px 15px;
+            .content {
+                padding: 20px;
             }
 
-            .view-site {
-                display: none;
+            .bottom-grid {
+                grid-template-columns: 1fr;
             }
-
         }
 
-
-        @media (max-width: 550px) {
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .actions-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 600px) {
+            .topbar {
+                height: 70px;
             }
 
             .topbar-left h1 {
                 font-size: 17px;
             }
 
-        }
+            .topbar-left p {
+                display: none;
+            }
 
+            .view-site-btn {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-box {
+                padding: 22px;
+            }
+
+            .welcome-box h2 {
+                font-size: 19px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-header {
+                padding: 15px;
+            }
+
+            .panel-body {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 
-
 <body>
 
-<div class="admin-layout">
-
-
-    <!-- =====================================================
+    <!-- =========================
          SIDEBAR
-    ====================================================== -->
+    ========================== -->
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+    <aside class="sidebar" id="sidebar">
 
         <div class="sidebar-brand">
 
             <div class="brand-icon">
-                ✚
+                DP
             </div>
 
             <div class="brand-text">
-
-                <strong>
-                    Doctor Poster Maker
-                </strong>
-
-                <span>
-                    Admin Panel
-                </span>
-
+                <h2>Doctor Poster</h2>
+                <span>Admin Panel</span>
             </div>
 
         </div>
 
 
-        <nav class="sidebar-nav">
+        <nav class="sidebar-menu">
 
-            <div class="nav-label">
-                MAIN
+            <div class="menu-title">
+                Main
             </div>
 
-            <a
-                href="dashboard.html"
-                class="nav-item active"
-            >
-                <span class="nav-icon">⌂</span>
+            <a href="dashboard.html" class="menu-item active">
+                <span class="menu-icon">⌂</span>
                 Dashboard
             </a>
 
-
-            <a
-                href="website.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">◉</span>
+            <a href="website.html" class="menu-item">
+                <span class="menu-icon">🌐</span>
                 Website
             </a>
 
 
-            <a
-                href="design-manage.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▣</span>
-                Design Management
-            </a>
-
-
-            <div
-                class="nav-label"
-                style="margin-top:22px;"
-            >
-                MANAGEMENT
+            <div class="menu-title" style="margin-top:20px;">
+                Management
             </div>
 
-
-            <a
-                href="website-edit.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">✎</span>
+            <a href="website-edit.html" class="menu-item">
+                <span class="menu-icon">✎</span>
                 Website Edit
             </a>
 
+            <a href="design-manage.html" class="menu-item">
+                <span class="menu-icon">▦</span>
+                Design Management
+            </a>
 
-            <a
-                href="browser-ui.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▤</span>
+            <a href="browser-ui.html" class="menu-item">
+                <span class="menu-icon">▣</span>
                 Browser UI Ad
             </a>
 
-
-            <a
-                href="banner.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▥</span>
+            <a href="banner.html" class="menu-item">
+                <span class="menu-icon">▰</span>
                 Banner Management
             </a>
 
 
-            <a
-                href="system.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">⚙</span>
+            <div class="menu-title" style="margin-top:20px;">
                 System
+            </div>
+
+            <a href="system.html" class="menu-item">
+                <span class="menu-icon">⚙</span>
+                System Settings
             </a>
 
         </nav>
 
 
-        <div class="sidebar-footer">
+        <div class="sidebar-bottom">
 
-            <button
-                class="logout-btn"
-                id="logoutBtn"
-                type="button"
-            >
-                ↪ Logout
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    AD
+                </div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <span>System Manager</span>
+                </div>
+
+            </div>
+
+            <button class="logout-btn" id="logoutBtn">
+                ↪ &nbsp; Logout
             </button>
 
         </div>
@@ -707,12 +1105,11 @@
     </aside>
 
 
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-    <main class="main-content">
-
+    <main class="main">
 
         <!-- TOPBAR -->
 
@@ -720,12 +1117,10 @@
 
             <div class="topbar-left">
 
-                <h1>
-                    Dashboard
-                </h1>
+                <h1>Dashboard</h1>
 
                 <p>
-                    Manage your Doctor Poster Maker platform.
+                    Manage your Doctor Poster Maker platform
                 </p>
 
             </div>
@@ -735,16 +1130,15 @@
 
                 <a
                     href="../index.html"
-                    class="view-site"
                     target="_blank"
+                    class="view-site-btn"
                 >
-                    View Website ↗
+                    🌐 View Website
                 </a>
 
                 <button
                     class="mobile-menu-btn"
                     id="mobileMenuBtn"
-                    type="button"
                 >
                     ☰
                 </button>
@@ -754,42 +1148,55 @@
         </header>
 
 
-        <!-- DASHBOARD -->
+        <!-- CONTENT -->
 
-        <div class="dashboard-content">
+        <section class="content">
+
+            <!-- WELCOME -->
+
+            <div class="welcome-box">
+
+                <h2>
+                    Welcome back, Administrator 👋
+                </h2>
+
+                <p>
+                    Here's an overview of your Doctor Poster Maker platform.
+                </p>
+
+            </div>
 
 
-            <!-- =================================================
-                 STATUS CARDS
-            ================================================== -->
+            <!-- =========================
+                 MAIN STAT CARDS
+            ========================== -->
 
             <div class="stats-grid">
 
-
-                <!-- WEBSITE -->
+                <!-- Website -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <div class="stat-icon">
-                            ◉
+                        <div class="stat-icon teal">
+                            🌐
                         </div>
 
                         <span
                             class="status-dot"
-                            id="websiteStatusDot"
+                            id="websiteDot"
                         ></span>
 
                     </div>
 
-                    <h3>
+                    <div class="stat-label">
                         Website Status
-                    </h3>
+                    </div>
 
                     <div
                         class="stat-value"
-                        id="websiteStatusValue"
+                        id="websiteStatus"
                     >
                         Online
                     </div>
@@ -798,108 +1205,111 @@
                         class="stat-sub"
                         id="websiteStatusSub"
                     >
-                        Website is active
+                        Website is available
                     </div>
 
                 </div>
 
 
-                <!-- DESIGNS -->
+                <!-- Designs -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <div class="stat-icon">
-                            ▣
-                        </div>
-
-                        <span class="status-dot"></span>
-
-                    </div>
-
-                    <h3>
-                        Poster Designs
-                    </h3>
-
-                    <div
-                        class="stat-value"
-                        id="designCountValue"
-                    >
-                        4 / 4
-                    </div>
-
-                    <div class="stat-sub">
-                        Active designs
-                    </div>
-
-                </div>
-
-
-                <!-- ADVERTISEMENT -->
-
-                <div class="stat-card">
-
-                    <div class="stat-top">
-
-                        <div class="stat-icon">
-                            ▤
+                        <div class="stat-icon green">
+                            🎨
                         </div>
 
                         <span
                             class="status-dot"
-                            id="adStatusDot"
+                            id="designDot"
                         ></span>
 
                     </div>
 
-                    <h3>
-                        Browser UI Advertisement
-                    </h3>
+                    <div class="stat-label">
+                        Poster Designs
+                    </div>
 
                     <div
                         class="stat-value"
-                        id="adStatusValue"
+                        id="designCount"
                     >
-                        Active
+                        0
+                    </div>
+
+                    <div class="stat-sub">
+                        Active designs available
+                    </div>
+
+                </div>
+
+
+                <!-- Advertisement -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon orange">
+                            📢
+                        </div>
+
+                        <span
+                            class="status-dot"
+                            id="adDot"
+                        ></span>
+
+                    </div>
+
+                    <div class="stat-label">
+                        Browser UI Advertisement
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="adStatus"
+                    >
+                        Enabled
                     </div>
 
                     <div
                         class="stat-sub"
                         id="adStatusSub"
                     >
-                        Advertisement system
+                        Advertisement is active
                     </div>
 
                 </div>
 
 
-                <!-- SYSTEM -->
+                <!-- System -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <div class="stat-icon">
+                        <div class="stat-icon teal">
                             ⚙
                         </div>
 
                         <span
                             class="status-dot"
-                            id="systemStatusDot"
+                            id="systemDot"
                         ></span>
 
                     </div>
 
-                    <h3>
+                    <div class="stat-label">
                         System Status
-                    </h3>
+                    </div>
 
                     <div
                         class="stat-value"
-                        id="systemStatusValue"
+                        id="systemStatus"
                     >
-                        Normal
+                        Healthy
                     </div>
 
                     <div
@@ -914,187 +1324,157 @@
             </div>
 
 
-            <!-- =================================================
-                 LOWER CONTENT
-            ================================================== -->
+            <!-- =========================
+                 SYSTEM + QUICK ACTIONS
+            ========================== -->
 
-            <div class="content-grid">
+            <div class="system-grid">
 
+                <!-- SYSTEM STATUS -->
 
-                <!-- LEFT -->
+                <div class="panel">
 
-                <div>
+                    <div class="panel-header">
 
-                    <div class="card">
+                        <h3>
+                            Platform Controls
+                        </h3>
 
-                        <div class="card-header">
-
-                            <h2>
-                                Quick Actions
-                            </h2>
-
-                        </div>
-
-
-                        <div class="actions-grid">
-
-
-                            <a
-                                href="browser-ui.html"
-                                class="action-card"
-                            >
-
-                                <div class="action-icon">
-                                    ▤
-                                </div>
-
-                                <strong>
-                                    Browser UI Advertisement
-                                </strong>
-
-                                <span>
-                                    Manage top advertisement
-                                    displayed on the website.
-                                </span>
-
-                            </a>
-
-
-                            <a
-                                href="design-manage.html"
-                                class="action-card"
-                            >
-
-                                <div class="action-icon">
-                                    ▣
-                                </div>
-
-                                <strong>
-                                    Manage Designs
-                                </strong>
-
-                                <span>
-                                    Enable or disable poster designs.
-                                </span>
-
-                            </a>
-
-
-                            <a
-                                href="website-edit.html"
-                                class="action-card"
-                            >
-
-                                <div class="action-icon">
-                                    ✎
-                                </div>
-
-                                <strong>
-                                    Edit Website
-                                </strong>
-
-                                <span>
-                                    Update homepage content and branding.
-                                </span>
-
-                            </a>
-
-
-                            <a
-                                href="system.html"
-                                class="action-card"
-                            >
-
-                                <div class="action-icon">
-                                    ⚙
-                                </div>
-
-                                <strong>
-                                    System Settings
-                                </strong>
-
-                                <span>
-                                    Manage platform settings.
-                                </span>
-
-                            </a>
-
-                        </div>
+                        <a href="system.html">
+                            Manage →
+                        </a>
 
                     </div>
 
 
-                    <!-- RECENT ACTIVITY -->
+                    <div class="panel-body">
 
-                    <div
-                        class="card"
-                        style="margin-top:22px;"
-                    >
+                        <div class="system-list">
 
-                        <div class="card-header">
+                            <!-- Website Status -->
 
-                            <h2>
-                                Recent Activity
-                            </h2>
+                            <div class="system-row">
 
-                        </div>
+                                <div class="system-info">
 
+                                    <div class="system-mini-icon">
+                                        🌐
+                                    </div>
 
-                        <div class="activity-list">
+                                    <div>
+                                        <strong>
+                                            Website Status
+                                        </strong>
 
-                            <div class="activity-item">
-
-                                <span class="activity-dot"></span>
-
-                                <div>
-
-                                    <strong>
-                                        Admin Dashboard Loaded
-                                    </strong>
-
-                                    <span>
-                                        Current website settings loaded.
-                                    </span>
+                                        <span>
+                                            Public website availability
+                                        </span>
+                                    </div>
 
                                 </div>
+
+                                <span
+                                    class="system-status-text online"
+                                    id="controlWebsite"
+                                >
+                                    Online
+                                </span>
 
                             </div>
 
 
-                            <div class="activity-item">
+                            <!-- Maintenance -->
 
-                                <span class="activity-dot"></span>
+                            <div class="system-row">
 
-                                <div>
+                                <div class="system-info">
 
-                                    <strong>
-                                        Design Management Connected
-                                    </strong>
+                                    <div class="system-mini-icon">
+                                        🔧
+                                    </div>
 
-                                    <span>
-                                        Design status is being read from local storage.
-                                    </span>
+                                    <div>
+                                        <strong>
+                                            Maintenance Mode
+                                        </strong>
+
+                                        <span>
+                                            Temporarily restrict website
+                                        </span>
+                                    </div>
 
                                 </div>
+
+                                <span
+                                    class="system-status-text online"
+                                    id="controlMaintenance"
+                                >
+                                    Disabled
+                                </span>
 
                             </div>
 
 
-                            <div class="activity-item">
+                            <!-- Poster Creation -->
 
-                                <span class="activity-dot"></span>
+                            <div class="system-row">
 
-                                <div>
+                                <div class="system-info">
 
-                                    <strong>
-                                        Advertisement System Connected
-                                    </strong>
+                                    <div class="system-mini-icon">
+                                        🖼
+                                    </div>
 
-                                    <span>
-                                        Browser UI advertisement status loaded.
-                                    </span>
+                                    <div>
+                                        <strong>
+                                            Poster Creation
+                                        </strong>
+
+                                        <span>
+                                            Allow users to create posters
+                                        </span>
+                                    </div>
 
                                 </div>
+
+                                <span
+                                    class="system-status-text online"
+                                    id="controlPoster"
+                                >
+                                    Enabled
+                                </span>
+
+                            </div>
+
+
+                            <!-- Advertisement System -->
+
+                            <div class="system-row">
+
+                                <div class="system-info">
+
+                                    <div class="system-mini-icon">
+                                        📢
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            Advertisement System
+                                        </strong>
+
+                                        <span>
+                                            Global advertisement control
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    class="system-status-text online"
+                                    id="controlAdvertisement"
+                                >
+                                    Enabled
+                                </span>
 
                             </div>
 
@@ -1105,121 +1485,109 @@
                 </div>
 
 
-                <!-- RIGHT -->
+                <!-- QUICK ACTIONS -->
 
-                <div class="card">
+                <div class="panel">
 
-                    <div class="card-header">
+                    <div class="panel-header">
 
-                        <h2>
-                            Platform Status
-                        </h2>
+                        <h3>
+                            Quick Actions
+                        </h3>
 
                     </div>
 
 
-                    <div class="status-panel">
+                    <div class="panel-body">
 
+                        <div class="quick-actions">
 
-                        <!-- WEBSITE -->
+                            <a
+                                href="browser-ui.html"
+                                class="quick-action"
+                            >
 
-                        <div class="status-row">
-
-                            <div class="status-row-left">
-
-                                <div class="status-row-icon">
-                                    ◉
+                                <div class="quick-action-icon">
+                                    📢
                                 </div>
 
-                                <strong>
-                                    Website
-                                </strong>
+                                <div>
+                                    <strong>
+                                        Browser UI Ad
+                                    </strong>
 
-                            </div>
-
-                            <span
-                                class="status-badge"
-                                id="panelWebsiteStatus"
-                            >
-                                ONLINE
-                            </span>
-
-                        </div>
-
-
-                        <!-- DESIGNS -->
-
-                        <div class="status-row">
-
-                            <div class="status-row-left">
-
-                                <div class="status-row-icon">
-                                    ▣
+                                    <span>
+                                        Manage advertisement
+                                    </span>
                                 </div>
 
-                                <strong>
-                                    Poster Creation
-                                </strong>
+                            </a>
 
-                            </div>
 
-                            <span
-                                class="status-badge"
-                                id="panelPosterStatus"
+                            <a
+                                href="design-manage.html"
+                                class="quick-action"
                             >
-                                ACTIVE
-                            </span>
 
-                        </div>
-
-
-                        <!-- AD -->
-
-                        <div class="status-row">
-
-                            <div class="status-row-left">
-
-                                <div class="status-row-icon">
-                                    ▤
+                                <div class="quick-action-icon">
+                                    🎨
                                 </div>
 
-                                <strong>
-                                    Advertisement
-                                </strong>
+                                <div>
+                                    <strong>
+                                        Designs
+                                    </strong>
 
-                            </div>
-
-                            <span
-                                class="status-badge"
-                                id="panelAdStatus"
-                            >
-                                ACTIVE
-                            </span>
-
-                        </div>
-
-
-                        <!-- DATABASE -->
-
-                        <div class="status-row">
-
-                            <div class="status-row-left">
-
-                                <div class="status-row-icon">
-                                    DB
+                                    <span>
+                                        Manage poster designs
+                                    </span>
                                 </div>
 
-                                <strong>
-                                    Database
-                                </strong>
+                            </a>
 
-                            </div>
 
-                            <span
-                                class="status-badge offline"
+                            <a
+                                href="website-edit.html"
+                                class="quick-action"
                             >
-                                NOT CONNECTED
-                            </span>
+
+                                <div class="quick-action-icon">
+                                    ✎
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        Website Edit
+                                    </strong>
+
+                                    <span>
+                                        Edit website content
+                                    </span>
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="system.html"
+                                class="quick-action"
+                            >
+
+                                <div class="quick-action-icon">
+                                    ⚙
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        System Settings
+                                    </strong>
+
+                                    <span>
+                                        Platform controls
+                                    </span>
+                                </div>
+
+                            </a>
 
                         </div>
 
@@ -1229,484 +1597,1119 @@
 
             </div>
 
-        </div>
+
+            <!-- =========================
+                 RECENT ACTIVITY + SYSTEM INFO
+            ========================== -->
+
+            <div class="bottom-grid">
+
+                <!-- Recent Activity -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+                        <span>
+                            Local session
+                        </span>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                ✓
+                            </div>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Admin Dashboard Loaded
+                                </strong>
+
+                                <span>
+                                    Dashboard status information loaded successfully.
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                Now
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                🎨
+                            </div>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Design Management
+                                </strong>
+
+                                <span>
+                                    Active poster designs are synchronized from local settings.
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                Live
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                📢
+                            </div>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Advertisement System
+                                </strong>
+
+                                <span>
+                                    Browser advertisement status is synchronized automatically.
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                Live
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                ⚙
+                            </div>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    System Settings
+                                </strong>
+
+                                <span>
+                                    Website, maintenance, poster creation and advertisement controls are monitored.
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                Live
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Platform Status -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Platform Status
+                        </h3>
+
+                        <span>
+                            Live overview
+                        </span>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="platform-status">
+
+                            <div
+                                class="platform-circle"
+                                id="platformCircle"
+                            >
+                                ✓
+                            </div>
+
+                            <h4 id="platformTitle">
+                                All Systems Operational
+                            </h4>
+
+                            <p id="platformDescription">
+                                Your website and platform controls are currently operating normally.
+                            </p>
+
+
+                            <div class="platform-details">
+
+                                <div class="platform-detail">
+
+                                    <span>
+                                        Website
+                                    </span>
+
+                                    <span id="platformWebsite">
+                                        Online
+                                    </span>
+
+                                </div>
+
+
+                                <div class="platform-detail">
+
+                                    <span>
+                                        Poster Creation
+                                    </span>
+
+                                    <span id="platformPoster">
+                                        Enabled
+                                    </span>
+
+                                </div>
+
+
+                                <div class="platform-detail">
+
+                                    <span>
+                                        Advertisement
+                                    </span>
+
+                                    <span id="platformAdvertisement">
+                                        Enabled
+                                    </span>
+
+                                </div>
+
+
+                                <div class="platform-detail">
+
+                                    <span>
+                                        Maintenance
+                                    </span>
+
+                                    <span id="platformMaintenance">
+                                        Disabled
+                                    </span>
+
+                                </div>
+
+
+                                <div class="platform-detail">
+
+                                    <span>
+                                        Active Designs
+                                    </span>
+
+                                    <span id="platformDesigns">
+                                        0
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </main>
 
-</div>
 
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-<script>
+    <script>
 
-    /* =========================================================
-       STORAGE KEYS
-    ========================================================= */
+        /* =========================================
+           STORAGE KEYS
+        ========================================== */
 
-    const WEBSITE_KEY =
-        "doctorPosterWebsiteSettings";
+        const WEBSITE_KEY =
+            "doctorPosterWebsiteSettings";
 
-    const DESIGN_KEY =
-        "doctorPosterDesignStatus";
+        const DESIGN_KEY =
+            "doctorPosterDesignStatus";
 
-    const AD_KEY =
-        "doctorPosterAdvertisement";
+        const AD_KEY =
+            "doctorPosterAdvertisement";
 
-    const SYSTEM_KEY =
-        "doctorPosterSystemSettings";
+        const SYSTEM_KEY =
+            "doctorPosterSystemSettings";
 
 
-    /* =========================================================
-       DEFAULT SETTINGS
-    ========================================================= */
+        /* =========================================
+           DEFAULT SETTINGS
+        ========================================== */
 
-    const defaultWebsite = {
-        websiteEnabled: true
-    };
+        const defaultWebsiteSettings = {
 
+            websiteName: "Doctor Poster Maker",
 
-    const defaultDesigns = {
-        design1: true,
-        design2: true,
-        design3: true,
-        design4: true
-    };
+            websiteTagline:
+                "Create professional doctor posters in minutes.",
 
+            heroBadge:
+                "✦ Built for Healthcare Professionals",
 
-    const defaultAd = {
-        enabled: true
-    };
+            heroTitle:
+                "Create Beautiful Doctor Posters in Minutes.",
 
+            heroDescription:
+                "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
 
-    const defaultSystem = {
-        websiteStatus: true,
-        maintenanceMode: false,
-        posterCreation: true,
-        advertisementSystem: true
-    };
+            primaryButton:
+                "Start Creating →",
 
+            secondaryButton:
+                "Explore Designs",
 
-    /* =========================================================
-       SAFE DATA READER
-    ========================================================= */
+            stat1:
+                "4+ Designs",
 
-    function readStorage(
-        key,
-        fallback
-    ) {
+            stat2:
+                "1080px Quality",
 
-        const saved =
-            localStorage.getItem(key);
+            footerDescription:
+                "Create beautiful professional doctor posters quickly and easily.",
 
-        if (!saved) {
+            copyrightText:
+                "© 2026 Doctor Poster Maker",
 
-            return {
-                ...fallback
-            };
+            contactEmail:
+                "",
 
-        }
+            websiteEnabled:
+                true
 
-        try {
+        };
 
-            return {
-                ...fallback,
-                ...JSON.parse(saved)
-            };
 
-        } catch (error) {
+        const defaultDesignStatus = {
 
-            console.error(
-                "Storage error:",
-                key,
-                error
-            );
+            design1: true,
+            design2: true,
+            design3: true,
+            design4: true
 
-            return {
-                ...fallback
-            };
-        }
-    }
+        };
 
 
-    /* =========================================================
-       WEBSITE STATUS
-    ========================================================= */
+        const defaultAdvertisement = {
 
-    function updateWebsiteStatus() {
+            enabled: true,
 
-        const website =
-            readStorage(
-                WEBSITE_KEY,
-                defaultWebsite
-            );
+            label:
+                "Advertisement",
 
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
+            title:
+                "Promote Your Healthcare Brand",
 
+            description:
+                "Reach doctors, clinics & healthcare professionals",
 
-        const websiteEnabled =
-            website.websiteEnabled !== false;
+            buttonText:
+                "Advertise With Us →",
 
-        const systemWebsite =
-            system.websiteStatus !== false;
+            buttonLink:
+                "#",
 
-        const maintenance =
-            system.maintenanceMode === true;
+            backgroundColor:
+                "#087f86",
 
+            buttonColor:
+                "#ffffff",
 
-        const online =
-            websiteEnabled &&
-            systemWebsite &&
-            !maintenance;
+            showCloseButton:
+                true,
 
+            image:
+                ""
 
-        const value =
-            document.getElementById(
-                "websiteStatusValue"
-            );
+        };
 
-        const sub =
-            document.getElementById(
-                "websiteStatusSub"
-            );
 
-        const dot =
-            document.getElementById(
-                "websiteStatusDot"
-            );
+        const defaultSystemSettings = {
 
-        const panel =
-            document.getElementById(
-                "panelWebsiteStatus"
-            );
+            websiteStatus:
+                true,
 
+            maintenanceMode:
+                false,
 
-        if (online) {
+            posterCreation:
+                true,
 
-            value.textContent =
-                "Online";
+            advertisementSystem:
+                true
 
-            sub.textContent =
-                "Website is active";
+        };
 
-            dot.classList.remove(
-                "offline"
-            );
 
-            panel.textContent =
-                "ONLINE";
+        /* =========================================
+           SAFE STORAGE READER
+        ========================================== */
 
-            panel.classList.remove(
-                "offline"
-            );
+        function readJSON(key, fallback) {
 
-        } else {
+            try {
 
-            value.textContent =
-                "Offline";
+                const stored =
+                    localStorage.getItem(key);
 
-            sub.textContent =
-                maintenance
-                    ? "Maintenance mode"
-                    : "Website is disabled";
-
-            dot.classList.add(
-                "offline"
-            );
-
-            panel.textContent =
-                "OFFLINE";
-
-            panel.classList.add(
-                "offline"
-            );
-        }
-    }
-
-
-    /* =========================================================
-       DESIGN STATUS
-    ========================================================= */
-
-    function updateDesignStatus() {
-
-        const designs =
-            readStorage(
-                DESIGN_KEY,
-                defaultDesigns
-            );
-
-
-        const total =
-            Object.keys(
-                defaultDesigns
-            ).length;
-
-
-        let active =
-            0;
-
-
-        Object.keys(
-            defaultDesigns
-        ).forEach(
-            design => {
-
-                if (
-                    designs[design] !== false
-                ) {
-
-                    active++;
-
+                if (!stored) {
+                    return fallback;
                 }
 
+                const parsed =
+                    JSON.parse(stored);
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+                    return {
+                        ...fallback,
+                        ...parsed
+                    };
+                }
+
+                return fallback;
+
+            } catch (error) {
+
+                console.warn(
+                    "Storage read error:",
+                    key,
+                    error
+                );
+
+                return fallback;
+
             }
-        );
 
-
-        const count =
-            document.getElementById(
-                "designCountValue"
-            );
-
-
-        const panel =
-            document.getElementById(
-                "panelPosterStatus"
-            );
-
-
-        count.textContent =
-            active + " / " + total;
-
-
-        if (active > 0) {
-
-            panel.textContent =
-                "ACTIVE";
-
-            panel.classList.remove(
-                "offline"
-            );
-
-        } else {
-
-            panel.textContent =
-                "OFFLINE";
-
-            panel.classList.add(
-                "offline"
-            );
         }
-    }
 
 
-    /* =========================================================
-       ADVERTISEMENT STATUS
-    ========================================================= */
+        /* =========================================
+           WEBSITE STATUS
+        ========================================== */
 
-    function updateAdStatus() {
+        function updateWebsiteStatus() {
 
-        const ad =
-            readStorage(
-                AD_KEY,
-                defaultAd
-            );
+            const website =
+                readJSON(
+                    WEBSITE_KEY,
+                    defaultWebsiteSettings
+                );
 
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
-
-
-        const active =
-            ad.enabled !== false &&
-            system.advertisementSystem !== false;
+            const system =
+                readJSON(
+                    SYSTEM_KEY,
+                    defaultSystemSettings
+                );
 
 
-        const value =
-            document.getElementById(
-                "adStatusValue"
-            );
-
-        const sub =
-            document.getElementById(
-                "adStatusSub"
-            );
-
-        const dot =
-            document.getElementById(
-                "adStatusDot"
-            );
-
-        const panel =
-            document.getElementById(
-                "panelAdStatus"
-            );
+            const websiteEnabled =
+                website.websiteEnabled !== false &&
+                system.websiteStatus !== false;
 
 
-        if (active) {
+            const maintenance =
+                system.maintenanceMode === true;
 
-            value.textContent =
-                "Active";
 
-            sub.textContent =
-                "Advertisement system";
+            const websiteStatus =
+                document.getElementById(
+                    "websiteStatus"
+                );
 
-            dot.classList.remove(
-                "offline"
-            );
+            const websiteSub =
+                document.getElementById(
+                    "websiteStatusSub"
+                );
 
-            panel.textContent =
-                "ACTIVE";
+            const websiteDot =
+                document.getElementById(
+                    "websiteDot"
+                );
 
-            panel.classList.remove(
-                "offline"
-            );
 
-        } else {
+            const controlWebsite =
+                document.getElementById(
+                    "controlWebsite"
+                );
 
-            value.textContent =
-                "Off";
 
-            sub.textContent =
-                "Advertisement disabled";
+            const platformWebsite =
+                document.getElementById(
+                    "platformWebsite"
+                );
 
-            dot.classList.add(
-                "offline"
-            );
 
-            panel.textContent =
-                "OFF";
+            websiteDot.className =
+                "status-dot";
 
-            panel.classList.add(
-                "offline"
-            );
+
+            controlWebsite.className =
+                "system-status-text";
+
+
+            if (!websiteEnabled) {
+
+                websiteStatus.textContent =
+                    "Offline";
+
+                websiteSub.textContent =
+                    "Website is disabled";
+
+                websiteDot.classList.add(
+                    "danger"
+                );
+
+                controlWebsite.textContent =
+                    "Offline";
+
+                controlWebsite.classList.add(
+                    "offline"
+                );
+
+                platformWebsite.textContent =
+                    "Offline";
+
+            } else if (maintenance) {
+
+                websiteStatus.textContent =
+                    "Maintenance";
+
+                websiteSub.textContent =
+                    "Maintenance mode is active";
+
+                websiteDot.classList.add(
+                    "warning"
+                );
+
+                controlWebsite.textContent =
+                    "Maintenance";
+
+                controlWebsite.classList.add(
+                    "warning"
+                );
+
+                platformWebsite.textContent =
+                    "Maintenance";
+
+            } else {
+
+                websiteStatus.textContent =
+                    "Online";
+
+                websiteSub.textContent =
+                    "Website is available";
+
+                controlWebsite.textContent =
+                    "Online";
+
+                controlWebsite.classList.add(
+                    "online"
+                );
+
+                platformWebsite.textContent =
+                    "Online";
+
+            }
+
         }
-    }
 
 
-    /* =========================================================
-       SYSTEM STATUS
-    ========================================================= */
+        /* =========================================
+           DESIGN COUNT
+        ========================================== */
 
-    function updateSystemStatus() {
+        function updateDesignStatus() {
 
-        const website =
-            readStorage(
-                WEBSITE_KEY,
-                defaultWebsite
-            );
-
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
+            const designs =
+                readJSON(
+                    DESIGN_KEY,
+                    defaultDesignStatus
+                );
 
 
-        const websiteEnabled =
-            website.websiteEnabled !== false;
-
-        const systemWebsite =
-            system.websiteStatus !== false;
-
-        const maintenance =
-            system.maintenanceMode === true;
+            const designKeys = [
+                "design1",
+                "design2",
+                "design3",
+                "design4"
+            ];
 
 
-        const normal =
-            websiteEnabled &&
-            systemWebsite &&
-            !maintenance;
+            const activeCount =
+                designKeys.filter(
+                    key =>
+                        designs[key] === true
+                ).length;
 
 
-        const value =
-            document.getElementById(
-                "systemStatusValue"
-            );
-
-        const sub =
-            document.getElementById(
-                "systemStatusSub"
-            );
-
-        const dot =
-            document.getElementById(
-                "systemStatusDot"
-            );
+            const designCount =
+                document.getElementById(
+                    "designCount"
+                );
 
 
-        if (normal) {
+            const designDot =
+                document.getElementById(
+                    "designDot"
+                );
 
-            value.textContent =
-                "Normal";
 
-            sub.textContent =
+            const platformDesigns =
+                document.getElementById(
+                    "platformDesigns"
+                );
+
+
+            const designValue =
+                activeCount + " Active";
+
+
+            designCount.textContent =
+                activeCount;
+
+
+            platformDesigns.textContent =
+                activeCount;
+
+
+            designDot.className =
+                "status-dot";
+
+
+            if (activeCount === 0) {
+
+                designDot.classList.add(
+                    "danger"
+                );
+
+            } else if (
+                activeCount < designKeys.length
+            ) {
+
+                designDot.classList.add(
+                    "warning"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           ADVERTISEMENT STATUS
+        ========================================== */
+
+        function updateAdvertisementStatus() {
+
+            const advertisement =
+                readJSON(
+                    AD_KEY,
+                    defaultAdvertisement
+                );
+
+
+            const system =
+                readJSON(
+                    SYSTEM_KEY,
+                    defaultSystemSettings
+                );
+
+
+            const adEnabled =
+                advertisement.enabled !== false;
+
+
+            const systemEnabled =
+                system.advertisementSystem !== false;
+
+
+            const adStatus =
+                document.getElementById(
+                    "adStatus"
+                );
+
+
+            const adSub =
+                document.getElementById(
+                    "adStatusSub"
+                );
+
+
+            const adDot =
+                document.getElementById(
+                    "adDot"
+                );
+
+
+            const controlAdvertisement =
+                document.getElementById(
+                    "controlAdvertisement"
+                );
+
+
+            const platformAdvertisement =
+                document.getElementById(
+                    "platformAdvertisement"
+                );
+
+
+            adDot.className =
+                "status-dot";
+
+
+            controlAdvertisement.className =
+                "system-status-text";
+
+
+            if (!systemEnabled) {
+
+                adStatus.textContent =
+                    "Disabled";
+
+                adSub.textContent =
+                    "System advertisement control is off";
+
+                adDot.classList.add(
+                    "danger"
+                );
+
+                controlAdvertisement.textContent =
+                    "Disabled";
+
+                controlAdvertisement.classList.add(
+                    "offline"
+                );
+
+                platformAdvertisement.textContent =
+                    "Disabled";
+
+            } else if (!adEnabled) {
+
+                adStatus.textContent =
+                    "Off";
+
+                adSub.textContent =
+                    "Browser ad is disabled";
+
+                adDot.classList.add(
+                    "warning"
+                );
+
+                controlAdvertisement.textContent =
+                    "Off";
+
+                controlAdvertisement.classList.add(
+                    "warning"
+                );
+
+                platformAdvertisement.textContent =
+                    "Off";
+
+            } else {
+
+                adStatus.textContent =
+                    "Enabled";
+
+                adSub.textContent =
+                    "Advertisement is active";
+
+                controlAdvertisement.textContent =
+                    "Enabled";
+
+                controlAdvertisement.classList.add(
+                    "online"
+                );
+
+                platformAdvertisement.textContent =
+                    "Enabled";
+
+            }
+
+        }
+
+
+        /* =========================================
+           SYSTEM CONTROLS
+        ========================================== */
+
+        function updateSystemControls() {
+
+            const system =
+                readJSON(
+                    SYSTEM_KEY,
+                    defaultSystemSettings
+                );
+
+
+            const controlMaintenance =
+                document.getElementById(
+                    "controlMaintenance"
+                );
+
+
+            const controlPoster =
+                document.getElementById(
+                    "controlPoster"
+                );
+
+
+            const platformPoster =
+                document.getElementById(
+                    "platformPoster"
+                );
+
+
+            const platformMaintenance =
+                document.getElementById(
+                    "platformMaintenance"
+                );
+
+
+            /* Maintenance */
+
+            controlMaintenance.className =
+                "system-status-text";
+
+
+            if (system.maintenanceMode === true) {
+
+                controlMaintenance.textContent =
+                    "Enabled";
+
+                controlMaintenance.classList.add(
+                    "warning"
+                );
+
+                platformMaintenance.textContent =
+                    "Enabled";
+
+            } else {
+
+                controlMaintenance.textContent =
+                    "Disabled";
+
+                controlMaintenance.classList.add(
+                    "online"
+                );
+
+                platformMaintenance.textContent =
+                    "Disabled";
+
+            }
+
+
+            /* Poster Creation */
+
+            controlPoster.className =
+                "system-status-text";
+
+
+            if (system.posterCreation === true) {
+
+                controlPoster.textContent =
+                    "Enabled";
+
+                controlPoster.classList.add(
+                    "online"
+                );
+
+                platformPoster.textContent =
+                    "Enabled";
+
+            } else {
+
+                controlPoster.textContent =
+                    "Disabled";
+
+                controlPoster.classList.add(
+                    "offline"
+                );
+
+                platformPoster.textContent =
+                    "Disabled";
+
+            }
+
+        }
+
+
+        /* =========================================
+           OVERALL SYSTEM STATUS
+        ========================================== */
+
+        function updateOverallSystemStatus() {
+
+            const website =
+                readJSON(
+                    WEBSITE_KEY,
+                    defaultWebsiteSettings
+                );
+
+
+            const system =
+                readJSON(
+                    SYSTEM_KEY,
+                    defaultSystemSettings
+                );
+
+
+            const advertisement =
+                readJSON(
+                    AD_KEY,
+                    defaultAdvertisement
+                );
+
+
+            const systemDot =
+                document.getElementById(
+                    "systemDot"
+                );
+
+
+            const systemStatus =
+                document.getElementById(
+                    "systemStatus"
+                );
+
+
+            const systemSub =
+                document.getElementById(
+                    "systemStatusSub"
+                );
+
+
+            const platformCircle =
+                document.getElementById(
+                    "platformCircle"
+                );
+
+
+            const platformTitle =
+                document.getElementById(
+                    "platformTitle"
+                );
+
+
+            const platformDescription =
+                document.getElementById(
+                    "platformDescription"
+                );
+
+
+            systemDot.className =
+                "status-dot";
+
+
+            platformCircle.className =
+                "platform-circle";
+
+
+            const websiteOffline =
+                website.websiteEnabled === false ||
+                system.websiteStatus === false;
+
+
+            const maintenance =
+                system.maintenanceMode === true;
+
+
+            const posterDisabled =
+                system.posterCreation === false;
+
+
+            const adDisabled =
+                system.advertisementSystem === false;
+
+
+            if (websiteOffline) {
+
+                systemStatus.textContent =
+                    "Offline";
+
+                systemSub.textContent =
+                    "Website status is disabled";
+
+                systemDot.classList.add(
+                    "danger"
+                );
+
+
+                platformCircle.classList.add(
+                    "danger"
+                );
+
+                platformCircle.textContent =
+                    "×";
+
+                platformTitle.textContent =
+                    "Website Offline";
+
+                platformDescription.textContent =
+                    "The public website is currently disabled from system settings.";
+
+                return;
+
+            }
+
+
+            if (maintenance) {
+
+                systemStatus.textContent =
+                    "Maintenance";
+
+                systemSub.textContent =
+                    "Maintenance mode is active";
+
+                systemDot.classList.add(
+                    "warning"
+                );
+
+
+                platformCircle.classList.add(
+                    "warning"
+                );
+
+                platformCircle.textContent =
+                    "⚙";
+
+                platformTitle.textContent =
+                    "Maintenance Mode Active";
+
+                platformDescription.textContent =
+                    "The platform is currently operating under maintenance mode.";
+
+                return;
+
+            }
+
+
+            if (
+                posterDisabled ||
+                adDisabled
+            ) {
+
+                systemStatus.textContent =
+                    "Limited";
+
+                systemSub.textContent =
+                    "Some platform controls are disabled";
+
+                systemDot.classList.add(
+                    "warning"
+                );
+
+
+                platformCircle.classList.add(
+                    "warning"
+                );
+
+                platformCircle.textContent =
+                    "!";
+
+                platformTitle.textContent =
+                    "Limited Operation";
+
+                platformDescription.textContent =
+                    "The website is online, but one or more platform services are disabled.";
+
+                return;
+
+            }
+
+
+            systemStatus.textContent =
+                "Healthy";
+
+            systemSub.textContent =
                 "All systems operational";
 
-            dot.classList.remove(
-                "offline"
-            );
 
-        } else {
+            platformCircle.textContent =
+                "✓";
 
-            value.textContent =
-                "Attention";
+            platformTitle.textContent =
+                "All Systems Operational";
 
-            sub.textContent =
-                maintenance
-                    ? "Maintenance mode enabled"
-                    : "Website is offline";
+            platformDescription.textContent =
+                "Your website and platform controls are currently operating normally.";
 
-            dot.classList.add(
-                "offline"
-            );
         }
-    }
 
 
-    /* =========================================================
-       UPDATE EVERYTHING
-    ========================================================= */
+        /* =========================================
+           UPDATE EVERYTHING
+        ========================================== */
 
-    function updateDashboard() {
+        function updateDashboard() {
 
-        updateWebsiteStatus();
+            updateWebsiteStatus();
 
-        updateDesignStatus();
+            updateDesignStatus();
 
-        updateAdStatus();
+            updateAdvertisementStatus();
 
-        updateSystemStatus();
+            updateSystemControls();
 
-    }
+            updateOverallSystemStatus();
 
-
-    /* =========================================================
-       MOBILE SIDEBAR
-    ========================================================= */
-
-    const mobileMenuButton =
-        document.getElementById(
-            "mobileMenuBtn"
-        );
-
-    const sidebar =
-        document.getElementById(
-            "sidebar"
-        );
+        }
 
 
-    if (
-        mobileMenuButton &&
-        sidebar
-    ) {
+        /* =========================================
+           MOBILE SIDEBAR
+        ========================================== */
 
-        mobileMenuButton.addEventListener(
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobileMenuBtn"
+            );
+
+
+        const sidebar =
+            document.getElementById(
+                "sidebar"
+            );
+
+
+        mobileMenuBtn.addEventListener(
             "click",
             function () {
 
@@ -1716,61 +2719,106 @@
 
             }
         );
-    }
 
 
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
+        /* Close sidebar after menu click */
 
-    const logoutButton =
-        document.getElementById(
-            "logoutBtn"
-        );
+        document
+            .querySelectorAll(".menu-item")
+            .forEach(function (item) {
+
+                item.addEventListener(
+                    "click",
+                    function () {
+
+                        if (
+                            window.innerWidth <= 850
+                        ) {
+
+                            sidebar.classList.remove(
+                                "open"
+                            );
+
+                        }
+
+                    }
+                );
+
+            });
 
 
-    if (logoutButton) {
+        /* =========================================
+           LOGOUT
+        ========================================== */
 
-        logoutButton.addEventListener(
-            "click",
-            function () {
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                function () {
 
-                window.location.href =
-                    "index.html";
+                    const confirmLogout =
+                        confirm(
+                            "Are you sure you want to logout?"
+                        );
+
+
+                    if (confirmLogout) {
+
+                        window.location.href =
+                            "index.html";
+
+                    }
+
+                }
+            );
+
+
+        /* =========================================
+           STORAGE SYNC
+        ========================================== */
+
+        window.addEventListener(
+            "storage",
+            function (event) {
+
+                if (
+                    event.key === WEBSITE_KEY ||
+                    event.key === DESIGN_KEY ||
+                    event.key === AD_KEY ||
+                    event.key === SYSTEM_KEY
+                ) {
+
+                    updateDashboard();
+
+                }
 
             }
         );
-    }
 
 
-    /* =========================================================
-       STORAGE CHANGE
-    ========================================================= */
+        /* =========================================
+           PAGE LOAD
+        ========================================== */
 
-    window.addEventListener(
-        "storage",
-        function () {
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
 
-            updateDashboard();
+                updateDashboard();
 
-        }
-    );
+            }
+        );
 
 
-    /* =========================================================
-       INITIAL LOAD
-    ========================================================= */
+        /* =========================================
+           ALSO RUN IMMEDIATELY
+           Useful when script loads after DOM.
+        ========================================== */
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+        updateDashboard();
 
-            updateDashboard();
-
-        }
-    );
-
-</script>
+    </script>
 
 </body>
 </html>
