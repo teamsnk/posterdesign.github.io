@@ -9,6 +9,7 @@
 .q,.quickbar select{border:1px solid #d1e0e5;background:#fff;color:#47616c;border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700;cursor:pointer}
 .q.active{background:#078c9e;color:#fff;border-color:#078c9e}
 .quickbar select{border-radius:8px}
+.divider{width:1px;height:22px;background:#d5e1e5;margin:0 3px}
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
 *{box-sizing:border-box}
 body{margin:0;background:#eef3f5;color:#123c50;font-family:"Noto Sans Bengali",sans-serif}
@@ -46,7 +47,7 @@ opacity:.9}
 .bottom{position:absolute;left:27px;right:27px;bottom:42px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{border:1px solid #a8d3d9;border-radius:10px;background:#f4fbfc;padding:8px 9px;min-height:62px}.card b{display:block;color:#087e92;font-size:9px}.card span{font-size:8px;line-height:1.4;color:#3c5660}
 .call{position:absolute;right:27px;bottom:112px;width:44%;background:#058c9e;color:#fff;border-radius:10px 10px 0 0;padding:7px 10px 0;text-align:center;font-size:11px;font-weight:800}.callBox{background:#fff;color:#087b91;margin:7px -2px 0;border-radius:9px 9px 0 0;padding:7px;font-size:12px;font-weight:800;line-height:1.45}.callIcon{display:inline-flex;width:31px;height:31px;border-radius:50%;background:#058c9e;color:#fff;align-items:center;justify-content:center;margin-right:4px}
 .footer{position:absolute;bottom:0;left:0;right:0;height:30px;background:#fff;border-top:1px solid #b8d1d6;display:flex;align-items:center;justify-content:center;gap:12px;font-size:7.5px;color:#334f5a}.bar{width:2px;height:20px;background:#058c9e}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.panel{position:static;max-height:none}}
+\n/* Ready-made templates */\n.poster.modern:before{background:radial-gradient(circle at 92% 7%,#dff5f8 0 9%,transparent 9.2%),linear-gradient(145deg,#f9fdfe 0 42%,#e7f6f7 42.2% 67%,#f9fdfe 67.2%)}\n.poster.modern .main{height:250px}.poster.modern .copy{top:20px;width:60%}.poster.modern .copy h1{font-size:30px}.poster.modern .docPhoto{right:-5px;top:0;width:255px;height:265px}.poster.modern .special{width:62%;border-radius:18px}.poster.modern .call{bottom:104px;border-radius:14px}\n.poster.split{background:#fff}.poster.split:before{background:linear-gradient(90deg,#f1fafb 0 53%,#fff 53.2%),radial-gradient(circle at 85% 25%,#dff2f5 0 22%,transparent 22.2%)}\n.poster.split .top{background:#fff;border-bottom:1px solid #d5e8ec;margin:0 -27px;padding:0 27px}.poster.split .main{height:255px}.poster.split .copy{top:25px;width:53%}.poster.split .docPhoto{right:-25px;top:0;width:260px;height:265px;background:#e8f6f7;border-radius:50% 0 0 50%}.poster.split .special{width:55%;border-radius:6px}.poster.split .rows{width:54%}.poster.split .call{bottom:104px;width:45%;border-radius:8px}\n@media(max-width:900px){.grid{grid-template-columns:1fr}.panel{position:static;max-height:none}}
 @media(max-width:600px){.nav{padding:0 12px}.logoBrand{font-size:15px}.actions .btn{padding:7px 9px;font-size:11px}.wrap{padding:0 9px}.stage{padding:10px}.poster{transform:scale(.75);transform-origin:top center;margin-bottom:-165px}.preview{padding:10px}}
 @media print{body{background:#fff}.ad,.nav,.title,.panel,.ph{display:none}.wrap{margin:0;padding:0}.grid{display:block}.preview{border:0;box-shadow:none;padding:0}.stage{padding:0}.poster{box-shadow:none}}
 </style>
@@ -64,6 +65,10 @@ opacity:.9}
   <button class="q" onclick="setTheme('blue',this)">Blue</button>
   <button class="q" onclick="setTheme('green',this)">Green</button>
   <button class="q" onclick="setTheme('navy',this)">Navy</button>
+  <span class="divider"></span>
+  <button class="q template active" onclick="setTemplate('classic',this)">Template 1</button>
+  <button class="q template" onclick="setTemplate('modern',this)">Template 2</button>
+  <button class="q template" onclick="setTemplate('split',this)">Template 3</button>
   <select onchange="setSize(this.value)">
     <option value="1080x1350">1080 × 1350 — Social</option>
     <option value="1080x1080">1080 × 1080 — Square</option>
@@ -132,6 +137,10 @@ function setSize(size){
  if(size==='1080x1080'){p.style.height='540px';p.style.width='540px'}
  else if(size==='1080x1920'){p.style.height='960px';p.style.width='540px'}
  else {p.style.height='675px';p.style.width='540px'}
+}
+function setTemplate(name,btn){
+ const poster=document.getElementById('poster'); poster.classList.remove('modern','split'); if(name!=='classic') poster.classList.add(name);
+ document.querySelectorAll('.template').forEach(x=>x.classList.remove('active')); if(btn)btn.classList.add('active');
 }
 function update(){
  document.getElementById('pDoctor').textContent=v('doctor');
