@@ -46,6 +46,7 @@
             position: fixed;
             inset: 0 auto 0 0;
             overflow-y: auto;
+            z-index: 100;
         }
 
         .brand {
@@ -244,7 +245,17 @@
         }
 
         .online {
-            color: #1d9355;
+            color: #1d9355 !important;
+            font-weight: 700;
+        }
+
+        .offline {
+            color: #c64b4b !important;
+            font-weight: 700;
+        }
+
+        .warning-text {
+            color: #b07a18 !important;
             font-weight: 700;
         }
 
@@ -400,9 +411,17 @@
             color: #4d686d;
         }
 
+        .btn-secondary:hover {
+            background: #e1eaec;
+        }
+
         .btn-danger {
             background: #fff0f0;
             color: #c64b4b;
+        }
+
+        .btn-danger:hover {
+            background: #ffe3e3;
         }
 
         /* =========================
@@ -420,6 +439,16 @@
             margin-top: 18px;
         }
 
+        .system-status.warning-state {
+            border-color: #f0dfad;
+            background: #fffaf0;
+        }
+
+        .system-status.danger-state {
+            border-color: #f0cccc;
+            background: #fff5f5;
+        }
+
         .system-status-icon {
             width: 36px;
             height: 36px;
@@ -430,6 +459,17 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .warning-state .system-status-icon {
+            background: #fff0c8;
+            color: #a47716;
+        }
+
+        .danger-state .system-status-icon {
+            background: #ffe0e0;
+            color: #c64b4b;
         }
 
         .system-status strong {
@@ -491,6 +531,11 @@
             color: #738589;
         }
 
+        .badge-red {
+            background: #fff0f0;
+            color: #c64b4b;
+        }
+
         /* =========================
            WARNING
         ========================== */
@@ -514,6 +559,26 @@
             color: #967d3c;
             font-size: 9px;
             line-height: 1.5;
+        }
+
+        /* =========================
+           SAVE MESSAGE
+        ========================== */
+
+        .save-message {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #e9f8f0;
+            border: 1px solid #c9ead8;
+            color: #218451;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .save-message.show {
+            display: block;
         }
 
         /* =========================
@@ -597,6 +662,14 @@
 
             .setting-row {
                 align-items: flex-start;
+            }
+
+            .setting-info {
+                max-width: calc(100% - 55px);
+            }
+
+            .panel {
+                padding: 18px;
             }
         }
     </style>
@@ -787,7 +860,10 @@
                         Website
                     </h3>
 
-                    <p class="online">
+                    <p
+                        id="websiteCardStatus"
+                        class="online"
+                    >
                         ● Online
                     </p>
 
@@ -804,7 +880,7 @@
                         Designs
                     </h3>
 
-                    <p>
+                    <p id="designCardStatus">
                         4 Active Designs
                     </p>
 
@@ -821,7 +897,7 @@
                         Advertisement
                     </h3>
 
-                    <p>
+                    <p id="adCardStatus">
                         Browser Ad Enabled
                     </p>
 
@@ -838,7 +914,10 @@
                         System
                     </h3>
 
-                    <p class="online">
+                    <p
+                        id="systemCardStatus"
+                        class="online"
+                    >
                         Healthy
                     </p>
 
@@ -897,8 +976,6 @@
                                 <input
                                     type="checkbox"
                                     id="websiteStatus"
-                                    checked
-                                    onchange="websiteToggle(this)"
                                 >
 
                                 <span class="slider"></span>
@@ -931,7 +1008,6 @@
                                 <input
                                     type="checkbox"
                                     id="maintenanceMode"
-                                    onchange="maintenanceToggle(this)"
                                 >
 
                                 <span class="slider"></span>
@@ -964,7 +1040,6 @@
                                 <input
                                     type="checkbox"
                                     id="posterCreation"
-                                    checked
                                 >
 
                                 <span class="slider"></span>
@@ -997,7 +1072,6 @@
                                 <input
                                     type="checkbox"
                                     id="advertisementSystem"
-                                    checked
                                 >
 
                                 <span class="slider"></span>
@@ -1023,6 +1097,14 @@
                                 Reset
                             </button>
 
+                        </div>
+
+
+                        <div
+                            id="saveMessage"
+                            class="save-message"
+                        >
+                            ✓ System settings saved successfully.
                         </div>
 
                     </div>
@@ -1080,8 +1162,8 @@
                                 </h4>
 
                                 <p>
-                                    Remove locally saved website and design
-                                    settings from this browser.
+                                    Remove locally saved website, design,
+                                    advertisement and system settings.
                                 </p>
 
                             </div>
@@ -1172,7 +1254,7 @@
                                     Designs
                                 </span>
 
-                                <span>
+                                <span id="designInfoCount">
                                     4
                                 </span>
 
@@ -1207,19 +1289,25 @@
                         </div>
 
 
-                        <div class="system-status">
+                        <div
+                            id="systemStatusBox"
+                            class="system-status"
+                        >
 
-                            <div class="system-status-icon">
+                            <div
+                                id="systemStatusIcon"
+                                class="system-status-icon"
+                            >
                                 ✓
                             </div>
 
                             <div>
 
-                                <strong>
+                                <strong id="systemStatusTitle">
                                     Frontend System Healthy
                                 </strong>
 
-                                <span>
+                                <span id="systemStatusDescription">
                                     All current frontend modules are available.
                                 </span>
 
@@ -1230,7 +1318,7 @@
                     </div>
 
 
-                    <!-- FUTURE BACKEND -->
+                    <!-- BACKEND -->
 
                     <div class="panel">
 
@@ -1324,9 +1412,17 @@
 
 <script>
 
-    /* =========================
+    /* =========================================================
+       STORAGE KEY
+    ========================================================== */
+
+    const SYSTEM_STORAGE_KEY =
+        "doctorPosterSystemSettings";
+
+
+    /* =========================================================
        DEFAULT SETTINGS
-    ========================== */
+    ========================================================== */
 
     const defaultSettings = {
 
@@ -1341,56 +1437,119 @@
     };
 
 
-    /* =========================
-       LOAD SETTINGS
-    ========================== */
+    /* =========================================================
+       SAFE JSON PARSER
+    ========================================================== */
 
-    function loadSettings() {
+    function getStoredSettings() {
 
-        const saved =
-            localStorage.getItem(
-                "doctorPosterSystemSettings"
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    SYSTEM_STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                return {
+                    ...defaultSettings
+                };
+
+            }
+
+
+            const parsed =
+                JSON.parse(saved);
+
+
+            return {
+
+                ...defaultSettings,
+
+                ...parsed
+
+            };
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read system settings:",
+                error
             );
 
 
+            return {
+                ...defaultSettings
+            };
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SAVE SETTINGS TO LOCAL STORAGE
+    ========================================================== */
+
+    function setStoredSettings(settings) {
+
+        localStorage.setItem(
+
+            SYSTEM_STORAGE_KEY,
+
+            JSON.stringify(settings)
+
+        );
+
+    }
+
+
+    /* =========================================================
+       LOAD SETTINGS
+    ========================================================== */
+
+    function loadSettings() {
+
         const settings =
-            saved
-                ? {
-                    ...defaultSettings,
-                    ...JSON.parse(saved)
-                }
-                : defaultSettings;
+            getStoredSettings();
 
 
         document.getElementById(
             "websiteStatus"
         ).checked =
-            settings.websiteStatus;
+            Boolean(settings.websiteStatus);
 
 
         document.getElementById(
             "maintenanceMode"
         ).checked =
-            settings.maintenanceMode;
+            Boolean(settings.maintenanceMode);
 
 
         document.getElementById(
             "posterCreation"
         ).checked =
-            settings.posterCreation;
+            Boolean(settings.posterCreation);
 
 
         document.getElementById(
             "advertisementSystem"
         ).checked =
-            settings.advertisementSystem;
+            Boolean(settings.advertisementSystem);
+
+
+        updateSystemOverview(
+            settings
+        );
 
     }
 
 
-    /* =========================
+    /* =========================================================
        SAVE SETTINGS
-    ========================== */
+    ========================================================== */
 
     function saveSettings() {
 
@@ -1401,15 +1560,18 @@
                     "websiteStatus"
                 ).checked,
 
+
             maintenanceMode:
                 document.getElementById(
                     "maintenanceMode"
                 ).checked,
 
+
             posterCreation:
                 document.getElementById(
                     "posterCreation"
                 ).checked,
+
 
             advertisementSystem:
                 document.getElementById(
@@ -1419,10 +1581,38 @@
         };
 
 
-        localStorage.setItem(
-            "doctorPosterSystemSettings",
-            JSON.stringify(settings)
+        /*
+         * Maintenance mode should only work
+         * when website itself is enabled.
+         */
+
+        if (
+            !settings.websiteStatus &&
+            settings.maintenanceMode
+        ) {
+
+            settings.maintenanceMode =
+                false;
+
+
+            document.getElementById(
+                "maintenanceMode"
+            ).checked = false;
+
+        }
+
+
+        setStoredSettings(
+            settings
         );
+
+
+        updateSystemOverview(
+            settings
+        );
+
+
+        showSaveMessage();
 
 
         alert(
@@ -1432,77 +1622,491 @@
     }
 
 
-    /* =========================
+    /* =========================================================
+       SAVE MESSAGE
+    ========================================================== */
+
+    function showSaveMessage() {
+
+        const message =
+            document.getElementById(
+                "saveMessage"
+            );
+
+
+        message.classList.add(
+            "show"
+        );
+
+
+        setTimeout(
+            function () {
+
+                message.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+    }
+
+
+    /* =========================================================
        WEBSITE TOGGLE
-    ========================== */
+    ========================================================== */
 
-    function websiteToggle(input) {
+    document.getElementById(
+        "websiteStatus"
+    ).addEventListener(
+        "change",
+        function () {
 
-        if (!input.checked) {
+            if (!this.checked) {
 
-            const confirmDisable =
-                confirm(
-                    "Website will be disabled. Continue?"
-                );
+                const confirmDisable =
+                    confirm(
+                        "Website will be disabled. Continue?"
+                    );
 
 
-            if (!confirmDisable) {
+                if (!confirmDisable) {
 
-                input.checked = true;
+                    this.checked = true;
 
-                return;
+                    return;
+
+                }
+
+
+                /*
+                 * Maintenance cannot remain active
+                 * when website is disabled.
+                 */
+
+                document.getElementById(
+                    "maintenanceMode"
+                ).checked = false;
 
             }
 
         }
+    );
 
-    }
 
-
-    /* =========================
+    /* =========================================================
        MAINTENANCE TOGGLE
-    ========================== */
+    ========================================================== */
 
-    function maintenanceToggle(input) {
+    document.getElementById(
+        "maintenanceMode"
+    ).addEventListener(
+        "change",
+        function () {
 
-        if (input.checked) {
+            if (this.checked) {
 
-            const confirmMaintenance =
-                confirm(
-                    "Enable Maintenance Mode?"
-                );
+                const websiteEnabled =
+                    document.getElementById(
+                        "websiteStatus"
+                    ).checked;
 
 
-            if (!confirmMaintenance) {
+                if (!websiteEnabled) {
 
-                input.checked = false;
+                    alert(
+                        "Please enable Website Status first."
+                    );
+
+
+                    this.checked = false;
+
+                    return;
+
+                }
+
+
+                const confirmMaintenance =
+                    confirm(
+                        "Enable Maintenance Mode?"
+                    );
+
+
+                if (!confirmMaintenance) {
+
+                    this.checked = false;
+
+                }
 
             }
+
+        }
+    );
+
+
+    /* =========================================================
+       UPDATE SYSTEM OVERVIEW
+    ========================================================== */
+
+    function updateSystemOverview(
+        settings
+    ) {
+
+        /* ---------------------------------
+           WEBSITE CARD
+        ---------------------------------- */
+
+        const websiteCardStatus =
+            document.getElementById(
+                "websiteCardStatus"
+            );
+
+
+        if (!settings.websiteStatus) {
+
+            websiteCardStatus.textContent =
+                "● Offline";
+
+            websiteCardStatus.className =
+                "offline";
+
+        } else if (
+            settings.maintenanceMode
+        ) {
+
+            websiteCardStatus.textContent =
+                "● Maintenance";
+
+            websiteCardStatus.className =
+                "warning-text";
+
+        } else {
+
+            websiteCardStatus.textContent =
+                "● Online";
+
+            websiteCardStatus.className =
+                "online";
+
+        }
+
+
+        /* ---------------------------------
+           DESIGN COUNT
+        ---------------------------------- */
+
+        updateDesignCount();
+
+
+        /* ---------------------------------
+           ADVERTISEMENT
+        ---------------------------------- */
+
+        updateAdvertisementStatus(
+            settings
+        );
+
+
+        /* ---------------------------------
+           SYSTEM STATUS
+        ---------------------------------- */
+
+        const systemCardStatus =
+            document.getElementById(
+                "systemCardStatus"
+            );
+
+
+        const systemStatusBox =
+            document.getElementById(
+                "systemStatusBox"
+            );
+
+
+        const systemStatusIcon =
+            document.getElementById(
+                "systemStatusIcon"
+            );
+
+
+        const systemStatusTitle =
+            document.getElementById(
+                "systemStatusTitle"
+            );
+
+
+        const systemStatusDescription =
+            document.getElementById(
+                "systemStatusDescription"
+            );
+
+
+        systemStatusBox.classList.remove(
+            "warning-state",
+            "danger-state"
+        );
+
+
+        if (!settings.websiteStatus) {
+
+            systemCardStatus.textContent =
+                "Offline";
+
+            systemCardStatus.className =
+                "offline";
+
+
+            systemStatusBox.classList.add(
+                "danger-state"
+            );
+
+
+            systemStatusIcon.textContent =
+                "!";
+
+
+            systemStatusTitle.textContent =
+                "Website System Offline";
+
+
+            systemStatusDescription.textContent =
+                "Website Status is currently disabled by administrator.";
+
+        } else if (
+            settings.maintenanceMode
+        ) {
+
+            systemCardStatus.textContent =
+                "Maintenance";
+
+            systemCardStatus.className =
+                "warning-text";
+
+
+            systemStatusBox.classList.add(
+                "warning-state"
+            );
+
+
+            systemStatusIcon.textContent =
+                "!";
+
+
+            systemStatusTitle.textContent =
+                "Maintenance Mode Active";
+
+
+            systemStatusDescription.textContent =
+                "The website is temporarily in maintenance mode.";
+
+        } else {
+
+            systemCardStatus.textContent =
+                "Healthy";
+
+            systemCardStatus.className =
+                "online";
+
+
+            systemStatusIcon.textContent =
+                "✓";
+
+
+            systemStatusTitle.textContent =
+                "Frontend System Healthy";
+
+
+            systemStatusDescription.textContent =
+                "All current frontend modules are available.";
 
         }
 
     }
 
 
-    /* =========================
-       RESET
-    ========================== */
+    /* =========================================================
+       DESIGN COUNT
+    ========================================================== */
+
+    function updateDesignCount() {
+
+        let designSettings = null;
+
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    "doctorPosterDesignStatus"
+                );
+
+
+            if (saved) {
+
+                designSettings =
+                    JSON.parse(saved);
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read design settings:",
+                error
+            );
+
+        }
+
+
+        const defaultDesigns = {
+
+            design1: true,
+            design2: true,
+            design3: true,
+            design4: true
+
+        };
+
+
+        const designs = {
+
+            ...defaultDesigns,
+
+            ...(designSettings || {})
+
+        };
+
+
+        const activeCount =
+            Object.values(
+                designs
+            ).filter(
+                Boolean
+            ).length;
+
+
+        document.getElementById(
+            "designCardStatus"
+        ).textContent =
+            `${activeCount} Active Design${activeCount === 1 ? "" : "s"}`;
+
+
+        document.getElementById(
+            "designInfoCount"
+        ).textContent =
+            activeCount;
+
+    }
+
+
+    /* =========================================================
+       ADVERTISEMENT STATUS
+    ========================================================== */
+
+    function updateAdvertisementStatus(
+        systemSettings
+    ) {
+
+        const adCardStatus =
+            document.getElementById(
+                "adCardStatus"
+            );
+
+
+        let advertisement = {
+
+            enabled: true
+
+        };
+
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    "doctorPosterAdvertisement"
+                );
+
+
+            if (saved) {
+
+                advertisement =
+                    {
+                        ...advertisement,
+                        ...JSON.parse(saved)
+                    };
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read advertisement settings:",
+                error
+            );
+
+        }
+
+
+        if (
+            !systemSettings.advertisementSystem
+        ) {
+
+            adCardStatus.textContent =
+                "System Disabled";
+
+            adCardStatus.className =
+                "offline";
+
+
+        } else if (
+            advertisement.enabled
+        ) {
+
+            adCardStatus.textContent =
+                "Browser Ad Enabled";
+
+            adCardStatus.className =
+                "online";
+
+
+        } else {
+
+            adCardStatus.textContent =
+                "Browser Ad Disabled";
+
+            adCardStatus.className =
+                "offline";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       RESET SETTINGS
+    ========================================================== */
 
     function resetSettings() {
 
         const confirmed =
             confirm(
-                "Reset all system settings?"
+                "Reset all system settings to default?"
             );
 
 
         if (!confirmed) {
+
             return;
+
         }
 
 
-        localStorage.removeItem(
-            "doctorPosterSystemSettings"
+        setStoredSettings(
+            {
+                ...defaultSettings
+            }
         );
 
 
@@ -1516,46 +2120,54 @@
     }
 
 
-    /* =========================
-       EXPORT
-    ========================== */
+    /* =========================================================
+       EXPORT SETTINGS
+    ========================================================== */
 
     function exportSettings() {
 
         const websiteSettings =
-            localStorage.getItem(
-                "doctorPosterWebsiteSettings"
+            readJSON(
+                "doctorPosterWebsiteSettings",
+                {}
             );
 
 
         const designSettings =
-            localStorage.getItem(
-                "doctorPosterDesignStatus"
+            readJSON(
+                "doctorPosterDesignStatus",
+                {}
+            );
+
+
+        const advertisementSettings =
+            readJSON(
+                "doctorPosterAdvertisement",
+                {}
             );
 
 
         const systemSettings =
-            localStorage.getItem(
-                "doctorPosterSystemSettings"
-            );
+            getStoredSettings();
 
 
         const exportData = {
 
             website:
-                websiteSettings
-                    ? JSON.parse(websiteSettings)
-                    : {},
+                websiteSettings,
+
 
             designs:
-                designSettings
-                    ? JSON.parse(designSettings)
-                    : {},
+                designSettings,
+
+
+            advertisement:
+                advertisementSettings,
+
 
             system:
-                systemSettings
-                    ? JSON.parse(systemSettings)
-                    : defaultSettings,
+                systemSettings,
+
 
             exportedAt:
                 new Date().toISOString()
@@ -1579,41 +2191,111 @@
 
 
         const url =
-            URL.createObjectURL(blob);
+            URL.createObjectURL(
+                blob
+            );
 
 
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
 
-        link.href = url;
+        link.href =
+            url;
+
 
         link.download =
             "doctor-poster-settings.json";
 
 
+        document.body.appendChild(
+            link
+        );
+
+
         link.click();
 
 
-        URL.revokeObjectURL(url);
+        document.body.removeChild(
+            link
+        );
+
+
+        setTimeout(
+            function () {
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            },
+            100
+        );
 
     }
 
 
-    /* =========================
+    /* =========================================================
+       SAFE JSON READER
+    ========================================================== */
+
+    function readJSON(
+        key,
+        fallback
+    ) {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    key
+                );
+
+
+            if (!saved) {
+
+                return fallback;
+
+            }
+
+
+            return JSON.parse(
+                saved
+            );
+
+        } catch (error) {
+
+            console.error(
+                `Unable to read ${key}:`,
+                error
+            );
+
+
+            return fallback;
+
+        }
+
+    }
+
+
+    /* =========================================================
        CLEAR LOCAL DATA
-    ========================== */
+    ========================================================== */
 
     function clearLocalData() {
 
         const confirmed =
             confirm(
-                "This will remove locally saved website, design and system settings. Continue?"
+                "This will remove locally saved website, design, advertisement and system settings. Continue?"
             );
 
 
         if (!confirmed) {
+
             return;
+
         }
 
 
@@ -1621,12 +2303,19 @@
             "doctorPosterWebsiteSettings"
         );
 
+
         localStorage.removeItem(
             "doctorPosterDesignStatus"
         );
 
+
         localStorage.removeItem(
-            "doctorPosterSystemSettings"
+            "doctorPosterAdvertisement"
+        );
+
+
+        localStorage.removeItem(
+            SYSTEM_STORAGE_KEY
         );
 
 
@@ -1640,11 +2329,63 @@
     }
 
 
-    /* =========================
-       INIT
-    ========================== */
+    /* =========================================================
+       STORAGE EVENT
+       Updates this page when another admin page
+       changes localStorage.
+    ========================================================== */
 
-    loadSettings();
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (
+                event.key ===
+                SYSTEM_STORAGE_KEY
+            ) {
+
+                loadSettings();
+
+            }
+
+
+            if (
+                event.key ===
+                "doctorPosterDesignStatus"
+            ) {
+
+                updateDesignCount();
+
+            }
+
+
+            if (
+                event.key ===
+                "doctorPosterAdvertisement"
+            ) {
+
+                updateAdvertisementStatus(
+                    getStoredSettings()
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIAL LOAD
+    ========================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadSettings();
+
+        }
+    );
 
 </script>
 
