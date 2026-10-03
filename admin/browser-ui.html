@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Browser UI Advertisement - Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f8fa;
+            color: #17353b;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 260px;
+            background: #073f45;
+            color: #fff;
+            padding: 24px 16px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #fff;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            color: #a9c7ca;
+        }
+
+        .menu-title {
+            margin: 28px 10px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #7faeb2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #c8dfe1;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
+        }
+
+        .sidebar a.active {
+            background: #087f86;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 18px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 74px;
+            background: #fff;
+            border-bottom: 1px solid #e6edef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: #789095;
+            font-size: 12px;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: #e7f6f5;
+            color: #087f86;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 30px 34px 50px;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #e8f8ef;
+            color: #18864a;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #21a45c;
+            border-radius: 50%;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 430px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: #fff;
+            border: 1px solid #e4ecee;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(20,50,60,.04);
+        }
+
+        .card-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid #edf1f2;
+        }
+
+        .card-header h2 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #7c9094;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .input,
+        textarea {
+            width: 100%;
+            border: 1px solid #dbe5e7;
+            border-radius: 9px;
+            padding: 12px 13px;
+            outline: none;
+            background: #fbfcfc;
+            color: #17353b;
+            transition: .2s;
+        }
+
+        .input:focus,
+        textarea:focus {
+            border-color: #087f86;
+            box-shadow: 0 0 0 3px rgba(8,127,134,.08);
+            background: #fff;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .help {
+            font-size: 11px;
+            color: #87999d;
+            margin-top: 6px;
+        }
+
+        /* =========================
+           TOGGLE
+        ========================= */
+
+        .setting-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e4ecee;
+            border-radius: 12px;
+            background: #fafcfc;
+            margin-bottom: 22px;
+        }
+
+        .setting-info strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .setting-info span {
+            font-size: 11px;
+            color: #87999d;
+        }
+
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 27px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+            background: #ccd7d9;
+            border-radius: 50px;
+            transition: .25s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            left: 3px;
+            top: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .25s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.15);
+        }
+
+        .switch input:checked + .slider {
+            background: #087f86;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(21px);
+        }
+
+        /* =========================
+           TWO COLUMN FORM
+        ========================= */
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* =========================
+           COLOR
+        ========================= */
+
+        .color-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-picker {
+            width: 52px;
+            height: 45px;
+            border: 1px solid #dbe5e7;
+            border-radius: 8px;
+            padding: 3px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        .upload-box {
+            border: 1.5px dashed #cbdadc;
+            border-radius: 11px;
+            padding: 18px;
+            text-align: center;
+            background: #fbfcfc;
+        }
+
+        .upload-icon {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            font-size: 12px;
+            color: #7d9094;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background: #e8f6f5;
+            color: #087f86;
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 12px;
+            display: none;
+        }
+
+        .image-preview img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #dde6e7;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #edf1f2;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .btn-secondary {
+            background: #eef3f4;
+            color: #48666b;
+        }
+
+        .btn-primary {
+            background: #087f86;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #056b71;
+        }
+
+        /* =========================
+           PREVIEW
+        ========================= */
+
+        .preview-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .preview-wrapper {
+            padding: 24px;
+        }
+
+        .browser-preview {
+            border: 1px solid #dce6e7;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .browser-bar {
+            height: 34px;
+            background: #f0f3f4;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0 10px;
+        }
+
+        .browser-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #b8c4c6;
+        }
+
+        .fake-url {
+            height: 19px;
+            flex: 1;
+            margin-left: 6px;
+            background: #fff;
+            border-radius: 5px;
+            font-size: 8px;
+            color: #99a7aa;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+        }
+
+        .ad-preview {
+            min-height: 125px;
+            padding: 15px;
+            position: relative;
+            color: #fff;
+        }
+
+        .preview-label {
+            font-size: 8px;
+            opacity: .7;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .preview-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-image {
+            width: 42px;
+            height: 42px;
+            border-radius: 9px;
+            background: rgba(255,255,255,.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .preview-text strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .preview-text span {
+            display: block;
+            font-size: 8px;
+            opacity: .82;
+            line-height: 1.4;
+        }
+
+        .preview-button {
+            border: 0;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .preview-close {
+            position: absolute;
+            right: 8px;
+            top: 7px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,.18);
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .preview-note {
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 8px;
+            background: #f1f7f7;
+            color: #698084;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        .mobile-header {
+            display: none;
+        }
+
+        @media (max-width: 1050px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-header {
+                display: flex;
+                height: 64px;
+                background: #073f45;
+                color: #fff;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 18px;
+            }
+
+            .mobile-brand {
+                font-weight: 800;
+            }
+
+            .mobile-menu-btn {
+                background: none;
+                border: 0;
+                color: #fff;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-user {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 17px;
+            }
+
+            .card-header,
+            .card-body,
+            .preview-wrapper {
+                padding: 18px;
+            }
+
+            .preview-content {
+                align-items: flex-start;
+            }
+
+            .preview-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">✚</div>
+
+            <div class="brand-text">
+                <strong>Doctor Poster</strong>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <div class="menu-title">Main</div>
+
+        <a href="dashboard.html">
+            <span>▦</span>
+            Dashboard
+        </a>
+
+        <div class="menu-title">Website</div>
+
+        <a href="website.html">
+            <span>◉</span>
+            Website Overview
+        </a>
+
+        <a href="website-edit.html">
+            <span>✎</span>
+            Edit Website
+        </a>
+
+        <div class="menu-title">Advertisement</div>
+
+        <a href="browser-ui.html" class="active">
+            <span>▣</span>
+            Browser UI Ad
+        </a>
+
+        <a href="banner.html">
+            <span>▰</span>
+            Banner
+        </a>
+
+        <div class="menu-title">Designs</div>
+
+        <a href="design-manage.html">
+            <span>◇</span>
+            Design Management
+        </a>
+
+        <div class="menu-title">System</div>
+
+        <a href="system.html">
+            <span>⚙</span>
+            System Settings
+        </a>
+
+        <div class="logout">
+            <a href="index.html">
+                <span>↪</span>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <!-- Mobile Header -->
+
+        <div class="mobile-header">
+            <div class="mobile-brand">
+                Doctor Poster Admin
+            </div>
+
+            <button
+                class="mobile-menu-btn"
+                onclick="alert('Mobile menu can be added later.')"
+            >
+                ☰
+            </button>
+        </div>
+
+
+        <!-- Topbar -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+                <h1>Browser UI Advertisement</h1>
+                <p>Control the advertisement shown above your website navbar.</p>
+            </div>
+
+            <div class="admin-user">
+
+                <div>
+                    <strong>Administrator</strong>
+                </div>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Content -->
+
+        <section class="content">
+
+            <div class="status-row">
+
+                <div>
+                    <strong>Advertisement Settings</strong>
+                    <p style="font-size:12px;color:#819397;margin-top:4px;">
+                        Configure your website's top advertisement.
+                    </p>
+                </div>
+
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Advertisement Active
+                </div>
+
+            </div>
+
+
+            <div class="grid">
+
+                <!-- =========================
+                     SETTINGS
+                ========================== -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h2>Advertisement Configuration</h2>
+
+                        <p>
+                            These settings will control the Browser UI advertisement.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <!-- ON / OFF -->
+
+                        <div class="setting-box">
+
+                            <div class="setting-info">
+                                <strong>Advertisement Status</strong>
+                                <span>
+                                    Turn the advertisement ON or OFF.
+                                </span>
+                            </div>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="adEnabled"
+                                    checked
+                                    onchange="updatePreview()"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- TITLE -->
+
+                        <div class="form-group">
+
+                            <label for="adTitle">
+                                Advertisement Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="adTitle"
+                                class="input"
+                                value="Promote Your Healthcare Brand"
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group">
+
+                            <label for="adDescription">
+                                Description
+                            </label>
+
+                            <textarea
+                                id="adDescription"
+                                oninput="updatePreview()"
+                            >Reach doctors, clinics & healthcare professionals</textarea>
+
+                        </div>
+
+
+                        <!-- IMAGE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Advertisement Image / Logo
+                            </label>
+
+                            <div class="upload-box">
+
+                                <div class="upload-icon">
+                                    🖼️
+                                </div>
+
+                                <p>
+                                    Upload an image or brand logo
+                                </p>
+
+                                <label class="upload-btn">
+
+                                    Choose Image
+
+                                    <input
+                                        type="file"
+                                        id="adImage"
+                                        accept="image/*"
+                                        onchange="previewImage(event)"
+                                    >
+
+                                </label>
+
+                                <div
+                                    class="image-preview"
+                                    id="imagePreview"
+                                >
+                                    <img id="uploadedImage" src="" alt="">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BUTTON -->
+
+                        <div class="two-col">
+
+                            <div class="form-group">
+
+                                <label for="buttonText">
+                                    Button Text
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="buttonText"
+                                    class="input"
+                                    value="Advertise With Us →"
+                                    oninput="updatePreview()"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="buttonLink">
+                                    Button Link
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="buttonLink"
+                                    class="input"
+                                    value="#"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COLORS -->
+
+                        <div class="two-col">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Background Color
+                                </label>
+
+                                <div class="color-row">
+
+                                    <input
+                                        type="color"
+                                        id="backgroundColor"
+                                        class="color-picker"
+                                        value="#087f86"
+                                        onchange="updatePreview()"
+                                    >
+
+                                    <input
+                                        type="text"
+                                        id="backgroundText"
+                                        class="input"
+                                        value="#087f86"
+                                        oninput="changeBackgroundText()"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Button Color
+                                </label>
+
+                                <div class="color-row">
+
+                                    <input
+                                        type="color"
+                                        id="buttonColor"
+                                        class="color-picker"
+                                        value="#ffffff"
+                                        onchange="updatePreview()"
+                                    >
+
+                                    <input
+                                        type="text"
+                                        id="buttonColorText"
+                                        class="input"
+                                        value="#ffffff"
+                                        oninput="changeButtonTextColor()"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CLOSE BUTTON -->
+
+                        <div class="setting-box">
+
+                            <div class="setting-info">
+
+                                <strong>
+                                    Show Close Button
+                                </strong>
+
+                                <span>
+                                    Allow visitors to close the advertisement.
+                                </span>
+
+                            </div>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="closeButton"
+                                    checked
+                                    onchange="updatePreview()"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="resetForm()"
+                            >
+                                Reset
+                            </button>
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="saveAdvertisement()"
+                            >
+                                Save Advertisement
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     PREVIEW
+                ========================== -->
+
+                <div class="card preview-card">
+
+                    <div class="card-header">
+
+                        <h2>Live Preview</h2>
+
+                        <p>
+                            This is how the advertisement will appear on your website.
+                        </p>
+
+                    </div>
+
+
+                    <div class="preview-wrapper">
+
+                        <div class="browser-preview">
+
+                            <!-- Fake browser -->
+
+                            <div class="browser-bar">
+
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+
+                                <div class="fake-url">
+                                    doctorpostermaker.github.io
+                                </div>
+
+                            </div>
+
+
+                            <!-- Advertisement -->
+
+                            <div
+                                class="ad-preview"
+                                id="adPreview"
+                            >
+
+                                <div class="preview-label">
+                                    Advertisement
+                                </div>
+
+                                <div class="preview-content">
+
+                                    <div
+                                        class="preview-image"
+                                        id="previewImage"
+                                    >
+                                        ✦
+                                    </div>
+
+                                    <div class="preview-text">
+
+                                        <strong id="previewTitle">
+                                            Promote Your Healthcare Brand
+                                        </strong>
+
+                                        <span id="previewDescription">
+                                            Reach doctors, clinics & healthcare professionals
+                                        </span>
+
+                                    </div>
+
+                                    <button
+                                        class="preview-button"
+                                        id="previewButton"
+                                    >
+                                        Advertise With Us →
+                                    </button>
+
+                                </div>
+
+
+                                <button
+                                    class="preview-close"
+                                    id="previewClose"
+                                >
+                                    ×
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-note">
+
+                            <strong>Note:</strong>
+                            Advertisement will appear above the website navbar.
+                            It will not be included inside any poster design or
+                            downloaded poster image.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       UPDATE PREVIEW
+    ========================== */
+
+    function updatePreview() {
+
+        const enabled =
+            document.getElementById("adEnabled").checked;
+
+        const title =
+            document.getElementById("adTitle").value;
+
+        const description =
+            document.getElementById("adDescription").value;
+
+        const buttonText =
+            document.getElementById("buttonText").value;
+
+        const backgroundColor =
+            document.getElementById("backgroundColor").value;
+
+        const buttonColor =
+            document.getElementById("buttonColor").value;
+
+        const closeButton =
+            document.getElementById("closeButton").checked;
+
+
+        const preview =
+            document.getElementById("adPreview");
+
+        const previewTitle =
+            document.getElementById("previewTitle");
+
+        const previewDescription =
+            document.getElementById("previewDescription");
+
+        const previewButton =
+            document.getElementById("previewButton");
+
+        const previewClose =
+            document.getElementById("previewClose");
+
+
+        previewTitle.textContent =
+            title || "Advertisement Title";
+
+        previewDescription.textContent =
+            description || "Advertisement description";
+
+        previewButton.textContent =
+            buttonText || "Learn More";
+
+        preview.style.background =
+            backgroundColor;
+
+        previewButton.style.background =
+            buttonColor;
+
+
+        /* Button text color */
+
+        if (buttonColor.toLowerCase() === "#ffffff") {
+
+            previewButton.style.color = "#087f86";
+
+        } else {
+
+            previewButton.style.color = "#ffffff";
+
+        }
+
+
+        /* Close button */
+
+        previewClose.style.display =
+            closeButton ? "flex" : "none";
+
+
+        /*
+            Advertisement OFF
+        */
+
+        if (!enabled) {
+
+            preview.style.opacity = "0.35";
+
+            previewLabelDisabled();
+
+        } else {
+
+            preview.style.opacity = "1";
+
+            previewLabelEnabled();
+
+        }
+
+    }
+
+
+    /* =========================
+       PREVIEW STATUS
+    ========================== */
+
+    function previewLabelDisabled() {
+
+        const label =
+            document.querySelector(".preview-label");
+
+        label.textContent =
+            "Advertisement Disabled";
+
+    }
+
+
+    function previewLabelEnabled() {
+
+        const label =
+            document.querySelector(".preview-label");
+
+        label.textContent =
+            "Advertisement";
+
+    }
+
+
+    /* =========================
+       BACKGROUND COLOR
+    ========================== */
+
+    function changeBackgroundText() {
+
+        const value =
+            document.getElementById("backgroundText").value;
+
+        if (/^#[0-9A-F]{6}$/i.test(value)) {
+
+            document.getElementById("backgroundColor").value =
+                value;
+
+            updatePreview();
+
+        }
+
+    }
+
+
+    /* =========================
+       BUTTON COLOR
+    ========================== */
+
+    function changeButtonTextColor() {
+
+        const value =
+            document.getElementById("buttonColorText").value;
+
+        if (/^#[0-9A-F]{6}$/i.test(value)) {
+
+            document.getElementById("buttonColor").value =
+                value;
+
+            updatePreview();
+
+        }
+
+    }
+
+
+    /* =========================
+       IMAGE PREVIEW
+    ========================== */
+
+    function previewImage(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function(e) {
+
+            const image =
+                document.getElementById("uploadedImage");
+
+            const imageBox =
+                document.getElementById("imagePreview");
+
+            const previewImage =
+                document.getElementById("previewImage");
+
+
+            image.src =
+                e.target.result;
+
+            previewImage.innerHTML =
+                `<img src="${e.target.result}" alt="Ad Image">`;
+
+            imageBox.style.display =
+                "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    }
+
+
+    /* =========================
+       SAVE
+    ========================== */
+
+    function saveAdvertisement() {
+
+        const data = {
+
+            enabled:
+                document.getElementById("adEnabled").checked,
+
+            title:
+                document.getElementById("adTitle").value,
+
+            description:
+                document.getElementById("adDescription").value,
+
+            buttonText:
+                document.getElementById("buttonText").value,
+
+            buttonLink:
+                document.getElementById("buttonLink").value,
+
+            backgroundColor:
+                document.getElementById("backgroundColor").value,
+
+            buttonColor:
+                document.getElementById("buttonColor").value,
+
+            showCloseButton:
+                document.getElementById("closeButton").checked
+
+        };
+
+
+        /*
+            Temporary frontend storage.
+
+            Later this will be replaced with:
+            PUT /api/advertisement
+
+            MongoDB will store the settings.
+        */
+
+        localStorage.setItem(
+            "doctorPosterAdvertisement",
+            JSON.stringify(data)
+        );
+
+
+        alert(
+            "Advertisement settings saved successfully!"
+        );
+
+    }
+
+
+    /* =========================
+       LOAD SAVED DATA
+    ========================== */
+
+    function loadAdvertisement() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterAdvertisement"
+            );
+
+        if (!saved) {
+
+            updatePreview();
+
+            return;
+
+        }
+
+
+        const data =
+            JSON.parse(saved);
+
+
+        document.getElementById("adEnabled").checked =
+            data.enabled;
+
+        document.getElementById("adTitle").value =
+            data.title;
+
+        document.getElementById("adDescription").value =
+            data.description;
+
+        document.getElementById("buttonText").value =
+            data.buttonText;
+
+        document.getElementById("buttonLink").value =
+            data.buttonLink;
+
+        document.getElementById("backgroundColor").value =
+            data.backgroundColor;
+
+        document.getElementById("backgroundText").value =
+            data.backgroundColor;
+
+        document.getElementById("buttonColor").value =
+            data.buttonColor;
+
+        document.getElementById("buttonColorText").value =
+            data.buttonColor;
+
+        document.getElementById("closeButton").checked =
+            data.showCloseButton;
+
+
+        updatePreview();
+
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
+    function resetForm() {
+
+        const confirmReset =
+            confirm(
+                "Reset advertisement settings?"
+            );
+
+        if (!confirmReset) return;
+
+
+        localStorage.removeItem(
+            "doctorPosterAdvertisement"
+        );
+
+
+        document.getElementById("adEnabled").checked =
+            true;
+
+        document.getElementById("adTitle").value =
+            "Promote Your Healthcare Brand";
+
+        document.getElementById("adDescription").value =
+            "Reach doctors, clinics & healthcare professionals";
+
+        document.getElementById("buttonText").value =
+            "Advertise With Us →";
+
+        document.getElementById("buttonLink").value =
+            "#";
+
+        document.getElementById("backgroundColor").value =
+            "#087f86";
+
+        document.getElementById("backgroundText").value =
+            "#087f86";
+
+        document.getElementById("buttonColor").value =
+            "#ffffff";
+
+        document.getElementById("buttonColorText").value =
+            "#ffffff";
+
+        document.getElementById("closeButton").checked =
+            true;
+
+
+        document.getElementById("imagePreview").style.display =
+            "none";
+
+        document.getElementById("previewImage").innerHTML =
+            "✦";
+
+
+        updatePreview();
+
+    }
+
+
+    /* =========================
+       INITIALIZE
+    ========================== */
+
+    loadAdvertisement();
+
+</script>
+
+</body>
+</html>
