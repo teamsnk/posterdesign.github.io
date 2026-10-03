@@ -1,0 +1,260 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: transparent;
+}
+
+
+/* =========================================
+   AD WRAPPER
+========================================= */
+
+.ad-wrapper {
+    width: 100%;
+    padding: 8px 15px;
+}
+
+
+/* =========================================
+   AD LABEL
+========================================= */
+
+.ad-label {
+    text-align: center;
+
+    font-size: 9px;
+    color: #8a9a9d;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================
+   AD BANNER
+========================================= */
+
+.ad-banner {
+    position: relative;
+
+    width: 100%;
+    min-height: 64px;
+
+    padding: 10px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087f86,
+            #05656b
+        );
+
+    box-shadow:
+        0 8px 25px rgba(8, 127, 134, .15);
+}
+
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.ad-left {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+/* =========================================
+   AD LOGO
+========================================= */
+
+.ad-logo {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 20px;
+
+    background:
+        rgba(255,255,255,.15);
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.ad-content h2 {
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    margin-bottom: 3px;
+}
+
+.ad-content p {
+    color: rgba(255,255,255,.78);
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.ad-button {
+    flex-shrink: 0;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #05656b;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition: .25s ease;
+}
+
+.ad-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.18);
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.ad-close {
+    position: absolute;
+
+    top: 5px;
+    right: 6px;
+
+    width: 20px;
+    height: 20px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0,0,0,.15);
+
+    color: white;
+
+    font-size: 15px;
+
+    line-height: 20px;
+
+    cursor: pointer;
+
+    z-index: 2;
+}
+
+.ad-close:hover {
+    background: rgba(0,0,0,.3);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+    .ad-wrapper {
+        padding: 6px 10px;
+    }
+
+    .ad-banner {
+        padding: 9px 12px;
+        gap: 10px;
+    }
+
+    .ad-logo {
+        width: 34px;
+        height: 34px;
+
+        font-size: 17px;
+    }
+
+    .ad-content h2 {
+        font-size: 11px;
+    }
+
+    .ad-content p {
+        font-size: 9px;
+    }
+
+    .ad-button {
+        padding: 8px 10px;
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .ad-logo {
+        display: none;
+    }
+
+    .ad-content p {
+        display: none;
+    }
+
+    .ad-banner {
+        min-height: 48px;
+    }
+
+    .ad-content h2 {
+        font-size: 10px;
+    }
+
+    .ad-button {
+        padding: 7px 9px;
+        font-size: 8px;
+    }
+}
