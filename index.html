@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Doctor Poster Maker Pro</title>
 <style>
+.quickbar{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:12px;flex-wrap:wrap}
+.q,.quickbar select{border:1px solid #d1e0e5;background:#fff;color:#47616c;border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700;cursor:pointer}
+.q.active{background:#078c9e;color:#fff;border-color:#078c9e}
+.quickbar select{border-radius:8px}
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
 *{box-sizing:border-box}
 body{margin:0;background:#eef3f5;color:#123c50;font-family:"Noto Sans Bengali",sans-serif}
@@ -52,7 +56,21 @@ opacity:.9}
 <div class="nav"><div class="logoBrand">🩺 Doctor Poster Maker <small>Free Online Tool</small></div><div class="actions"><button class="btn gray" onclick="location.reload()">↻ Reset</button><button class="btn blue" onclick="downloadPoster()">⬇ Download</button></div></div>
 
 <div class="wrap">
-<div class="title"><h1>Professional Doctor Poster Maker</h1><p>আপনার দেওয়া ডিজাইনের মতো পোস্টার তৈরি করুন — তথ্য ও ছবি পরিবর্তন করুন, তারপর Download করুন।</p></div>
+<div class="title">
+<h1>Professional Doctor Poster Maker</h1>
+<p>তথ্য, ছবি, রং ও সাইজ পরিবর্তন করে কয়েক মিনিটেই professional doctor poster তৈরি করুন।</p>
+<div class="quickbar">
+  <button class="q active" onclick="setTheme('teal',this)">Teal</button>
+  <button class="q" onclick="setTheme('blue',this)">Blue</button>
+  <button class="q" onclick="setTheme('green',this)">Green</button>
+  <button class="q" onclick="setTheme('navy',this)">Navy</button>
+  <select onchange="setSize(this.value)">
+    <option value="1080x1350">1080 × 1350 — Social</option>
+    <option value="1080x1080">1080 × 1080 — Square</option>
+    <option value="1080x1920">1080 × 1920 — Story</option>
+  </select>
+</div>
+</div>
 <div class="grid">
 <aside class="panel">
 <h2>✏️ Poster Information</h2>
@@ -100,6 +118,21 @@ opacity:.9}
 <script>
 const v=id=>document.getElementById(id).value;
 function html(id,s){document.getElementById(id).innerHTML=s.replace(/\n/g,'<br>')}
+function setTheme(name,btn){
+ const colors={teal:['#058c9e','#006caa','#54a982'],blue:['#087fc1','#07538f','#50a9b8'],green:['#188b72','#126f63','#65a97d'],navy:['#174b72','#12385a','#4f9aa6']};
+ const c=colors[name]||colors.teal;
+ document.querySelectorAll('.q').forEach(x=>x.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+ let style=document.getElementById('themeStyle');
+ if(!style){style=document.createElement('style');style.id='themeStyle';document.head.appendChild(style)}
+ style.textContent=`.poster .special,.poster .call{background:${c[0]}!important}.poster .clinic b{color:${c[1]}!important}.poster .clinic strong,.poster .row b,.poster .card b{color:${c[0]}!important}.poster .greenLine{background:${c[2]}!important}.poster .ico,.poster .callIcon{background:${c[0]}!important}.poster .bar{background:${c[0]}!important}`;
+}
+function setSize(size){
+ const p=document.getElementById('poster');
+ if(size==='1080x1080'){p.style.height='540px';p.style.width='540px'}
+ else if(size==='1080x1920'){p.style.height='960px';p.style.width='540px'}
+ else {p.style.height='675px';p.style.width='540px'}
+}
 function update(){
  document.getElementById('pDoctor').textContent=v('doctor');
  html('pDegree',v('degree')); document.getElementById('pSpecial').textContent=v('special');
@@ -120,6 +153,7 @@ async function downloadPoster(){
  }catch(e){alert('Download করা যায়নি। আবার চেষ্টা করুন।')}
 }
 update();
+setTheme('teal',document.querySelector('.q.active'));
 </script>
 </body>
 </html>
