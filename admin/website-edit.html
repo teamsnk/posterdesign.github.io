@@ -192,6 +192,34 @@
             font-size: 12px;
         }
 
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 9px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-badge.online {
+            background: #e8f7ef;
+            color: #197044;
+        }
+
+        .status-badge.offline {
+            background: #fff0f0;
+            color: #a33b3b;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
         .switch {
             position: relative;
             width: 52px;
@@ -514,6 +542,10 @@
             .btn {
                 width: 100%;
             }
+
+            .status-box {
+                gap: 15px;
+            }
         }
     </style>
 </head>
@@ -747,9 +779,20 @@
 
                     <div class="status-info">
                         <strong>Website Enabled</strong>
+
                         <span>
-                            OFF করলে public homepage unavailable message দেখাবে।
+                            এই setting public homepage চালু/বন্ধ করবে।
                         </span>
+
+                        <div
+                            class="status-badge online"
+                            id="statusBadge"
+                        >
+                            <span class="status-dot"></span>
+                            <span id="statusBadgeText">
+                                Website Online
+                            </span>
+                        </div>
                     </div>
 
                     <label class="switch">
@@ -905,8 +948,8 @@
 
                 <div class="help-box">
                     💡 <strong>Note:</strong>
-                    এখানে Preview শুধু content দেখানোর জন্য।
-                    Save করার পর একই content মূল homepage-এও update হবে।
+                    Save করার পর এই content মূল homepage-এও update হবে।
+                    Website Status system settings-এর সাথেও synchronized থাকবে।
                 </div>
 
             </div>
@@ -920,14 +963,24 @@
 <script>
 
     /* =========================================================
-       WEBSITE SETTINGS
+       STORAGE KEYS
        ========================================================= */
 
-    const STORAGE_KEY = "doctorPosterWebsiteSettings";
+    const WEBSITE_STORAGE_KEY =
+        "doctorPosterWebsiteSettings";
+
+    const SYSTEM_STORAGE_KEY =
+        "doctorPosterSystemSettings";
+
+
+    /* =========================================================
+       DEFAULT WEBSITE SETTINGS
+       ========================================================= */
 
     const defaultWebsite = {
 
-        websiteName: "Doctor Poster Maker",
+        websiteName:
+            "Doctor Poster Maker",
 
         websiteTagline:
             "Create professional doctor posters in minutes.",
@@ -963,6 +1016,26 @@
             "",
 
         websiteEnabled:
+            true
+    };
+
+
+    /* =========================================================
+       DEFAULT SYSTEM SETTINGS
+       ========================================================= */
+
+    const defaultSystem = {
+
+        websiteStatus:
+            true,
+
+        maintenanceMode:
+            false,
+
+        posterCreation:
+            true,
+
+        advertisementSystem:
             true
     };
 
@@ -1013,6 +1086,12 @@
     const message =
         document.getElementById("message");
 
+    const statusBadge =
+        document.getElementById("statusBadge");
+
+    const statusBadgeText =
+        document.getElementById("statusBadgeText");
+
 
     /* =========================================================
        PREVIEW ELEMENTS
@@ -1050,35 +1129,51 @@
 
 
     /* =========================================================
-       LOAD SETTINGS
+       SAFE JSON READER
+       ========================================================= */
+
+    function readJSON(key, fallback) {
+
+        try {
+
+            const saved =
+                localStorage.getItem(key);
+
+            if (!saved) {
+                return fallback;
+            }
+
+            const parsed =
+                JSON.parse(saved);
+
+            return {
+                ...fallback,
+                ...parsed
+            };
+
+        } catch (error) {
+
+            console.error(
+                "Storage read error:",
+                error
+            );
+
+            return fallback;
+        }
+    }
+
+
+    /* =========================================================
+       LOAD WEBSITE SETTINGS
        ========================================================= */
 
     function loadWebsiteSettings() {
 
-        const saved =
-            localStorage.getItem(STORAGE_KEY);
-
-        let settings = defaultWebsite;
-
-        if (saved) {
-
-            try {
-
-                settings = {
-                    ...defaultWebsite,
-                    ...JSON.parse(saved)
-                };
-
-            } catch (error) {
-
-                console.error(
-                    "Website settings error:",
-                    error
-                );
-
-                settings = defaultWebsite;
-            }
-        }
+        const settings =
+            readJSON(
+                WEBSITE_STORAGE_KEY,
+                defaultWebsite
+            );
 
         websiteName.value =
             settings.websiteName;
@@ -1117,9 +1212,35 @@
             settings.contactEmail;
 
         websiteEnabled.checked =
-            settings.websiteEnabled;
+            settings.websiteEnabled !== false;
 
         updatePreview();
+        updateStatusBadge();
+    }
+
+
+    /* =========================================================
+       LOAD SYSTEM WEBSITE STATUS
+       ========================================================= */
+
+    function loadSystemWebsiteStatus() {
+
+        const system =
+            readJSON(
+                SYSTEM_STORAGE_KEY,
+                defaultSystem
+            );
+
+        /*
+         * System Settings-এর Website Status
+         * এবং Website Editor-এর Website Status
+         * একই state-এ রাখা হবে।
+         */
+
+        websiteEnabled.checked =
+            system.websiteStatus !== false;
+
+        updateStatusBadge();
     }
 
 
@@ -1174,7 +1295,7 @@
 
 
     /* =========================================================
-       LIVE PREVIEW
+       UPDATE PREVIEW
        ========================================================= */
 
     function updatePreview() {
@@ -1225,7 +1346,64 @@
 
 
     /* =========================================================
-       SAVE SETTINGS
+       UPDATE STATUS BADGE
+       ========================================================= */
+
+    function updateStatusBadge() {
+
+        const enabled =
+            websiteEnabled.checked;
+
+        if (enabled) {
+
+            statusBadge.className =
+                "status-badge online";
+
+            statusBadgeText.textContent =
+                "Website Online";
+
+        } else {
+
+            statusBadge.className =
+                "status-badge offline";
+
+            statusBadgeText.textContent =
+                "Website Offline";
+        }
+    }
+
+
+    /* =========================================================
+       SAVE SYSTEM WEBSITE STATUS
+       ========================================================= */
+
+    function saveSystemWebsiteStatus(enabled) {
+
+        const system =
+            readJSON(
+                SYSTEM_STORAGE_KEY,
+                defaultSystem
+            );
+
+        system.websiteStatus =
+            enabled;
+
+        /*
+         * Website OFF হলে Maintenance Mode
+         * automatically ON করা হচ্ছে না।
+         * Admin System page-এর existing logic
+         * maintenance control করবে।
+         */
+
+        localStorage.setItem(
+            SYSTEM_STORAGE_KEY,
+            JSON.stringify(system)
+        );
+    }
+
+
+    /* =========================================================
+       SAVE WEBSITE SETTINGS
        ========================================================= */
 
     function saveWebsiteSettings() {
@@ -1233,9 +1411,22 @@
         const data =
             getFormData();
 
+        /*
+         * Website content save
+         */
+
         localStorage.setItem(
-            STORAGE_KEY,
+            WEBSITE_STORAGE_KEY,
             JSON.stringify(data)
+        );
+
+        /*
+         * Website Status system settings-এর
+         * সাথেও synchronize করা হচ্ছে।
+         */
+
+        saveSystemWebsiteStatus(
+            data.websiteEnabled
         );
 
         showMessage(
@@ -1244,11 +1435,12 @@
         );
 
         updatePreview();
+        updateStatusBadge();
     }
 
 
     /* =========================================================
-       RESET SETTINGS
+       RESET WEBSITE SETTINGS
        ========================================================= */
 
     function resetWebsiteSettings() {
@@ -1262,15 +1454,37 @@
             return;
         }
 
+        /*
+         * Website content reset
+         */
+
         localStorage.setItem(
-            STORAGE_KEY,
+            WEBSITE_STORAGE_KEY,
             JSON.stringify(defaultWebsite)
+        );
+
+        /*
+         * System website status-ও default ON
+         */
+
+        const system =
+            readJSON(
+                SYSTEM_STORAGE_KEY,
+                defaultSystem
+            );
+
+        system.websiteStatus =
+            true;
+
+        localStorage.setItem(
+            SYSTEM_STORAGE_KEY,
+            JSON.stringify(system)
         );
 
         loadWebsiteSettings();
 
         showMessage(
-            "Website settings reset হয়েছে।",
+            "Website settings reset হয়েছে এবং Website Status ON করা হয়েছে।",
             "success"
         );
     }
@@ -1307,9 +1521,10 @@
        INPUT EVENTS
        ========================================================= */
 
-    const inputs = document.querySelectorAll(
-        "input:not([type='checkbox']), textarea"
-    );
+    const inputs =
+        document.querySelectorAll(
+            "input:not([type='checkbox']), textarea"
+        );
 
     inputs.forEach(input => {
 
@@ -1323,7 +1538,12 @@
 
     websiteEnabled.addEventListener(
         "change",
-        updatePreview
+        function() {
+
+            updatePreview();
+            updateStatusBadge();
+
+        }
     );
 
 
@@ -1348,10 +1568,53 @@
 
 
     /* =========================================================
+       STORAGE SYNC
+       ========================================================= */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            /*
+             * অন্য admin tab থেকে Website Content
+             * পরিবর্তন হলে এখানে update হবে।
+             */
+
+            if (
+                event.key === WEBSITE_STORAGE_KEY
+            ) {
+
+                loadWebsiteSettings();
+            }
+
+
+            /*
+             * System page থেকে Website Status
+             * পরিবর্তন হলে এখানে update হবে।
+             */
+
+            if (
+                event.key === SYSTEM_STORAGE_KEY
+            ) {
+
+                loadSystemWebsiteStatus();
+            }
+        }
+    );
+
+
+    /* =========================================================
        INITIAL LOAD
        ========================================================= */
 
     loadWebsiteSettings();
+
+/*
+ * System Settings-কে final authority হিসেবে
+ * Website Status-এর সাথে sync করা হচ্ছে।
+ */
+
+    loadSystemWebsiteStatus();
 
 </script>
 
