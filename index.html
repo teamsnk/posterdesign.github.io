@@ -35,12 +35,10 @@
 
             <div class="ad-content">
 
-                <!-- Default Icon -->
                 <div class="ad-icon" id="adIcon">
                     ✦
                 </div>
 
-                <!-- Advertisement Image -->
                 <div class="ad-image-wrap" id="adImageWrap">
                     <img
                         id="adImage"
@@ -49,7 +47,6 @@
                     >
                 </div>
 
-                <!-- Advertisement Text -->
                 <div class="ad-text">
 
                     <strong id="adTitle">
@@ -62,7 +59,6 @@
 
                 </div>
 
-                <!-- Advertisement Button -->
                 <button
                     class="ad-btn"
                     id="adButton"
@@ -71,7 +67,6 @@
                     Advertise With Us →
                 </button>
 
-                <!-- Close -->
                 <button
                     class="ad-close"
                     id="adClose"
@@ -96,7 +91,6 @@
 
         <div class="nav-container">
 
-            <!-- Logo -->
             <a href="index.html" class="logo">
 
                 <div class="logo-icon">
@@ -111,7 +105,6 @@
             </a>
 
 
-            <!-- Desktop Navigation -->
             <nav class="nav">
 
                 <a href="#home" class="nav-link active">
@@ -133,7 +126,6 @@
             </nav>
 
 
-            <!-- Header Action -->
             <div class="header-actions">
 
                 <button
@@ -147,7 +139,6 @@
             </div>
 
 
-            <!-- Mobile Menu -->
             <button
                 class="menu-btn"
                 type="button"
@@ -162,7 +153,6 @@
         </div>
 
 
-        <!-- Mobile Navigation -->
         <div class="mobile-nav" id="mobileNav">
 
             <a href="#home" onclick="closeMenu()">
@@ -204,7 +194,6 @@
 
             <div class="hero-container">
 
-                <!-- Hero Content -->
                 <div class="hero-content">
 
                     <div class="hero-badge">
@@ -245,11 +234,10 @@
                     </div>
 
 
-                    <!-- Stats -->
                     <div class="hero-stats">
 
                         <div class="stat">
-                            <strong>4+</strong>
+                            <strong id="designCountStat">4+</strong>
                             <span>Designs</span>
                         </div>
 
@@ -268,23 +256,33 @@
                 </div>
 
 
-                <!-- Hero Poster Mockup -->
                 <div class="hero-visual">
 
                     <div class="floating-card card-one">
-                        <span class="floating-icon">✓</span>
+
+                        <span class="floating-icon">
+                            ✓
+                        </span>
+
                         <div>
                             <strong>Easy Editing</strong>
                             <small>Live preview</small>
                         </div>
+
                     </div>
 
+
                     <div class="floating-card card-two">
-                        <span class="floating-icon">HD</span>
+
+                        <span class="floating-icon">
+                            HD
+                        </span>
+
                         <div>
                             <strong>High Quality</strong>
                             <small>1080 × 1350</small>
                         </div>
+
                     </div>
 
 
@@ -307,11 +305,17 @@
                         <div class="poster-body">
 
                             <div class="doctor-photo">
+
                                 <div class="doctor-silhouette">
+
                                     <div class="doctor-head"></div>
+
                                     <div class="doctor-body"></div>
+
                                 </div>
+
                             </div>
+
 
                             <div class="poster-info">
 
@@ -373,6 +377,7 @@
                 <div class="section-heading">
 
                     <div>
+
                         <span class="section-label">
                             DESIGN COLLECTION
                         </span>
@@ -380,6 +385,7 @@
                         <h2>
                             Choose Your Design
                         </h2>
+
                     </div>
 
                     <p>
@@ -390,30 +396,53 @@
                 </div>
 
 
-                <div class="design-grid">
+                <div
+                    class="design-grid"
+                    id="designGrid"
+                >
 
-                    <!-- Design 1 -->
-                    <div class="design-card">
+                    <!-- DESIGN 1 -->
+
+                    <div
+                        class="design-card"
+                        data-design-card="design1"
+                    >
 
                         <div class="design-preview preview-one">
 
                             <div class="mini-poster">
 
                                 <div class="mini-header">
+
                                     <span>✚</span>
-                                    <small>MEDICAL CENTER</small>
+
+                                    <small>
+                                        MEDICAL CENTER
+                                    </small>
+
                                 </div>
+
 
                                 <div class="mini-photo"></div>
 
+
                                 <div class="mini-name">
-                                    <strong>Dr. Ahmed</strong>
-                                    <span>MBBS, FCPS</span>
+
+                                    <strong>
+                                        Dr. Ahmed
+                                    </strong>
+
+                                    <span>
+                                        MBBS, FCPS
+                                    </span>
+
                                 </div>
+
 
                                 <div class="mini-line"></div>
 
                             </div>
+
 
                             <div class="design-number">
                                 01
@@ -421,9 +450,12 @@
 
                         </div>
 
+
                         <div class="design-info">
 
-                            <span>CLASSIC MEDICAL</span>
+                            <span>
+                                CLASSIC MEDICAL
+                            </span>
 
                             <h3>
                                 Classic Medical
@@ -446,36 +478,57 @@
                     </div>
 
 
-                    <!-- Design 2 -->
-                    <div class="design-card">
+                    <!-- DESIGN 2 -->
+
+                    <div
+                        class="design-card"
+                        data-design-card="design2"
+                    >
 
                         <div class="design-preview preview-two">
 
                             <div class="mini-poster">
 
                                 <div class="mini-header dark">
+
                                     <span>✚</span>
-                                    <small>PREMIUM CLINIC</small>
+
+                                    <small>
+                                        PREMIUM CLINIC
+                                    </small>
+
                                 </div>
+
 
                                 <div class="mini-dark-box">
 
                                     <div class="mini-photo circle"></div>
 
                                     <div class="mini-name light">
-                                        <strong>Dr. Sarah</strong>
-                                        <span>Specialist</span>
+
+                                        <strong>
+                                            Dr. Sarah
+                                        </strong>
+
+                                        <span>
+                                            Specialist
+                                        </span>
+
                                     </div>
 
                                 </div>
 
+
                                 <div class="mini-cards">
+
                                     <span></span>
                                     <span></span>
                                     <span></span>
+
                                 </div>
 
                             </div>
+
 
                             <div class="design-number">
                                 02
@@ -483,9 +536,12 @@
 
                         </div>
 
+
                         <div class="design-info">
 
-                            <span>PREMIUM MODERN</span>
+                            <span>
+                                PREMIUM MODERN
+                            </span>
 
                             <h3>
                                 Premium Modern
@@ -508,32 +564,54 @@
                     </div>
 
 
-                    <!-- Design 3 -->
-                    <div class="design-card">
+                    <!-- DESIGN 3 -->
+
+                    <div
+                        class="design-card"
+                        data-design-card="design3"
+                    >
 
                         <div class="design-preview preview-three">
 
                             <div class="mini-poster">
 
                                 <div class="mini-header">
+
                                     <span>✚</span>
-                                    <small>HEALTH CENTER</small>
+
+                                    <small>
+                                        HEALTH CENTER
+                                    </small>
+
                                 </div>
 
+
                                 <div class="minimal-title">
-                                    <strong>Dr. Rahman</strong>
-                                    <span>MBBS, MD</span>
+
+                                    <strong>
+                                        Dr. Rahman
+                                    </strong>
+
+                                    <span>
+                                        MBBS, MD
+                                    </span>
+
                                 </div>
+
 
                                 <div class="minimal-photo"></div>
 
+
                                 <div class="minimal-info">
+
                                     <span></span>
                                     <span></span>
                                     <span></span>
+
                                 </div>
 
                             </div>
+
 
                             <div class="design-number">
                                 03
@@ -541,9 +619,12 @@
 
                         </div>
 
+
                         <div class="design-info">
 
-                            <span>MODERN MINIMAL</span>
+                            <span>
+                                MODERN MINIMAL
+                            </span>
 
                             <h3>
                                 Modern Minimal
@@ -566,8 +647,12 @@
                     </div>
 
 
-                    <!-- Design 4 -->
-                    <div class="design-card">
+                    <!-- DESIGN 4 -->
+
+                    <div
+                        class="design-card"
+                        data-design-card="design4"
+                    >
 
                         <div class="design-preview preview-four">
 
@@ -593,15 +678,19 @@
 
                             </div>
 
+
                             <div class="design-number">
                                 04
                             </div>
 
                         </div>
 
+
                         <div class="design-info">
 
-                            <span>ELEGANT SPLIT</span>
+                            <span>
+                                ELEGANT SPLIT
+                            </span>
 
                             <h3>
                                 Elegant Split
@@ -622,6 +711,28 @@
                         </div>
 
                     </div>
+
+                </div>
+
+
+                <!-- All Designs Disabled Message -->
+
+                <div
+                    class="no-design-message"
+                    id="noDesignMessage"
+                >
+
+                    <div class="no-design-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        No Designs Available
+                    </h3>
+
+                    <p>
+                        New poster designs will be available soon.
+                    </p>
 
                 </div>
 
@@ -845,6 +956,7 @@
 
                 </div>
 
+
                 <button
                     class="cta-btn"
                     type="button"
@@ -870,7 +982,10 @@
 
             <div class="footer-brand">
 
-                <a href="index.html" class="logo footer-logo">
+                <a
+                    href="index.html"
+                    class="logo footer-logo"
+                >
 
                     <div class="logo-icon">
                         ✚
@@ -882,6 +997,7 @@
                     </div>
 
                 </a>
+
 
                 <p>
                     Create beautiful professional doctor posters
@@ -949,10 +1065,6 @@
 
     </footer>
 
-
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
 
     <script src="script.js"></script>
 
