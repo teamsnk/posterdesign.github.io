@@ -7,56 +7,81 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Chatter | Design System</title>
+    <title>Chatter</title>
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Inter, Arial, Helvetica, sans-serif;
         }
 
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --bg: #f3f6fa;
+            --primary: #635bff;
+            --primary-dark: #4f46e5;
+            --bg: #f5f7fb;
             --white: #ffffff;
-            --border: #e5e7eb;
             --text: #172033;
-            --muted: #6b7280;
-            --green: #22c55e;
-            --danger: #ef4444;
+            --muted: #7b8498;
+            --border: #e7eaf1;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --sidebar: #ffffff;
+            --bubble-me: #635bff;
+            --bubble-other: #f1f3f7;
         }
 
         body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
         }
 
-        /* =====================================================
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================================
            APP
-        ===================================================== */
+        ========================================== */
 
         .app {
+            width: 100%;
             height: 100vh;
             display: flex;
             overflow: hidden;
+            background: var(--white);
         }
 
-        /* =====================================================
+        /* =========================================
            SIDEBAR
-        ===================================================== */
+        ========================================== */
 
         .sidebar {
-            width: 310px;
-            background: var(--white);
+            width: 330px;
+            height: 100%;
             border-right: 1px solid var(--border);
+            background: var(--sidebar);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            z-index: 50;
         }
 
         .sidebar-header {
@@ -71,117 +96,158 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 10px;
         }
 
         .brand-icon {
             width: 40px;
             height: 40px;
-            background: var(--primary);
-            color: white;
             border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                #635bff,
+                #8b5cf6
+            );
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-        }
-
-        .brand-text h2 {
             font-size: 18px;
+            font-weight: 900;
         }
 
-        .brand-text span {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .profile-button {
-            width: 38px;
-            height: 38px;
-            border: none;
-            background: #f3f4f6;
-            border-radius: 50%;
-            cursor: pointer;
+        .brand-name {
             font-size: 17px;
+            font-weight: 900;
         }
 
-        /* =====================================================
+        .brand-status {
+            font-size: 9px;
+            color: var(--success);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: #f4f5f8;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .header-btn:hover {
+            background: #e9ebf0;
+        }
+
+        /* =========================================
            SEARCH
-        ===================================================== */
+        ========================================== */
 
         .search-box {
-            padding: 13px;
-            border-bottom: 1px solid var(--border);
+            padding: 14px 15px 10px;
         }
 
-        .search-inner {
-            height: 40px;
-            background: #f3f4f6;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 12px;
+        .search-wrap {
+            position: relative;
         }
 
-        .search-inner span {
-            color: #9ca3af;
-        }
-
-        .search-inner input {
-            width: 100%;
-            border: none;
-            outline: none;
-            background: transparent;
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
             font-size: 13px;
         }
 
-        /* =====================================================
-           CONVERSATIONS
-        ===================================================== */
-
-        .conversation-title {
-            padding: 14px 16px 8px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-            color: #9ca3af;
+        .search-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            padding: 0 13px 0 36px;
+            background: #f8f9fb;
+            font-size: 12px;
+            color: var(--text);
         }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        /* =========================================
+           CONVERSATIONS
+        ========================================== */
 
         .conversation-list {
             flex: 1;
             overflow-y: auto;
+            padding: 5px 8px;
         }
 
         .conversation {
-            padding: 12px 15px;
             display: flex;
+            align-items: center;
             gap: 11px;
-            cursor: pointer;
-            transition: .2s;
+            padding: 11px 10px;
+            border-radius: 12px;
+            margin-bottom: 2px;
+            transition: 0.2s;
         }
 
         .conversation:hover {
-            background: #f8fafc;
+            background: #f6f7fa;
         }
 
         .conversation.active {
-            background: #eff6ff;
+            background: #f0efff;
         }
 
         .avatar {
-            width: 45px;
-            height: 45px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: #dbeafe;
-            color: #1d4ed8;
+            background: linear-gradient(
+                135deg,
+                #635bff,
+                #8b5cf6
+            );
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
+            font-size: 13px;
+            font-weight: 800;
             position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar.green {
+            background: linear-gradient(
+                135deg,
+                #16a34a,
+                #22c55e
+            );
+        }
+
+        .avatar.orange {
+            background: linear-gradient(
+                135deg,
+                #ea580c,
+                #f97316
+            );
+        }
+
+        .avatar.blue {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #3b82f6
+            );
         }
 
         .online-dot {
@@ -190,233 +256,294 @@
             height: 11px;
             right: 0;
             bottom: 1px;
-            border: 2px solid white;
             border-radius: 50%;
-            background: var(--green);
+            background: var(--success);
+            border: 2px solid #fff;
         }
 
-        .conversation-content {
-            min-width: 0;
+        .conversation-info {
             flex: 1;
+            min-width: 0;
         }
 
         .conversation-top {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             gap: 8px;
         }
 
         .conversation-name {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .conversation-time {
-            font-size: 10px;
-            color: #9ca3af;
-        }
-
-        .conversation-message {
             font-size: 12px;
-            color: var(--muted);
-            margin-top: 4px;
+            font-weight: 800;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* =====================================================
-           CHAT AREA
-        ===================================================== */
+        .conversation-time {
+            color: var(--muted);
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        .conversation-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 7px;
+            margin-top: 4px;
+        }
+
+        .conversation-message {
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread {
+            min-width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           MAIN CHAT
+        ========================================== */
 
         .chat {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
-            background: #f8fafc;
+            background: #f8f9fc;
         }
 
         .chat-header {
             height: 72px;
-            background: white;
+            background: #fff;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 18px;
             flex-shrink: 0;
         }
 
         .chat-user {
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 10px;
+            min-width: 0;
         }
 
-        .chat-user .avatar {
-            width: 42px;
-            height: 42px;
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #635bff,
+                #8b5cf6
+            );
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            position: relative;
+            flex-shrink: 0;
         }
 
-        .chat-user h3 {
-            font-size: 14px;
+        .chat-user-info {
+            min-width: 0;
         }
 
-        .chat-user p {
-            font-size: 11px;
-            color: var(--green);
+        .chat-user-name {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .chat-user-status {
+            font-size: 9px;
+            color: var(--success);
             margin-top: 3px;
         }
 
         .chat-actions {
             display: flex;
-            gap: 7px;
+            align-items: center;
+            gap: 5px;
         }
 
-        .icon-button {
-            width: 38px;
-            height: 38px;
-            border: none;
-            border-radius: 9px;
-            background: #f3f4f6;
-            cursor: pointer;
-            font-size: 17px;
-            transition: .2s;
+        .chat-action {
+            width: 37px;
+            height: 37px;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            color: #475569;
+            font-size: 16px;
+            transition: 0.2s;
         }
 
-        .icon-button:hover {
-            background: #e5e7eb;
+        .chat-action:hover {
+            background: #f0f1f5;
+            color: var(--primary);
         }
 
-        .icon-button.primary:hover {
-            background: #dbeafe;
-        }
-
-        .icon-button.danger {
-            color: var(--danger);
-        }
-
-        .icon-button:disabled {
-            opacity: .35;
+        .chat-action.disabled {
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
-        /* =====================================================
-           MESSAGES
-        ===================================================== */
+        /* =========================================
+           CHAT BODY
+        ========================================== */
 
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 25px 30px;
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .date-divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 10px 0 22px;
-            color: #9ca3af;
-            font-size: 10px;
+            text-align: center;
+            margin: 5px 0 15px;
         }
 
-        .date-divider::before,
-        .date-divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
+        .date-divider span {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #e9ebf1;
+            color: #7b8498;
+            font-size: 8px;
+            font-weight: 700;
         }
 
         .message-row {
             display: flex;
-            margin-bottom: 13px;
+            align-items: flex-end;
+            gap: 7px;
+            max-width: 78%;
         }
 
-        .message-row.mine {
-            justify-content: flex-end;
+        .message-row.me {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #ddd6fe;
+            color: #5b21b6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            min-width: 0;
         }
 
         .message-bubble {
-            max-width: min(70%, 620px);
-            padding: 10px 13px;
-            border-radius: 13px;
-            background: white;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 5px rgba(0,0,0,.02);
+            padding: 10px 12px;
+            border-radius: 14px 14px 14px 4px;
+            background: var(--bubble-other);
+            color: var(--text);
+            font-size: 11px;
+            line-height: 1.5;
+            word-break: break-word;
         }
 
-        .message-row.mine .message-bubble {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message-row:not(.mine) .message-bubble {
-            border-bottom-left-radius: 4px;
-        }
-
-        .message-text {
-            font-size: 13px;
-            line-height: 1.55;
+        .message-row.me .message-bubble {
+            background: var(--bubble-me);
+            color: #fff;
+            border-radius: 14px 14px 4px 14px;
         }
 
         .message-meta {
-            margin-top: 5px;
             display: flex;
-            justify-content: flex-end;
-            gap: 6px;
-            font-size: 9px;
-            color: #9ca3af;
+            align-items: center;
+            gap: 5px;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 8px;
         }
 
-        .message-row.mine .message-meta {
-            color: rgba(255,255,255,.72);
+        .message-row.me .message-meta {
+            justify-content: flex-end;
         }
 
         .seen {
-            font-weight: 700;
+            color: var(--primary);
+            font-weight: 800;
         }
+
+        /* =========================================
+           TYPING
+        ========================================== */
 
         .typing {
             display: none;
-            align-items: center;
-            gap: 7px;
-            padding: 0 30px 8px;
-            font-size: 11px;
-            color: var(--muted);
+            padding: 0 22px 8px;
         }
 
-        .typing.show {
-            display: flex;
+        .typing.active {
+            display: block;
+        }
+
+        .typing-inner {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--muted);
+            font-size: 9px;
         }
 
         .typing-dots {
             display: flex;
-            gap: 3px;
+            gap: 2px;
         }
 
-        .typing-dots span {
-            width: 5px;
-            height: 5px;
+        .typing-dot {
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
-            background: #9ca3af;
+            background: var(--muted);
             animation: typing 1s infinite;
         }
 
-        .typing-dots span:nth-child(2) {
-            animation-delay: .15s;
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.15s;
         }
 
-        .typing-dots span:nth-child(3) {
-            animation-delay: .3s;
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.3s;
         }
 
         @keyframes typing {
             0%, 100% {
-                opacity: .35;
+                opacity: 0.3;
                 transform: translateY(0);
             }
 
@@ -426,238 +553,257 @@
             }
         }
 
-        /* =====================================================
+        /* =========================================
            COMPOSER
-        ===================================================== */
+        ========================================== */
 
         .composer {
-            background: white;
+            min-height: 72px;
+            background: #fff;
             border-top: 1px solid var(--border);
-            padding: 12px 18px;
-            flex-shrink: 0;
-        }
-
-        .composer-inner {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: #f3f4f6;
-            border-radius: 12px;
-            padding: 5px 7px;
+            padding: 12px 15px;
+            flex-shrink: 0;
         }
 
-        .composer-button {
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 17px;
+        .composer-tools {
+            display: flex;
+            gap: 3px;
         }
 
-        .composer-button:hover {
-            background: #e5e7eb;
-        }
-
-        .composer-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 13px;
-            min-width: 0;
-        }
-
-        .send-button {
-            width: 38px;
-            height: 38px;
-            border: none;
-            background: var(--primary);
-            color: white;
+        .tool-btn {
+            width: 35px;
+            height: 35px;
+            border: 0;
             border-radius: 9px;
-            cursor: pointer;
-            font-size: 16px;
+            background: transparent;
+            color: #64748b;
+            font-size: 15px;
         }
 
-        .send-button:hover {
-            background: var(--primary-dark);
+        .tool-btn:hover {
+            background: #f2f3f6;
+            color: var(--primary);
         }
 
-        .send-button:disabled {
-            opacity: .4;
+        .tool-btn.disabled {
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
-        /* =====================================================
-           LIVE PANEL
-        ===================================================== */
-
-        .live-panel {
-            position: fixed;
-            right: 20px;
-            bottom: 90px;
-            width: 340px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            box-shadow: 0 15px 45px rgba(0,0,0,.15);
-            z-index: 2000;
-            display: none;
-            overflow: hidden;
-        }
-
-        .live-panel.show {
-            display: block;
-        }
-
-        .live-header {
-            padding: 13px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .live-header strong {
-            font-size: 13px;
-        }
-
-        .close-live {
-            border: none;
-            background: #f3f4f6;
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
-            cursor: pointer;
-        }
-
-        .live-content {
-            padding: 15px;
-        }
-
-        .live-video {
-            width: 100%;
-            height: 190px;
-            background: #111827;
-            border-radius: 10px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .live-info {
-            margin-top: 11px;
-            font-size: 11px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .live-controls {
-            display: flex;
-            gap: 7px;
-            margin-top: 12px;
-        }
-
-        .live-control {
+        .message-input-wrap {
             flex: 1;
-            height: 36px;
-            border: none;
-            border-radius: 8px;
-            background: #f3f4f6;
-            cursor: pointer;
+            position: relative;
         }
 
-        .live-control.end {
-            background: #fee2e2;
-            color: #b91c1c;
+        .message-input {
+            width: 100%;
+            min-height: 42px;
+            max-height: 100px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            padding: 11px 43px 11px 13px;
+            resize: none;
+            font-size: 11px;
+            color: var(--text);
+            background: #f8f9fb;
         }
 
-        /* =====================================================
-           SYSTEM OFF
-        ===================================================== */
+        .message-input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
 
-        .system-off {
+        .emoji-btn {
+            position: absolute;
+            right: 6px;
+            top: 5px;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            background: transparent;
+            font-size: 15px;
+        }
+
+        .send-btn {
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 11px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .send-btn.disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* =========================================
+           PERMISSION / SYSTEM MESSAGE
+        ========================================== */
+
+        .system-message {
+            margin: 10px auto;
+            max-width: 450px;
+            padding: 10px 13px;
+            border-radius: 10px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            font-size: 10px;
+            line-height: 1.5;
+            text-align: center;
+            display: none;
+        }
+
+        .system-message.show {
+            display: block;
+        }
+
+        /* =========================================
+           LIVE CALL MODAL
+        ========================================== */
+
+        .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(17,24,39,.78);
-            z-index: 5000;
+            background: rgba(15, 23, 42, 0.7);
             display: none;
             align-items: center;
             justify-content: center;
+            z-index: 200;
             padding: 20px;
         }
 
-        .system-off.show {
+        .modal-backdrop.show {
             display: flex;
         }
 
-        .system-off-card {
-            max-width: 430px;
-            width: 100%;
-            background: white;
+        .call-modal {
+            width: min(800px, 100%);
+            background: #0f172a;
             border-radius: 18px;
-            padding: 30px;
-            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.35);
         }
 
-        .system-off-icon {
-            width: 65px;
-            height: 65px;
-            background: #fee2e2;
-            color: #dc2626;
-            border-radius: 50%;
+        .call-top {
+            height: 58px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+        }
+
+        .call-title {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .call-status {
+            font-size: 9px;
+            color: #86efac;
+            margin-top: 2px;
+        }
+
+        .call-close {
+            width: 33px;
+            height: 33px;
+            border: 0;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+
+        .call-preview {
+            min-height: 430px;
+            background: #020617;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 15px;
+            position: relative;
         }
 
-        .system-off-card h2 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .system-off-card p {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        /* =====================================================
-           TOAST
-        ===================================================== */
-
-        .toast {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: #111827;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 9px;
-            font-size: 12px;
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
-            transition: .25s;
-            z-index: 7000;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        .mobile-back {
+        .remote-video {
+            width: 100%;
+            height: 430px;
+            object-fit: contain;
             display: none;
         }
 
-        @media (max-width: 800px) {
+        .call-empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px;
+        }
+
+        .call-empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .call-empty-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .call-empty-text {
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .call-controls {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .call-control {
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .call-control:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .call-control.end {
+            background: #dc2626;
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================== */
+
+        .mobile-back {
+            display: none;
+            width: 34px;
+            height: 34px;
+            border: 0;
+            background: transparent;
+            font-size: 17px;
+        }
+
+        @media (max-width: 850px) {
 
             .sidebar {
                 width: 100%;
@@ -667,43 +813,66 @@
                 display: none;
             }
 
-            .app.chat-open .sidebar {
+            .app.mobile-chat-open .sidebar {
                 display: none;
             }
 
-            .app.chat-open .chat {
+            .app.mobile-chat-open .chat {
                 display: flex;
             }
 
             .mobile-back {
                 display: block;
-                border: none;
-                background: transparent;
-                font-size: 20px;
-                cursor: pointer;
             }
 
-            .messages {
-                padding: 20px 15px;
+            .chat-header {
+                padding-left: 10px;
             }
 
-            .typing {
-                padding-left: 15px;
+            .message-row {
+                max-width: 88%;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .chat-action {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
 
             .chat-actions {
-                gap: 3px;
+                gap: 1px;
             }
 
-            .icon-button {
-                width: 34px;
-                height: 34px;
+            .messages {
+                padding: 18px 12px;
             }
 
-            .live-panel {
-                left: 12px;
-                right: 12px;
-                width: auto;
+            .composer {
+                padding: 9px;
+            }
+
+            .composer-tools {
+                gap: 0;
+            }
+
+            .tool-btn {
+                width: 31px;
+                height: 31px;
+                font-size: 13px;
+            }
+
+            .send-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .call-preview,
+            .remote-video {
+                min-height: 300px;
+                height: 300px;
             }
         }
     </style>
@@ -713,9 +882,9 @@
 
 <div class="app" id="app">
 
-    <!-- =====================================================
+    <!-- =========================================
          SIDEBAR
-    ====================================================== -->
+    ========================================== -->
 
     <aside class="sidebar">
 
@@ -724,37 +893,52 @@
             <div class="brand">
 
                 <div class="brand-icon">
-                    💬
+                    C
                 </div>
 
-                <div class="brand-text">
-                    <h2>Chatter</h2>
-                    <span>Live Communication</span>
+                <div>
+                    <div class="brand-name">
+                        Chatter
+                    </div>
+
+                    <div
+                        class="brand-status"
+                        id="brandStatus"
+                    >
+                        ● Online
+                    </div>
                 </div>
 
             </div>
 
             <button
-                class="profile-button"
-                id="profileButton"
-                title="Profile"
+                class="header-btn"
+                id="settingsBtn"
+                type="button"
+                title="Settings"
             >
-                👤
+                ⚙
             </button>
 
         </div>
 
 
+        <!-- SEARCH -->
+
         <div class="search-box">
 
-            <div class="search-inner">
+            <div class="search-wrap">
 
-                <span>🔎</span>
+                <span class="search-icon">
+                    🔍
+                </span>
 
                 <input
-                    type="text"
                     id="searchInput"
+                    class="search-input"
+                    type="text"
                     placeholder="Search conversations..."
+                    autocomplete="off"
                 >
 
             </div>
@@ -762,10 +946,7 @@
         </div>
 
 
-        <div class="conversation-title">
-            Conversations
-        </div>
-
+        <!-- CONVERSATIONS -->
 
         <div
             class="conversation-list"
@@ -774,100 +955,157 @@
 
             <div
                 class="conversation active"
-                data-user="rahim"
-                data-name="Rahim Ahmed"
+                data-user-id="support"
+                data-user-name="Support Team"
+                data-user-initials="ST"
             >
 
                 <div class="avatar">
 
-                    R
+                    ST
 
                     <span class="online-dot"></span>
 
                 </div>
 
-                <div class="conversation-content">
+                <div class="conversation-info">
 
                     <div class="conversation-top">
 
-                        <span class="conversation-name">
-                            Rahim Ahmed
-                        </span>
-
-                        <span class="conversation-time">
-                            10:42 PM
-                        </span>
-
-                    </div>
-
-                    <div class="conversation-message">
-                        Assalamu Alaikum
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="conversation"
-                data-user="karim"
-                data-name="Karim Hasan"
-            >
-
-                <div class="avatar">
-                    K
-                </div>
-
-                <div class="conversation-content">
-
-                    <div class="conversation-top">
-
-                        <span class="conversation-name">
-                            Karim Hasan
-                        </span>
-
-                        <span class="conversation-time">
-                            09:15 PM
-                        </span>
-
-                    </div>
-
-                    <div class="conversation-message">
-                        Design update ready.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="conversation"
-                data-user="support"
-                data-name="Support Team"
-            >
-
-                <div class="avatar">
-                    S
-                </div>
-
-                <div class="conversation-content">
-
-                    <div class="conversation-top">
-
-                        <span class="conversation-name">
+                        <div class="conversation-name">
                             Support Team
-                        </span>
+                        </div>
 
-                        <span class="conversation-time">
-                            Yesterday
-                        </span>
+                        <div class="conversation-time">
+                            Now
+                        </div>
 
                     </div>
 
-                    <div class="conversation-message">
-                        How can we help?
+                    <div class="conversation-bottom">
+
+                        <div class="conversation-message">
+                            Welcome to Chatter
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="conversation"
+                data-user-id="admin"
+                data-user-name="System Admin"
+                data-user-initials="SA"
+            >
+
+                <div class="avatar blue">
+                    SA
+                </div>
+
+                <div class="conversation-info">
+
+                    <div class="conversation-top">
+
+                        <div class="conversation-name">
+                            System Admin
+                        </div>
+
+                        <div class="conversation-time">
+                            10:25
+                        </div>
+
+                    </div>
+
+                    <div class="conversation-bottom">
+
+                        <div class="conversation-message">
+                            How can we help?
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="conversation"
+                data-user-id="design"
+                data-user-name="Design Team"
+                data-user-initials="DT"
+            >
+
+                <div class="avatar orange">
+                    DT
+                </div>
+
+                <div class="conversation-info">
+
+                    <div class="conversation-top">
+
+                        <div class="conversation-name">
+                            Design Team
+                        </div>
+
+                        <div class="conversation-time">
+                            Yesterday
+                        </div>
+
+                    </div>
+
+                    <div class="conversation-bottom">
+
+                        <div class="conversation-message">
+                            New design update
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="conversation"
+                data-user-id="client"
+                data-user-name="Client Support"
+                data-user-initials="CS"
+            >
+
+                <div class="avatar green">
+
+                    CS
+
+                    <span class="online-dot"></span>
+
+                </div>
+
+                <div class="conversation-info">
+
+                    <div class="conversation-top">
+
+                        <div class="conversation-name">
+                            Client Support
+                        </div>
+
+                        <div class="conversation-time">
+                            Yesterday
+                        </div>
+
+                    </div>
+
+                    <div class="conversation-bottom">
+
+                        <div class="conversation-message">
+                            Thank you
+                        </div>
+
                     </div>
 
                 </div>
@@ -879,9 +1117,9 @@
     </aside>
 
 
-    <!-- =====================================================
-         CHAT
-    ====================================================== -->
+    <!-- =========================================
+         CHAT AREA
+    ========================================== -->
 
     <main class="chat">
 
@@ -891,28 +1129,35 @@
 
                 <button
                     class="mobile-back"
-                    id="mobileBack"
+                    id="mobileBackBtn"
+                    type="button"
                 >
                     ←
                 </button>
 
-                <div class="avatar">
-
-                    R
+                <div class="chat-avatar">
+                    <span id="chatAvatar">
+                        ST
+                    </span>
 
                     <span class="online-dot"></span>
-
                 </div>
 
-                <div>
+                <div class="chat-user-info">
 
-                    <h3 id="chatUserName">
-                        Rahim Ahmed
-                    </h3>
+                    <div
+                        class="chat-user-name"
+                        id="chatUserName"
+                    >
+                        Support Team
+                    </div>
 
-                    <p id="chatUserStatus">
+                    <div
+                        class="chat-user-status"
+                        id="chatUserStatus"
+                    >
                         ● Online
-                    </p>
+                    </div>
 
                 </div>
 
@@ -921,36 +1166,40 @@
 
             <div class="chat-actions">
 
-                <!-- Voice Call -->
-
                 <button
-                    class="icon-button"
-                    id="voiceCallButton"
+                    class="chat-action"
+                    id="voiceCallBtn"
+                    type="button"
                     title="Voice Call"
                 >
                     📞
                 </button>
 
-
-                <!-- Video Call -->
-
                 <button
-                    class="icon-button"
-                    id="videoCallButton"
+                    class="chat-action"
+                    id="videoCallBtn"
+                    type="button"
                     title="Video Call"
                 >
-                    🎥
+                    📹
                 </button>
 
-
-                <!-- Screen Share -->
+                <button
+                    class="chat-action"
+                    id="screenShareBtn"
+                    type="button"
+                    title="Screen Share"
+                >
+                    🖥
+                </button>
 
                 <button
-                    class="icon-button"
-                    id="screenShareButton"
-                    title="Share Screen"
+                    class="chat-action"
+                    id="moreBtn"
+                    type="button"
+                    title="More"
                 >
-                    🖥️
+                    ⋮
                 </button>
 
             </div>
@@ -958,9 +1207,9 @@
         </header>
 
 
-        <!-- =================================================
+        <!-- =========================================
              MESSAGES
-        ================================================== -->
+        ========================================== -->
 
         <section
             class="messages"
@@ -968,20 +1217,26 @@
         >
 
             <div class="date-divider">
-                Today
+                <span>
+                    Today
+                </span>
             </div>
 
 
             <div class="message-row">
 
-                <div class="message-bubble">
+                <div class="message-avatar">
+                    ST
+                </div>
 
-                    <div class="message-text">
-                        Assalamu Alaikum. Kemon achen?
+                <div class="message-content">
+
+                    <div class="message-bubble">
+                        Welcome to Chatter! How can we help you?
                     </div>
 
                     <div class="message-meta">
-                        10:40 PM
+                        10:20 AM
                     </div>
 
                 </div>
@@ -989,22 +1244,23 @@
             </div>
 
 
-            <div class="message-row mine">
+            <div class="message-row me">
 
-                <div class="message-bubble">
+                <div class="message-avatar">
+                    ME
+                </div>
 
-                    <div class="message-text">
-                        Wa Alaikumus Salam. Alhamdulillah bhalo achi.
+                <div class="message-content">
+
+                    <div class="message-bubble">
+                        Hello! I want to know more about the service.
                     </div>
 
                     <div class="message-meta">
-
-                        10:41 PM
-
+                        10:21 AM
                         <span class="seen">
                             ✓✓ Seen
                         </span>
-
                     </div>
 
                 </div>
@@ -1014,132 +1270,126 @@
 
             <div class="message-row">
 
-                <div class="message-bubble">
+                <div class="message-avatar">
+                    ST
+                </div>
 
-                    <div class="message-text">
-                        Project er update ta pathiye diben?
+                <div class="message-content">
+
+                    <div class="message-bubble">
+                        Sure. Please send us your question.
                     </div>
 
                     <div class="message-meta">
-                        10:42 PM
+                        10:22 AM
                     </div>
 
                 </div>
 
             </div>
+
+
+            <div
+                class="system-message"
+                id="systemMessage"
+            ></div>
 
         </section>
 
 
-        <!-- =================================================
+        <!-- =========================================
              TYPING
-        ================================================== -->
+        ========================================== -->
 
         <div
             class="typing"
             id="typingIndicator"
         >
 
-            <span id="typingName">
-                Rahim
-            </span>
+            <div class="typing-inner">
 
-            is typing
+                Support Team is typing
 
-            <div class="typing-dots">
+                <div class="typing-dots">
 
-                <span></span>
-                <span></span>
-                <span></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- =================================================
+        <!-- =========================================
              COMPOSER
-        ================================================== -->
+        ========================================== -->
 
         <div class="composer">
 
-            <div class="composer-inner">
-
-                <!-- Image -->
+            <div class="composer-tools">
 
                 <button
-                    class="composer-button"
-                    id="imageButton"
+                    class="tool-btn"
+                    id="imageBtn"
+                    type="button"
                     title="Image"
                 >
-                    🖼️
+                    🖼
                 </button>
 
-
-                <!-- File -->
-
                 <button
-                    class="composer-button"
-                    id="fileButton"
+                    class="tool-btn"
+                    id="fileBtn"
+                    type="button"
                     title="File"
                 >
                     📎
                 </button>
 
-
-                <!-- Camera -->
-
                 <button
-                    class="composer-button"
-                    id="cameraButton"
+                    class="tool-btn"
+                    id="cameraBtn"
+                    type="button"
                     title="Camera"
                 >
                     📷
                 </button>
 
-
-                <!-- Voice Message -->
-
-                <button
-                    class="composer-button"
-                    id="voiceMessageButton"
-                    title="Voice Message"
-                >
-                    🎙️
-                </button>
+            </div>
 
 
-                <input
-                    type="text"
-                    class="composer-input"
+            <div class="message-input-wrap">
+
+                <textarea
                     id="messageInput"
-                    placeholder="Type a message..."
-                    autocomplete="off"
-                >
-
+                    class="message-input"
+                    rows="1"
+                    placeholder="Write a message..."
+                ></textarea>
 
                 <button
-                    class="send-button"
-                    id="sendButton"
-                    title="Send"
+                    class="emoji-btn"
+                    id="emojiBtn"
+                    type="button"
+                    title="Emoji"
                 >
-                    ➤
+                    😊
                 </button>
 
             </div>
 
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/*"
-                hidden
-            >
 
-            <input
-                type="file"
-                id="fileInput"
-                hidden
+            <button
+                class="send-btn"
+                id="sendBtn"
+                type="button"
+                title="Send"
             >
+                ➤
+            </button>
 
         </div>
 
@@ -1148,65 +1398,135 @@
 </div>
 
 
-<!-- =========================================================
-     LIVE PANEL
-========================================================= -->
+<!-- =========================================
+     HIDDEN FILE INPUTS
+========================================== -->
 
-<div
-    class="live-panel"
-    id="livePanel"
+<input
+    type="file"
+    id="imageInput"
+    accept="image/*"
+    hidden
 >
 
-    <div class="live-header">
-
-        <strong id="liveTitle">
-            Live Session
-        </strong>
-
-        <button
-            class="close-live"
-            id="closeLive"
-        >
-            ✕
-        </button>
-
-    </div>
+<input
+    type="file"
+    id="fileInput"
+    hidden
+>
 
 
-    <div class="live-content">
+<!-- =========================================
+     LIVE CALL MODAL
+========================================== -->
 
-        <video
-            class="live-video"
-            id="liveVideo"
-            autoplay
-            playsinline
-            muted
-        ></video>
+<div
+    class="modal-backdrop"
+    id="callModal"
+>
 
+    <div class="call-modal">
 
-        <div
-            class="live-info"
-            id="liveInfo"
-        >
-            Live media is temporary.
-            Nothing is being recorded or stored.
+        <div class="call-top">
+
+            <div>
+
+                <div
+                    class="call-title"
+                    id="callTitle"
+                >
+                    Live Session
+                </div>
+
+                <div
+                    class="call-status"
+                    id="callStatus"
+                >
+                    Connecting...
+                </div>
+
+            </div>
+
+            <button
+                class="call-close"
+                id="callCloseBtn"
+                type="button"
+            >
+                ✕
+            </button>
+
         </div>
 
 
-        <div class="live-controls">
+        <div class="call-preview">
+
+            <video
+                id="remoteVideo"
+                class="remote-video"
+                autoplay
+                playsinline
+            ></video>
+
+
+            <div
+                class="call-empty"
+                id="callEmpty"
+            >
+
+                <div class="call-empty-icon">
+                    📡
+                </div>
+
+                <div class="call-empty-title">
+                    Live Session
+                </div>
+
+                <div class="call-empty-text">
+                    Your live connection will appear here
+                    after the other participant accepts the call.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="call-controls">
 
             <button
-                class="live-control"
-                id="muteButton"
+                class="call-control"
+                id="callMuteBtn"
+                type="button"
+                title="Mute"
             >
-                🔇 Mute
+                🎙
             </button>
 
             <button
-                class="live-control end"
-                id="endLiveButton"
+                class="call-control"
+                id="callCameraBtn"
+                type="button"
+                title="Camera"
             >
-                End
+                📷
+            </button>
+
+            <button
+                class="call-control"
+                id="callScreenBtn"
+                type="button"
+                title="Share Screen"
+            >
+                🖥
+            </button>
+
+            <button
+                class="call-control end"
+                id="callEndBtn"
+                type="button"
+                title="End Call"
+            >
+                ☎
             </button>
 
         </div>
@@ -1214,181 +1534,134 @@
     </div>
 
 </div>
-
-
-<!-- =========================================================
-     SYSTEM OFF
-========================================================= -->
-
-<div
-    class="system-off"
-    id="systemOff"
->
-
-    <div class="system-off-card">
-
-        <div class="system-off-icon">
-            ⚠️
-        </div>
-
-        <h2>
-            Chatter is currently disabled
-        </h2>
-
-        <p>
-            The Chatter communication system has been
-            disabled by the administrator. Please try again later.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
 
 
 <script>
-
-    /* =========================================================
-       STORAGE KEYS
-    ========================================================= */
-
-    const SETTINGS_KEY =
-        "chatterSystemSettings";
-
-    const PERMISSION_KEY =
-        "chatterBrowserPermissions";
+/* =========================================================
+   CHATTER USER PAGE
+   FILE: chatter/index.html
+   ========================================================= */
 
 
-    /* =========================================================
-       DEFAULT SETTINGS
-       
-       IMPORTANT:
-       THERE IS NO RECORDING FEATURE.
-    ========================================================= */
+/* =========================================================
+   STORAGE KEYS
+   ========================================================= */
 
-    const DEFAULT_SETTINGS = {
+const SETTINGS_KEY =
+    "chatterSystemSettings";
 
-        chatterEnabled: true,
+const PERMISSION_KEY =
+    "chatterBrowserPermissions";
 
-        messaging: true,
+const USER_SESSION_KEY =
+    "chatterUserSession";
 
-        voiceCall: true,
-
-        videoCall: true,
-
-        voiceMessages: true,
-
-        camera: true,
-
-        microphone: true,
-
-        screenShare: true,
-
-        fileSharing: true,
-
-        imageSharing: true,
-
-        typingIndicator: true,
-
-        notifications: true
-
-    };
+const LIVE_SESSIONS_KEY =
+    "chatterLiveSessions";
 
 
-    /* =========================================================
-       DOM
-    ========================================================= */
+/* =========================================================
+   DEFAULT SETTINGS
+   NO RECORDING FEATURE
+   ========================================================= */
 
-    const app =
-        document.getElementById("app");
+const DEFAULT_SETTINGS = {
 
-    const systemOff =
-        document.getElementById("systemOff");
+    chatterEnabled: true,
 
-    const messageInput =
-        document.getElementById("messageInput");
+    messaging: true,
 
-    const sendButton =
-        document.getElementById("sendButton");
+    voiceCall: true,
 
-    const messages =
-        document.getElementById("messages");
+    videoCall: true,
 
-    const typingIndicator =
-        document.getElementById("typingIndicator");
+    voiceMessages: true,
 
-    const livePanel =
-        document.getElementById("livePanel");
+    camera: true,
 
-    const liveVideo =
-        document.getElementById("liveVideo");
+    microphone: true,
 
-    const liveTitle =
-        document.getElementById("liveTitle");
+    screenShare: true,
 
-    const liveInfo =
-        document.getElementById("liveInfo");
+    fileSharing: true,
 
-    const toast =
-        document.getElementById("toast");
+    imageSharing: true,
+
+    typingIndicator: true,
+
+    notifications: true
+
+};
 
 
-    /* =========================================================
-       STATE
-    ========================================================= */
+/* =========================================================
+   DEFAULT USER
+   ========================================================= */
 
-    let settings =
-        loadSettings();
+const DEFAULT_USER = {
 
-    let permissions =
-        loadPermissions();
+    id: "demo-user",
 
-    let currentStream =
-        null;
+    name: "Demo User",
 
-    let currentSessionType =
-        null;
+    email: "user@example.com"
 
-    let microphoneMuted =
-        false;
+};
 
 
-    /* =========================================================
-       LOAD SETTINGS
-    ========================================================= */
+/* =========================================================
+   STATE
+   ========================================================= */
 
-    function loadSettings() {
+let settings =
+    getSettings();
 
-        try {
+let permissions =
+    getPermissions();
 
-            const saved =
-                localStorage.getItem(
-                    SETTINGS_KEY
-                );
+let currentUser =
+    getUser();
 
-            if (!saved) {
+let selectedUser = {
 
-                return {
-                    ...DEFAULT_SETTINGS
-                };
+    id: "support",
 
-            }
+    name: "Support Team",
 
-            return {
-                ...DEFAULT_SETTINGS,
-                ...JSON.parse(saved)
-            };
+    initials: "ST"
 
-        } catch (error) {
+};
+
+let currentCallType =
+    null;
+
+let localStream =
+    null;
+
+let screenStream =
+    null;
+
+let isMuted =
+    false;
+
+let cameraEnabled =
+    false;
+
+
+/* =========================================================
+   GET SETTINGS
+   ========================================================= */
+
+function getSettings() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(
+                SETTINGS_KEY
+            );
+
+        if (!raw) {
 
             return {
                 ...DEFAULT_SETTINGS
@@ -1396,49 +1669,41 @@
 
         }
 
+        return {
+            ...DEFAULT_SETTINGS,
+            ...JSON.parse(raw)
+        };
+
+    } catch (error) {
+
+        console.error(
+            "Settings error:",
+            error
+        );
+
+        return {
+            ...DEFAULT_SETTINGS
+        };
+
     }
 
+}
 
-    /* =========================================================
-       LOAD USER PERMISSIONS
-    ========================================================= */
 
-    function loadPermissions() {
+/* =========================================================
+   GET PERMISSIONS
+   ========================================================= */
 
-        try {
+function getPermissions() {
 
-            const saved =
-                localStorage.getItem(
-                    PERMISSION_KEY
-                );
+    try {
 
-            if (!saved) {
+        const raw =
+            localStorage.getItem(
+                PERMISSION_KEY
+            );
 
-                return {
-
-                    camera: false,
-
-                    microphone: false,
-
-                    screenShare: false
-
-                };
-
-            }
-
-            return {
-
-                camera: false,
-
-                microphone: false,
-
-                screenShare: false,
-
-                ...JSON.parse(saved)
-
-            };
-
-        } catch (error) {
+        if (!raw) {
 
             return {
 
@@ -1452,1587 +1717,2209 @@
 
         }
 
+        return {
+
+            camera: false,
+
+            microphone: false,
+
+            screenShare: false,
+
+            ...JSON.parse(raw)
+
+        };
+
+    } catch (error) {
+
+        return {
+
+            camera: false,
+
+            microphone: false,
+
+            screenShare: false
+
+        };
+
     }
 
+}
 
-    /* =========================================================
-       SAVE PERMISSIONS
-    ========================================================= */
 
-    function savePermissions() {
+/* =========================================================
+   GET USER
+   ========================================================= */
 
-        try {
+function getUser() {
 
-            localStorage.setItem(
-                PERMISSION_KEY,
-                JSON.stringify(permissions)
+    try {
+
+        const raw =
+            localStorage.getItem(
+                USER_SESSION_KEY
             );
 
-        } catch (error) {
+        if (!raw) {
+            return {
+                ...DEFAULT_USER
+            };
+        }
 
-            console.error(error);
+        return {
+            ...DEFAULT_USER,
+            ...JSON.parse(raw)
+        };
+
+    } catch (error) {
+
+        return {
+            ...DEFAULT_USER
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE LIVE SESSION
+   ========================================================= */
+
+function saveLiveSession(session) {
+
+    try {
+
+        const raw =
+            localStorage.getItem(
+                LIVE_SESSIONS_KEY
+            );
+
+        let sessions =
+            raw
+                ? JSON.parse(raw)
+                : [];
+
+        if (!Array.isArray(sessions)) {
+            sessions = [];
+        }
+
+        const existingIndex =
+            sessions.findIndex(
+                item =>
+                    String(item.id) ===
+                    String(session.id)
+            );
+
+
+        if (existingIndex >= 0) {
+
+            sessions[existingIndex] =
+                session;
+
+        } else {
+
+            sessions.push(session);
 
         }
 
-    }
 
+        localStorage.setItem(
+            LIVE_SESSIONS_KEY,
+            JSON.stringify(sessions)
+        );
 
-    /* =========================================================
-       TOAST
-    ========================================================= */
+    } catch (error) {
 
-    let toastTimer = null;
-
-    function showToast(message) {
-
-        toast.textContent =
-            message;
-
-        toast.classList.add("show");
-
-        clearTimeout(toastTimer);
-
-        toastTimer =
-            setTimeout(() => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            }, 2600);
-
-    }
-
-
-    /* =========================================================
-       FEATURE CHECK
-    ========================================================= */
-
-    function featureEnabled(
-        feature
-    ) {
-
-        return (
-            settings.chatterEnabled === true &&
-            settings[feature] === true
+        console.error(
+            "Live session save error:",
+            error
         );
 
     }
 
+}
 
-    /* =========================================================
-       UPDATE SYSTEM UI
-    ========================================================= */
 
-    function updateSystemUI() {
+/* =========================================================
+   REMOVE LIVE SESSION
+   ========================================================= */
 
-        if (
-            settings.chatterEnabled !== true
-        ) {
+function removeLiveSession(sessionId) {
 
-            systemOff.classList.add(
+    try {
+
+        const raw =
+            localStorage.getItem(
+                LIVE_SESSIONS_KEY
+            );
+
+        if (!raw) {
+            return;
+        }
+
+        let sessions =
+            JSON.parse(raw);
+
+        if (!Array.isArray(sessions)) {
+            return;
+        }
+
+        sessions =
+            sessions.filter(
+                session =>
+                    String(session.id) !==
+                    String(sessionId)
+            );
+
+        localStorage.setItem(
+            LIVE_SESSIONS_KEY,
+            JSON.stringify(sessions)
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Live session remove error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const app =
+    document.getElementById("app");
+
+const messages =
+    document.getElementById("messages");
+
+const messageInput =
+    document.getElementById("messageInput");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+const typingIndicator =
+    document.getElementById(
+        "typingIndicator"
+    );
+
+const systemMessage =
+    document.getElementById(
+        "systemMessage"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+/* =========================================================
+   CHAT USER UI
+   ========================================================= */
+
+const chatUserName =
+    document.getElementById(
+        "chatUserName"
+    );
+
+const chatAvatar =
+    document.getElementById(
+        "chatAvatar"
+    );
+
+const chatUserStatus =
+    document.getElementById(
+        "chatUserStatus"
+    );
+
+
+/* =========================================================
+   FEATURE BUTTONS
+   ========================================================= */
+
+const voiceCallBtn =
+    document.getElementById(
+        "voiceCallBtn"
+    );
+
+const videoCallBtn =
+    document.getElementById(
+        "videoCallBtn"
+    );
+
+const screenShareBtn =
+    document.getElementById(
+        "screenShareBtn"
+    );
+
+const imageBtn =
+    document.getElementById(
+        "imageBtn"
+    );
+
+const fileBtn =
+    document.getElementById(
+        "fileBtn"
+    );
+
+const cameraBtn =
+    document.getElementById(
+        "cameraBtn"
+    );
+
+
+/* =========================================================
+   SHOW SYSTEM MESSAGE
+   ========================================================= */
+
+function showSystemMessage(message) {
+
+    systemMessage.textContent =
+        message;
+
+    systemMessage.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            systemMessage.classList.remove(
                 "show"
             );
 
-            return;
-
-        }
-
-        systemOff.classList.remove(
-            "show"
-        );
-
-
-        sendButton.disabled =
-            !featureEnabled(
-                "messaging"
-            );
-
-        messageInput.disabled =
-            !featureEnabled(
-                "messaging"
-            );
-
-
-        document
-            .getElementById("voiceCallButton")
-            .disabled =
-                !featureEnabled(
-                    "voiceCall"
-                );
-
-
-        document
-            .getElementById("videoCallButton")
-            .disabled =
-                !featureEnabled(
-                    "videoCall"
-                );
-
-
-        document
-            .getElementById("screenShareButton")
-            .disabled =
-                !featureEnabled(
-                    "screenShare"
-                );
-
-
-        document
-            .getElementById("voiceMessageButton")
-            .disabled =
-                !featureEnabled(
-                    "voiceMessages"
-                );
-
-
-        document
-            .getElementById("imageButton")
-            .disabled =
-                !featureEnabled(
-                    "imageSharing"
-                );
-
-
-        document
-            .getElementById("fileButton")
-            .disabled =
-                !featureEnabled(
-                    "fileSharing"
-                );
-
-
-        document
-            .getElementById("cameraButton")
-            .disabled =
-                !featureEnabled(
-                    "camera"
-                );
-
-    }
-
-
-    /* =========================================================
-       SEND MESSAGE
-    ========================================================= */
-
-    function sendMessage() {
-
-        if (
-            !featureEnabled(
-                "messaging"
-            )
-        ) {
-
-            showToast(
-                "Messaging is disabled."
-            );
-
-            return;
-
-        }
-
-        const text =
-            messageInput.value.trim();
-
-        if (!text) {
-            return;
-        }
-
-
-        const row =
-            document.createElement(
-                "div"
-            );
-
-        row.className =
-            "message-row mine";
-
-
-        const bubble =
-            document.createElement(
-                "div"
-            );
-
-        bubble.className =
-            "message-bubble";
-
-
-        const messageText =
-            document.createElement(
-                "div"
-            );
-
-        messageText.className =
-            "message-text";
-
-        messageText.textContent =
-            text;
-
-
-        const meta =
-            document.createElement(
-                "div"
-            );
-
-        meta.className =
-            "message-meta";
-
-        meta.innerHTML =
-            `
-            ${getCurrentTime()}
-            <span class="seen">
-                ✓ Delivered
-            </span>
-            `;
-
-
-        bubble.appendChild(
-            messageText
-        );
-
-        bubble.appendChild(
-            meta
-        );
-
-        row.appendChild(
-            bubble
-        );
-
-        messages.appendChild(
-            row
-        );
-
-
-        messageInput.value =
-            "";
-
-        scrollMessages();
-
-
-        simulateReply();
-
-    }
-
-
-    /* =========================================================
-       SEND BUTTON
-    ========================================================= */
-
-    sendButton.addEventListener(
-        "click",
-        sendMessage
+        },
+        4500
     );
 
+}
 
-    /* =========================================================
-       ENTER TO SEND
-    ========================================================= */
 
-    messageInput.addEventListener(
-        "keydown",
-        function(event) {
+/* =========================================================
+   CHECK MASTER SYSTEM
+   ========================================================= */
 
-            if (
-                event.key === "Enter"
-            ) {
+function systemEnabled() {
 
-                event.preventDefault();
-
-                sendMessage();
-
-            }
-
-        }
+    return Boolean(
+        settings.chatterEnabled
     );
 
+}
 
-    /* =========================================================
-       TYPING
-    ========================================================= */
 
-    let typingTimer = null;
+/* =========================================================
+   CHECK FEATURE
+   ========================================================= */
 
-    messageInput.addEventListener(
-        "input",
-        function() {
+function featureEnabled(
+    feature
+) {
 
-            if (
-                !featureEnabled(
-                    "typingIndicator"
-                )
-            ) {
+    return (
+        systemEnabled() &&
+        Boolean(settings[feature])
+    );
 
+}
+
+
+/* =========================================================
+   UPDATE BUTTON STATES
+   ========================================================= */
+
+function updateFeatureButtons() {
+
+    const features = [
+
+        [
+            voiceCallBtn,
+            "voiceCall"
+        ],
+
+        [
+            videoCallBtn,
+            "videoCall"
+        ],
+
+        [
+            screenShareBtn,
+            "screenShare"
+        ],
+
+        [
+            imageBtn,
+            "imageSharing"
+        ],
+
+        [
+            fileBtn,
+            "fileSharing"
+        ],
+
+        [
+            cameraBtn,
+            "camera"
+        ]
+
+    ];
+
+
+    features.forEach(
+        ([button, feature]) => {
+
+            if (!button) {
                 return;
-
             }
 
-            clearTimeout(
-                typingTimer
+            const enabled =
+                featureEnabled(
+                    feature
+                );
+
+            button.disabled =
+                !enabled;
+
+            button.classList.toggle(
+                "disabled",
+                !enabled
             );
-
-            typingIndicator.classList.add(
-                "show"
-            );
-
-            typingTimer =
-                setTimeout(() => {
-
-                    typingIndicator.classList.remove(
-                        "show"
-                    );
-
-                }, 900);
 
         }
     );
 
 
-    /* =========================================================
-       FAKE REPLY
-       
-       Prototype only.
-       Real-time backend will replace this.
-    ========================================================= */
-
-    function simulateReply() {
-
-        if (
-            !featureEnabled(
-                "messaging"
-            )
-        ) {
-
-            return;
-
-        }
+    const messagingEnabled =
+        featureEnabled(
+            "messaging"
+        );
 
 
-        if (
-            featureEnabled(
-                "typingIndicator"
-            )
-        ) {
+    messageInput.disabled =
+        !messagingEnabled;
 
-            typingIndicator.classList.add(
-                "show"
-            );
+    sendBtn.disabled =
+        !messagingEnabled;
 
-        }
-
-
-        setTimeout(() => {
-
-            if (
-                featureEnabled(
-                    "typingIndicator"
-                )
-            ) {
-
-                typingIndicator.classList.remove(
-                    "show"
-                );
-
-            }
+    sendBtn.classList.toggle(
+        "disabled",
+        !messagingEnabled
+    );
 
 
-            const row =
-                document.createElement(
-                    "div"
-                );
+    if (!systemEnabled()) {
 
-            row.className =
-                "message-row";
+        document.getElementById(
+            "brandStatus"
+        ).textContent =
+            "● System Offline";
 
+        document.getElementById(
+            "brandStatus"
+        ).style.color =
+            "#dc2626";
 
-            const bubble =
-                document.createElement(
-                    "div"
-                );
+    } else {
 
-            bubble.className =
-                "message-bubble";
+        document.getElementById(
+            "brandStatus"
+        ).textContent =
+            "● Online";
 
-
-            const text =
-                document.createElement(
-                    "div"
-                );
-
-            text.className =
-                "message-text";
-
-            text.textContent =
-                "Ji, ami peyechi. Dhonnobad!";
-
-
-            const meta =
-                document.createElement(
-                    "div"
-                );
-
-            meta.className =
-                "message-meta";
-
-            meta.textContent =
-                getCurrentTime();
-
-
-            bubble.appendChild(
-                text
-            );
-
-            bubble.appendChild(
-                meta
-            );
-
-            row.appendChild(
-                bubble
-            );
-
-            messages.appendChild(
-                row
-            );
-
-            scrollMessages();
-
-        }, 1400);
+        document.getElementById(
+            "brandStatus"
+        ).style.color =
+            "#16a34a";
 
     }
 
+}
 
-    /* =========================================================
-       CURRENT TIME
-    ========================================================= */
 
-    function getCurrentTime() {
+/* =========================================================
+   CHECK CAMERA PERMISSION
+   ========================================================= */
 
-        return new Date()
-            .toLocaleTimeString(
-                [],
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
+async function ensureCameraPermission() {
 
+    if (!featureEnabled("camera")) {
+
+        showSystemMessage(
+            "Camera is disabled by the administrator."
+        );
+
+        return false;
     }
 
 
-    /* =========================================================
-       SCROLL
-    ========================================================= */
-
-    function scrollMessages() {
-
-        messages.scrollTop =
-            messages.scrollHeight;
-
+    if (permissions.camera) {
+        return true;
     }
 
 
-    /* =========================================================
-       CAMERA
-       
-       Live only.
-       No recording.
-       No storage.
-    ========================================================= */
-
-    async function startCamera() {
-
-        if (
-            !featureEnabled(
-                "camera"
-            )
-        ) {
-
-            showToast(
-                "Camera is disabled."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !permissions.camera
-        ) {
-
-            showToast(
-                "Camera permission is required."
-            );
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "../browser-permission.html";
-
-            }, 700);
-
-            return;
-
-        }
-
-
-        try {
-
-            stopCurrentStream();
-
-
-            currentStream =
-                await navigator.mediaDevices
-                    .getUserMedia({
-                        video: true
-                    });
-
-
-            currentSessionType =
-                "camera";
-
-
-            liveVideo.srcObject =
-                currentStream;
-
-
-            liveTitle.textContent =
-                "Live Camera";
-
-
-            liveInfo.textContent =
-                "Live camera session. Nothing is being recorded or stored.";
-
-
-            livePanel.classList.add(
-                "show"
-            );
-
-
-            showToast(
-                "Live camera started."
-            );
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast(
-                "Camera access failed."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       VOICE CALL
-       
-       Live only.
-       No recording.
-    ========================================================= */
-
-    async function startVoiceCall() {
-
-        if (
-            !featureEnabled(
-                "voiceCall"
-            )
-        ) {
-
-            showToast(
-                "Voice Call is disabled."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !permissions.microphone
-        ) {
-
-            showToast(
-                "Microphone permission is required."
-            );
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "../browser-permission.html";
-
-            }, 700);
-
-            return;
-
-        }
-
-
-        try {
-
-            stopCurrentStream();
-
-
-            currentStream =
-                await navigator.mediaDevices
-                    .getUserMedia({
-                        audio: true
-                    });
-
-
-            currentSessionType =
-                "voice";
-
-
-            liveVideo.style.display =
-                "none";
-
-
-            liveTitle.textContent =
-                "Live Voice Call";
-
-
-            liveInfo.textContent =
-                "Live voice communication. Nothing is being recorded or stored.";
-
-
-            livePanel.classList.add(
-                "show"
-            );
-
-
-            showToast(
-                "Live voice call started."
-            );
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast(
-                "Microphone access failed."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       VIDEO CALL
-       
-       Live only.
-       No recording.
-    ========================================================= */
-
-    async function startVideoCall() {
-
-        if (
-            !featureEnabled(
-                "videoCall"
-            )
-        ) {
-
-            showToast(
-                "Video Call is disabled."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !featureEnabled(
-                "camera"
-            )
-        ) {
-
-            showToast(
-                "Camera is disabled."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !permissions.camera ||
-            !permissions.microphone
-        ) {
-
-            showToast(
-                "Camera and microphone permissions are required."
-            );
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "../browser-permission.html";
-
-            }, 700);
-
-            return;
-
-        }
-
-
-        try {
-
-            stopCurrentStream();
-
-
-            currentStream =
-                await navigator.mediaDevices
-                    .getUserMedia({
-
-                        video: true,
-
-                        audio: true
-
-                    });
-
-
-            currentSessionType =
-                "video";
-
-
-            liveVideo.style.display =
-                "block";
-
-
-            liveVideo.srcObject =
-                currentStream;
-
-
-            liveTitle.textContent =
-                "Live Video Call";
-
-
-            liveInfo.textContent =
-                "Live video communication. Nothing is being recorded or stored.";
-
-
-            livePanel.classList.add(
-                "show"
-            );
-
-
-            showToast(
-                "Live video call started."
-            );
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast(
-                "Camera or microphone access failed."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       SCREEN SHARE
-       
-       IMPORTANT:
-       Browser native picker is required.
-       No recording.
-       No storage.
-    ========================================================= */
-
-    async function startScreenShare() {
-
-        if (
-            !featureEnabled(
-                "screenShare"
-            )
-        ) {
-
-            showToast(
-                "Screen Share is disabled."
-            );
-
-            return;
-
-        }
-
+    try {
 
         if (
             !navigator.mediaDevices ||
-            !navigator.mediaDevices.getDisplayMedia
+            !navigator.mediaDevices.getUserMedia
         ) {
 
-            showToast(
-                "Screen sharing is not supported by this browser."
+            showSystemMessage(
+                "Your browser does not support camera access."
             );
 
-            return;
-
+            return false;
         }
 
 
-        try {
-
-            stopCurrentStream();
-
-
-            currentStream =
-                await navigator.mediaDevices
-                    .getDisplayMedia({
-                        video: true
-                    });
+        const stream =
+            await navigator.mediaDevices.getUserMedia({
+                video: true
+            });
 
 
-            currentSessionType =
-                "screen";
-
-
-            liveVideo.style.display =
-                "block";
-
-
-            liveVideo.srcObject =
-                currentStream;
-
-
-            liveTitle.textContent =
-                "Live Screen Share";
-
-
-            liveInfo.textContent =
-                "Only the selected screen/window/tab is shared live. Nothing is being recorded or stored.";
-
-
-            livePanel.classList.add(
-                "show"
+        stream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
             );
 
 
-            const videoTrack =
-                currentStream.getVideoTracks()[0];
+        permissions.camera =
+            true;
 
 
-            if (videoTrack) {
-
-                videoTrack.addEventListener(
-                    "ended",
-                    function() {
-
-                        endLiveSession();
-
-                        showToast(
-                            "Screen sharing ended."
-                        );
-
-                    }
-                );
-
-            }
+        savePermissions();
 
 
-            showToast(
-                "Live screen sharing started."
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Camera permission error:",
+            error
+        );
+
+
+        showSystemMessage(
+            "Camera permission was not granted."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK MICROPHONE PERMISSION
+   ========================================================= */
+
+async function ensureMicrophonePermission() {
+
+    if (!featureEnabled("microphone")) {
+
+        showSystemMessage(
+            "Microphone is disabled by the administrator."
+        );
+
+        return false;
+    }
+
+
+    if (permissions.microphone) {
+        return true;
+    }
+
+
+    try {
+
+        if (
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ) {
+
+            showSystemMessage(
+                "Your browser does not support microphone access."
             );
 
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast(
-                "Screen sharing was cancelled or failed."
-            );
-
+            return false;
         }
+
+
+        const stream =
+            await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
+
+
+        stream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+
+        permissions.microphone =
+            true;
+
+
+        savePermissions();
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Microphone permission error:",
+            error
+        );
+
+
+        showSystemMessage(
+            "Microphone permission was not granted."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE PERMISSIONS
+   ========================================================= */
+
+function savePermissions() {
+
+    localStorage.setItem(
+        PERMISSION_KEY,
+        JSON.stringify(
+            permissions
+        )
+    );
+
+}
+
+
+/* =========================================================
+   SCREEN SHARE
+   ========================================================= */
+
+async function startScreenShare() {
+
+    if (
+        !featureEnabled(
+            "screenShare"
+        )
+    ) {
+
+        showSystemMessage(
+            "Screen sharing is disabled by the administrator."
+        );
+
+        return;
 
     }
 
 
-    /* =========================================================
-       STOP CURRENT STREAM
-    ========================================================= */
+    if (
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getDisplayMedia
+    ) {
 
-    function stopCurrentStream() {
+        showSystemMessage(
+            "Your browser does not support screen sharing."
+        );
 
-        if (!currentStream) {
-            return;
-        }
+        return;
+
+    }
 
 
-        currentStream
+    try {
+
+        /*
+           Browser will show the native screen picker.
+
+           This cannot be silently bypassed.
+        */
+
+        screenStream =
+            await navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: false
+            });
+
+
+        permissions.screenShare =
+            true;
+
+
+        savePermissions();
+
+
+        const sessionId =
+            createSessionId();
+
+
+        saveLiveSession({
+
+            id: sessionId,
+
+            userId: currentUser.id,
+
+            userName: currentUser.name,
+
+            userEmail: currentUser.email,
+
+            type: "screen",
+
+            startedAt:
+                Date.now(),
+
+            consented: true
+
+        });
+
+
+        screenStream
+            .getVideoTracks()
+            .forEach(
+                track => {
+
+                    track.addEventListener(
+                        "ended",
+                        () => {
+
+                            stopScreenShare(
+                                sessionId
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        showSystemMessage(
+            "Screen sharing started."
+        );
+
+
+        openCallModal(
+            "screen"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Screen sharing error:",
+            error
+        );
+
+
+        showSystemMessage(
+            "Screen sharing was cancelled or permission was denied."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STOP SCREEN SHARE
+   ========================================================= */
+
+function stopScreenShare(
+    sessionId = null
+) {
+
+    if (screenStream) {
+
+        screenStream
             .getTracks()
-            .forEach(track => {
+            .forEach(
+                track =>
+                    track.stop()
+            );
 
-                track.stop();
+        screenStream =
+            null;
+
+    }
+
+
+    if (sessionId) {
+
+        removeLiveSession(
+            sessionId
+        );
+
+    }
+
+
+    closeCallModal();
+
+}
+
+
+/* =========================================================
+   START VOICE CALL
+   ========================================================= */
+
+async function startVoiceCall() {
+
+    if (
+        !featureEnabled(
+            "voiceCall"
+        )
+    ) {
+
+        showSystemMessage(
+            "Voice calling is disabled by the administrator."
+        );
+
+        return;
+
+    }
+
+
+    const mic =
+        await ensureMicrophonePermission();
+
+
+    if (!mic) {
+        return;
+    }
+
+
+    try {
+
+        localStream =
+            await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: false
+            });
+
+
+        currentCallType =
+            "voice";
+
+
+        const sessionId =
+            createSessionId();
+
+
+        saveLiveSession({
+
+            id: sessionId,
+
+            userId: currentUser.id,
+
+            userName: currentUser.name,
+
+            userEmail: currentUser.email,
+
+            type: "voice",
+
+            startedAt:
+                Date.now(),
+
+            consented: true
+
+        });
+
+
+        openCallModal(
+            "voice",
+            sessionId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Voice call error:",
+            error
+        );
+
+
+        showSystemMessage(
+            "Unable to start voice call."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   START VIDEO CALL
+   ========================================================= */
+
+async function startVideoCall() {
+
+    if (
+        !featureEnabled(
+            "videoCall"
+        )
+    ) {
+
+        showSystemMessage(
+            "Video calling is disabled by the administrator."
+        );
+
+        return;
+
+    }
+
+
+    const camera =
+        await ensureCameraPermission();
+
+
+    if (!camera) {
+        return;
+    }
+
+
+    const mic =
+        await ensureMicrophonePermission();
+
+
+    if (!mic) {
+        return;
+    }
+
+
+    try {
+
+        localStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: true,
+
+                audio: true
 
             });
 
 
-        currentStream =
-            null;
+        cameraEnabled =
+            true;
 
 
-        liveVideo.srcObject =
-            null;
+        currentCallType =
+            "video";
+
+
+        const sessionId =
+            createSessionId();
+
+
+        saveLiveSession({
+
+            id: sessionId,
+
+            userId: currentUser.id,
+
+            userName: currentUser.name,
+
+            userEmail: currentUser.email,
+
+            type: "video",
+
+            startedAt:
+                Date.now(),
+
+            consented: true
+
+        });
+
+
+        openCallModal(
+            "video",
+            sessionId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Video call error:",
+            error
+        );
+
+
+        showSystemMessage(
+            "Unable to start video call."
+        );
 
     }
 
+}
 
-    /* =========================================================
-       END LIVE SESSION
-    ========================================================= */
 
-    function endLiveSession() {
+/* =========================================================
+   OPEN CALL MODAL
+   ========================================================= */
 
-        stopCurrentStream();
+function openCallModal(
+    type,
+    sessionId = null
+) {
 
-        currentSessionType =
-            null;
-
-        microphoneMuted =
-            false;
-
-        livePanel.classList.remove(
-            "show"
+    const modal =
+        document.getElementById(
+            "callModal"
         );
 
-        liveVideo.style.display =
+    const title =
+        document.getElementById(
+            "callTitle"
+        );
+
+    const status =
+        document.getElementById(
+            "callStatus"
+        );
+
+    const empty =
+        document.getElementById(
+            "callEmpty"
+        );
+
+    const remoteVideo =
+        document.getElementById(
+            "remoteVideo"
+        );
+
+
+    modal.classList.add(
+        "show"
+    );
+
+
+    if (type === "voice") {
+
+        title.textContent =
+            `Voice Call — ${selectedUser.name}`;
+
+        status.textContent =
+            "Live voice session";
+
+        remoteVideo.style.display =
+            "none";
+
+        empty.style.display =
             "block";
 
-        liveInfo.textContent =
-            "Live media is temporary. Nothing is being recorded or stored.";
+        empty.querySelector(
+            ".call-empty-icon"
+        ).textContent =
+            "📞";
 
     }
 
 
-    /* =========================================================
-       CLOSE LIVE
-    ========================================================= */
+    else if (type === "video") {
 
-    document
-        .getElementById("closeLive")
-        .addEventListener(
-            "click",
-            endLiveSession
-        );
+        title.textContent =
+            `Video Call — ${selectedUser.name}`;
 
+        status.textContent =
+            "Live video session";
 
-    /* =========================================================
-       END LIVE BUTTON
-    ========================================================= */
+        empty.querySelector(
+            ".call-empty-icon"
+        ).textContent =
+            "📹";
 
-    document
-        .getElementById("endLiveButton")
-        .addEventListener(
-            "click",
-            endLiveSession
-        );
+    }
 
 
-    /* =========================================================
-       MUTE
-    ========================================================= */
+    else if (type === "screen") {
 
-    document
-        .getElementById("muteButton")
-        .addEventListener(
-            "click",
-            function() {
+        title.textContent =
+            "Screen Share";
 
-                if (!currentStream) {
-                    return;
-                }
+        status.textContent =
+            "Screen sharing is active";
 
+        empty.querySelector(
+            ".call-empty-icon"
+        ).textContent =
+            "🖥";
 
-                const audioTracks =
-                    currentStream
-                        .getAudioTracks();
+    }
 
 
-                if (!audioTracks.length) {
+    /*
+       Production WebRTC integration point.
 
-                    showToast(
-                        "No microphone is active."
-                    );
+       After authenticated signaling:
 
-                    return;
+       remoteVideo.srcObject =
+           remoteMediaStream;
 
-                }
+       remoteVideo.style.display =
+           "block";
 
+       No MediaRecorder is used.
+       No recording is performed.
+    */
 
-                microphoneMuted =
-                    !microphoneMuted;
-
-
-                audioTracks.forEach(
-                    track => {
-
-                        track.enabled =
-                            !microphoneMuted;
-
-                    }
-                );
+}
 
 
-                this.textContent =
-                    microphoneMuted
-                        ? "🔊 Unmute"
-                        : "🔇 Mute";
+/* =========================================================
+   CLOSE CALL MODAL
+   ========================================================= */
 
-            }
-        );
+function closeCallModal() {
 
-
-    /* =========================================================
-       VOICE CALL BUTTON
-    ========================================================= */
-
-    document
-        .getElementById("voiceCallButton")
-        .addEventListener(
-            "click",
-            startVoiceCall
-        );
-
-
-    /* =========================================================
-       VIDEO CALL BUTTON
-    ========================================================= */
-
-    document
-        .getElementById("videoCallButton")
-        .addEventListener(
-            "click",
-            startVideoCall
-        );
-
-
-    /* =========================================================
-       SCREEN SHARE BUTTON
-    ========================================================= */
-
-    document
-        .getElementById("screenShareButton")
-        .addEventListener(
-            "click",
-            startScreenShare
-        );
-
-
-    /* =========================================================
-       CAMERA BUTTON
-    ========================================================= */
-
-    document
-        .getElementById("cameraButton")
-        .addEventListener(
-            "click",
-            startCamera
-        );
-
-
-    /* =========================================================
-       VOICE MESSAGE
-       
-       No recording is performed in this version.
-       Real voice messaging should use a backend only
-       if the user explicitly wants stored voice messages.
-    ========================================================= */
-
-    document
-        .getElementById("voiceMessageButton")
-        .addEventListener(
-            "click",
-            function() {
-
-                if (
-                    !featureEnabled(
-                        "voiceMessages"
-                    )
-                ) {
-
-                    showToast(
-                        "Voice Messages are disabled."
-                    );
-
-                    return;
-
-                }
-
-
-                showToast(
-                    "Voice Messages will be connected to the real-time backend."
-                );
-
-            }
-        );
-
-
-    /* =========================================================
-       IMAGE SHARING
-    ========================================================= */
-
-    const imageButton =
+    const modal =
         document.getElementById(
-            "imageButton"
-        );
-
-    const imageInput =
-        document.getElementById(
-            "imageInput"
+            "callModal"
         );
 
 
-    imageButton.addEventListener(
-        "click",
-        function() {
-
-            if (
-                !featureEnabled(
-                    "imageSharing"
-                )
-            ) {
-
-                showToast(
-                    "Image sharing is disabled."
-                );
-
-                return;
-
-            }
-
-            imageInput.click();
-
-        }
+    modal.classList.remove(
+        "show"
     );
 
 
-    imageInput.addEventListener(
-        "change",
-        function() {
+    if (localStream) {
 
-            if (
-                !this.files.length
-            ) {
+        localStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        localStream =
+            null;
+
+    }
+
+
+    if (screenStream) {
+
+        screenStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        screenStream =
+            null;
+
+    }
+
+
+    const remoteVideo =
+        document.getElementById(
+            "remoteVideo"
+        );
+
+
+    remoteVideo.srcObject =
+        null;
+
+
+    remoteVideo.style.display =
+        "none";
+
+
+    currentCallType =
+        null;
+
+
+    cameraEnabled =
+        false;
+
+
+    isMuted =
+        false;
+
+}
+
+
+/* =========================================================
+   END CALL
+   ========================================================= */
+
+function endCall() {
+
+    closeCallModal();
+
+    showSystemMessage(
+        "Live session ended."
+    );
+
+
+    /*
+       Remove current user's active
+       session entries.
+
+       Production backend should remove
+       the authenticated WebRTC session
+       from the signaling server.
+    */
+
+    try {
+
+        const raw =
+            localStorage.getItem(
+                LIVE_SESSIONS_KEY
+            );
+
+        if (!raw) {
+            return;
+        }
+
+        const sessions =
+            JSON.parse(raw);
+
+        const filtered =
+            sessions.filter(
+                session =>
+                    session.userId !==
+                    currentUser.id
+            );
+
+        localStorage.setItem(
+            LIVE_SESSIONS_KEY,
+            JSON.stringify(
+                filtered
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CALL BUTTON EVENTS
+   ========================================================= */
+
+voiceCallBtn.addEventListener(
+    "click",
+    startVoiceCall
+);
+
+
+videoCallBtn.addEventListener(
+    "click",
+    startVideoCall
+);
+
+
+screenShareBtn.addEventListener(
+    "click",
+    startScreenShare
+);
+
+
+/* =========================================================
+   CALL MODAL EVENTS
+   ========================================================= */
+
+document
+    .getElementById(
+        "callCloseBtn"
+    )
+    .addEventListener(
+        "click",
+        endCall
+    );
+
+
+document
+    .getElementById(
+        "callEndBtn"
+    )
+    .addEventListener(
+        "click",
+        endCall
+    );
+
+
+/* =========================================================
+   MUTE CALL
+   ========================================================= */
+
+document
+    .getElementById(
+        "callMuteBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if (!localStream) {
                 return;
             }
 
 
-            const file =
-                this.files[0];
+            const tracks =
+                localStream.getAudioTracks();
 
 
-            addFileMessage(
-                file,
-                "image"
+            tracks.forEach(
+                track => {
+
+                    track.enabled =
+                        !track.enabled;
+
+                }
             );
 
 
-            this.value =
-                "";
+            isMuted =
+                !isMuted;
+
+
+            document.getElementById(
+                "callMuteBtn"
+            ).textContent =
+                isMuted
+                    ? "🔇"
+                    : "🎙";
 
         }
     );
 
 
-    /* =========================================================
-       FILE SHARING
-    ========================================================= */
+/* =========================================================
+   CAMERA TOGGLE
+   ========================================================= */
 
-    const fileButton =
-        document.getElementById(
-            "fileButton"
-        );
-
-    const fileInput =
-        document.getElementById(
-            "fileInput"
-        );
-
-
-    fileButton.addEventListener(
+document
+    .getElementById(
+        "callCameraBtn"
+    )
+    .addEventListener(
         "click",
-        function() {
+        () => {
 
-            if (
-                !featureEnabled(
-                    "fileSharing"
-                )
-            ) {
-
-                showToast(
-                    "File sharing is disabled."
-                );
-
-                return;
-
-            }
-
-            fileInput.click();
-
-        }
-    );
-
-
-    fileInput.addEventListener(
-        "change",
-        function() {
-
-            if (
-                !this.files.length
-            ) {
+            if (!localStream) {
                 return;
             }
 
 
-            const file =
-                this.files[0];
+            const tracks =
+                localStream.getVideoTracks();
 
 
-            addFileMessage(
-                file,
-                "file"
+            tracks.forEach(
+                track => {
+
+                    track.enabled =
+                        !track.enabled;
+
+                    cameraEnabled =
+                        track.enabled;
+
+                }
             );
 
 
-            this.value =
-                "";
+            document.getElementById(
+                "callCameraBtn"
+            ).textContent =
+                cameraEnabled
+                    ? "📷"
+                    : "🚫";
 
         }
     );
 
 
-    /* =========================================================
-       FILE MESSAGE
-       
-       Prototype only.
-       No automatic server upload.
-    ========================================================= */
+/* =========================================================
+   CALL SCREEN SHARE
+   ========================================================= */
 
-    function addFileMessage(
-        file,
-        type
+document
+    .getElementById(
+        "callScreenBtn"
+    )
+    .addEventListener(
+        "click",
+        async () => {
+
+            await startScreenShare();
+
+        }
+    );
+
+
+/* =========================================================
+   SEND MESSAGE
+   ========================================================= */
+
+function sendMessage() {
+
+    if (
+        !featureEnabled(
+            "messaging"
+        )
     ) {
 
-        const row =
-            document.createElement(
-                "div"
-            );
-
-        row.className =
-            "message-row mine";
-
-
-        const bubble =
-            document.createElement(
-                "div"
-            );
-
-        bubble.className =
-            "message-bubble";
-
-
-        const text =
-            document.createElement(
-                "div"
-            );
-
-        text.className =
-            "message-text";
-
-
-        if (
-            type === "image"
-        ) {
-
-            text.textContent =
-                `Image selected: ${file.name}`;
-
-        } else {
-
-            text.textContent =
-                `File selected: ${file.name}`;
-
-        }
-
-
-        const meta =
-            document.createElement(
-                "div"
-            );
-
-        meta.className =
-            "message-meta";
-
-        meta.textContent =
-            getCurrentTime();
-
-
-        bubble.appendChild(
-            text
+        showSystemMessage(
+            "Messaging is disabled by the administrator."
         );
 
-        bubble.appendChild(
-            meta
-        );
-
-        row.appendChild(
-            bubble
-        );
-
-        messages.appendChild(
-            row
-        );
-
-        scrollMessages();
-
-
-        showToast(
-            "Selected successfully. Real upload will be connected to backend."
-        );
+        return;
 
     }
 
 
-    /* =========================================================
-       CONVERSATION SWITCH
-    ========================================================= */
+    const text =
+        messageInput.value.trim();
 
-    document
-        .querySelectorAll(".conversation")
-        .forEach(item => {
 
-            item.addEventListener(
+    if (!text) {
+        return;
+    }
+
+
+    addMessage(
+        text,
+        true
+    );
+
+
+    messageInput.value =
+        "";
+
+    resizeTextarea();
+
+
+    simulateReply();
+
+}
+
+
+/* =========================================================
+   ADD MESSAGE
+   ========================================================= */
+
+function addMessage(
+    text,
+    isMe = false
+) {
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+
+    row.className =
+        `message-row ${isMe ? "me" : ""}`;
+
+
+    const initials =
+        isMe
+            ? "ME"
+            : selectedUser.initials;
+
+
+    const time =
+        new Date().toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+
+
+    row.innerHTML = `
+
+        <div class="message-avatar">
+            ${escapeHtml(initials)}
+        </div>
+
+        <div class="message-content">
+
+            <div class="message-bubble">
+                ${escapeHtml(text)}
+            </div>
+
+            <div class="message-meta">
+
+                ${time}
+
+                ${
+                    isMe
+                        ? `<span class="seen">✓ Delivered</span>`
+                        : ""
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    messages.appendChild(
+        row
+    );
+
+
+    scrollMessages();
+
+}
+
+
+/* =========================================================
+   SIMULATED REPLY
+   ========================================================= */
+
+let replyTimer =
+    null;
+
+
+function simulateReply() {
+
+    if (
+        !featureEnabled(
+            "messaging"
+        )
+    ) {
+        return;
+    }
+
+
+    if (
+        !featureEnabled(
+            "typingIndicator"
+        )
+    ) {
+        return;
+    }
+
+
+    clearTimeout(
+        replyTimer
+    );
+
+
+    typingIndicator.classList.add(
+        "active"
+    );
+
+
+    scrollMessages();
+
+
+    replyTimer =
+        setTimeout(
+            () => {
+
+                typingIndicator.classList.remove(
+                    "active"
+                );
+
+
+                addMessage(
+                    "Thanks for your message. Our team will respond shortly.",
+                    false
+                );
+
+            },
+            1500
+        );
+
+}
+
+
+/* =========================================================
+   SEND BUTTON
+   ========================================================= */
+
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+/* =========================================================
+   ENTER TO SEND
+   ========================================================= */
+
+messageInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   AUTO RESIZE TEXTAREA
+   ========================================================= */
+
+function resizeTextarea() {
+
+    messageInput.style.height =
+        "auto";
+
+    messageInput.style.height =
+        Math.min(
+            messageInput.scrollHeight,
+            100
+        ) + "px";
+
+}
+
+
+messageInput.addEventListener(
+    "input",
+    resizeTextarea
+);
+
+
+/* =========================================================
+   EMOJI
+   ========================================================= */
+
+document
+    .getElementById(
+        "emojiBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                !featureEnabled(
+                    "messaging"
+                )
+            ) {
+                return;
+            }
+
+
+            const emojis = [
+                "😊",
+                "👍",
+                "❤️",
+                "😂",
+                "🙏",
+                "🎉"
+            ];
+
+
+            const emoji =
+                emojis[
+                    Math.floor(
+                        Math.random() *
+                        emojis.length
+                    )
+                ];
+
+
+            messageInput.value +=
+                emoji;
+
+
+            messageInput.focus();
+
+            resizeTextarea();
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE SHARING
+   ========================================================= */
+
+imageBtn.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !featureEnabled(
+                "imageSharing"
+            )
+        ) {
+
+            showSystemMessage(
+                "Image sharing is disabled by the administrator."
+            );
+
+            return;
+
+        }
+
+
+        document
+            .getElementById(
+                "imageInput"
+            )
+            .click();
+
+    }
+);
+
+
+document
+    .getElementById(
+        "imageInput"
+    )
+    .addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            addMessage(
+                `Image selected: ${file.name}`,
+                true
+            );
+
+
+            /*
+               Production:
+               Upload through authenticated
+               backend/storage service.
+
+               This prototype does not upload
+               or persist the file.
+            */
+
+
+            event.target.value =
+                "";
+
+        }
+    );
+
+
+/* =========================================================
+   FILE SHARING
+   ========================================================= */
+
+fileBtn.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !featureEnabled(
+                "fileSharing"
+            )
+        ) {
+
+            showSystemMessage(
+                "File sharing is disabled by the administrator."
+            );
+
+            return;
+
+        }
+
+
+        document
+            .getElementById(
+                "fileInput"
+            )
+            .click();
+
+    }
+);
+
+
+document
+    .getElementById(
+        "fileInput"
+    )
+    .addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            addMessage(
+                `File selected: ${file.name}`,
+                true
+            );
+
+
+            /*
+               Production:
+               Send file through authenticated
+               backend/storage.
+
+               This prototype does not upload
+               or permanently store the file.
+            */
+
+
+            event.target.value =
+                "";
+
+        }
+    );
+
+
+/* =========================================================
+   CAMERA BUTTON
+   ========================================================= */
+
+cameraBtn.addEventListener(
+    "click",
+    async () => {
+
+        const allowed =
+            await ensureCameraPermission();
+
+
+        if (!allowed) {
+            return;
+        }
+
+
+        showSystemMessage(
+            "Camera permission is ready. Start a video call to use live camera."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CONVERSATION SWITCH
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".conversation"
+    )
+    .forEach(
+        conversation => {
+
+            conversation.addEventListener(
                 "click",
-                function() {
+                () => {
 
                     document
                         .querySelectorAll(
                             ".conversation"
                         )
                         .forEach(
-                            conversation => {
-
-                                conversation.classList.remove(
+                            item =>
+                                item.classList.remove(
                                     "active"
-                                );
-
-                            }
+                                )
                         );
 
 
-                    this.classList.add(
+                    conversation.classList.add(
                         "active"
                     );
 
 
-                    const name =
-                        this.dataset.name;
+                    selectedUser = {
+
+                        id:
+                            conversation.dataset.userId,
+
+                        name:
+                            conversation.dataset.userName,
+
+                        initials:
+                            conversation.dataset.userInitials
+
+                    };
 
 
-                    document
-                        .getElementById(
-                            "chatUserName"
-                        )
-                        .textContent =
-                        name;
+                    chatUserName.textContent =
+                        selectedUser.name;
 
 
-                    document
-                        .getElementById(
-                            "typingName"
-                        )
-                        .textContent =
-                        name.split(" ")[0];
+                    chatAvatar.textContent =
+                        selectedUser.initials;
 
 
-                    app.classList.add(
-                        "chat-open"
-                    );
+                    if (
+                        window.innerWidth <= 850
+                    ) {
+
+                        app.classList.add(
+                            "mobile-chat-open"
+                        );
+
+                    }
 
                 }
             );
 
-        });
+        }
+    );
 
 
-    /* =========================================================
-       SEARCH
-    ========================================================= */
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-    document
-        .getElementById("searchInput")
-        .addEventListener(
-            "input",
-            function() {
+searchInput.addEventListener(
+    "input",
+    () => {
 
-                const value =
-                    this.value
-                        .toLowerCase()
-                        .trim();
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
 
-                document
-                    .querySelectorAll(
-                        ".conversation"
-                    )
-                    .forEach(item => {
+        document
+            .querySelectorAll(
+                ".conversation"
+            )
+            .forEach(
+                item => {
 
-                        const name =
-                            item.dataset.name
-                                .toLowerCase();
-
-
-                        item.style.display =
-                            name.includes(value)
-                                ? "flex"
-                                : "none";
-
-                    });
-
-            }
-        );
+                    const name =
+                        (
+                            item.dataset.userName ||
+                            ""
+                        )
+                        .toLowerCase();
 
 
-    /* =========================================================
-       MOBILE BACK
-    ========================================================= */
-
-    document
-        .getElementById("mobileBack")
-        .addEventListener(
-            "click",
-            function() {
-
-                app.classList.remove(
-                    "chat-open"
-                );
-
-            }
-        );
-
-
-    /* =========================================================
-       PROFILE
-    ========================================================= */
-
-    document
-        .getElementById("profileButton")
-        .addEventListener(
-            "click",
-            function() {
-
-                showToast(
-                    "Profile settings will be connected later."
-                );
-
-            }
-        );
-
-
-    /* =========================================================
-       SETTINGS SYNC
-    ========================================================= */
-
-    window.addEventListener(
-        "storage",
-        function(event) {
-
-            if (
-                event.key === SETTINGS_KEY
-            ) {
-
-                settings =
-                    loadSettings();
-
-                updateSystemUI();
-
-
-                if (
-                    !settings.chatterEnabled
-                ) {
-
-                    endLiveSession();
+                    item.style.display =
+                        name.includes(query)
+                            ? "flex"
+                            : "none";
 
                 }
+            );
 
-            }
+    }
+);
+
+
+/* =========================================================
+   MOBILE BACK
+   ========================================================= */
+
+document
+    .getElementById(
+        "mobileBackBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            app.classList.remove(
+                "mobile-chat-open"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SETTINGS BUTTON
+   ========================================================= */
+
+document
+    .getElementById(
+        "settingsBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "../browser-permission.html";
+
+        }
+    );
+
+
+/* =========================================================
+   MORE BUTTON
+   ========================================================= */
+
+document
+    .getElementById(
+        "moreBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            showSystemMessage(
+                "More options will be available in the next version."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SCROLL
+   ========================================================= */
+
+function scrollMessages() {
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   CREATE SESSION ID
+   ========================================================= */
+
+function createSessionId() {
+
+    return (
+        "live_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2, 9)
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   STORAGE SYNC
+   ========================================================= */
+
+window.addEventListener(
+    "storage",
+    event => {
+
+        if (
+            event.key ===
+            SETTINGS_KEY
+        ) {
+
+            settings =
+                getSettings();
+
+            updateFeatureButtons();
 
 
             if (
-                event.key === PERMISSION_KEY
+                !settings.chatterEnabled
             ) {
 
-                permissions =
-                    loadPermissions();
+                showSystemMessage(
+                    "Chatter has been disabled by the administrator."
+                );
 
             }
 
         }
-    );
 
 
-    /* =========================================================
-       VISIBILITY CHANGE
-    ========================================================= */
+        if (
+            event.key ===
+            PERMISSION_KEY
+        ) {
 
-    document.addEventListener(
-        "visibilitychange",
-        function() {
-
-            if (
-                document.visibilityState ===
-                "visible"
-            ) {
-
-                settings =
-                    loadSettings();
-
-                permissions =
-                    loadPermissions();
-
-                updateSystemUI();
-
-            }
+            permissions =
+                getPermissions();
 
         }
-    );
+
+    }
+);
 
 
-    /* =========================================================
-       BEFORE UNLOAD
-       
-       Make sure temporary live media ends
-       when this page closes.
-    ========================================================= */
+/* =========================================================
+   PAGE VISIBILITY
+   ========================================================= */
 
-    window.addEventListener(
-        "beforeunload",
-        function() {
+document.addEventListener(
+    "visibilitychange",
+    () => {
 
-            stopCurrentStream();
+        if (
+            document.visibilityState ===
+            "visible"
+        ) {
+
+            settings =
+                getSettings();
+
+            permissions =
+                getPermissions();
+
+            updateFeatureButtons();
 
         }
-    );
+
+    }
+);
 
 
-    /* =========================================================
-       INITIALIZE
-    ========================================================= */
+/* =========================================================
+   BEFORE UNLOAD
+   ========================================================= */
 
-    updateSystemUI();
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        /*
+           Stop local live media when the page closes.
+
+           No recording is saved.
+        */
+
+        if (localStream) {
+
+            localStream
+                .getTracks()
+                .forEach(
+                    track =>
+                        track.stop()
+                );
+
+        }
+
+
+        if (screenStream) {
+
+            screenStream
+                .getTracks()
+                .forEach(
+                    track =>
+                        track.stop()
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+function initialize() {
+
+    settings =
+        getSettings();
+
+    permissions =
+        getPermissions();
+
+    currentUser =
+        getUser();
+
+
+    updateFeatureButtons();
 
     scrollMessages();
+
+}
+
+
+initialize();
 
 </script>
 
