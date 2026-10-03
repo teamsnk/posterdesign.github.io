@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chatter Manager | Design System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 260px;
+            background: #111827;
+            color: white;
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .brand h2 {
+            font-size: 21px;
+        }
+
+        .brand p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .menu {
+            padding: 15px 10px;
+        }
+
+        .menu-title {
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px;
+        }
+
+        .menu a {
+            color: #d1d5db;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px;
+            border-radius: 9px;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: #f3f4f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .topbar h1 {
+            font-size: 21px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .admin-text strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-text span {
+            display: block;
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 30px;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           MASTER
+        ===================================================== */
+
+        .master-card {
+            background: linear-gradient(
+                135deg,
+                #1d4ed8,
+                #2563eb
+            );
+            color: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow:
+                0 12px 30px rgba(37,99,235,.18);
+        }
+
+        .master-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .master-card h3 {
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .master-card p {
+            color: rgba(255,255,255,.8);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           SWITCH
+        ===================================================== */
+
+        .switch {
+            width: 52px;
+            height: 29px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .slider::before {
+            content: "";
+            width: 21px;
+            height: 21px;
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            background: white;
+            border-radius: 50%;
+            transition: .25s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.15);
+        }
+
+        .switch input:checked + .slider {
+            background: #22c55e;
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(23px);
+        }
+
+        .master-card .slider {
+            background: rgba(255,255,255,.3);
+        }
+
+        /* =====================================================
+           STATS
+        ===================================================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .feature {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: .2s;
+        }
+
+        .feature:hover {
+            border-color: #bfdbfe;
+            box-shadow:
+                0 5px 18px rgba(0,0,0,.04);
+        }
+
+        .feature-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .feature-info h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .feature-info p {
+            color: #6b7280;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .feature.disabled {
+            opacity: .5;
+        }
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 9px;
+            padding: 11px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        /* =====================================================
+           ACTIVITY
+        ===================================================== */
+
+        .activity-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .activity-card h3 {
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .activity-item {
+            background: #f9fafb;
+            border-radius: 9px;
+            padding: 11px 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .activity-time {
+            color: #9ca3af;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        /* =====================================================
+           NOTICE
+        ===================================================== */
+
+        .notice {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .notice strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            background: #111827;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 9px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 5000;
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.18);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .admin-text {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .master-row {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+            <h2>Design System</h2>
+            <p>Admin Control Center</p>
+        </div>
+
+        <nav class="menu">
+
+            <div class="menu-title">
+                Main
+            </div>
+
+            <a href="dashboard.html">
+                <span class="menu-icon">📊</span>
+                Dashboard
+            </a>
+
+            <a href="banner.html">
+                <span class="menu-icon">🖼️</span>
+                Banner Manager
+            </a>
+
+            <a href="browser-ui.html">
+                <span class="menu-icon">🌐</span>
+                Browser UI
+            </a>
+
+
+            <div class="menu-title">
+                Management
+            </div>
+
+            <a href="website-edit.html">
+                <span class="menu-icon">✏️</span>
+                Website Edit
+            </a>
+
+            <a href="website.html">
+                <span class="menu-icon">🏠</span>
+                Website
+            </a>
+
+            <a href="design-manage.html">
+                <span class="menu-icon">🎨</span>
+                Design Manage
+            </a>
+
+
+            <div class="menu-title">
+                Communication
+            </div>
+
+            <a
+                href="chatter.html"
+                class="active"
+            >
+                <span class="menu-icon">💬</span>
+                Chatter
+            </a>
+
+            <a href="live-monitor.html">
+                <span class="menu-icon">📡</span>
+                Live Monitor
+            </a>
+
+
+            <div class="menu-title">
+                System
+            </div>
+
+            <a href="system.html">
+                <span class="menu-icon">⚙️</span>
+                System Manager
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                >
+                    ☰
+                </button>
+
+                <h1>
+                    Chatter Manager
+                </h1>
+
+            </div>
+
+
+            <div class="admin-info">
+
+                <div
+                    class="admin-avatar"
+                    id="adminAvatar"
+                >
+                    A
+                </div>
+
+                <div class="admin-text">
+
+                    <strong id="adminName">
+                        Admin
+                    </strong>
+
+                    <span id="adminRole">
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="page-header">
+
+                <h2>
+                    Chatter Control Center
+                </h2>
+
+                <p>
+                    Control live communication features,
+                    user communication access and system status.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 MASTER CONTROL
+            ================================================== -->
+
+            <div class="master-card">
+
+                <div class="master-row">
+
+                    <div>
+
+                        <h3>
+                            Chatter System
+                        </h3>
+
+                        <p>
+                            Enable or disable the complete
+                            Chatter communication system.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="masterSwitch"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="onlineUsers"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Online Users
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        💬
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="activeChats"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Active Chats
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        📞
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="activeCalls"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Live Calls
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        🖥️
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="screenSessions"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Screen Share Sessions
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FEATURE MANAGEMENT
+            ================================================== -->
+
+            <h3 class="section-title">
+                Feature Management
+            </h3>
+
+
+            <div class="features">
+
+
+                <!-- Messaging -->
+
+                <div
+                    class="feature"
+                    data-feature-card="messaging"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            💬
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Messaging
+                            </h4>
+
+                            <p>
+                                Allow users to send text messages.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="messaging"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Voice Call -->
+
+                <div
+                    class="feature"
+                    data-feature-card="voiceCall"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            📞
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Voice Call
+                            </h4>
+
+                            <p>
+                                Enable live voice calls.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="voiceCall"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Video Call -->
+
+                <div
+                    class="feature"
+                    data-feature-card="videoCall"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🎥
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Video Call
+                            </h4>
+
+                            <p>
+                                Enable live video calls.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="videoCall"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Voice Messages -->
+
+                <div
+                    class="feature"
+                    data-feature-card="voiceMessages"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🎙️
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Voice Messages
+                            </h4>
+
+                            <p>
+                                Enable voice-message functionality.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="voiceMessages"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Camera -->
+
+                <div
+                    class="feature"
+                    data-feature-card="camera"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            📷
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Camera
+                            </h4>
+
+                            <p>
+                                Allow camera for live video communication.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="camera"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Microphone -->
+
+                <div
+                    class="feature"
+                    data-feature-card="microphone"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🎤
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Microphone
+                            </h4>
+
+                            <p>
+                                Allow microphone for live calls.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="microphone"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Screen Share -->
+
+                <div
+                    class="feature"
+                    data-feature-card="screenShare"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🖥️
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Screen Share
+                            </h4>
+
+                            <p>
+                                Allow users to share their screen live.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="screenShare"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- File Sharing -->
+
+                <div
+                    class="feature"
+                    data-feature-card="fileSharing"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            📎
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                File Sharing
+                            </h4>
+
+                            <p>
+                                Allow users to share files.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="fileSharing"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Image Sharing -->
+
+                <div
+                    class="feature"
+                    data-feature-card="imageSharing"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🖼️
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Image Sharing
+                            </h4>
+
+                            <p>
+                                Allow users to share images.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="imageSharing"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Typing -->
+
+                <div
+                    class="feature"
+                    data-feature-card="typingIndicator"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            ⌨️
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Typing Indicator
+                            </h4>
+
+                            <p>
+                                Show when a user is typing.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="typingIndicator"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Notifications -->
+
+                <div
+                    class="feature"
+                    data-feature-card="notifications"
+                >
+
+                    <div class="feature-left">
+
+                        <div class="feature-icon">
+                            🔔
+                        </div>
+
+                        <div class="feature-info">
+
+                            <h4>
+                                Notifications
+                            </h4>
+
+                            <p>
+                                Enable Chatter notifications.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            data-feature="notifications"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    id="enableAll"
+                >
+                    Enable All
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    id="disableAll"
+                >
+                    Disable All
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    id="resetDefaults"
+                >
+                    Reset Defaults
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 NOTICE
+            ================================================== -->
+
+            <div class="notice">
+
+                <strong>
+                    🔒 Privacy & Live Communication
+                </strong>
+
+                Camera, microphone and screen sharing are
+                available only for live communication after
+                the user gives browser permission. No recording
+                or media recording system is included.
+                Live media is not saved by this page.
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIVITY
+            ================================================== -->
+
+            <div class="activity-card">
+
+                <h3>
+                    Recent Activity
+                </h3>
+
+                <div
+                    class="activity-list"
+                    id="activityList"
+                >
+
+                    <div class="activity-item">
+
+                        <span>
+                            Chatter Manager initialized
+                        </span>
+
+                        <span class="activity-time">
+                            Just now
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+    /* =========================================================
+       AUTH
+    ========================================================= */
+
+    const SESSION_KEY =
+        "chatterAdminSession";
+
+    let session = null;
+
+    try {
+
+        const localSession =
+            localStorage.getItem(
+                SESSION_KEY
+            );
+
+        const sessionSession =
+            sessionStorage.getItem(
+                SESSION_KEY
+            );
+
+        session =
+            localSession
+                ? JSON.parse(localSession)
+                : sessionSession
+                    ? JSON.parse(sessionSession)
+                    : null;
+
+    } catch (error) {
+
+        session = null;
+
+    }
+
+
+    if (!session) {
+
+        window.location.href =
+            "../login/index.html";
+
+    }
+
+
+    /* =========================================================
+       STORAGE
+    ========================================================= */
+
+    const SETTINGS_KEY =
+        "chatterSystemSettings";
+
+
+    /* =========================================================
+       DEFAULT SETTINGS
+       
+       NO RECORDING SETTING.
+    ========================================================= */
+
+    const DEFAULT_SETTINGS = {
+
+        chatterEnabled: true,
+
+        messaging: true,
+
+        voiceCall: true,
+
+        videoCall: true,
+
+        voiceMessages: true,
+
+        camera: true,
+
+        microphone: true,
+
+        screenShare: true,
+
+        fileSharing: true,
+
+        imageSharing: true,
+
+        typingIndicator: true,
+
+        notifications: true
+
+    };
+
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const masterSwitch =
+        document.getElementById(
+            "masterSwitch"
+        );
+
+    const featureInputs =
+        document.querySelectorAll(
+            "[data-feature]"
+        );
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    const activityList =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    /* =========================================================
+       LOAD
+    ========================================================= */
+
+    function loadSettings() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    SETTINGS_KEY
+                );
+
+            if (!saved) {
+
+                return {
+                    ...DEFAULT_SETTINGS
+                };
+
+            }
+
+            return {
+                ...DEFAULT_SETTINGS,
+                ...JSON.parse(saved)
+            };
+
+        } catch (error) {
+
+            return {
+                ...DEFAULT_SETTINGS
+            };
+
+        }
+
+    }
+
+
+    let settings =
+        loadSettings();
+
+
+    /* =========================================================
+       SAVE
+    ========================================================= */
+
+    function saveSettings() {
+
+        try {
+
+            localStorage.setItem(
+                SETTINGS_KEY,
+                JSON.stringify(settings)
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+        updateUI();
+
+    }
+
+
+    /* =========================================================
+       UPDATE UI
+    ========================================================= */
+
+    function updateUI() {
+
+        masterSwitch.checked =
+            !!settings.chatterEnabled;
+
+
+        featureInputs.forEach(input => {
+
+            const key =
+                input.dataset.feature;
+
+            input.checked =
+                !!settings[key];
+
+        });
+
+
+        updateFeatureState();
+
+    }
+
+
+    /* =========================================================
+       FEATURE STATE
+    ========================================================= */
+
+    function updateFeatureState() {
+
+        const systemEnabled =
+            !!settings.chatterEnabled;
+
+
+        document
+            .querySelectorAll(
+                "[data-feature-card]"
+            )
+            .forEach(card => {
+
+                const key =
+                    card.dataset.featureCard;
+
+                const input =
+                    card.querySelector(
+                        `[data-feature="${key}"]`
+                    );
+
+                if (!input) {
+                    return;
+                }
+
+
+                if (!systemEnabled) {
+
+                    card.classList.add(
+                        "disabled"
+                    );
+
+                    input.disabled =
+                        true;
+
+                } else {
+
+                    card.classList.remove(
+                        "disabled"
+                    );
+
+                    input.disabled =
+                        false;
+
+                }
+
+            });
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+    function showToast(message) {
+
+        toast.textContent =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+        clearTimeout(
+            toastTimer
+        );
+
+        toastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            }, 2500);
+
+    }
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function addActivity(message) {
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+        item.className =
+            "activity-item";
+
+
+        const text =
+            document.createElement(
+                "span"
+            );
+
+        text.textContent =
+            message;
+
+
+        const time =
+            document.createElement(
+                "span"
+            );
+
+        time.className =
+            "activity-time";
+
+        time.textContent =
+            new Date()
+                .toLocaleTimeString(
+                    [],
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+        item.appendChild(
+            text
+        );
+
+        item.appendChild(
+            time
+        );
+
+
+        activityList.prepend(
+            item
+        );
+
+
+        while (
+            activityList.children.length > 6
+        ) {
+
+            activityList.removeChild(
+                activityList.lastElementChild
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       FEATURE NAMES
+    ========================================================= */
+
+    const FEATURE_NAMES = {
+
+        messaging:
+            "Messaging",
+
+        voiceCall:
+            "Voice Call",
+
+        videoCall:
+            "Video Call",
+
+        voiceMessages:
+            "Voice Messages",
+
+        camera:
+            "Camera",
+
+        microphone:
+            "Microphone",
+
+        screenShare:
+            "Screen Share",
+
+        fileSharing:
+            "File Sharing",
+
+        imageSharing:
+            "Image Sharing",
+
+        typingIndicator:
+            "Typing Indicator",
+
+        notifications:
+            "Notifications"
+
+    };
+
+
+    /* =========================================================
+       MASTER SWITCH
+    ========================================================= */
+
+    masterSwitch.addEventListener(
+        "change",
+        function() {
+
+            settings.chatterEnabled =
+                this.checked;
+
+            saveSettings();
+
+
+            addActivity(
+                this.checked
+                    ? "Chatter System enabled"
+                    : "Chatter System disabled"
+            );
+
+
+            showToast(
+                this.checked
+                    ? "Chatter System enabled."
+                    : "Chatter System disabled."
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       FEATURE SWITCHES
+    ========================================================= */
+
+    featureInputs.forEach(
+        input => {
+
+            input.addEventListener(
+                "change",
+                function() {
+
+                    const key =
+                        this.dataset.feature;
+
+
+                    settings[key] =
+                        this.checked;
+
+
+                    saveSettings();
+
+
+                    const featureName =
+                        FEATURE_NAMES[key] ||
+                        key;
+
+
+                    addActivity(
+                        `${featureName} ${
+                            this.checked
+                                ? "enabled"
+                                : "disabled"
+                        }`
+                    );
+
+
+                    showToast(
+                        `${featureName} ${
+                            this.checked
+                                ? "enabled"
+                                : "disabled"
+                        }.`
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       ENABLE ALL
+    ========================================================= */
+
+    document
+        .getElementById(
+            "enableAll"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                settings = {
+
+                    chatterEnabled: true,
+
+                    messaging: true,
+
+                    voiceCall: true,
+
+                    videoCall: true,
+
+                    voiceMessages: true,
+
+                    camera: true,
+
+                    microphone: true,
+
+                    screenShare: true,
+
+                    fileSharing: true,
+
+                    imageSharing: true,
+
+                    typingIndicator: true,
+
+                    notifications: true
+
+                };
+
+
+                saveSettings();
+
+
+                addActivity(
+                    "All Chatter features enabled"
+                );
+
+
+                showToast(
+                    "All Chatter features enabled."
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       DISABLE ALL
+    ========================================================= */
+
+    document
+        .getElementById(
+            "disableAll"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                settings = {
+
+                    chatterEnabled: false,
+
+                    messaging: false,
+
+                    voiceCall: false,
+
+                    videoCall: false,
+
+                    voiceMessages: false,
+
+                    camera: false,
+
+                    microphone: false,
+
+                    screenShare: false,
+
+                    fileSharing: false,
+
+                    imageSharing: false,
+
+                    typingIndicator: false,
+
+                    notifications: false
+
+                };
+
+
+                saveSettings();
+
+
+                addActivity(
+                    "All Chatter features disabled"
+                );
+
+
+                showToast(
+                    "All Chatter features disabled."
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       RESET DEFAULTS
+    ========================================================= */
+
+    document
+        .getElementById(
+            "resetDefaults"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                settings = {
+                    ...DEFAULT_SETTINGS
+                };
+
+
+                saveSettings();
+
+
+                addActivity(
+                    "Chatter settings reset to defaults"
+                );
+
+
+                showToast(
+                    "Default settings restored."
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       ADMIN INFO
+    ========================================================= */
+
+    function updateAdminInfo() {
+
+        if (!session) {
+            return;
+        }
+
+
+        const name =
+            session.name ||
+            (
+                session.role === "superadmin"
+                    ? "Super Admin"
+                    : "System Admin"
+            );
+
+
+        const role =
+            session.role === "superadmin"
+                ? "Super Administrator"
+                : "Administrator";
+
+
+        document.getElementById(
+            "adminName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "adminRole"
+        ).textContent =
+            role;
+
+
+        document.getElementById(
+            "adminAvatar"
+        ).textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+
+    mobileMenu.addEventListener(
+        "click",
+        function() {
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(".menu a")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                function() {
+
+                    sidebar.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                event.key !== SETTINGS_KEY
+            ) {
+                return;
+            }
+
+
+            settings =
+                loadSettings();
+
+
+            updateUI();
+
+
+            addActivity(
+                "Chatter settings synchronized"
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    updateAdminInfo();
+
+    updateUI();
+
+</script>
+
+</body>
+</html>
