@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Live Monitor | Super Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #7b8497;
+            --border: #e5e9f2;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+            --dark: #111827;
+        }
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #111827;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 19px;
+        }
+
+        .brand h1 {
+            font-size: 18px;
+        }
+
+        .brand small {
+            display: block;
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            margin-top: 13px;
+            padding: 5px 9px;
+            background: rgba(37,99,235,.18);
+            border: 1px solid rgba(96,165,250,.25);
+            border-radius: 20px;
+            color: #93c5fd;
+            font-size: 10px;
+        }
+
+        .nav {
+            padding: 16px 10px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-title {
+            color: #6b7280;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 9px 12px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 9px;
+            margin-bottom: 4px;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,.06);
+            color: white;
+        }
+
+        .nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        .sidebar-bottom {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.05);
+            color: #e5e7eb;
+            padding: 10px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(220,38,38,.18);
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            width: calc(100% - 250px);
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 11px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 9px;
+            color: var(--success);
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .3;
+            }
+        }
+
+        .refresh-btn {
+            border: none;
+            background: #f3f6fb;
+            width: 37px;
+            height: 37px;
+            border-radius: 9px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 25px;
+        }
+
+        /* =========================
+           SECURITY NOTICE
+        ========================= */
+
+        .security-notice {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 13px;
+            padding: 13px 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            margin-bottom: 22px;
+        }
+
+        .security-icon {
+            font-size: 19px;
+        }
+
+        .security-notice strong {
+            font-size: 12px;
+        }
+
+        .security-notice p {
+            color: #536175;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 17px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .stat-status {
+            font-size: 9px;
+            color: var(--success);
+            margin-top: 5px;
+        }
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .monitor-grid {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(280px, .8fr);
+            gap: 18px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 15px 17px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h3 {
+            font-size: 14px;
+        }
+
+        .panel-header span {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =========================
+           LIVE PREVIEW
+        ========================= */
+
+        .preview {
+            min-height: 420px;
+            background: #0b1220;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .preview-empty {
+            text-align: center;
+            color: #9ca3af;
+            max-width: 300px;
+        }
+
+        .preview-empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: auto auto 14px;
+            border-radius: 17px;
+            background: rgba(255,255,255,.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .preview-empty h3 {
+            color: #e5e7eb;
+            font-size: 15px;
+        }
+
+        .preview-empty p {
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 7px;
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 420px;
+            object-fit: contain;
+            background: black;
+            display: none;
+        }
+
+        .preview-controls {
+            position: absolute;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            display: none;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .preview-control {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(17,24,39,.8);
+            color: white;
+        }
+
+        .preview-control.danger {
+            background: var(--danger);
+        }
+
+        /* =========================
+           SESSION LIST
+        ========================= */
+
+        .sessions {
+            padding: 5px 0;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .session {
+            padding: 13px 15px;
+            border-bottom: 1px solid #f0f2f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .session:last-child {
+            border-bottom: none;
+        }
+
+        .session-avatar {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #dbeafe,
+                #ddd6fe
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #334155;
+            flex-shrink: 0;
+        }
+
+        .session-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .session-name {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .session-type {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .session-status {
+            color: var(--success);
+            font-size: 9px;
+            margin-top: 3px;
+        }
+
+        .session-btn {
+            border: none;
+            background: #eef4ff;
+            color: var(--primary);
+            border-radius: 7px;
+            padding: 7px 9px;
+            font-size: 10px;
+        }
+
+        .session-btn:hover {
+            background: #dbeafe;
+        }
+
+        .empty-sessions {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+
+        .empty-sessions-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .empty-sessions h4 {
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .empty-sessions p {
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           ACTIVITY
+        ========================= */
+
+        .activity-panel {
+            margin-top: 18px;
+        }
+
+        .activity-list {
+            padding: 4px 0;
+        }
+
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 17px;
+            border-bottom: 1px solid #f1f3f7;
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 31px;
+            height: 31px;
+            border-radius: 8px;
+            background: #f3f6fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info strong {
+            font-size: 11px;
+        }
+
+        .activity-info p {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 3px;
+        }
+
+        .activity-time {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        /* =========================
+           FEATURE STATUS
+        ========================= */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .feature {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 11px;
+        }
+
+        .feature-name {
+            font-size: 10px;
+            color: #475569;
+        }
+
+        .feature-status {
+            margin-top: 6px;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .feature-status.enabled {
+            color: var(--success);
+        }
+
+        .feature-status.disabled {
+            color: var(--danger);
+        }
+
+        /* =========================
+           ACCESS DENIED
+        ========================= */
+
+        .access-denied {
+            min-height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            padding: 25px;
+        }
+
+        .access-card {
+            background: white;
+            width: min(430px, 100%);
+            text-align: center;
+            padding: 38px 30px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow:
+                0 20px 60px rgba(15,23,42,.08);
+        }
+
+        .access-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 16px;
+            background: #fee2e2;
+            color: var(--danger);
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .access-card h2 {
+            font-size: 20px;
+        }
+
+        .access-card p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        .back-login {
+            margin-top: 20px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            padding: 10px 17px;
+            border-radius: 9px;
+            font-size: 11px;
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #111827;
+            color: white;
+            padding: 11px 15px;
+            border-radius: 9px;
+            font-size: 11px;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: .25s;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .monitor-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .brand {
+                padding: 17px 10px;
+            }
+
+            .brand h1,
+            .brand small,
+            .role-badge,
+            .nav-title,
+            .nav a span:not(.nav-icon),
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .brand-title {
+                justify-content: center;
+            }
+
+            .nav {
+                padding: 15px 8px;
+            }
+
+            .nav a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .main {
+                width: calc(100% - 70px);
+                margin-left: 70px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .topbar {
+                padding: 0 13px;
+            }
+
+            .page-title h2 {
+                font-size: 16px;
+            }
+
+            .live-indicator {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 13px;
+            }
+
+            .stat-number {
+                font-size: 21px;
+            }
+
+            .preview {
+                min-height: 300px;
+            }
+
+            .video-preview {
+                height: 300px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     ACCESS DENIED
+========================================================= -->
+
+<div
+    class="access-denied"
+    id="accessDenied"
+>
+
+    <div class="access-card">
+
+        <div class="access-icon">
+            🔐
+        </div>
+
+        <h2>Super Admin Only</h2>
+
+        <p>
+            Live monitoring is available only to the
+            Super Admin account.
+        </p>
+
+        <button
+            class="back-login"
+            onclick="window.location.href='../login/index.html'"
+        >
+            Back to Login
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div
+    class="app"
+    id="app"
+>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-title">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <div>
+                    <h1>Super Admin</h1>
+                    <small>Management Center</small>
+                </div>
+
+            </div>
+
+            <div class="role-badge">
+                SUPER ADMIN
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-title">
+                Management
+            </div>
+
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="system.html">
+                <span class="nav-icon">⚙️</span>
+                <span>System</span>
+            </a>
+
+            <a href="chatter.html">
+                <span class="nav-icon">💬</span>
+                <span>Chatter</span>
+            </a>
+
+            <a
+                href="live-monitor.html"
+                class="active"
+            >
+                <span class="nav-icon">📡</span>
+                <span>Live Monitor</span>
+            </a>
+
+
+            <div class="nav-title">
+                Website
+            </div>
+
+            <a href="website.html">
+                <span class="nav-icon">🌐</span>
+                <span>Website</span>
+            </a>
+
+            <a href="website-edit.html">
+                <span class="nav-icon">✏️</span>
+                <span>Website Edit</span>
+            </a>
+
+            <a href="banner.html">
+                <span class="nav-icon">🖼️</span>
+                <span>Banner</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h2>
+                    Live Monitor
+                </h2>
+
+                <p>
+                    Super Admin real-time session monitoring
+                </p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    MONITORING
+                </div>
+
+                <button
+                    class="refresh-btn"
+                    id="refreshBtn"
+                    title="Refresh"
+                >
+                    ↻
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- =================================================
+                 SECURITY NOTICE
+            ================================================== -->
+
+            <div class="security-notice">
+
+                <div class="security-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <strong>
+                        Consent-based monitoring
+                    </strong>
+
+                    <p>
+                        This panel can display only active
+                        communication sessions that the user
+                        intentionally started and permitted.
+                        Camera, microphone and screen access
+                        cannot be secretly or silently enabled
+                        from this panel.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Online Users
+                        </span>
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="onlineUsers"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-status">
+                        ● Connected
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Live Sessions
+                        </span>
+
+                        <div class="stat-icon">
+                            📡
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="liveSessions"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-status">
+                        ● Active
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Video Calls
+                        </span>
+
+                        <div class="stat-icon">
+                            🎥
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="videoCalls"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-status">
+                        ● Active
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Voice Calls
+                        </span>
+
+                        <div class="stat-icon">
+                            📞
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="voiceCalls"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-status">
+                        ● Active
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Screen Share
+                        </span>
+
+                        <div class="stat-icon">
+                            🖥️
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="screenShares"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-status">
+                        ● Active
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MONITOR AREA
+            ================================================== -->
+
+            <div class="monitor-grid">
+
+                <!-- =============================================
+                     PREVIEW
+                ============================================== -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Live Preview
+                        </h3>
+
+                        <span id="selectedSession">
+                            No session selected
+                        </span>
+
+                    </div>
+
+
+                    <div class="preview">
+
+                        <div
+                            class="preview-empty"
+                            id="previewEmpty"
+                        >
+
+                            <div class="preview-empty-icon">
+                                📺
+                            </div>
+
+                            <h3>
+                                No Live Stream
+                            </h3>
+
+                            <p>
+                                Select an active consented
+                                session from the list to
+                                view its live stream.
+                            </p>
+
+                        </div>
+
+
+                        <video
+                            class="video-preview"
+                            id="videoPreview"
+                            autoplay
+                            playsinline
+                            muted
+                        ></video>
+
+
+                        <div
+                            class="preview-controls"
+                            id="previewControls"
+                        >
+
+                            <button
+                                class="preview-control"
+                                id="mutePreviewBtn"
+                                title="Mute"
+                            >
+                                🔇
+                            </button>
+
+                            <button
+                                class="preview-control danger"
+                                id="disconnectBtn"
+                                title="Disconnect"
+                            >
+                                ☎
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     SESSIONS
+                ============================================== -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Active Sessions
+                        </h3>
+
+                        <span>
+                            Consent required
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="sessions"
+                        id="sessionList"
+                    >
+
+                        <div class="empty-sessions">
+
+                            <div class="empty-sessions-icon">
+                                📡
+                            </div>
+
+                            <h4>
+                                No active sessions
+                            </h4>
+
+                            <p>
+                                Active video, voice or screen
+                                sharing sessions will appear here.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FEATURE STATUS
+            ================================================== -->
+
+            <div
+                class="panel"
+                style="margin-top:18px;"
+            >
+
+                <div class="panel-header">
+
+                    <h3>
+                        Communication Feature Status
+                    </h3>
+
+                    <span>
+                        System Manager
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="feature-grid"
+                    id="featureGrid"
+                >
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIVITY
+            ================================================== -->
+
+            <div class="panel activity-panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Monitoring Activity
+                    </h3>
+
+                    <span>
+                        Latest events
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="activity-list"
+                    id="activityList"
+                >
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            🔐
+                        </div>
+
+                        <div class="activity-info">
+
+                            <strong>
+                                Live Monitor initialized
+                            </strong>
+
+                            <p>
+                                Waiting for consented sessions
+                            </p>
+
+                        </div>
+
+                        <div class="activity-time">
+                            Now
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+    /* =========================================================
+       LIVE MONITOR
+       FILE: admin/live-monitor.html
+    ========================================================= */
+
+
+    /* =========================================================
+       STORAGE KEYS
+    ========================================================= */
+
+    const SESSION_KEY =
+        "chatterAdminSession";
+
+    const SYSTEM_SETTINGS_KEY =
+        "chatterSystemSettings";
+
+
+    /* =========================================================
+       DEFAULT SETTINGS
+    ========================================================= */
+
+    const DEFAULT_SETTINGS = {
+
+        chatterEnabled: true,
+
+        messaging: true,
+
+        voiceCall: true,
+
+        videoCall: true,
+
+        voiceMessages: true,
+
+        camera: true,
+
+        microphone: true,
+
+        screenShare: true,
+
+        videoRecording: false,
+
+        fileSharing: true,
+
+        imageSharing: true,
+
+        typingIndicator: true,
+
+        notifications: true
+
+    };
+
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    let settings = {};
+
+    let selectedSession = null;
+
+    let previewStream = null;
+
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const app =
+        document.getElementById("app");
+
+    const accessDenied =
+        document.getElementById("accessDenied");
+
+    const onlineUsers =
+        document.getElementById("onlineUsers");
+
+    const liveSessions =
+        document.getElementById("liveSessions");
+
+    const videoCalls =
+        document.getElementById("videoCalls");
+
+    const voiceCalls =
+        document.getElementById("voiceCalls");
+
+    const screenShares =
+        document.getElementById("screenShares");
+
+    const sessionList =
+        document.getElementById("sessionList");
+
+    const selectedSessionText =
+        document.getElementById("selectedSession");
+
+    const previewEmpty =
+        document.getElementById("previewEmpty");
+
+    const videoPreview =
+        document.getElementById("videoPreview");
+
+    const previewControls =
+        document.getElementById("previewControls");
+
+    const mutePreviewBtn =
+        document.getElementById("mutePreviewBtn");
+
+    const disconnectBtn =
+        document.getElementById("disconnectBtn");
+
+    const featureGrid =
+        document.getElementById("featureGrid");
+
+    const activityList =
+        document.getElementById("activityList");
+
+    const toast =
+        document.getElementById("toast");
+
+
+    /* =========================================================
+       AUTH CHECK
+    ========================================================= */
+
+    function checkSuperAdmin() {
+
+        let session = null;
+
+        try {
+
+            const localSession =
+                localStorage.getItem(
+                    SESSION_KEY
+                );
+
+            const sessionSession =
+                sessionStorage.getItem(
+                    SESSION_KEY
+                );
+
+
+            const raw =
+                localSession ||
+                sessionSession;
+
+
+            if (raw) {
+
+                session =
+                    JSON.parse(raw);
+
+            }
+
+        } catch (error) {
+
+            session = null;
+
+        }
+
+
+        if (
+            !session ||
+            session.role !== "superadmin"
+        ) {
+
+            app.style.display =
+                "none";
+
+            accessDenied.style.display =
+                "flex";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =========================================================
+       LOAD SETTINGS
+    ========================================================= */
+
+    function loadSettings() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    SYSTEM_SETTINGS_KEY
+                );
+
+
+            settings =
+                saved
+                    ? {
+                        ...DEFAULT_SETTINGS,
+                        ...JSON.parse(saved)
+                    }
+                    : {
+                        ...DEFAULT_SETTINGS
+                    };
+
+        } catch (error) {
+
+            settings =
+                {
+                    ...DEFAULT_SETTINGS
+                };
+
+        }
+
+    }
+
+
+    /* =========================================================
+       FEATURE STATUS
+    ========================================================= */
+
+    const FEATURE_LABELS = {
+
+        chatterEnabled:
+            "Chatter System",
+
+        messaging:
+            "Messaging",
+
+        voiceCall:
+            "Voice Call",
+
+        videoCall:
+            "Video Call",
+
+        voiceMessages:
+            "Voice Messages",
+
+        camera:
+            "Camera",
+
+        microphone:
+            "Microphone",
+
+        screenShare:
+            "Screen Share",
+
+        videoRecording:
+            "Video Recording",
+
+        fileSharing:
+            "File Sharing",
+
+        imageSharing:
+            "Image Sharing",
+
+        typingIndicator:
+            "Typing Indicator",
+
+        notifications:
+            "Notifications"
+
+    };
+
+
+    function renderFeatureStatus() {
+
+        featureGrid.innerHTML = "";
+
+
+        Object.keys(
+            FEATURE_LABELS
+        ).forEach(
+            key => {
+
+                const enabled =
+                    settings[key] === true;
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className =
+                    "feature";
+
+
+                item.innerHTML = `
+
+                    <div class="feature-name">
+                        ${FEATURE_LABELS[key]}
+                    </div>
+
+                    <div class="feature-status ${
+                        enabled
+                            ? "enabled"
+                            : "disabled"
+                    }">
+
+                        ${
+                            enabled
+                                ? "● Enabled"
+                                : "● Disabled"
+                        }
+
+                    </div>
+
+                `;
+
+
+                featureGrid.appendChild(
+                    item
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       DEMO SESSIONS
+       REAL BACKEND WILL REPLACE THIS
+    ========================================================= */
+
+    function getActiveSessions() {
+
+        /*
+            IMPORTANT:
+
+            This prototype does NOT secretly access
+            any user's camera, microphone or screen.
+
+            In the real backend version this function
+            will receive active consented WebRTC sessions
+            from the signaling server.
+        */
+
+        return [];
+
+    }
+
+
+    /* =========================================================
+       RENDER SESSIONS
+    ========================================================= */
+
+    function renderSessions() {
+
+        const sessions =
+            getActiveSessions();
+
+
+        onlineUsers.textContent =
+            "0";
+
+        liveSessions.textContent =
+            sessions.length;
+
+
+        videoCalls.textContent =
+            sessions.filter(
+                session =>
+                    session.type === "video"
+            ).length;
+
+
+        voiceCalls.textContent =
+            sessions.filter(
+                session =>
+                    session.type === "voice"
+            ).length;
+
+
+        screenShares.textContent =
+            sessions.filter(
+                session =>
+                    session.type === "screen"
+            ).length;
+
+
+        sessionList.innerHTML = "";
+
+
+        if (
+            sessions.length === 0
+        ) {
+
+            sessionList.innerHTML = `
+
+                <div class="empty-sessions">
+
+                    <div class="empty-sessions-icon">
+                        📡
+                    </div>
+
+                    <h4>
+                        No active sessions
+                    </h4>
+
+                    <p>
+                        Active consented sessions will
+                        appear here after the real-time
+                        backend is connected.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        sessions.forEach(
+            session => {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className =
+                    "session";
+
+
+                item.innerHTML = `
+
+                    <div class="session-avatar">
+                        ${getInitials(session.name)}
+                    </div>
+
+                    <div class="session-info">
+
+                        <div class="session-name">
+                            ${escapeHtml(session.name)}
+                        </div>
+
+                        <div class="session-type">
+                            ${getSessionType(session.type)}
+                        </div>
+
+                        <div class="session-status">
+                            ● Consent active
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="session-btn"
+                        data-session-id="${session.id}"
+                    >
+                        View
+                    </button>
+
+                `;
+
+
+                const viewButton =
+                    item.querySelector(
+                        ".session-btn"
+                    );
+
+
+                viewButton.addEventListener(
+                    "click",
+                    () =>
+                        selectSession(session)
+                );
+
+
+                sessionList.appendChild(
+                    item
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       SESSION TYPE
+    ========================================================= */
+
+    function getSessionType(type) {
+
+        if (type === "video") {
+
+            return "🎥 Video Call";
+
+        }
+
+        if (type === "voice") {
+
+            return "📞 Voice Call";
+
+        }
+
+        if (type === "screen") {
+
+            return "🖥️ Screen Share";
+
+        }
+
+        return "Communication";
+
+    }
+
+
+    /* =========================================================
+       SELECT SESSION
+    ========================================================= */
+
+    function selectSession(session) {
+
+        selectedSession =
+            session;
+
+
+        selectedSessionText.textContent =
+            session.name;
+
+
+        previewEmpty.style.display =
+            "none";
+
+
+        /*
+            Actual MediaStream will be assigned here
+            after WebRTC signaling is connected.
+        */
+
+        if (
+            session.stream
+        ) {
+
+            videoPreview.srcObject =
+                session.stream;
+
+            videoPreview.style.display =
+                "block";
+
+            previewControls.style.display =
+                "flex";
+
+        } else {
+
+            videoPreview.style.display =
+                "none";
+
+            previewControls.style.display =
+                "none";
+
+
+            previewEmpty.style.display =
+                "flex";
+
+            previewEmpty.innerHTML = `
+
+                <div class="preview-empty-icon">
+                    📡
+                </div>
+
+                <h3>
+                    Session Selected
+                </h3>
+
+                <p>
+                    ${escapeHtml(session.name)}
+                    has an active
+                    ${getSessionType(session.type)}.
+                    The WebRTC media stream will appear
+                    here after backend signaling is connected.
+                </p>
+
+            `;
+
+        }
+
+
+        addActivity(
+            "📺",
+            "Session selected",
+            session.name +
+            " selected for live preview."
+        );
+
+    }
+
+
+    /* =========================================================
+       DISCONNECT SESSION
+    ========================================================= */
+
+    disconnectBtn.addEventListener(
+        "click",
+        () => {
+
+            if (
+                !selectedSession
+            ) {
+
+                showToast(
+                    "No session selected."
+                );
+
+                return;
+
+            }
+
+
+            /*
+                Backend version will send a disconnect
+                signal to the selected user's active session.
+            */
+
+
+            addActivity(
+                "🔌",
+                "Disconnect requested",
+                selectedSession.name
+            );
+
+
+            showToast(
+                "Disconnect request prepared for backend."
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       MUTE PREVIEW
+    ========================================================= */
+
+    mutePreviewBtn.addEventListener(
+        "click",
+        () => {
+
+            if (
+                !videoPreview.srcObject
+            ) {
+
+                return;
+
+            }
+
+
+            videoPreview.muted =
+                !videoPreview.muted;
+
+
+            mutePreviewBtn.textContent =
+                videoPreview.muted
+                    ? "🔇"
+                    : "🔊";
+
+        }
+    );
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function addActivity(
+        icon,
+        title,
+        description
+    ) {
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+        item.className =
+            "activity";
+
+
+        item.innerHTML = `
+
+            <div class="activity-icon">
+                ${icon}
+            </div>
+
+            <div class="activity-info">
+
+                <strong>
+                    ${escapeHtml(title)}
+                </strong>
+
+                <p>
+                    ${escapeHtml(description)}
+                </p>
+
+            </div>
+
+            <div class="activity-time">
+                Now
+            </div>
+
+        `;
+
+
+        activityList.prepend(
+            item
+        );
+
+
+        /*
+            Keep only latest 10 events
+        */
+
+        while (
+            activityList.children.length > 10
+        ) {
+
+            activityList.lastElementChild
+                .remove();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       REFRESH
+    ========================================================= */
+
+    function refreshMonitor() {
+
+        loadSettings();
+
+        renderFeatureStatus();
+
+        renderSessions();
+
+
+        addActivity(
+            "↻",
+            "Monitor refreshed",
+            "Live monitoring data refreshed."
+        );
+
+    }
+
+
+    document
+        .getElementById("refreshBtn")
+        .addEventListener(
+            "click",
+            refreshMonitor
+        );
+
+
+    /* =========================================================
+       STORAGE EVENT
+    ========================================================= */
+
+    window.addEventListener(
+        "storage",
+        event => {
+
+            if (
+                event.key ===
+                SYSTEM_SETTINGS_KEY
+            ) {
+
+                loadSettings();
+
+                renderFeatureStatus();
+
+                showToast(
+                    "System settings updated."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                localStorage.removeItem(
+                    SESSION_KEY
+                );
+
+                sessionStorage.removeItem(
+                    SESSION_KEY
+                );
+
+
+                window.location.href =
+                    "../login/index.html";
+
+            }
+        );
+
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    function getInitials(name) {
+
+        return name
+            .split(" ")
+            .map(
+                word =>
+                    word.charAt(0)
+            )
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    function showToast(message) {
+
+        toast.textContent =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2600
+        );
+
+    }
+
+
+    /* =========================================================
+       CLEANUP
+    ========================================================= */
+
+    window.addEventListener(
+        "beforeunload",
+        () => {
+
+            if (previewStream) {
+
+                previewStream
+                    .getTracks()
+                    .forEach(
+                        track =>
+                            track.stop()
+                    );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    function initialize() {
+
+        if (
+            !checkSuperAdmin()
+        ) {
+
+            return;
+
+        }
+
+
+        loadSettings();
+
+        renderFeatureStatus();
+
+        renderSessions();
+
+    }
+
+
+    initialize();
+
+</script>
+
+</body>
+</html>
