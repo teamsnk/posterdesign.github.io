@@ -123,7 +123,6 @@
             color: var(--dark);
             font-size: 16px;
             font-weight: 800;
-
             line-height: 1.2;
         }
 
@@ -188,7 +187,6 @@
 
         .sidebar-bottom {
             padding: 16px 14px;
-
             border-top: 1px solid var(--border);
         }
 
@@ -603,7 +601,6 @@
         .system-list {
             display: flex;
             flex-direction: column;
-
             gap: 0;
         }
 
@@ -912,6 +909,7 @@
         ========================== */
 
         @media (max-width: 1150px) {
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -919,16 +917,17 @@
             .system-grid {
                 grid-template-columns: 1fr;
             }
+
         }
 
         @media (max-width: 850px) {
+
             :root {
                 --sidebar-width: 240px;
             }
 
             .sidebar {
                 transform: translateX(-100%);
-
                 transition: 0.25s ease;
             }
 
@@ -955,9 +954,11 @@
             .bottom-grid {
                 grid-template-columns: 1fr;
             }
+
         }
 
         @media (max-width: 600px) {
+
             .topbar {
                 height: 70px;
             }
@@ -1001,7 +1002,9 @@
             .panel-body {
                 padding: 15px;
             }
+
         }
+
     </style>
 </head>
 
@@ -1111,8 +1114,6 @@
 
     <main class="main">
 
-        <!-- TOPBAR -->
-
         <header class="topbar">
 
             <div class="topbar-left">
@@ -1148,11 +1149,7 @@
         </header>
 
 
-        <!-- CONTENT -->
-
         <section class="content">
-
-            <!-- WELCOME -->
 
             <div class="welcome-box">
 
@@ -1330,7 +1327,7 @@
 
             <div class="system-grid">
 
-                <!-- SYSTEM STATUS -->
+                <!-- PLATFORM CONTROLS -->
 
                 <div class="panel">
 
@@ -1351,7 +1348,7 @@
 
                         <div class="system-list">
 
-                            <!-- Website Status -->
+                            <!-- Website -->
 
                             <div class="system-row">
 
@@ -1362,6 +1359,7 @@
                                     </div>
 
                                     <div>
+
                                         <strong>
                                             Website Status
                                         </strong>
@@ -1369,6 +1367,7 @@
                                         <span>
                                             Public website availability
                                         </span>
+
                                     </div>
 
                                 </div>
@@ -1394,6 +1393,7 @@
                                     </div>
 
                                     <div>
+
                                         <strong>
                                             Maintenance Mode
                                         </strong>
@@ -1401,6 +1401,7 @@
                                         <span>
                                             Temporarily restrict website
                                         </span>
+
                                     </div>
 
                                 </div>
@@ -1426,6 +1427,7 @@
                                     </div>
 
                                     <div>
+
                                         <strong>
                                             Poster Creation
                                         </strong>
@@ -1433,6 +1435,7 @@
                                         <span>
                                             Allow users to create posters
                                         </span>
+
                                     </div>
 
                                 </div>
@@ -1458,6 +1461,7 @@
                                     </div>
 
                                     <div>
+
                                         <strong>
                                             Advertisement System
                                         </strong>
@@ -1465,6 +1469,7 @@
                                         <span>
                                             Global advertisement control
                                         </span>
+
                                     </div>
 
                                 </div>
@@ -1512,6 +1517,7 @@
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Browser UI Ad
                                     </strong>
@@ -1519,6 +1525,31 @@
                                     <span>
                                         Manage advertisement
                                     </span>
+
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="banner.html"
+                                class="quick-action"
+                            >
+
+                                <div class="quick-action-icon">
+                                    ▰
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Banners
+                                    </strong>
+
+                                    <span>
+                                        Manage website banners
+                                    </span>
+
                                 </div>
 
                             </a>
@@ -1534,6 +1565,7 @@
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Designs
                                     </strong>
@@ -1541,6 +1573,7 @@
                                     <span>
                                         Manage poster designs
                                     </span>
+
                                 </div>
 
                             </a>
@@ -1556,6 +1589,7 @@
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Website Edit
                                     </strong>
@@ -1563,6 +1597,7 @@
                                     <span>
                                         Edit website content
                                     </span>
+
                                 </div>
 
                             </a>
@@ -1578,6 +1613,7 @@
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         System Settings
                                     </strong>
@@ -1585,6 +1621,7 @@
                                     <span>
                                         Platform controls
                                     </span>
+
                                 </div>
 
                             </a>
@@ -1687,6 +1724,31 @@
 
                                 <span>
                                     Browser advertisement status is synchronized automatically.
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                Live
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                ▰
+                            </div>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Banner Management
+                                </strong>
+
+                                <span>
+                                    Website banner status is synchronized automatically.
                                 </span>
 
                             </div>
@@ -1808,6 +1870,19 @@
                                 <div class="platform-detail">
 
                                     <span>
+                                        Banners
+                                    </span>
+
+                                    <span id="platformBanners">
+                                        2 Active
+                                    </span>
+
+                                </div>
+
+
+                                <div class="platform-detail">
+
+                                    <span>
                                         Maintenance
                                     </span>
 
@@ -1866,6 +1941,9 @@
 
         const SYSTEM_KEY =
             "doctorPosterSystemSettings";
+
+        const BANNER_KEY =
+            "doctorPosterBannerStatus";
 
 
         /* =========================================
@@ -1976,6 +2054,17 @@
         };
 
 
+        const defaultBannerStatus = {
+
+            banner1:
+                true,
+
+            banner2:
+                true
+
+        };
+
+
         /* =========================================
            SAFE STORAGE READER
         ========================================== */
@@ -1998,10 +2087,12 @@
                     parsed &&
                     typeof parsed === "object"
                 ) {
+
                     return {
                         ...fallback,
                         ...parsed
                     };
+
                 }
 
                 return fallback;
@@ -2033,6 +2124,7 @@
                     defaultWebsiteSettings
                 );
 
+
             const system =
                 readJSON(
                     SYSTEM_KEY,
@@ -2054,10 +2146,12 @@
                     "websiteStatus"
                 );
 
+
             const websiteSub =
                 document.getElementById(
                     "websiteStatusSub"
                 );
+
 
             const websiteDot =
                 document.getElementById(
@@ -2107,7 +2201,9 @@
                 platformWebsite.textContent =
                     "Offline";
 
-            } else if (maintenance) {
+            }
+
+            else if (maintenance) {
 
                 websiteStatus.textContent =
                     "Maintenance";
@@ -2129,7 +2225,9 @@
                 platformWebsite.textContent =
                     "Maintenance";
 
-            } else {
+            }
+
+            else {
 
                 websiteStatus.textContent =
                     "Online";
@@ -2198,10 +2296,6 @@
                 );
 
 
-            const designValue =
-                activeCount + " Active";
-
-
             designCount.textContent =
                 activeCount;
 
@@ -2220,7 +2314,9 @@
                     "danger"
                 );
 
-            } else if (
+            }
+
+            else if (
                 activeCount < designKeys.length
             ) {
 
@@ -2321,7 +2417,9 @@
                 platformAdvertisement.textContent =
                     "Disabled";
 
-            } else if (!adEnabled) {
+            }
+
+            else if (!adEnabled) {
 
                 adStatus.textContent =
                     "Off";
@@ -2343,7 +2441,9 @@
                 platformAdvertisement.textContent =
                     "Off";
 
-            } else {
+            }
+
+            else {
 
                 adStatus.textContent =
                     "Enabled";
@@ -2362,6 +2462,66 @@
                     "Enabled";
 
             }
+
+        }
+
+
+        /* =========================================
+           BANNER STATUS
+        ========================================== */
+
+        function updateBannerStatus() {
+
+            const banners =
+                readJSON(
+                    BANNER_KEY,
+                    defaultBannerStatus
+                );
+
+
+            const system =
+                readJSON(
+                    SYSTEM_KEY,
+                    defaultSystemSettings
+                );
+
+
+            const bannerKeys = [
+                "banner1",
+                "banner2"
+            ];
+
+
+            const activeCount =
+                bannerKeys.filter(
+                    key =>
+                        banners[key] === true
+                ).length;
+
+
+            const systemEnabled =
+                system.advertisementSystem !== false;
+
+
+            const platformBanners =
+                document.getElementById(
+                    "platformBanners"
+                );
+
+
+            if (!systemEnabled) {
+
+                platformBanners.textContent =
+                    "System Disabled";
+
+                return;
+
+            }
+
+
+            platformBanners.textContent =
+                activeCount +
+                " Active";
 
         }
 
@@ -2409,7 +2569,9 @@
                 "system-status-text";
 
 
-            if (system.maintenanceMode === true) {
+            if (
+                system.maintenanceMode === true
+            ) {
 
                 controlMaintenance.textContent =
                     "Enabled";
@@ -2421,7 +2583,9 @@
                 platformMaintenance.textContent =
                     "Enabled";
 
-            } else {
+            }
+
+            else {
 
                 controlMaintenance.textContent =
                     "Disabled";
@@ -2442,7 +2606,9 @@
                 "system-status-text";
 
 
-            if (system.posterCreation === true) {
+            if (
+                system.posterCreation === true
+            ) {
 
                 controlPoster.textContent =
                     "Enabled";
@@ -2454,7 +2620,9 @@
                 platformPoster.textContent =
                     "Enabled";
 
-            } else {
+            }
+
+            else {
 
                 controlPoster.textContent =
                     "Disabled";
@@ -2488,13 +2656,6 @@
                 readJSON(
                     SYSTEM_KEY,
                     defaultSystemSettings
-                );
-
-
-            const advertisement =
-                readJSON(
-                    AD_KEY,
-                    defaultAdvertisement
                 );
 
 
@@ -2686,6 +2847,8 @@
 
             updateAdvertisementStatus();
 
+            updateBannerStatus();
+
             updateSystemControls();
 
             updateOverallSystemStatus();
@@ -2786,7 +2949,8 @@
                     event.key === WEBSITE_KEY ||
                     event.key === DESIGN_KEY ||
                     event.key === AD_KEY ||
-                    event.key === SYSTEM_KEY
+                    event.key === SYSTEM_KEY ||
+                    event.key === BANNER_KEY
                 ) {
 
                     updateDashboard();
@@ -2813,7 +2977,6 @@
 
         /* =========================================
            ALSO RUN IMMEDIATELY
-           Useful when script loads after DOM.
         ========================================== */
 
         updateDashboard();
