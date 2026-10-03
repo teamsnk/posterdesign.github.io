@@ -1,318 +1,98 @@
-/* =========================================
+/* =========================================================
    DOCTOR POSTER MAKER
    HOMEPAGE SCRIPT
-========================================= */
+========================================================= */
 
 
-/* =========================================
-   MOBILE MENU
-========================================= */
+/* =========================================================
+   STORAGE KEYS
+========================================================= */
 
-function toggleMenu() {
+const WEBSITE_STORAGE_KEY =
+    "doctorPosterWebsiteSettings";
 
-    const mobileNav =
-        document.getElementById("mobileNav");
+const DESIGN_STORAGE_KEY =
+    "doctorPosterDesignStatus";
 
-    if (!mobileNav) return;
+const AD_STORAGE_KEY =
+    "doctorPosterAdvertisement";
 
-    mobileNav.classList.toggle("open");
-}
+const SYSTEM_STORAGE_KEY =
+    "doctorPosterSystemSettings";
 
 
-function closeMenu() {
+/* =========================================================
+   DEFAULT WEBSITE SETTINGS
+========================================================= */
 
-    const mobileNav =
-        document.getElementById("mobileNav");
+const defaultWebsiteSettings = {
 
-    if (!mobileNav) return;
+    websiteName:
+        "Doctor Poster Maker",
 
-    mobileNav.classList.remove("open");
-}
+    websiteTagline:
+        "Create professional doctor posters in minutes.",
 
+    heroBadge:
+        "✦ Built for Healthcare Professionals",
 
-/* =========================================
-   SCROLL TO DESIGNS
-========================================= */
+    heroTitle:
+        "Create Beautiful Doctor Posters in Minutes.",
 
-function scrollToDesigns() {
+    heroDescription:
+        "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
 
-    const designs =
-        document.getElementById("designs");
+    primaryButton:
+        "Start Creating →",
 
-    if (!designs) return;
+    secondaryButton:
+        "Explore Designs",
 
-    designs.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}
+    stat1:
+        "4+ Designs",
 
+    stat2:
+        "1080px Quality",
 
-/* =========================================
-   OPEN DESIGN
-========================================= */
+    footerDescription:
+        "Create beautiful professional doctor posters quickly and easily.",
 
-function openDesign(design) {
+    copyrightText:
+        "© 2026 Doctor Poster Maker",
 
-    if (!design) return;
+    contactEmail:
+        "",
 
-    window.location.href =
-        design + "/index.html";
-}
+    websiteEnabled:
+        true
+};
 
 
-/* =========================================
-   DESIGN BUTTONS
-========================================= */
+/* =========================================================
+   DEFAULT DESIGN STATUS
+========================================================= */
 
-function setupDesignButtons() {
+const defaultDesignStatus = {
 
-    const buttons =
-        document.querySelectorAll("[data-design]");
+    design1: true,
+    design2: true,
+    design3: true,
+    design4: true
 
+};
 
-    buttons.forEach(function(button) {
 
-        button.addEventListener(
-            "click",
-            function() {
-
-                const design =
-                    button.getAttribute("data-design");
-
-
-                const status =
-                    getDesignStatus();
-
-
-                /*
-                 * Prevent disabled design
-                 */
-
-                if (
-                    status[design] === false
-                ) {
-
-                    return;
-
-                }
-
-
-                openDesign(design);
-
-            }
-        );
-
-    });
-
-}
-
-
-/* =========================================
-   HEADER SCROLL EFFECT
-========================================= */
-
-function setupHeaderScroll() {
-
-    const header =
-        document.getElementById("header");
-
-    if (!header) return;
-
-
-    function updateHeader() {
-
-        if (window.scrollY > 20) {
-
-            header.classList.add("scrolled");
-
-        } else {
-
-            header.classList.remove("scrolled");
-
-        }
-
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateHeader,
-        { passive: true }
-    );
-
-
-    updateHeader();
-}
-
-
-/* =========================================
-   ACTIVE NAVIGATION
-========================================= */
-
-function setupActiveNavigation() {
-
-    const sections =
-        document.querySelectorAll("section[id]");
-
-
-    const links =
-        document.querySelectorAll(".nav-link");
-
-
-    if (!sections.length || !links.length) {
-        return;
-    }
-
-
-    function updateActiveLink() {
-
-        let currentSection = "home";
-
-
-        sections.forEach(
-            function(section) {
-
-                const sectionTop =
-                    section.offsetTop - 150;
-
-
-                if (
-                    window.scrollY >= sectionTop
-                ) {
-
-                    currentSection =
-                        section.getAttribute("id");
-
-                }
-
-            }
-        );
-
-
-        links.forEach(
-            function(link) {
-
-                link.classList.remove("active");
-
-
-                const href =
-                    link.getAttribute("href");
-
-
-                if (
-                    href ===
-                    "#" + currentSection
-                ) {
-
-                    link.classList.add(
-                        "active"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateActiveLink,
-        { passive: true }
-    );
-
-
-    updateActiveLink();
-}
-
-
-/* =========================================
-   ESCAPE KEY
-========================================= */
-
-function setupEscapeMenu() {
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (event.key === "Escape") {
-
-                closeMenu();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   CLICK OUTSIDE MOBILE MENU
-========================================= */
-
-function setupOutsideMenuClick() {
-
-    document.addEventListener(
-        "click",
-        function(event) {
-
-            const mobileNav =
-                document.getElementById(
-                    "mobileNav"
-                );
-
-
-            const menuButton =
-                document.querySelector(
-                    ".menu-btn"
-                );
-
-
-            if (
-                !mobileNav ||
-                !menuButton
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                mobileNav.classList.contains(
-                    "open"
-                ) &&
-                !mobileNav.contains(
-                    event.target
-                ) &&
-                !menuButton.contains(
-                    event.target
-                )
-            ) {
-
-                closeMenu();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   BROWSER UI ADVERTISEMENT
-========================================= */
+/* =========================================================
+   DEFAULT ADVERTISEMENT
+========================================================= */
 
 const defaultAdvertisement = {
 
-    enabled: true,
+    enabled:
+        true,
 
-    label: "Advertisement",
+    label:
+        "Advertisement",
 
     title:
         "Promote Your Healthcare Brand",
@@ -337,14 +117,824 @@ const defaultAdvertisement = {
 
     image:
         ""
+
 };
 
 
-/* =========================================
-   LOAD ADVERTISEMENT
-========================================= */
+/* =========================================================
+   DEFAULT SYSTEM SETTINGS
+========================================================= */
+
+const defaultSystemSettings = {
+
+    websiteStatus:
+        true,
+
+    maintenanceMode:
+        false,
+
+    posterCreation:
+        true,
+
+    advertisementSystem:
+        true
+
+};
+
+
+/* =========================================================
+   SAFE LOCAL STORAGE READER
+========================================================= */
+
+function getLocalStorageData(
+    key,
+    fallback
+) {
+
+    const saved =
+        localStorage.getItem(key);
+
+    if (!saved) {
+
+        return {
+            ...fallback
+        };
+
+    }
+
+    try {
+
+        return {
+            ...fallback,
+            ...JSON.parse(saved)
+        };
+
+    } catch (error) {
+
+        console.error(
+            "Local storage read error:",
+            key,
+            error
+        );
+
+        return {
+            ...fallback
+        };
+    }
+}
+
+
+/* =========================================================
+   WEBSITE SETTINGS
+========================================================= */
+
+function loadWebsiteSettings() {
+
+    const settings =
+        getLocalStorageData(
+            WEBSITE_STORAGE_KEY,
+            defaultWebsiteSettings
+        );
+
+
+    /* -----------------------------------------
+       TEXT ELEMENTS
+    ----------------------------------------- */
+
+    setText(
+        "navWebsiteName",
+        settings.websiteName
+    );
+
+    setText(
+        "navTagline",
+        settings.websiteTagline
+    );
+
+    setText(
+        "heroBadge",
+        settings.heroBadge
+    );
+
+    setText(
+        "heroTitle",
+        settings.heroTitle
+    );
+
+    setText(
+        "heroDescription",
+        settings.heroDescription
+    );
+
+    setText(
+        "primaryButton",
+        settings.primaryButton
+    );
+
+    setText(
+        "secondaryButton",
+        settings.secondaryButton
+    );
+
+    setText(
+        "stat1",
+        settings.stat1
+    );
+
+    setText(
+        "stat2",
+        settings.stat2
+    );
+
+    setText(
+        "footerWebsiteName",
+        settings.websiteName
+    );
+
+    setText(
+        "footerDescription",
+        settings.footerDescription
+    );
+
+    setText(
+        "copyrightText",
+        settings.copyrightText
+    );
+
+
+    /* -----------------------------------------
+       PAGE TITLE
+    ----------------------------------------- */
+
+    if (
+        settings.websiteName &&
+        settings.websiteName.trim() !== ""
+    ) {
+
+        document.title =
+            settings.websiteName;
+
+    }
+
+
+    /* -----------------------------------------
+       CONTACT EMAIL
+    ----------------------------------------- */
+
+    const contactLink =
+        document.getElementById(
+            "footerContactEmail"
+        );
+
+    if (contactLink) {
+
+        if (
+            settings.contactEmail &&
+            settings.contactEmail.trim() !== ""
+        ) {
+
+            contactLink.textContent =
+                settings.contactEmail;
+
+            contactLink.href =
+                "mailto:" +
+                settings.contactEmail;
+
+        } else {
+
+            contactLink.textContent =
+                "Contact Us";
+
+            contactLink.href =
+                "#";
+
+        }
+    }
+
+
+    /* -----------------------------------------
+       HERO BUTTONS
+    ----------------------------------------- */
+
+    const primary =
+        document.getElementById(
+            "primaryButton"
+        );
+
+    if (primary) {
+
+        primary.href =
+            "#designs";
+
+    }
+
+
+    const secondary =
+        document.getElementById(
+            "secondaryButton"
+        );
+
+    if (secondary) {
+
+        secondary.href =
+            "#designs";
+
+    }
+
+
+    /* -----------------------------------------
+       WEBSITE STATUS
+    ----------------------------------------- */
+
+    applyWebsiteStatus(
+        settings.websiteEnabled
+    );
+}
+
+
+/* =========================================================
+   SET TEXT SAFELY
+========================================================= */
+
+function setText(
+    elementId,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    if (!element) {
+
+        return;
+    }
+
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+
+        return;
+    }
+
+    element.textContent =
+        value;
+}
+
+
+/* =========================================================
+   WEBSITE STATUS
+========================================================= */
+
+function applyWebsiteStatus(
+    websiteEnabled
+) {
+
+    const websiteContent =
+        document.getElementById(
+            "websiteContent"
+        );
+
+    const offline =
+        document.getElementById(
+            "websiteOffline"
+        );
+
+
+    if (!websiteContent || !offline) {
+
+        return;
+    }
+
+
+    if (websiteEnabled === false) {
+
+        websiteContent.style.display =
+            "none";
+
+        offline.style.display =
+            "flex";
+
+        document.body.classList.add(
+            "website-disabled"
+        );
+
+    } else {
+
+        websiteContent.style.display =
+            "";
+
+        offline.style.display =
+            "none";
+
+        document.body.classList.remove(
+            "website-disabled"
+        );
+    }
+}
+
+
+/* =========================================================
+   DESIGN MANAGEMENT
+========================================================= */
+
+function loadDesignStatus() {
+
+    const status =
+        getLocalStorageData(
+            DESIGN_STORAGE_KEY,
+            defaultDesignStatus
+        );
+
+
+    const designCards =
+        document.querySelectorAll(
+            "[data-design-card]"
+        );
+
+
+    let activeCount = 0;
+
+
+    designCards.forEach(
+        card => {
+
+            const designId =
+                card.getAttribute(
+                    "data-design-card"
+                );
+
+
+            const isActive =
+                status[designId] !== false;
+
+
+            if (isActive) {
+
+                card.classList.remove(
+                    "design-hidden"
+                );
+
+                card.style.display =
+                    "";
+
+                activeCount++;
+
+            } else {
+
+                card.classList.add(
+                    "design-hidden"
+                );
+
+                card.style.display =
+                    "none";
+            }
+
+        }
+    );
+
+
+    /* -----------------------------------------
+       DESIGN COUNT
+    ----------------------------------------- */
+
+    const countElement =
+        document.getElementById(
+            "designCountStat"
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            activeCount;
+
+    }
+
+
+    /* -----------------------------------------
+       NO DESIGN MESSAGE
+    ----------------------------------------- */
+
+    const noDesignMessage =
+        document.getElementById(
+            "noDesignMessage"
+        );
+
+
+    if (noDesignMessage) {
+
+        if (activeCount === 0) {
+
+            noDesignMessage.style.display =
+                "block";
+
+        } else {
+
+            noDesignMessage.style.display =
+                "none";
+        }
+    }
+
+
+    /* -----------------------------------------
+       UPDATE STAT 1
+       Only if admin hasn't set a custom value.
+    ----------------------------------------- */
+
+    const websiteSettings =
+        getLocalStorageData(
+            WEBSITE_STORAGE_KEY,
+            defaultWebsiteSettings
+        );
+
+
+    if (
+        !localStorage.getItem(
+            WEBSITE_STORAGE_KEY
+        )
+    ) {
+
+        setText(
+            "stat1",
+            activeCount + "+ Designs"
+        );
+
+    }
+}
+
+
+/* =========================================================
+   OPEN DESIGN
+========================================================= */
+
+function openDesign(
+    design
+) {
+
+    if (!design) {
+
+        return;
+    }
+
+
+    const status =
+        getLocalStorageData(
+            DESIGN_STORAGE_KEY,
+            defaultDesignStatus
+        );
+
+
+    if (status[design] === false) {
+
+        alert(
+            "This design is currently unavailable."
+        );
+
+        return;
+    }
+
+
+    window.location.href =
+        design + "/index.html";
+}
+
+
+/* =========================================================
+   DESIGN BUTTONS
+========================================================= */
+
+function setupDesignButtons() {
+
+    const buttons =
+        document.querySelectorAll(
+            "[data-design]"
+        );
+
+
+    buttons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const design =
+                        this.getAttribute(
+                            "data-design"
+                        );
+
+                    openDesign(
+                        design
+                    );
+
+                }
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function setupMobileMenu() {
+
+    const menuButton =
+        document.getElementById(
+            "mobileMenuBtn"
+        );
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+
+    if (
+        !menuButton ||
+        !mobileMenu
+    ) {
+
+        return;
+    }
+
+
+    menuButton.addEventListener(
+        "click",
+        function () {
+
+            mobileMenu.classList.toggle(
+                "active"
+            );
+
+            this.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+
+    const links =
+        mobileMenu.querySelectorAll(
+            "a"
+        );
+
+
+    links.forEach(
+        link => {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    mobileMenu.classList.remove(
+                        "active"
+                    );
+
+                    menuButton.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   NAVBAR SCROLL EFFECT
+========================================================= */
+
+function setupNavbarScroll() {
+
+    const navbar =
+        document.getElementById(
+            "navbar"
+        );
+
+
+    if (!navbar) {
+
+        return;
+    }
+
+
+    function updateNavbar() {
+
+        if (
+            window.scrollY > 20
+        ) {
+
+            navbar.classList.add(
+                "scrolled"
+            );
+
+        } else {
+
+            navbar.classList.remove(
+                "scrolled"
+            );
+        }
+    }
+
+
+    updateNavbar();
+
+
+    window.addEventListener(
+        "scroll",
+        updateNavbar,
+        {
+            passive: true
+        }
+    );
+}
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+function setupActiveNavigation() {
+
+    const sections =
+        document.querySelectorAll(
+            "main section[id]"
+        );
+
+    const navLinks =
+        document.querySelectorAll(
+            ".nav-link"
+        );
+
+
+    if (
+        sections.length === 0 ||
+        navLinks.length === 0
+    ) {
+
+        return;
+    }
+
+
+    function updateActiveNav() {
+
+        let currentSection =
+            "home";
+
+
+        sections.forEach(
+            section => {
+
+                const top =
+                    section.offsetTop - 180;
+
+                const bottom =
+                    top + section.offsetHeight;
+
+
+                if (
+                    window.scrollY >= top &&
+                    window.scrollY < bottom
+                ) {
+
+                    currentSection =
+                        section.id;
+
+                }
+
+            }
+        );
+
+
+        navLinks.forEach(
+            link => {
+
+                const href =
+                    link.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    href === "#" +
+                    currentSection
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                } else {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    updateActiveNav();
+
+
+    window.addEventListener(
+        "scroll",
+        updateActiveNav,
+        {
+            passive: true
+        }
+    );
+}
+
+
+/* =========================================================
+   SMOOTH SCROLL
+========================================================= */
+
+function setupSmoothScroll() {
+
+    const links =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    links.forEach(
+        link => {
+
+            link.addEventListener(
+                "click",
+                function (event) {
+
+                    const targetId =
+                        this.getAttribute(
+                            "href"
+                        );
+
+
+                    if (
+                        !targetId ||
+                        targetId === "#"
+                    ) {
+
+                        return;
+                    }
+
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+
+                    if (!target) {
+
+                        return;
+                    }
+
+
+                    event.preventDefault();
+
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                }
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   ADVERTISEMENT
+========================================================= */
 
 function loadAdvertisement() {
+
+    const ad =
+        getLocalStorageData(
+            AD_STORAGE_KEY,
+            defaultAdvertisement
+        );
+
 
     const banner =
         document.getElementById(
@@ -352,52 +942,27 @@ function loadAdvertisement() {
         );
 
 
-    if (!banner) return;
+    if (!banner) {
 
-
-    const savedAdvertisement =
-        localStorage.getItem(
-            "doctorPosterAdvertisement"
-        );
-
-
-    let advertisement =
-        {
-            ...defaultAdvertisement
-        };
-
-
-    if (savedAdvertisement) {
-
-        try {
-
-            const saved =
-                JSON.parse(
-                    savedAdvertisement
-                );
-
-
-            advertisement = {
-
-                ...defaultAdvertisement,
-
-                ...saved
-
-            };
-
-        } catch (error) {
-
-            console.error(
-                "Advertisement settings error:",
-                error
-            );
-
-        }
-
+        return;
     }
 
 
-    if (!advertisement.enabled) {
+    /* -----------------------------------------
+       CHECK AD + SYSTEM
+    ----------------------------------------- */
+
+    const system =
+        getLocalStorageData(
+            SYSTEM_STORAGE_KEY,
+            defaultSystemSettings
+        );
+
+
+    if (
+        ad.enabled === false ||
+        system.advertisementSystem === false
+    ) {
 
         banner.style.display =
             "none";
@@ -410,156 +975,163 @@ function loadAdvertisement() {
         "";
 
 
-    const label =
-        document.getElementById(
-            "adLabel"
-        );
-
-
-    if (label) {
-
-        label.textContent =
-            advertisement.label ||
-            defaultAdvertisement.label;
-
-    }
-
-
-    const title =
-        document.getElementById(
-            "adTitle"
-        );
-
-
-    if (title) {
-
-        title.textContent =
-            advertisement.title ||
-            defaultAdvertisement.title;
-
-    }
-
-
-    const description =
-        document.getElementById(
-            "adDescription"
-        );
-
-
-    if (description) {
-
-        description.textContent =
-            advertisement.description ||
-            defaultAdvertisement.description;
-
-    }
-
+    /* -----------------------------------------
+       BACKGROUND
+    ----------------------------------------- */
 
     if (
-        advertisement.backgroundColor
+        ad.backgroundColor
     ) {
 
         banner.style.backgroundColor =
-            advertisement.backgroundColor;
+            ad.backgroundColor;
 
     }
 
 
-    const button =
+    /* -----------------------------------------
+       TEXT
+    ----------------------------------------- */
+
+    setText(
+        "adLabel",
+        ad.label
+    );
+
+    setText(
+        "adTitle",
+        ad.title
+    );
+
+    setText(
+        "adDescription",
+        ad.description
+    );
+
+    setText(
+        "adButton",
+        ad.buttonText
+    );
+
+
+    /* -----------------------------------------
+       BUTTON LINK
+    ----------------------------------------- */
+
+    const adButton =
         document.getElementById(
             "adButton"
         );
 
 
-    if (button) {
+    if (adButton) {
 
-        button.textContent =
-            advertisement.buttonText ||
-            defaultAdvertisement.buttonText;
+        adButton.href =
+            ad.buttonLink &&
+            ad.buttonLink !== ""
+                ? ad.buttonLink
+                : "#";
 
 
-        if (advertisement.buttonColor) {
+        if (
+            ad.buttonLink &&
+            ad.buttonLink !== "#" &&
+            (
+                ad.buttonLink.startsWith(
+                    "http://"
+                ) ||
+                ad.buttonLink.startsWith(
+                    "https://"
+                )
+            )
+        ) {
 
-            button.style.backgroundColor =
-                advertisement.buttonColor;
+            adButton.target =
+                "_blank";
+
+            adButton.rel =
+                "noopener noreferrer";
+
+        } else {
+
+            adButton.target =
+                "_self";
 
         }
-
-
-        button.style.color =
-            getContrastColor(
-                advertisement.buttonColor ||
-                defaultAdvertisement.buttonColor
-            );
-
-
-        button.onclick =
-            function() {
-
-                const link =
-                    advertisement.buttonLink;
-
-
-                if (
-                    link &&
-                    link.trim() !== "" &&
-                    link !== "#"
-                ) {
-
-                    window.open(
-                        link,
-                        "_blank"
-                    );
-
-                }
-
-            };
-
     }
 
+
+    /* -----------------------------------------
+       BUTTON COLOR
+    ----------------------------------------- */
+
+    if (
+        adButton &&
+        ad.buttonColor
+    ) {
+
+        adButton.style.backgroundColor =
+            ad.buttonColor;
+
+
+        /*
+         * White button backgrounds need
+         * dark readable text.
+         */
+
+        if (
+            ad.buttonColor.toLowerCase() ===
+            "#ffffff"
+        ) {
+
+            adButton.style.color =
+                "#087f86";
+
+        } else {
+
+            adButton.style.color =
+                "#ffffff";
+        }
+    }
+
+
+    /* -----------------------------------------
+       AD IMAGE
+    ----------------------------------------- */
 
     const imageWrap =
         document.getElementById(
             "adImageWrap"
         );
 
-
     const image =
         document.getElementById(
             "adImage"
         );
 
-
-    const icon =
+    const adIcon =
         document.getElementById(
             "adIcon"
         );
 
 
     if (
-        advertisement.image &&
-        advertisement.image.trim() !== ""
+        imageWrap &&
+        image &&
+        ad.image &&
+        ad.image !== ""
     ) {
 
-        if (imageWrap) {
+        image.src =
+            ad.image;
 
-            imageWrap.style.display =
-                "block";
-
-        }
-
-
-        if (image) {
-
-            image.src =
-                advertisement.image;
-
-        }
+        imageWrap.style.display =
+            "block";
 
 
-        if (icon) {
+        if (adIcon) {
 
-            icon.style.display =
+            adIcon.style.display =
                 "none";
 
         }
@@ -574,15 +1146,18 @@ function loadAdvertisement() {
         }
 
 
-        if (icon) {
+        if (adIcon) {
 
-            icon.style.display =
+            adIcon.style.display =
                 "flex";
 
         }
-
     }
 
+
+    /* -----------------------------------------
+       CLOSE BUTTON
+    ----------------------------------------- */
 
     const closeButton =
         document.getElementById(
@@ -593,302 +1168,195 @@ function loadAdvertisement() {
     if (closeButton) {
 
         if (
-            advertisement.showCloseButton
+            ad.showCloseButton === false
         ) {
-
-            closeButton.style.display =
-                "flex";
-
-
-            closeButton.onclick =
-                function() {
-
-                    banner.style.display =
-                        "none";
-
-                };
-
-        } else {
 
             closeButton.style.display =
                 "none";
 
+        } else {
+
+            closeButton.style.display =
+                "flex";
+
         }
 
     }
-
 }
 
 
-/* =========================================
-   DESIGN MANAGEMENT
-========================================= */
+/* =========================================================
+   ADVERTISEMENT CLOSE
+========================================================= */
 
-const defaultDesignStatus = {
+function setupAdvertisementClose() {
 
-    design1: true,
+    const closeButton =
+        document.getElementById(
+            "adClose"
+        );
 
-    design2: true,
-
-    design3: true,
-
-    design4: true
-};
-
-
-/* =========================================
-   GET DESIGN STATUS
-========================================= */
-
-function getDesignStatus() {
-
-    const savedStatus =
-        localStorage.getItem(
-            "doctorPosterDesignStatus"
+    const banner =
+        document.getElementById(
+            "topAdBanner"
         );
 
 
-    if (!savedStatus) {
+    if (
+        !closeButton ||
+        !banner
+    ) {
 
-        return {
-            ...defaultDesignStatus
-        };
-
+        return;
     }
 
 
-    try {
+    closeButton.addEventListener(
+        "click",
+        function () {
 
-        const saved =
-            JSON.parse(savedStatus);
+            banner.style.display =
+                "none";
 
-
-        return {
-
-            ...defaultDesignStatus,
-
-            ...saved
-
-        };
-
-    } catch (error) {
-
-        console.error(
-            "Design status error:",
-            error
-        );
-
-
-        return {
-            ...defaultDesignStatus
-        };
-
-    }
-
+        }
+    );
 }
 
 
-/* =========================================
-   LOAD DESIGN STATUS
-========================================= */
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
 
-function loadDesignStatus() {
+function setupEscapeKey() {
 
-    const status =
-        getDesignStatus();
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key !== "Escape"
+            ) {
+
+                return;
+            }
 
 
-    const cards =
-        document.querySelectorAll(
-            "[data-design-card]"
-        );
-
-
-    let activeDesignCount = 0;
-
-
-    cards.forEach(
-        function(card) {
-
-            const design =
-                card.getAttribute(
-                    "data-design-card"
+            const mobileMenu =
+                document.getElementById(
+                    "mobileMenu"
                 );
 
 
-            const isEnabled =
-                status[design] !== false;
-
-
-            if (isEnabled) {
-
-                card.classList.remove(
-                    "hidden"
+            const mobileMenuButton =
+                document.getElementById(
+                    "mobileMenuBtn"
                 );
 
-                activeDesignCount++;
 
-            } else {
+            if (mobileMenu) {
 
-                card.classList.add(
-                    "hidden"
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+            }
+
+
+            if (mobileMenuButton) {
+
+                mobileMenuButton.classList.remove(
+                    "active"
                 );
 
             }
 
         }
     );
+}
 
 
-    /* =====================================
-       UPDATE HERO DESIGN COUNT
-    ====================================== */
+/* =========================================================
+   STORAGE CHANGE
+   Useful when admin and homepage are opened
+   in different browser tabs.
+========================================================= */
 
-    const designCountStat =
-        document.getElementById(
-            "designCountStat"
-        );
+window.addEventListener(
+    "storage",
+    function (event) {
 
+        if (
+            event.key ===
+            WEBSITE_STORAGE_KEY
+        ) {
 
-    if (designCountStat) {
+            loadWebsiteSettings();
 
-        designCountStat.textContent =
-            activeDesignCount + "+";
-
-    }
-
-
-    /* =====================================
-       NO DESIGN MESSAGE
-    ====================================== */
-
-    const noDesignMessage =
-        document.getElementById(
-            "noDesignMessage"
-        );
+        }
 
 
-    if (noDesignMessage) {
+        if (
+            event.key ===
+            DESIGN_STORAGE_KEY
+        ) {
 
-        if (activeDesignCount === 0) {
+            loadDesignStatus();
 
-            noDesignMessage.classList.add(
-                "show"
-            );
+        }
 
-        } else {
 
-            noDesignMessage.classList.remove(
-                "show"
-            );
+        if (
+            event.key ===
+            AD_STORAGE_KEY
+        ) {
+
+            loadAdvertisement();
+
+        }
+
+
+        if (
+            event.key ===
+            SYSTEM_STORAGE_KEY
+        ) {
+
+            loadWebsiteSettings();
+
+            loadAdvertisement();
 
         }
 
     }
-
-}
-
-
-/* =========================================
-   CONTRAST COLOR
-========================================= */
-
-function getContrastColor(hexColor) {
-
-    if (!hexColor) {
-
-        return "#ffffff";
-
-    }
+);
 
 
-    let hex =
-        hexColor.replace(
-            "#",
-            ""
-        );
-
-
-    if (hex.length === 3) {
-
-        hex =
-            hex
-                .split("")
-                .map(
-                    function(char) {
-
-                        return char + char;
-
-                    }
-                )
-                .join("");
-
-    }
-
-
-    if (hex.length !== 6) {
-
-        return "#ffffff";
-
-    }
-
-
-    const r =
-        parseInt(
-            hex.substring(0, 2),
-            16
-        );
-
-
-    const g =
-        parseInt(
-            hex.substring(2, 4),
-            16
-        );
-
-
-    const b =
-        parseInt(
-            hex.substring(4, 6),
-            16
-        );
-
-
-    const brightness =
-        (
-            r * 299 +
-            g * 587 +
-            b * 114
-        ) / 1000;
-
-
-    return brightness > 155
-        ? "#12343b"
-        : "#ffffff";
-}
-
-
-/* =========================================
+/* =========================================================
    INITIALIZE WEBSITE
-========================================= */
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    function () {
 
-        setupDesignButtons();
+        loadWebsiteSettings();
 
-        setupHeaderScroll();
-
-        setupActiveNavigation();
-
-        setupEscapeMenu();
-
-        setupOutsideMenuClick();
+        loadDesignStatus();
 
         loadAdvertisement();
 
-        loadDesignStatus();
+        setupDesignButtons();
+
+        setupMobileMenu();
+
+        setupNavbarScroll();
+
+        setupActiveNavigation();
+
+        setupSmoothScroll();
+
+        setupAdvertisementClose();
+
+        setupEscapeKey();
 
     }
 );
