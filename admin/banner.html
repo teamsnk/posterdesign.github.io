@@ -1,1872 +1,1426 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Banner Management - Doctor Poster Maker</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Inter", "Noto Sans Bengali", sans-serif;
-            background: #f5f8fa;
-            color: #12343b;
-        }
-
-        button,
-        input,
-        textarea {
-            font: inherit;
-        }
-
-        .admin-layout {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            width: 250px;
-            background: #12343b;
-            color: #fff;
-            min-height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            padding: 24px 16px;
-            z-index: 100;
-        }
-
-        .brand {
-            padding: 8px 10px 26px;
-            border-bottom: 1px solid rgba(255,255,255,.1);
-            margin-bottom: 20px;
-        }
-
-        .brand h2 {
-            font-size: 19px;
-            font-weight: 800;
-        }
-
-        .brand span {
-            display: block;
-            margin-top: 5px;
-            color: rgba(255,255,255,.55);
-            font-size: 12px;
-        }
-
-        .nav-title {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,.4);
-            margin: 18px 10px 8px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 12px 12px;
-            border-radius: 10px;
-            color: rgba(255,255,255,.72);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            transition: .2s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: rgba(255,255,255,.1);
-            color: #fff;
-        }
-
-        .nav-icon {
-            width: 22px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .main {
-            width: calc(100% - 250px);
-            margin-left: 250px;
-            min-height: 100vh;
-        }
-
-        .topbar {
-            height: 72px;
-            background: #fff;
-            border-bottom: 1px solid #e6edef;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .page-title h1 {
-            font-size: 21px;
-            font-weight: 800;
-        }
-
-        .page-title p {
-            color: #71858a;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .system-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .system-badge {
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-size: 11px;
-        }
-
-        .system-badge.active {
-            background: #e9f8f7;
-            color: #087f86;
-        }
-
-        .system-badge.disabled {
-            background: #fff0f0;
-            color: #d43b3b;
-        }
-
-        .content {
-            padding: 30px;
-            max-width: 1200px;
-        }
-
-        /* =========================
-           INFO
-        ========================= */
-
-        .info-box {
-            background: linear-gradient(135deg, #087f86, #05656b);
-            color: #fff;
-            border-radius: 18px;
-            padding: 22px 24px;
-            margin-bottom: 25px;
-        }
-
-        .info-box h3 {
-            font-size: 16px;
-            margin-bottom: 7px;
-        }
-
-        .info-box p {
-            font-size: 13px;
-            line-height: 1.7;
-            color: rgba(255,255,255,.85);
-        }
-
-        /* =========================
-           BANNER GRID
-        ========================= */
-
-        .banner-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 22px;
-        }
-
-        .banner-card {
-            background: #fff;
-            border: 1px solid #e4ecee;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(18,52,59,.05);
-            transition: .2s ease;
-        }
-
-        .banner-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(18,52,59,.08);
-        }
-
-        .banner-card.banner-disabled {
-            opacity: .75;
-        }
-
-        .banner-card.system-disabled {
-            border-color: #f0cccc;
-        }
-
-        .card-head {
-            padding: 18px 20px;
-            border-bottom: 1px solid #edf1f2;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-head h3 {
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .status {
-            font-size: 10px;
-            font-weight: 800;
-            padding: 6px 9px;
-            border-radius: 999px;
-            background: #e9f8f7;
-            color: #087f86;
-        }
-
-        .status.inactive {
-            background: #fff4df;
-            color: #a66b00;
-        }
-
-        .status.system-off {
-            background: #fff0f0;
-            color: #d43b3b;
-        }
-
-        .preview {
-            margin: 18px;
-            border-radius: 14px;
-            overflow: hidden;
-            min-height: 190px;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,.18), transparent 30%),
-                linear-gradient(135deg, #087f86, #05656b);
-            color: #fff;
-            position: relative;
-        }
-
-        .preview.has-image {
-            background-size: cover;
-            background-position: center;
-        }
-
-        .preview::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, rgba(5,40,44,.82), rgba(5,40,44,.28));
-        }
-
-        .preview-content {
-            position: relative;
-            z-index: 2;
-            padding: 25px;
-            max-width: 78%;
-        }
-
-        .preview-label {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 999px;
-            background: rgba(255,255,255,.14);
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-            margin-bottom: 12px;
-        }
-
-        .preview-title {
-            font-size: 22px;
-            line-height: 1.2;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .preview-description {
-            font-size: 11px;
-            line-height: 1.6;
-            color: rgba(255,255,255,.85);
-            margin-bottom: 15px;
-        }
-
-        .preview-button {
-            display: inline-block;
-            background: #fff;
-            color: #087f86;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .card-body {
-            padding: 0 20px 20px;
-        }
-
-        .field {
-            margin-bottom: 14px;
-        }
-
-        .field label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: #536c72;
-            margin-bottom: 6px;
-        }
-
-        .field input,
-        .field textarea {
-            width: 100%;
-            border: 1px solid #dce6e8;
-            border-radius: 9px;
-            padding: 10px 11px;
-            outline: none;
-            color: #12343b;
-            background: #fbfcfc;
-            font-size: 12px;
-            transition: .2s ease;
-        }
-
-        .field textarea {
-            min-height: 70px;
-            resize: vertical;
-        }
-
-        .field input:focus,
-        .field textarea:focus {
-            border-color: #087f86;
-            box-shadow: 0 0 0 3px rgba(8,127,134,.08);
-            background: #fff;
-        }
-
-        .image-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .image-row input {
-            flex: 1;
-        }
-
-        .upload-label {
-            cursor: pointer;
-            background: #eef8f8;
-            color: #087f86;
-            border: 1px solid #cfe8e9;
-            border-radius: 9px;
-            padding: 10px 12px;
-            font-size: 11px;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .upload-label input {
-            display: none;
-        }
-
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 18px;
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 9px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 800;
-            transition: .2s ease;
-        }
-
-        .btn-primary {
-            background: #087f86;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #05656b;
-        }
-
-        .btn-secondary {
-            background: #eef3f4;
-            color: #456168;
-        }
-
-        .btn-danger {
-            background: #fff0f0;
-            color: #d43b3b;
-        }
-
-        .switch-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 16px;
-            padding-top: 15px;
-            border-top: 1px solid #edf1f2;
-        }
-
-        .switch-text strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .switch-text span {
-            display: block;
-            font-size: 10px;
-            color: #83969a;
-            margin-top: 3px;
-        }
-
-        .switch {
-            position: relative;
-            width: 42px;
-            height: 23px;
-        }
-
-        .switch input {
-            display: none;
-        }
-
-        .slider {
-            position: absolute;
-            inset: 0;
-            background: #d7e0e2;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .slider::before {
-            content: "";
-            position: absolute;
-            width: 17px;
-            height: 17px;
-            left: 3px;
-            top: 3px;
-            background: #fff;
-            border-radius: 50%;
-            transition: .2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,.15);
-        }
-
-        .switch input:checked + .slider {
-            background: #087f86;
-        }
-
-        .switch input:checked + .slider::before {
-            transform: translateX(19px);
-        }
-
-        .switch input:disabled + .slider {
-            cursor: not-allowed;
-            opacity: .5;
-        }
-
-        .bottom-note {
-            margin-top: 25px;
-            background: #fff;
-            border: 1px solid #e4ecee;
-            border-radius: 15px;
-            padding: 18px 20px;
-            font-size: 12px;
-            line-height: 1.7;
-            color: #667c82;
-        }
-
-        .bottom-note strong {
-            color: #12343b;
-        }
-
-        @media (max-width: 900px) {
-            .sidebar {
-                width: 210px;
-            }
-
-            .main {
-                width: calc(100% - 210px);
-                margin-left: 210px;
-            }
-
-            .banner-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 700px) {
-            .sidebar {
-                position: static;
-                width: 100%;
-                min-height: auto;
-            }
-
-            .admin-layout {
-                display: block;
-            }
-
-            .main {
-                width: 100%;
-                margin-left: 0;
-            }
-
-            .topbar {
-                position: static;
-                height: auto;
-                padding: 18px;
-                gap: 15px;
-            }
-
-            .content {
-                padding: 18px;
-            }
-
-            .nav-link {
-                display: inline-flex;
-                margin-right: 3px;
-            }
-
-            .sidebar {
-                padding-bottom: 15px;
-            }
-
-            .brand {
-                padding-bottom: 15px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="admin-layout">
-
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
-
-    <aside class="sidebar">
-
-        <div class="brand">
-            <h2>Doctor Poster Maker</h2>
-            <span>Admin Control Panel</span>
-        </div>
-
-        <div class="nav-title">Main</div>
-
-        <a href="dashboard.html" class="nav-link">
-            <span class="nav-icon">⌂</span>
-            Dashboard
-        </a>
-
-        <a href="website.html" class="nav-link">
-            <span class="nav-icon">◫</span>
-            Website
-        </a>
-
-        <a href="website-edit.html" class="nav-link">
-            <span class="nav-icon">✎</span>
-            Website Edit
-        </a>
-
-        <div class="nav-title">Management</div>
-
-        <a href="design-manage.html" class="nav-link">
-            <span class="nav-icon">▦</span>
-            Designs
-        </a>
-
-        <a href="browser-ui.html" class="nav-link">
-            <span class="nav-icon">◉</span>
-            Browser UI Ad
-        </a>
-
-        <a href="banner.html" class="nav-link active">
-            <span class="nav-icon">▰</span>
-            Banners
-        </a>
-
-        <div class="nav-title">System</div>
-
-        <a href="system.html" class="nav-link">
-            <span class="nav-icon">⚙</span>
-            System Settings
-        </a>
-
-    </aside>
-
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="page-title">
-                <h1>Banner Management</h1>
-                <p>Manage homepage promotional banners</p>
-            </div>
-
-            <div class="system-status">
-                Advertisement System:
-                <span id="systemBadge" class="system-badge active">
-                    ENABLED
-                </span>
-            </div>
-
-        </header>
-
-
-        <section class="content">
-
-            <div class="info-box">
-                <h3>Homepage Banner System</h3>
-
-                <p>
-                    এখান থেকে Homepage-এর promotional banner-এর
-                    content, image, button এবং active status control করতে পারবেন।
-                    এই banner কখনোই Doctor Poster-এর PNG export বা print-এর ভিতরে যাবে না।
-                </p>
-            </div>
-
-
-            <div class="banner-grid">
-
-                <!-- =========================
-                     BANNER 1
-                ========================== -->
-
-                <article
-                    class="banner-card"
-                    id="bannerCard1"
-                    data-banner-card="banner1"
-                >
-
-                    <div class="card-head">
-
-                        <h3>Banner 1</h3>
-
-                        <span
-                            class="status"
-                            id="statusBanner1"
-                        >
-                            ACTIVE
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        class="preview"
-                        id="previewBanner1"
-                    >
-
-                        <div class="preview-content">
-
-                            <span
-                                class="preview-label"
-                                id="previewLabelBanner1"
-                            >
-                                Healthcare Promotion
-                            </span>
-
-                            <div
-                                class="preview-title"
-                                id="previewTitleBanner1"
-                            >
-                                Professional Healthcare Promotion
-                            </div>
-
-                            <div
-                                class="preview-description"
-                                id="previewDescriptionBanner1"
-                            >
-                                Promote your healthcare service, clinic or brand.
-                            </div>
-
-                            <span
-                                class="preview-button"
-                                id="previewButtonBanner1"
-                            >
-                                Learn More →
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="field">
-                            <label>Banner Label</label>
-
-                            <input
-                                type="text"
-                                id="labelBanner1"
-                                placeholder="Healthcare Promotion"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Banner Title</label>
-
-                            <input
-                                type="text"
-                                id="titleBanner1"
-                                placeholder="Professional Healthcare Promotion"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Description</label>
-
-                            <textarea
-                                id="descriptionBanner1"
-                                placeholder="Write banner description..."
-                            ></textarea>
-                        </div>
-
-
-                        <div class="field">
-                            <label>Button Text</label>
-
-                            <input
-                                type="text"
-                                id="buttonTextBanner1"
-                                placeholder="Learn More →"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Button Link</label>
-
-                            <input
-                                type="text"
-                                id="buttonLinkBanner1"
-                                placeholder="https://example.com"
-                            >
-                        </div>
-
-
-                        <div class="field">
-
-                            <label>Banner Image</label>
-
-                            <div class="image-row">
-
-                                <input
-                                    type="text"
-                                    id="imageBanner1"
-                                    placeholder="Image URL"
-                                >
-
-                                <label class="upload-label">
-                                    Upload
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onchange="handleImageUpload(event, 'banner1')"
-                                    >
-                                </label>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="saveBanner('banner1')"
-                            >
-                                Save Banner
-                            </button>
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="resetBanner('banner1')"
-                            >
-                                Reset
-                            </button>
-
-                            <button
-                                class="btn btn-danger"
-                                onclick="deleteBanner('banner1')"
-                            >
-                                Clear
-                            </button>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-text">
-                                <strong>Banner Status</strong>
-                                <span>Show this banner on homepage</span>
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="toggleBanner1"
-                                    onchange="toggleBanner('banner1')"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- =========================
-                     BANNER 2
-                ========================== -->
-
-                <article
-                    class="banner-card"
-                    id="bannerCard2"
-                    data-banner-card="banner2"
-                >
-
-                    <div class="card-head">
-
-                        <h3>Banner 2</h3>
-
-                        <span
-                            class="status"
-                            id="statusBanner2"
-                        >
-                            ACTIVE
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        class="preview"
-                        id="previewBanner2"
-                    >
-
-                        <div class="preview-content">
-
-                            <span
-                                class="preview-label"
-                                id="previewLabelBanner2"
-                            >
-                                Healthcare Service
-                            </span>
-
-                            <div
-                                class="preview-title"
-                                id="previewTitleBanner2"
-                            >
-                                Grow Your Healthcare Brand
-                            </div>
-
-                            <div
-                                class="preview-description"
-                                id="previewDescriptionBanner2"
-                            >
-                                Reach doctors, clinics and healthcare professionals.
-                            </div>
-
-                            <span
-                                class="preview-button"
-                                id="previewButtonBanner2"
-                            >
-                                Get Started →
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="field">
-                            <label>Banner Label</label>
-
-                            <input
-                                type="text"
-                                id="labelBanner2"
-                                placeholder="Healthcare Service"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Banner Title</label>
-
-                            <input
-                                type="text"
-                                id="titleBanner2"
-                                placeholder="Grow Your Healthcare Brand"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Description</label>
-
-                            <textarea
-                                id="descriptionBanner2"
-                                placeholder="Write banner description..."
-                            ></textarea>
-                        </div>
-
-
-                        <div class="field">
-                            <label>Button Text</label>
-
-                            <input
-                                type="text"
-                                id="buttonTextBanner2"
-                                placeholder="Get Started →"
-                            >
-                        </div>
-
-
-                        <div class="field">
-                            <label>Button Link</label>
-
-                            <input
-                                type="text"
-                                id="buttonLinkBanner2"
-                                placeholder="https://example.com"
-                            >
-                        </div>
-
-
-                        <div class="field">
-
-                            <label>Banner Image</label>
-
-                            <div class="image-row">
-
-                                <input
-                                    type="text"
-                                    id="imageBanner2"
-                                    placeholder="Image URL"
-                                >
-
-                                <label class="upload-label">
-                                    Upload
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onchange="handleImageUpload(event, 'banner2')"
-                                    >
-                                </label>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="saveBanner('banner2')"
-                            >
-                                Save Banner
-                            </button>
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="resetBanner('banner2')"
-                            >
-                                Reset
-                            </button>
-
-                            <button
-                                class="btn btn-danger"
-                                onclick="deleteBanner('banner2')"
-                            >
-                                Clear
-                            </button>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-text">
-                                <strong>Banner Status</strong>
-                                <span>Show this banner on homepage</span>
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="toggleBanner2"
-                                    onchange="toggleBanner('banner2')"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <div class="bottom-note">
-
-                <strong>Important:</strong>
-
-                Banner settings are currently saved in this browser using
-                <strong>localStorage</strong>.
-                পরে Node.js + Express + MongoDB backend connect করলে
-                একই settings পুরো website-এর জন্য globally control করা যাবে।
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<script>
-
-    /* ==========================================
-       STORAGE KEYS
-    ========================================== */
-
-    const BANNER_CONTENT_KEY = "doctorPosterBanners";
-    const BANNER_STATUS_KEY = "doctorPosterBannerStatus";
-    const SYSTEM_KEY = "doctorPosterSystemSettings";
-
-
-    /* ==========================================
-       DEFAULT BANNER CONTENT
-    ========================================== */
-
-    const defaultBanners = {
-
-        banner1: {
-            label: "Healthcare Promotion",
-            title: "Professional Healthcare Promotion",
-            description: "Promote your healthcare service, clinic or brand.",
-            buttonText: "Learn More →",
-            buttonLink: "#",
-            image: ""
-        },
-
-        banner2: {
-            label: "Healthcare Service",
-            title: "Grow Your Healthcare Brand",
-            description: "Reach doctors, clinics and healthcare professionals.",
-            buttonText: "Get Started →",
-            buttonLink: "#",
-            image: ""
-        }
-
-    };
-
-
-    /* ==========================================
-       DEFAULT STATUS
-    ========================================== */
-
-    const defaultBannerStatus = {
-
-        banner1: true,
-        banner2: true
-
-    };
-
-
-    /* ==========================================
-       DEFAULT SYSTEM
-    ========================================== */
-
-    const defaultSystemSettings = {
-
-        websiteStatus: true,
-        maintenanceMode: false,
-        posterCreation: true,
-        advertisementSystem: true
-
-    };
-
-
-    /* ==========================================
-       SAFE JSON READER
-    ========================================== */
-
-    function readJSON(key, fallback) {
-
-        try {
-
-            const value = localStorage.getItem(key);
-
-            if (!value) {
-                return fallback;
-            }
-
-            const parsed = JSON.parse(value);
-
-            if (!parsed || typeof parsed !== "object") {
-                return fallback;
-            }
-
-            return parsed;
-
-        } catch (error) {
-
-            console.error("Storage read error:", error);
+/* =========================================================
+   DOCTOR POSTER MAKER
+   HOMEPAGE SCRIPT
+========================================================= */
+
+
+/* =========================================================
+   STORAGE KEYS
+========================================================= */
+
+const WEBSITE_KEY = "doctorPosterWebsiteSettings";
+const DESIGN_KEY = "doctorPosterDesignStatus";
+const AD_KEY = "doctorPosterAdvertisement";
+const SYSTEM_KEY = "doctorPosterSystemSettings";
+
+const BANNER_KEY = "doctorPosterBannerStatus";
+const BANNER_CONTENT_KEY = "doctorPosterBanners";
+
+
+/* =========================================================
+   DEFAULT WEBSITE SETTINGS
+========================================================= */
+
+const defaultWebsiteSettings = {
+
+    websiteName: "Doctor Poster Maker",
+
+    websiteTagline:
+        "Create professional doctor posters in minutes.",
+
+    heroBadge:
+        "✦ Built for Healthcare Professionals",
+
+    heroTitle:
+        "Create Beautiful Doctor Posters in Minutes.",
+
+    heroDescription:
+        "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
+
+    primaryButton:
+        "Start Creating →",
+
+    secondaryButton:
+        "Explore Designs",
+
+    stat1:
+        "4+ Designs",
+
+    stat2:
+        "1080px Quality",
+
+    footerDescription:
+        "Create beautiful professional doctor posters quickly and easily.",
+
+    copyrightText:
+        "© 2026 Doctor Poster Maker",
+
+    contactEmail:
+        "",
+
+    websiteEnabled:
+        true
+
+};
+
+
+/* =========================================================
+   DEFAULT DESIGN STATUS
+========================================================= */
+
+const defaultDesignStatus = {
+
+    design1: true,
+    design2: true,
+    design3: true,
+    design4: true
+
+};
+
+
+/* =========================================================
+   DEFAULT ADVERTISEMENT
+========================================================= */
+
+const defaultAdvertisement = {
+
+    enabled: true,
+
+    label:
+        "Advertisement",
+
+    title:
+        "Promote Your Healthcare Brand",
+
+    description:
+        "Reach doctors, clinics & healthcare professionals",
+
+    buttonText:
+        "Advertise With Us →",
+
+    buttonLink:
+        "#",
+
+    backgroundColor:
+        "#087f86",
+
+    buttonColor:
+        "#ffffff",
+
+    showCloseButton:
+        true,
+
+    image:
+        ""
+
+};
+
+
+/* =========================================================
+   DEFAULT SYSTEM
+========================================================= */
+
+const defaultSystemSettings = {
+
+    websiteStatus: true,
+
+    maintenanceMode: false,
+
+    posterCreation: true,
+
+    advertisementSystem: true
+
+};
+
+
+/* =========================================================
+   DEFAULT BANNER STATUS
+========================================================= */
+
+const defaultBannerStatus = {
+
+    banner1: true,
+    banner2: true
+
+};
+
+
+/* =========================================================
+   DEFAULT BANNER CONTENT
+========================================================= */
+
+const defaultBanners = {
+
+    banner1: {
+
+        label:
+            "Healthcare Promotion",
+
+        title:
+            "Professional Healthcare Promotion",
+
+        description:
+            "Promote your healthcare service, clinic or brand.",
+
+        buttonText:
+            "Learn More →",
+
+        buttonLink:
+            "#",
+
+        image:
+            ""
+
+    },
+
+
+    banner2: {
+
+        label:
+            "Healthcare Service",
+
+        title:
+            "Grow Your Healthcare Brand",
+
+        description:
+            "Reach doctors, clinics and healthcare professionals.",
+
+        buttonText:
+            "Get Started →",
+
+        buttonLink:
+            "#",
+
+        image:
+            ""
+
+    }
+
+};
+
+
+/* =========================================================
+   SAFE JSON READER
+========================================================= */
+
+function readJSON(key, fallback) {
+
+    try {
+
+        const value =
+            localStorage.getItem(key);
+
+        if (!value) {
 
             return fallback;
 
         }
 
-    }
+        const parsed =
+            JSON.parse(value);
 
+        if (
+            !parsed ||
+            typeof parsed !== "object"
+        ) {
 
-    /* ==========================================
-       GET BANNER CONTENT
-    ========================================== */
+            return fallback;
 
-    function getBanners() {
+        }
 
-        const saved = readJSON(
-            BANNER_CONTENT_KEY,
-            {}
+        return parsed;
+
+    } catch (error) {
+
+        console.error(
+            "LocalStorage read error:",
+            error
         );
 
-        return {
-
-            banner1: {
-                ...defaultBanners.banner1,
-                ...(saved.banner1 || {})
-            },
-
-            banner2: {
-                ...defaultBanners.banner2,
-                ...(saved.banner2 || {})
-            }
-
-        };
+        return fallback;
 
     }
 
-
-    /* ==========================================
-       GET BANNER STATUS
-    ========================================== */
-
-    function getBannerStatus() {
-
-        const saved = readJSON(
-            BANNER_STATUS_KEY,
-            {}
-        );
-
-        return {
-
-            ...defaultBannerStatus,
-            ...saved
-
-        };
-
-    }
+}
 
 
-    /* ==========================================
-       GET SYSTEM SETTINGS
-    ========================================== */
+/* =========================================================
+   GET SYSTEM SETTINGS
+========================================================= */
 
-    function getSystemSettings() {
+function getSystemSettings() {
 
-        const saved = readJSON(
+    const saved =
+        readJSON(
             SYSTEM_KEY,
             {}
         );
 
-        return {
+    return {
 
-            ...defaultSystemSettings,
-            ...saved
+        ...defaultSystemSettings,
+        ...saved
 
-        };
+    };
 
-    }
+}
 
 
-    /* ==========================================
-       SAVE ALL BANNER CONTENT
-    ========================================== */
+/* =========================================================
+   LOAD WEBSITE SETTINGS
+========================================================= */
 
-    function saveAllBanners(data) {
+function loadWebsiteSettings() {
 
-        localStorage.setItem(
-            BANNER_CONTENT_KEY,
-            JSON.stringify(data)
+    const saved =
+        readJSON(
+            WEBSITE_KEY,
+            {}
         );
 
-    }
+    const settings = {
+
+        ...defaultWebsiteSettings,
+        ...saved
+
+    };
 
 
-    /* ==========================================
-       SAVE STATUS
-    ========================================== */
+    /* Website Name */
 
-    function saveStatus(data) {
-
-        localStorage.setItem(
-            BANNER_STATUS_KEY,
-            JSON.stringify(data)
+    const navWebsiteName =
+        document.getElementById(
+            "navWebsiteName"
         );
 
-    }
+    if (navWebsiteName) {
 
-
-    /* ==========================================
-       LOAD FORM
-    ========================================== */
-
-    function loadBannerForms() {
-
-        const banners = getBanners();
-
-        ["banner1", "banner2"].forEach(id => {
-
-            const banner = banners[id];
-
-            document.getElementById(
-                `label${capitalize(id)}`
-            ).value = banner.label || "";
-
-            document.getElementById(
-                `title${capitalize(id)}`
-            ).value = banner.title || "";
-
-            document.getElementById(
-                `description${capitalize(id)}`
-            ).value = banner.description || "";
-
-            document.getElementById(
-                `buttonText${capitalize(id)}`
-            ).value = banner.buttonText || "";
-
-            document.getElementById(
-                `buttonLink${capitalize(id)}`
-            ).value = banner.buttonLink || "";
-
-            document.getElementById(
-                `image${capitalize(id)}`
-            ).value = banner.image || "";
-
-        });
+        navWebsiteName.textContent =
+            settings.websiteName;
 
     }
 
 
-    /* ==========================================
-       CAPITALIZE
-    ========================================== */
-
-    function capitalize(value) {
-
-        return value.charAt(0).toUpperCase() + value.slice(1);
-
-    }
-
-
-    /* ==========================================
-       UPDATE PREVIEW
-    ========================================== */
-
-    function updatePreview(id) {
-
-        const banners = getBanners();
-
-        const banner = banners[id];
-
-        const suffix = capitalize(id);
-
+    const footerWebsiteName =
         document.getElementById(
-            `previewLabel${suffix}`
-        ).textContent =
-            banner.label || "Banner Label";
-
-        document.getElementById(
-            `previewTitle${suffix}`
-        ).textContent =
-            banner.title || "Banner Title";
-
-        document.getElementById(
-            `previewDescription${suffix}`
-        ).textContent =
-            banner.description || "Banner Description";
-
-        document.getElementById(
-            `previewButton${suffix}`
-        ).textContent =
-            banner.buttonText || "Learn More →";
-
-
-        const preview = document.getElementById(
-            `preview${suffix}`
+            "footerWebsiteName"
         );
 
-        if (banner.image) {
+    if (footerWebsiteName) {
 
-            preview.classList.add("has-image");
+        footerWebsiteName.textContent =
+            settings.websiteName;
 
-            preview.style.backgroundImage =
-                `url("${banner.image}")`;
+    }
+
+
+    /* Tagline */
+
+    const navTagline =
+        document.getElementById(
+            "navTagline"
+        );
+
+    if (navTagline) {
+
+        navTagline.textContent =
+            settings.websiteTagline;
+
+    }
+
+
+    /* Hero */
+
+    const heroBadge =
+        document.getElementById(
+            "heroBadge"
+        );
+
+    if (heroBadge) {
+
+        heroBadge.textContent =
+            settings.heroBadge;
+
+    }
+
+
+    const heroTitle =
+        document.getElementById(
+            "heroTitle"
+        );
+
+    if (heroTitle) {
+
+        heroTitle.textContent =
+            settings.heroTitle;
+
+    }
+
+
+    const heroDescription =
+        document.getElementById(
+            "heroDescription"
+        );
+
+    if (heroDescription) {
+
+        heroDescription.textContent =
+            settings.heroDescription;
+
+    }
+
+
+    /* Buttons */
+
+    const primaryButton =
+        document.getElementById(
+            "primaryButton"
+        );
+
+    if (primaryButton) {
+
+        primaryButton.textContent =
+            settings.primaryButton;
+
+    }
+
+
+    const secondaryButton =
+        document.getElementById(
+            "secondaryButton"
+        );
+
+    if (secondaryButton) {
+
+        secondaryButton.textContent =
+            settings.secondaryButton;
+
+    }
+
+
+    const ctaCreateButton =
+        document.getElementById(
+            "ctaCreateButton"
+        );
+
+    if (ctaCreateButton) {
+
+        ctaCreateButton.textContent =
+            settings.primaryButton;
+
+    }
+
+
+    /* Stats */
+
+    const stat1 =
+        document.getElementById(
+            "stat1"
+        );
+
+    if (stat1) {
+
+        stat1.textContent =
+            settings.stat1;
+
+    }
+
+
+    const stat2 =
+        document.getElementById(
+            "stat2"
+        );
+
+    if (stat2) {
+
+        stat2.textContent =
+            settings.stat2;
+
+    }
+
+
+    /* Footer */
+
+    const footerDescription =
+        document.getElementById(
+            "footerDescription"
+        );
+
+    if (footerDescription) {
+
+        footerDescription.textContent =
+            settings.footerDescription;
+
+    }
+
+
+    const copyrightText =
+        document.getElementById(
+            "copyrightText"
+        );
+
+    if (copyrightText) {
+
+        copyrightText.textContent =
+            settings.copyrightText;
+
+    }
+
+
+    const footerContactEmail =
+        document.getElementById(
+            "footerContactEmail"
+        );
+
+    if (footerContactEmail) {
+
+        if (settings.contactEmail) {
+
+            footerContactEmail.textContent =
+                settings.contactEmail;
+
+            footerContactEmail.href =
+                `mailto:${settings.contactEmail}`;
+
+            footerContactEmail.style.display =
+                "";
 
         } else {
 
-            preview.classList.remove("has-image");
-
-            preview.style.backgroundImage = "";
+            footerContactEmail.style.display =
+                "none";
 
         }
 
     }
 
 
-    /* ==========================================
-       SAVE SINGLE BANNER
-    ========================================== */
+    /* Page Title */
 
-    function saveBanner(id) {
+    document.title =
+        settings.websiteName;
 
-        const system = getSystemSettings();
 
-        if (system.advertisementSystem === false) {
+    /* Website Status */
 
-            alert(
-                "Advertisement System is OFF.\n\nTurn it ON from System Settings first."
+    applyWebsiteStatus(
+        settings.websiteEnabled !== false
+    );
+
+}
+
+
+/* =========================================================
+   WEBSITE STATUS
+========================================================= */
+
+function applyWebsiteStatus(enabled) {
+
+    const websiteContent =
+        document.getElementById(
+            "websiteContent"
+        );
+
+    const websiteOffline =
+        document.getElementById(
+            "websiteOffline"
+        );
+
+
+    if (!websiteContent) {
+        return;
+    }
+
+
+    if (enabled === false) {
+
+        websiteContent.style.display =
+            "none";
+
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "flex";
+
+        }
+
+    } else {
+
+        websiteContent.style.display =
+            "";
+
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "none";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD DESIGN STATUS
+========================================================= */
+
+function loadDesignStatus() {
+
+    const saved =
+        readJSON(
+            DESIGN_KEY,
+            {}
+        );
+
+    const designs = {
+
+        ...defaultDesignStatus,
+        ...saved
+
+    };
+
+
+    const cards =
+        document.querySelectorAll(
+            "[data-design-card]"
+        );
+
+
+    let activeCount = 0;
+
+
+    cards.forEach(card => {
+
+        const design =
+            card.dataset.designCard;
+
+        const active =
+            designs[design] !== false;
+
+
+        if (active) {
+
+            activeCount++;
+
+            card.style.display = "";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    const designCountStat =
+        document.getElementById(
+            "designCountStat"
+        );
+
+    if (designCountStat) {
+
+        designCountStat.textContent =
+            `${activeCount} Designs`;
+
+    }
+
+
+    const noDesignMessage =
+        document.getElementById(
+            "noDesignMessage"
+        );
+
+
+    if (noDesignMessage) {
+
+        if (activeCount === 0) {
+
+            noDesignMessage.style.display =
+                "block";
+
+        } else {
+
+            noDesignMessage.style.display =
+                "none";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   GET BANNER STATUS
+========================================================= */
+
+function getBannerStatus() {
+
+    const saved =
+        readJSON(
+            BANNER_KEY,
+            {}
+        );
+
+    return {
+
+        ...defaultBannerStatus,
+        ...saved
+
+    };
+
+}
+
+
+/* =========================================================
+   GET BANNER CONTENT
+========================================================= */
+
+function getBannerContent() {
+
+    const saved =
+        readJSON(
+            BANNER_CONTENT_KEY,
+            {}
+        );
+
+    return {
+
+        banner1: {
+
+            ...defaultBanners.banner1,
+
+            ...(saved.banner1 || {})
+
+        },
+
+        banner2: {
+
+            ...defaultBanners.banner2,
+
+            ...(saved.banner2 || {})
+
+        }
+
+    };
+
+}
+
+
+/* =========================================================
+   LOAD HOMEPAGE BANNERS
+========================================================= */
+
+function loadBannerStatus() {
+
+    const bannerArea =
+        document.getElementById(
+            "homepageBannerArea"
+        );
+
+
+    if (!bannerArea) {
+
+        return;
+
+    }
+
+
+    const system =
+        getSystemSettings();
+
+
+    /*
+       Advertisement System OFF
+       = Entire homepage banner system OFF
+    */
+
+    if (
+        system.advertisementSystem === false
+    ) {
+
+        bannerArea.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const status =
+        getBannerStatus();
+
+    const banners =
+        getBannerContent();
+
+
+    let visibleCount = 0;
+
+
+    ["banner1", "banner2"].forEach(id => {
+
+        const banner =
+            document.querySelector(
+                `[data-banner-slot="${id}"]`
             );
+
+
+        if (!banner) {
+            return;
+        }
+
+
+        const enabled =
+            status[id] !== false;
+
+
+        if (!enabled) {
+
+            banner.style.display =
+                "none";
 
             return;
 
         }
 
 
-        const suffix = capitalize(id);
+        visibleCount++;
 
-        const banners = getBanners();
-
-
-        banners[id] = {
-
-            label:
-                document.getElementById(
-                    `label${suffix}`
-                ).value.trim(),
-
-            title:
-                document.getElementById(
-                    `title${suffix}`
-                ).value.trim(),
-
-            description:
-                document.getElementById(
-                    `description${suffix}`
-                ).value.trim(),
-
-            buttonText:
-                document.getElementById(
-                    `buttonText${suffix}`
-                ).value.trim(),
-
-            buttonLink:
-                document.getElementById(
-                    `buttonLink${suffix}`
-                ).value.trim(),
-
-            image:
-                document.getElementById(
-                    `image${suffix}`
-                ).value.trim()
-
-        };
+        banner.style.display =
+            "";
 
 
-        saveAllBanners(banners);
+        applyBannerContent(
+            banner,
+            banners[id]
+        );
 
-        updatePreview(id);
+    });
+
+
+    if (visibleCount === 0) {
+
+        bannerArea.style.display =
+            "none";
+
+    } else {
+
+        bannerArea.style.display =
+            "";
+
+    }
+
+}
+
+
+/* =========================================================
+   APPLY BANNER CONTENT
+========================================================= */
+
+function applyBannerContent(
+    bannerElement,
+    data
+) {
+
+    const label =
+        bannerElement.querySelector(
+            ".homepage-banner-label"
+        );
+
+    const title =
+        bannerElement.querySelector(
+            ".homepage-banner-title"
+        );
+
+    const text =
+        bannerElement.querySelector(
+            ".homepage-banner-text"
+        );
+
+    const button =
+        bannerElement.querySelector(
+            ".homepage-banner-button"
+        );
+
+    const image =
+        bannerElement.querySelector(
+            ".homepage-banner-image"
+        );
+
+    const placeholder =
+        bannerElement.querySelector(
+            ".homepage-banner-placeholder"
+        );
+
+
+    if (label) {
+
+        label.textContent =
+            data.label || "";
+
+    }
+
+
+    if (title) {
+
+        title.textContent =
+            data.title || "";
+
+    }
+
+
+    if (text) {
+
+        text.textContent =
+            data.description || "";
+
+    }
+
+
+    if (button) {
+
+        button.textContent =
+            data.buttonText || "";
+
+        button.href =
+            data.buttonLink || "#";
+
+        button.target =
+            "_blank";
+
+        button.rel =
+            "noopener noreferrer";
+
+    }
+
+
+    if (image) {
+
+        if (data.image) {
+
+            image.src =
+                data.image;
+
+            image.style.display =
+                "block";
+
+        } else {
+
+            image.removeAttribute(
+                "src"
+            );
+
+            image.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    if (placeholder) {
+
+        if (data.image) {
+
+            placeholder.style.display =
+                "none";
+
+        } else {
+
+            placeholder.style.display =
+                "";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN DESIGN
+========================================================= */
+
+function openDesign(design) {
+
+    const designStatus =
+        readJSON(
+            DESIGN_KEY,
+            defaultDesignStatus
+        );
+
+
+    if (
+        designStatus[design] === false
+    ) {
 
         alert(
-            `${id === "banner1" ? "Banner 1" : "Banner 2"} saved successfully.`
+            "This design is currently unavailable."
         );
+
+        return;
 
     }
 
 
-    /* ==========================================
-       RESET SINGLE BANNER
-    ========================================== */
+    const system =
+        getSystemSettings();
 
-    function resetBanner(id) {
 
-        const confirmed = confirm(
-            "Default banner content restore করবেন?"
+    if (
+        system.posterCreation === false
+    ) {
+
+        alert(
+            "Poster Creation is currently disabled."
         );
 
-        if (!confirmed) {
-            return;
-        }
-
-
-        const banners = getBanners();
-
-        banners[id] = {
-            ...defaultBanners[id]
-        };
-
-
-        saveAllBanners(banners);
-
-        loadBannerForms();
-
-        updatePreview(id);
+        return;
 
     }
 
 
-    /* ==========================================
-       CLEAR SINGLE BANNER CONTENT
-    ========================================== */
+    window.location.href =
+        `${design}/index.html`;
 
-    function deleteBanner(id) {
+}
 
-        const confirmed = confirm(
-            "এই banner-এর content clear করতে চান?"
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function setupMobileMenu() {
+
+    const button =
+        document.getElementById(
+            "mobileMenuBtn"
         );
 
-        if (!confirmed) {
-            return;
-        }
+    const menu =
+        document.getElementById(
+            "mobileMenu"
+        );
 
 
-        const banners = getBanners();
+    if (!button || !menu) {
 
-        banners[id] = {
-
-            label: "",
-            title: "",
-            description: "",
-            buttonText: "",
-            buttonLink: "#",
-            image: ""
-
-        };
-
-
-        saveAllBanners(banners);
-
-        loadBannerForms();
-
-        updatePreview(id);
+        return;
 
     }
 
 
-    /* ==========================================
-       TOGGLE BANNER
-    ========================================== */
+    button.addEventListener(
+        "click",
+        function() {
 
-    function toggleBanner(id) {
-
-        const system = getSystemSettings();
-
-        const checkbox = document.getElementById(
-            `toggle${capitalize(id)}`
-        );
-
-
-        if (system.advertisementSystem === false) {
-
-            checkbox.checked = false;
-
-            alert(
-                "Advertisement System is OFF.\n\nTurn it ON from System Settings first."
+            menu.classList.toggle(
+                "active"
             );
-
-            return;
 
         }
+    );
 
 
-        const status = getBannerStatus();
+    menu.querySelectorAll("a")
+        .forEach(link => {
 
-        status[id] = checkbox.checked;
+            link.addEventListener(
+                "click",
+                function() {
 
-        saveStatus(status);
-
-        updateBannerUI();
-
-    }
-
-
-    /* ==========================================
-       UPDATE BANNER UI
-    ========================================== */
-
-    function updateBannerUI() {
-
-        const status = getBannerStatus();
-
-        const system = getSystemSettings();
-
-        ["banner1", "banner2"].forEach(id => {
-
-            const suffix = capitalize(id);
-
-            const card = document.getElementById(
-                `bannerCard${id === "banner1" ? "1" : "2"}`
-            );
-
-            const badge = document.getElementById(
-                `status${suffix}`
-            );
-
-            const checkbox = document.getElementById(
-                `toggle${suffix}`
-            );
-
-
-            if (system.advertisementSystem === false) {
-
-                card.classList.add("system-disabled");
-
-                card.classList.remove("banner-disabled");
-
-                badge.textContent = "SYSTEM OFF";
-
-                badge.className =
-                    "status system-off";
-
-                checkbox.disabled = true;
-
-            } else {
-
-                card.classList.remove("system-disabled");
-
-                checkbox.disabled = false;
-
-                checkbox.checked = status[id] !== false;
-
-
-                if (status[id] !== false) {
-
-                    card.classList.remove(
-                        "banner-disabled"
+                    menu.classList.remove(
+                        "active"
                     );
 
-                    badge.textContent = "ACTIVE";
+                }
+            );
 
-                    badge.className =
-                        "status";
+        });
 
-                } else {
+}
 
-                    card.classList.add(
-                        "banner-disabled"
+
+/* =========================================================
+   NAVBAR SCROLL EFFECT
+========================================================= */
+
+function setupNavbarScroll() {
+
+    const navbar =
+        document.getElementById(
+            "navbar"
+        );
+
+
+    if (!navbar) {
+        return;
+    }
+
+
+    function updateNavbar() {
+
+        if (
+            window.scrollY > 20
+        ) {
+
+            navbar.classList.add(
+                "scrolled"
+            );
+
+        } else {
+
+            navbar.classList.remove(
+                "scrolled"
+            );
+
+        }
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateNavbar
+    );
+
+
+    updateNavbar();
+
+}
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+function setupActiveNavigation() {
+
+    const links =
+        document.querySelectorAll(
+            ".nav-link"
+        );
+
+
+    if (!links.length) {
+        return;
+    }
+
+
+    links.forEach(link => {
+
+        link.addEventListener(
+            "click",
+            function() {
+
+                links.forEach(item => {
+
+                    item.classList.remove(
+                        "active"
                     );
 
-                    badge.textContent = "INACTIVE";
+                });
 
-                    badge.className =
-                        "status inactive";
+
+                this.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   SMOOTH SCROLL
+========================================================= */
+
+function setupSmoothScroll() {
+
+    document.querySelectorAll(
+        'a[href^="#"]'
+    ).forEach(link => {
+
+        link.addEventListener(
+            "click",
+            function(event) {
+
+                const targetId =
+                    this.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+
+                    return;
 
                 }
 
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
             }
-
-        });
-
-
-        updateSystemUI(
-            system.advertisementSystem !== false
         );
 
-    }
+    });
+
+}
 
 
-    /* ==========================================
-       SYSTEM UI
-    ========================================== */
+/* =========================================================
+   LOAD BROWSER UI ADVERTISEMENT
+========================================================= */
 
-    function updateSystemUI(enabled) {
+function loadAdvertisement() {
 
-        const badge = document.getElementById(
-            "systemBadge"
+    const adBanner =
+        document.getElementById(
+            "topAdBanner"
         );
 
 
-        if (enabled) {
+    if (!adBanner) {
+        return;
+    }
 
-            badge.textContent = "ENABLED";
 
-            badge.className =
-                "system-badge active";
+    const system =
+        getSystemSettings();
 
-        } else {
 
-            badge.textContent = "DISABLED";
+    /*
+       System Advertisement OFF
+    */
 
-            badge.className =
-                "system-badge disabled";
+    if (
+        system.advertisementSystem === false
+    ) {
 
-        }
+        adBanner.style.display =
+            "none";
+
+        return;
 
     }
 
 
-    /* ==========================================
-       IMAGE UPLOAD
-    ========================================== */
-
-    function handleImageUpload(event, id) {
-
-        const file =
-            event.target.files &&
-            event.target.files[0];
+    const saved =
+        readJSON(
+            AD_KEY,
+            {}
+        );
 
 
-        if (!file) {
-            return;
-        }
+    const ad = {
+
+        ...defaultAdvertisement,
+        ...saved
+
+    };
 
 
-        if (!file.type.startsWith("image/")) {
+    /*
+       Advertisement itself OFF
+    */
 
-            alert(
-                "Please select a valid image file."
-            );
+    if (
+        ad.enabled === false
+    ) {
 
-            return;
+        adBanner.style.display =
+            "none";
 
-        }
-
-
-        const reader = new FileReader();
-
-
-        reader.onload = function(e) {
-
-            const suffix = capitalize(id);
-
-            document.getElementById(
-                `image${suffix}`
-            ).value = e.target.result;
-
-
-            const banners = getBanners();
-
-            banners[id].image =
-                e.target.result;
-
-            saveAllBanners(banners);
-
-            updatePreview(id);
-
-        };
-
-
-        reader.readAsDataURL(file);
+        return;
 
     }
 
 
-    /* ==========================================
-       REAL-TIME PREVIEW FROM INPUTS
-    ========================================== */
-
-    function setupLivePreview() {
-
-        ["banner1", "banner2"].forEach(id => {
-
-            const suffix = capitalize(id);
-
-            const fields = [
-
-                `label${suffix}`,
-                `title${suffix}`,
-                `description${suffix}`,
-                `buttonText${suffix}`,
-                `buttonLink${suffix}`,
-                `image${suffix}`
-
-            ];
+    adBanner.style.display =
+        "";
 
 
-            fields.forEach(fieldId => {
+    /* Background */
 
-                const field =
-                    document.getElementById(fieldId);
+    if (ad.backgroundColor) {
 
-
-                field.addEventListener(
-                    "input",
-                    function() {
-
-                        const banners =
-                            getBanners();
-
-                        banners[id] = {
-
-                            ...banners[id],
-
-                            label:
-                                document.getElementById(
-                                    `label${suffix}`
-                                ).value,
-
-                            title:
-                                document.getElementById(
-                                    `title${suffix}`
-                                ).value,
-
-                            description:
-                                document.getElementById(
-                                    `description${suffix}`
-                                ).value,
-
-                            buttonText:
-                                document.getElementById(
-                                    `buttonText${suffix}`
-                                ).value,
-
-                            buttonLink:
-                                document.getElementById(
-                                    `buttonLink${suffix}`
-                                ).value,
-
-                            image:
-                                document.getElementById(
-                                    `image${suffix}`
-                                ).value
-
-                        };
-
-
-                        updatePreviewFromForm(
-                            id,
-                            banners[id]
-                        );
-
-                    }
-                );
-
-            });
-
-        });
+        adBanner.style.background =
+            ad.backgroundColor;
 
     }
 
 
-    /* ==========================================
-       PREVIEW FROM CURRENT FORM
-    ========================================== */
+    /* Label */
 
-    function updatePreviewFromForm(id, banner) {
-
-        const suffix = capitalize(id);
-
-
+    const label =
         document.getElementById(
-            `previewLabel${suffix}`
-        ).textContent =
-            banner.label || "Banner Label";
+            "adLabel"
+        );
+
+    if (label) {
+
+        label.textContent =
+            ad.label;
+
+    }
 
 
+    /* Title */
+
+    const title =
         document.getElementById(
-            `previewTitle${suffix}`
-        ).textContent =
-            banner.title || "Banner Title";
+            "adTitle"
+        );
+
+    if (title) {
+
+        title.textContent =
+            ad.title;
+
+    }
 
 
+    /* Description */
+
+    const description =
         document.getElementById(
-            `previewDescription${suffix}`
-        ).textContent =
-            banner.description ||
-            "Banner Description";
+            "adDescription"
+        );
+
+    if (description) {
+
+        description.textContent =
+            ad.description;
+
+    }
 
 
+    /* Button */
+
+    const button =
         document.getElementById(
-            `previewButton${suffix}`
-        ).textContent =
-            banner.buttonText ||
-            "Learn More →";
+            "adButton"
+        );
+
+    if (button) {
+
+        button.textContent =
+            ad.buttonText;
+
+        button.href =
+            ad.buttonLink || "#";
+
+    }
 
 
-        const preview =
-            document.getElementById(
-                `preview${suffix}`
+    /* Button Color */
+
+    if (
+        button &&
+        ad.buttonColor
+    ) {
+
+        button.style.background =
+            ad.buttonColor;
+
+    }
+
+
+    /* Image */
+
+    const image =
+        document.getElementById(
+            "adImage"
+        );
+
+    const imageWrap =
+        document.getElementById(
+            "adImageWrap"
+        );
+
+    const icon =
+        document.getElementById(
+            "adIcon"
+        );
+
+
+    if (
+        image &&
+        ad.image
+    ) {
+
+        image.src =
+            ad.image;
+
+        image.style.display =
+            "block";
+
+
+        if (imageWrap) {
+
+            imageWrap.style.display =
+                "";
+
+        }
+
+
+        if (icon) {
+
+            icon.style.display =
+                "none";
+
+        }
+
+    } else {
+
+        if (image) {
+
+            image.removeAttribute(
+                "src"
             );
 
+            image.style.display =
+                "none";
 
-        if (banner.image) {
+        }
 
-            preview.classList.add(
-                "has-image"
-            );
 
-            preview.style.backgroundImage =
-                `url("${banner.image}")`;
+        if (imageWrap) {
 
-        } else {
+            imageWrap.style.display =
+                "none";
 
-            preview.classList.remove(
-                "has-image"
-            );
+        }
 
-            preview.style.backgroundImage =
+
+        if (icon) {
+
+            icon.style.display =
                 "";
 
         }
@@ -1874,63 +1428,163 @@
     }
 
 
-    /* ==========================================
-       INITIALIZE
-    ========================================== */
+    /* Close Button */
 
-    function initialize() {
+    const closeButton =
+        document.getElementById(
+            "adClose"
+        );
 
-        loadBannerForms();
 
-        updatePreview("banner1");
+    if (closeButton) {
 
-        updatePreview("banner2");
+        if (
+            ad.showCloseButton === false
+        ) {
 
-        updateBannerUI();
+            closeButton.style.display =
+                "none";
 
-        setupLivePreview();
+        } else {
+
+            closeButton.style.display =
+                "";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ADVERTISEMENT CLOSE
+========================================================= */
+
+function setupAdvertisementClose() {
+
+    const closeButton =
+        document.getElementById(
+            "adClose"
+        );
+
+
+    const adBanner =
+        document.getElementById(
+            "topAdBanner"
+        );
+
+
+    if (
+        !closeButton ||
+        !adBanner
+    ) {
+
+        return;
 
     }
 
 
-    /* ==========================================
-       STORAGE SYNC
-    ========================================== */
+    closeButton.addEventListener(
+        "click",
+        function() {
 
-    window.addEventListener(
-        "storage",
-        function(event) {
-
-            if (
-                event.key === BANNER_CONTENT_KEY ||
-                event.key === BANNER_STATUS_KEY ||
-                event.key === SYSTEM_KEY
-            ) {
-
-                loadBannerForms();
-
-                updatePreview("banner1");
-
-                updatePreview("banner2");
-
-                updateBannerUI();
-
-            }
+            adBanner.style.display =
+                "none";
 
         }
     );
 
+}
 
-    /* ==========================================
-       START
-    ========================================== */
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        initialize
-    );
+/* =========================================================
+   STORAGE EVENT
+========================================================= */
 
-</script>
+window.addEventListener(
+    "storage",
+    function(event) {
 
-</body>
-</html>
+
+        if (
+            event.key === WEBSITE_KEY
+        ) {
+
+            loadWebsiteSettings();
+
+        }
+
+
+        if (
+            event.key === DESIGN_KEY
+        ) {
+
+            loadDesignStatus();
+
+        }
+
+
+        if (
+            event.key === AD_KEY
+        ) {
+
+            loadAdvertisement();
+
+        }
+
+
+        if (
+            event.key === BANNER_KEY ||
+            event.key === BANNER_CONTENT_KEY
+        ) {
+
+            loadBannerStatus();
+
+        }
+
+
+        if (
+            event.key === SYSTEM_KEY
+        ) {
+
+            loadWebsiteSettings();
+
+            loadAdvertisement();
+
+            loadBannerStatus();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DOM READY
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadWebsiteSettings();
+
+        loadDesignStatus();
+
+        loadAdvertisement();
+
+        loadBannerStatus();
+
+        setupAdvertisementClose();
+
+        setupMobileMenu();
+
+        setupNavbarScroll();
+
+        setupActiveNavigation();
+
+        setupSmoothScroll();
+
+    }
+);
