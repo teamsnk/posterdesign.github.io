@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Banner Management - Admin</title>
+    <title>Banner Management — Doctor Poster Maker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,9 +19,9 @@
         }
 
         body {
-            font-family: Inter, Arial, sans-serif;
-            background: #f5f8fa;
-            color: #17353b;
+            font-family: "Inter", sans-serif;
+            background: #f4f7f8;
+            color: #12343b;
         }
 
         button,
@@ -26,26 +31,29 @@
             font: inherit;
         }
 
-        /* =========================
-           LAYOUT
-        ========================== */
+        button {
+            cursor: pointer;
+        }
 
-        .admin-layout {
-            min-height: 100vh;
-            display: flex;
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         /* =========================
            SIDEBAR
-        ========================== */
+        ========================= */
 
         .sidebar {
-            width: 260px;
-            background: #073f45;
-            color: #fff;
-            padding: 24px 16px;
             position: fixed;
-            inset: 0 auto 0 0;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #073f45;
+            color: white;
+            padding: 24px 16px;
+            z-index: 100;
             overflow-y: auto;
         }
 
@@ -54,89 +62,110 @@
             align-items: center;
             gap: 12px;
             padding: 0 10px 28px;
-            border-bottom: 1px solid rgba(255,255,255,.12);
+            border-bottom: 1px solid rgba(255,255,255,.1);
         }
 
         .brand-icon {
             width: 42px;
             height: 42px;
             border-radius: 12px;
-            background: #fff;
-            color: #087f86;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
+            background: #087f86;
+            display: grid;
+            place-items: center;
+            font-size: 21px;
             font-weight: 800;
         }
 
         .brand-text strong {
             display: block;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .brand-text span {
-            font-size: 12px;
-            color: #a9c7ca;
+            display: block;
+            color: #9dc3c5;
+            font-size: 11px;
+            margin-top: 3px;
         }
 
         .menu-title {
-            margin: 28px 10px 10px;
+            color: #789b9e;
             font-size: 10px;
             font-weight: 700;
-            color: #7faeb2;
-            text-transform: uppercase;
             letter-spacing: 1px;
+            margin: 26px 10px 10px;
+            text-transform: uppercase;
         }
 
-        .sidebar a {
+        .menu a {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #c8dfe1;
-            text-decoration: none;
+            gap: 11px;
             padding: 12px 13px;
             border-radius: 10px;
+            color: #c7dcde;
+            font-size: 13px;
             margin-bottom: 4px;
-            font-size: 14px;
             transition: .2s;
         }
 
-        .sidebar a:hover {
+        .menu a:hover {
             background: rgba(255,255,255,.08);
-            color: #fff;
+            color: white;
         }
 
-        .sidebar a.active {
+        .menu a.active {
             background: #087f86;
-            color: #fff;
+            color: white;
             font-weight: 600;
         }
 
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+        }
+
+        .view-site {
+            display: block;
+            text-align: center;
+            padding: 11px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 9px;
+            color: #b9d1d3;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
         .logout {
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,.12);
-            padding-top: 18px;
+            display: block;
+            text-align: center;
+            padding: 11px;
+            border-radius: 9px;
+            background: rgba(255,255,255,.07);
+            color: #d8e7e8;
+            font-size: 12px;
         }
 
         /* =========================
            MAIN
-        ========================== */
+        ========================= */
 
         .main {
-            margin-left: 260px;
-            width: calc(100% - 260px);
+            margin-left: 250px;
             min-height: 100vh;
         }
 
-        /* =========================
-           TOPBAR
-        ========================== */
-
         .topbar {
-            height: 74px;
-            background: #fff;
-            border-bottom: 1px solid #e6edef;
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid #e4ebec;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -144,13 +173,14 @@
         }
 
         .page-title h1 {
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 21px;
+            font-weight: 800;
         }
 
         .page-title p {
-            color: #789095;
             font-size: 12px;
+            color: #789094;
+            margin-top: 4px;
         }
 
         .admin-user {
@@ -159,302 +189,230 @@
             gap: 10px;
         }
 
-        .avatar {
+        .admin-avatar {
             width: 38px;
             height: 38px;
-            background: #e7f6f5;
-            color: #087f86;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: #e9f8f7;
+            color: #087f86;
+            display: grid;
+            place-items: center;
             font-weight: 800;
         }
 
-        /* =========================
-           CONTENT
-        ========================== */
+        .admin-user strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .admin-user span {
+            display: block;
+            font-size: 10px;
+            color: #8a9a9d;
+            margin-top: 2px;
+        }
 
         .content {
             padding: 30px 34px 50px;
-        }
-
-        .page-intro {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-        }
-
-        .page-intro h2 {
-            font-size: 17px;
-            margin-bottom: 5px;
-        }
-
-        .page-intro p {
-            color: #7c9094;
-            font-size: 12px;
+            max-width: 1500px;
         }
 
         /* =========================
-           STATUS
-        ========================== */
+           ACTION BAR
+        ========================= */
 
-        .status-badge {
-            display: inline-flex;
+        .action-bar {
+            display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 7px 12px;
-            border-radius: 20px;
-            background: #e8f8ef;
-            color: #18864a;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .section-heading p {
+            color: #849396;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .add-btn {
+            border: none;
+            background: #087f86;
+            color: white;
+            padding: 12px 17px;
+            border-radius: 9px;
             font-size: 12px;
             font-weight: 700;
+            box-shadow: 0 6px 18px rgba(8,127,134,.18);
         }
 
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #21a45c;
-        }
-
-        /* =========================
-           CARD
-        ========================== */
-
-        .card {
-            background: #fff;
-            border: 1px solid #e4ecee;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(20,50,60,.04);
-        }
-
-        .card-header {
-            padding: 22px 24px;
-            border-bottom: 1px solid #edf1f2;
-        }
-
-        .card-header h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .card-header p {
-            font-size: 12px;
-            color: #7c9094;
-        }
-
-        .card-body {
-            padding: 24px;
+        .add-btn:hover {
+            background: #05656b;
         }
 
         /* =========================
-           BANNER LIST
-        ========================== */
+           BANNER CARDS
+        ========================= */
 
-        .banner-list {
+        .banner-grid {
             display: grid;
-            gap: 16px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
         }
 
-        .banner-item {
-            border: 1px solid #e1eaeb;
-            border-radius: 13px;
-            padding: 16px;
+        .banner-card {
+            background: white;
+            border: 1px solid #e4ebec;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(18,52,59,.04);
+        }
+
+        .banner-preview {
+            min-height: 190px;
+            padding: 25px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            background: #eaf5f5;
+        }
+
+        .preview-banner {
+            width: 100%;
+            max-width: 650px;
+            min-height: 110px;
+            border-radius: 13px;
+            padding: 20px 22px;
+            background: #087f86;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 18px;
-            transition: .2s;
+            box-shadow: 0 10px 25px rgba(0,0,0,.08);
         }
 
-        .banner-item:hover {
-            border-color: #bcd5d7;
-            box-shadow: 0 5px 18px rgba(20,50,60,.05);
+        .preview-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .banner-thumb {
-            width: 180px;
-            height: 85px;
+        .preview-image {
+            width: 55px;
+            height: 55px;
             border-radius: 10px;
-            background: linear-gradient(
-                135deg,
-                #087f86,
-                #0eafb0
-            );
-            color: #fff;
-            padding: 13px;
+            background: rgba(255,255,255,.18);
+            display: grid;
+            place-items: center;
+            font-size: 22px;
             flex-shrink: 0;
-            overflow: hidden;
         }
 
-        .banner-thumb small {
-            font-size: 8px;
-            opacity: .75;
+        .preview-text strong {
             display: block;
-            margin-bottom: 5px;
+            font-size: 15px;
         }
 
-        .banner-thumb strong {
+        .preview-text span {
             display: block;
-            font-size: 12px;
-            line-height: 1.2;
-        }
-
-        .banner-thumb span {
-            display: block;
-            font-size: 8px;
+            font-size: 10px;
+            opacity: .8;
             margin-top: 5px;
-            opacity: .85;
         }
 
-        .banner-info {
-            flex: 1;
+        .preview-button {
+            padding: 9px 13px;
+            background: white;
+            color: #087f86;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
         }
 
-        .banner-info h4 {
-            font-size: 14px;
-            margin-bottom: 5px;
+        .banner-body {
+            padding: 20px;
         }
 
-        .banner-info p {
+        .banner-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .banner-name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .banner-description {
             font-size: 11px;
-            color: #819397;
-            line-height: 1.5;
+            color: #7d8f92;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 30px;
+            font-size: 9px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status.active {
+            background: #e7f8ef;
+            color: #16814b;
+        }
+
+        .status.inactive {
+            background: #f2f3f4;
+            color: #7c8789;
         }
 
         .banner-meta {
             display: flex;
-            gap: 7px;
-            margin-top: 8px;
             flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 15px;
         }
 
-        .tag {
-            padding: 4px 8px;
-            border-radius: 5px;
-            background: #edf7f7;
-            color: #087f86;
+        .meta {
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: #f4f7f8;
+            color: #708084;
             font-size: 9px;
-            font-weight: 700;
-        }
-
-        .tag.off {
-            background: #f1f2f3;
-            color: #7d878a;
         }
 
         .banner-actions {
-            display: flex;
-            gap: 7px;
-        }
-
-        .icon-btn {
-            width: 34px;
-            height: 34px;
-            border: 1px solid #dce6e7;
-            background: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            color: #5c7479;
-        }
-
-        .icon-btn:hover {
-            background: #f2f8f8;
-            color: #087f86;
-        }
-
-        .icon-btn.delete:hover {
-            background: #fff1f1;
-            color: #d34b4b;
-        }
-
-        /* =========================
-           ADD BANNER
-        ========================== */
-
-        .add-card {
-            margin-top: 22px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        .full {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .input,
-        textarea,
-        select {
-            width: 100%;
-            border: 1px solid #dbe5e7;
-            border-radius: 9px;
-            padding: 11px 12px;
-            outline: none;
-            background: #fbfcfc;
-            color: #17353b;
-        }
-
-        .input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #087f86;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(8,127,134,.08);
-        }
-
-        textarea {
-            min-height: 85px;
-            resize: vertical;
-        }
-
-        .help {
-            font-size: 10px;
-            color: #87999d;
-            margin-top: 5px;
-        }
-
-        /* =========================
-           TOGGLE
-        ========================== */
-
-        .setting-row {
+            border-top: 1px solid #edf1f2;
+            margin-top: 17px;
+            padding-top: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 13px 14px;
-            border: 1px solid #e3eaeb;
-            border-radius: 10px;
-            background: #fafcfc;
         }
 
-        .setting-row strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .setting-row span {
-            display: block;
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 10px;
-            color: #849397;
-            margin-top: 3px;
+            color: #738285;
         }
 
         .switch {
             position: relative;
-            width: 46px;
-            height: 25px;
+            width: 38px;
+            height: 21px;
         }
 
         .switch input {
@@ -466,21 +424,20 @@
         .slider {
             position: absolute;
             inset: 0;
-            background: #ccd7d9;
+            background: #d7e0e1;
             border-radius: 30px;
-            cursor: pointer;
             transition: .2s;
         }
 
         .slider:before {
             content: "";
             position: absolute;
-            width: 19px;
-            height: 19px;
+            width: 15px;
+            height: 15px;
             left: 3px;
             top: 3px;
+            background: white;
             border-radius: 50%;
-            background: #fff;
             transition: .2s;
             box-shadow: 0 2px 5px rgba(0,0,0,.12);
         }
@@ -490,99 +447,134 @@
         }
 
         .switch input:checked + .slider:before {
-            transform: translateX(21px);
+            transform: translateX(17px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .small-btn {
+            border: 1px solid #e1e8e9;
+            background: white;
+            color: #526568;
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .small-btn:hover {
+            border-color: #087f86;
+            color: #087f86;
+        }
+
+        .small-btn.delete:hover {
+            border-color: #e25b5b;
+            color: #e25b5b;
         }
 
         /* =========================
-           BUTTON
-        ========================== */
+           INFO BOX
+        ========================= */
 
-        .form-actions {
+        .info-box {
+            margin-top: 25px;
+            background: #eaf7f7;
+            border: 1px solid #ccebea;
+            border-radius: 13px;
+            padding: 17px 20px;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #edf1f2;
+            gap: 12px;
+            align-items: flex-start;
         }
 
-        .btn {
-            border: 0;
-            border-radius: 9px;
-            padding: 11px 17px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .btn-primary {
+        .info-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             background: #087f86;
-            color: #fff;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
         }
 
-        .btn-primary:hover {
-            background: #056b71;
+        .info-box strong {
+            font-size: 12px;
         }
 
-        .btn-secondary {
-            background: #eef3f4;
-            color: #4f696e;
+        .info-box p {
+            font-size: 10px;
+            color: #668084;
+            margin-top: 4px;
+            line-height: 1.6;
         }
 
         /* =========================
            MOBILE
-        ========================== */
+        ========================= */
 
         .mobile-header {
             display: none;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
+            .banner-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
+        @media (max-width: 800px) {
             .sidebar {
                 display: none;
             }
 
             .main {
                 margin-left: 0;
-                width: 100%;
             }
 
             .mobile-header {
-                display: flex;
-                height: 64px;
+                height: 65px;
                 background: #073f45;
-                color: #fff;
+                color: white;
+                display: flex;
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 18px;
             }
 
             .mobile-brand {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+
+            .mobile-brand-icon {
+                width: 35px;
+                height: 35px;
+                border-radius: 9px;
+                background: #087f86;
+                display: grid;
+                place-items: center;
                 font-weight: 800;
             }
 
+            .mobile-brand strong {
+                font-size: 13px;
+            }
+
             .mobile-menu-btn {
-                border: 0;
-                background: none;
-                color: #fff;
-                font-size: 24px;
+                border: none;
+                background: rgba(255,255,255,.1);
+                color: white;
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
             }
-
-            .content {
-                padding: 22px 18px 40px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .full {
-                grid-column: auto;
-            }
-        }
-
-        @media (max-width: 650px) {
 
             .topbar {
                 padding: 0 18px;
@@ -592,33 +584,42 @@
                 display: none;
             }
 
-            .page-intro {
+            .content {
+                padding: 23px 18px 40px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .action-bar {
                 align-items: flex-start;
-                gap: 15px;
                 flex-direction: column;
             }
 
-            .banner-item {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .banner-thumb {
+            .add-btn {
                 width: 100%;
-                height: 110px;
+            }
+
+            .preview-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .preview-left {
+                flex-direction: column;
             }
 
             .banner-actions {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 13px;
+            }
+
+            .action-buttons {
                 width: 100%;
             }
 
-            .icon-btn {
+            .small-btn {
                 flex: 1;
-            }
-
-            .card-header,
-            .card-body {
-                padding: 18px;
             }
         }
     </style>
@@ -626,385 +627,219 @@
 
 <body>
 
-<div class="admin-layout">
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <div class="mobile-brand">
+            <div class="mobile-brand-icon">✚</div>
+            <strong>Doctor Poster Maker</strong>
+        </div>
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+        <button class="mobile-menu-btn" onclick="goDashboard()">☰</button>
+    </div>
 
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="brand">
-
             <div class="brand-icon">✚</div>
 
             <div class="brand-text">
-                <strong>Doctor Poster</strong>
+                <strong>Doctor Poster Maker</strong>
                 <span>Admin Panel</span>
             </div>
-
         </div>
 
+        <div class="menu-title">Overview</div>
 
-        <div class="menu-title">Main</div>
-
-        <a href="dashboard.html">
-            <span>▦</span>
-            Dashboard
-        </a>
-
+        <div class="menu">
+            <a href="dashboard.html">
+                <span class="menu-icon">▦</span>
+                Dashboard
+            </a>
+        </div>
 
         <div class="menu-title">Website</div>
 
-        <a href="website.html">
-            <span>◉</span>
-            Website Overview
-        </a>
+        <div class="menu">
+            <a href="website.html">
+                <span class="menu-icon">◉</span>
+                Website Overview
+            </a>
 
-        <a href="website-edit.html">
-            <span>✎</span>
-            Edit Website
-        </a>
-
+            <a href="website-edit.html">
+                <span class="menu-icon">✎</span>
+                Edit Website
+            </a>
+        </div>
 
         <div class="menu-title">Advertisement</div>
 
-        <a href="browser-ui.html">
-            <span>▣</span>
-            Browser UI Ad
-        </a>
+        <div class="menu">
+            <a href="browser-ui.html">
+                <span class="menu-icon">▤</span>
+                Browser UI Ad
+            </a>
 
-        <a href="banner.html" class="active">
-            <span>▰</span>
-            Banner
-        </a>
-
+            <a href="banner.html" class="active">
+                <span class="menu-icon">▰</span>
+                Banner
+            </a>
+        </div>
 
         <div class="menu-title">Designs</div>
 
-        <a href="design-manage.html">
-            <span>◇</span>
-            Design Management
-        </a>
-
+        <div class="menu">
+            <a href="design-manage.html">
+                <span class="menu-icon">◇</span>
+                Design Management
+            </a>
+        </div>
 
         <div class="menu-title">System</div>
 
-        <a href="system.html">
-            <span>⚙</span>
-            System Settings
-        </a>
+        <div class="menu">
+            <a href="system.html">
+                <span class="menu-icon">⚙</span>
+                System Settings
+            </a>
+        </div>
 
-
-        <div class="logout">
-
-            <a href="index.html">
-                <span>↪</span>
-                Logout
+        <div class="sidebar-bottom">
+            <a href="../index.html" class="view-site">
+                ↗ View Website
             </a>
 
+            <a href="index.html" class="logout">
+                ← Logout
+            </a>
         </div>
 
     </aside>
 
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
+    <!-- MAIN -->
     <main class="main">
 
-        <!-- Mobile Header -->
-
-        <div class="mobile-header">
-
-            <div class="mobile-brand">
-                Doctor Poster Admin
-            </div>
-
-            <button
-                class="mobile-menu-btn"
-                onclick="alert('Mobile menu can be added later.')"
-            >
-                ☰
-            </button>
-
-        </div>
-
-
-        <!-- Topbar -->
-
         <div class="topbar">
-
             <div class="page-title">
-
                 <h1>Banner Management</h1>
-
-                <p>
-                    Manage promotional banners displayed across your website.
-                </p>
-
+                <p>Manage promotional banners shown across the website.</p>
             </div>
-
 
             <div class="admin-user">
-
-                <strong>Administrator</strong>
-
-                <div class="avatar">
-                    A
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Content -->
-
-        <section class="content">
-
-            <div class="page-intro">
+                <div class="admin-avatar">A</div>
 
                 <div>
+                    <strong>Administrator</strong>
+                    <span>Super Admin</span>
+                </div>
+            </div>
+        </div>
 
+        <div class="content">
+
+            <div class="action-bar">
+
+                <div class="section-heading">
                     <h2>Website Banners</h2>
-
-                    <p>
-                        Create, edit and control promotional banners.
-                    </p>
-
+                    <p>Create and manage promotional banners independently.</p>
                 </div>
 
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    Banner System Active
-                </div>
+                <button class="add-btn" onclick="addBanner()">
+                    + Add New Banner
+                </button>
 
             </div>
 
+            <!-- BANNER GRID -->
+            <div class="banner-grid">
 
-            <!-- =========================
-                 CURRENT BANNERS
-            ========================== -->
+                <!-- BANNER 1 -->
+                <div class="banner-card" data-banner="banner1">
 
-            <div class="card">
+                    <div class="banner-preview">
 
-                <div class="card-header">
+                        <div class="preview-banner">
 
-                    <h3>Current Banners</h3>
+                            <div class="preview-left">
 
-                    <p>
-                        Banners currently configured for the website.
-                    </p>
+                                <div class="preview-image">
+                                    ✚
+                                </div>
 
-                </div>
-
-
-                <div class="card-body">
-
-                    <div class="banner-list">
-
-                        <!-- Banner 1 -->
-
-                        <div class="banner-item">
-
-                            <div class="banner-thumb">
-
-                                <small>HEALTHCARE</small>
-
-                                <strong>
-                                    Professional Doctor Posters
-                                </strong>
-
-                                <span>
-                                    Create your poster in minutes
-                                </span>
-
-                            </div>
-
-
-                            <div class="banner-info">
-
-                                <h4>
-                                    Doctor Poster Promotion
-                                </h4>
-
-                                <p>
-                                    Main promotional banner for the homepage.
-                                </p>
-
-                                <div class="banner-meta">
-
-                                    <span class="tag">
-                                        Homepage
-                                    </span>
-
-                                    <span class="tag">
-                                        Active
-                                    </span>
-
+                                <div class="preview-text">
+                                    <strong>Healthcare Promotion</strong>
+                                    <span>Promote your healthcare brand with us</span>
                                 </div>
 
                             </div>
 
-
-                            <div class="banner-actions">
-
-                                <button
-                                    class="icon-btn"
-                                    onclick="editBanner('Doctor Poster Promotion')"
-                                    title="Edit"
-                                >
-                                    ✎
-                                </button>
-
-                                <button
-                                    class="icon-btn delete"
-                                    onclick="deleteBanner(this)"
-                                    title="Delete"
-                                >
-                                    ×
-                                </button>
-
+                            <div class="preview-button">
+                                Learn More →
                             </div>
 
                         </div>
 
+                    </div>
 
-                        <!-- Banner 2 -->
+                    <div class="banner-body">
 
-                        <div class="banner-item">
+                        <div class="banner-top">
 
-                            <div
-                                class="banner-thumb"
-                                style="background:linear-gradient(135deg,#12343b,#087f86);"
-                            >
-
-                                <small>PREMIUM</small>
-
-                                <strong>
-                                    Upgrade Your Design
-                                </strong>
-
-                                <span>
-                                    Explore premium templates
-                                </span>
-
-                            </div>
-
-
-                            <div class="banner-info">
-
-                                <h4>
-                                    Premium Design Banner
-                                </h4>
-
-                                <p>
-                                    Promotional banner for premium poster templates.
-                                </p>
-
-                                <div class="banner-meta">
-
-                                    <span class="tag">
-                                        Designs
-                                    </span>
-
-                                    <span class="tag">
-                                        Active
-                                    </span>
-
+                            <div>
+                                <div class="banner-name">
+                                    Healthcare Promotion
                                 </div>
 
+                                <div class="banner-description">
+                                    Main promotional banner for healthcare brands.
+                                </div>
                             </div>
 
-
-                            <div class="banner-actions">
-
-                                <button
-                                    class="icon-btn"
-                                    onclick="editBanner('Premium Design Banner')"
-                                    title="Edit"
-                                >
-                                    ✎
-                                </button>
-
-                                <button
-                                    class="icon-btn delete"
-                                    onclick="deleteBanner(this)"
-                                    title="Delete"
-                                >
-                                    ×
-                                </button>
-
-                            </div>
+                            <span class="status active" id="status-banner1">
+                                ACTIVE
+                            </span>
 
                         </div>
 
+                        <div class="banner-meta">
+                            <span class="meta">Homepage</span>
+                            <span class="meta">Top Section</span>
+                            <span class="meta">Desktop + Mobile</span>
+                        </div>
 
-                        <!-- Banner 3 -->
+                        <div class="banner-actions">
 
-                        <div class="banner-item">
+                            <label class="toggle-wrap">
+                                <span>Enabled</span>
 
-                            <div
-                                class="banner-thumb"
-                                style="background:linear-gradient(135deg,#64748b,#334155);"
-                            >
-
-                                <small>NOTICE</small>
-
-                                <strong>
-                                    New Designs Coming Soon
-                                </strong>
-
-                                <span>
-                                    Stay updated with new templates
+                                <span class="switch">
+                                    <input
+                                        type="checkbox"
+                                        checked
+                                        onchange="toggleBanner('banner1', this)"
+                                    >
+                                    <span class="slider"></span>
                                 </span>
+                            </label>
 
-                            </div>
-
-
-                            <div class="banner-info">
-
-                                <h4>
-                                    New Design Announcement
-                                </h4>
-
-                                <p>
-                                    Temporary announcement banner.
-                                </p>
-
-                                <div class="banner-meta">
-
-                                    <span class="tag">
-                                        Announcement
-                                    </span>
-
-                                    <span class="tag off">
-                                        Inactive
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="banner-actions">
+                            <div class="action-buttons">
 
                                 <button
-                                    class="icon-btn"
-                                    onclick="editBanner('New Design Announcement')"
-                                    title="Edit"
-                                >
-                                    ✎
+                                    class="small-btn"
+                                    onclick="previewBanner('Healthcare Promotion')">
+                                    Preview
                                 </button>
 
                                 <button
-                                    class="icon-btn delete"
-                                    onclick="deleteBanner(this)"
-                                    title="Delete"
-                                >
-                                    ×
+                                    class="small-btn"
+                                    onclick="editBanner('Healthcare Promotion')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="small-btn delete"
+                                    onclick="deleteBanner('banner1')">
+                                    Delete
                                 </button>
 
                             </div>
@@ -1015,185 +850,100 @@
 
                 </div>
 
-            </div>
 
+                <!-- BANNER 2 -->
+                <div class="banner-card" data-banner="banner2">
 
-            <!-- =========================
-                 ADD BANNER
-            ========================== -->
+                    <div class="banner-preview">
 
-            <div class="card add-card">
+                        <div
+                            class="preview-banner"
+                            style="background:#12343b;">
 
-                <div class="card-header">
+                            <div class="preview-left">
 
-                    <h3>Create New Banner</h3>
+                                <div class="preview-image">
+                                    ★
+                                </div>
 
-                    <p>
-                        Add a new promotional banner to your website.
-                    </p>
+                                <div class="preview-text">
+                                    <strong>Premium Doctor Tools</strong>
+                                    <span>Professional tools for healthcare creators</span>
+                                </div>
 
-                </div>
+                            </div>
 
-
-                <div class="card-body">
-
-                    <div class="form-grid">
-
-                        <!-- Title -->
-
-                        <div class="form-group">
-
-                            <label>
-                                Banner Title
-                            </label>
-
-                            <input
-                                type="text"
-                                id="bannerTitle"
-                                class="input"
-                                placeholder="Enter banner title"
-                            >
-
-                        </div>
-
-
-                        <!-- Position -->
-
-                        <div class="form-group">
-
-                            <label>
-                                Banner Position
-                            </label>
-
-                            <select
-                                id="bannerPosition"
-                            >
-
-                                <option value="homepage">
-                                    Homepage
-                                </option>
-
-                                <option value="designs">
-                                    Design Section
-                                </option>
-
-                                <option value="all">
-                                    All Pages
-                                </option>
-
-                                <option value="custom">
-                                    Custom Page
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- Description -->
-
-                        <div class="form-group full">
-
-                            <label>
-                                Banner Description
-                            </label>
-
-                            <textarea
-                                id="bannerDescription"
-                                placeholder="Write a short description..."
-                            ></textarea>
-
-                        </div>
-
-
-                        <!-- Button -->
-
-                        <div class="form-group">
-
-                            <label>
-                                Button Text
-                            </label>
-
-                            <input
-                                type="text"
-                                id="bannerButton"
-                                class="input"
-                                placeholder="Example: Learn More"
-                            >
-
-                        </div>
-
-
-                        <!-- Link -->
-
-                        <div class="form-group">
-
-                            <label>
-                                Button Link
-                            </label>
-
-                            <input
-                                type="url"
-                                id="bannerLink"
-                                class="input"
-                                placeholder="https://example.com"
-                            >
-
-                        </div>
-
-
-                        <!-- Image -->
-
-                        <div class="form-group full">
-
-                            <label>
-                                Banner Image
-                            </label>
-
-                            <input
-                                type="file"
-                                id="bannerImage"
-                                class="input"
-                                accept="image/*"
-                            >
-
-                            <div class="help">
-                                Recommended size: 1200 × 300 px
+                            <div
+                                class="preview-button"
+                                style="color:#12343b;">
+                                Explore →
                             </div>
 
                         </div>
 
+                    </div>
 
-                        <!-- Status -->
+                    <div class="banner-body">
 
-                        <div class="form-group full">
+                        <div class="banner-top">
 
-                            <div class="setting-row">
-
-                                <div>
-
-                                    <strong>
-                                        Publish Banner
-                                    </strong>
-
-                                    <span>
-                                        Make this banner visible on the website.
-                                    </span>
-
+                            <div>
+                                <div class="banner-name">
+                                    Premium Doctor Tools
                                 </div>
 
+                                <div class="banner-description">
+                                    Promotional banner for premium healthcare tools.
+                                </div>
+                            </div>
 
-                                <label class="switch">
+                            <span class="status active" id="status-banner2">
+                                ACTIVE
+                            </span>
 
+                        </div>
+
+                        <div class="banner-meta">
+                            <span class="meta">Designs Page</span>
+                            <span class="meta">Middle Section</span>
+                            <span class="meta">Responsive</span>
+                        </div>
+
+                        <div class="banner-actions">
+
+                            <label class="toggle-wrap">
+                                <span>Enabled</span>
+
+                                <span class="switch">
                                     <input
                                         type="checkbox"
-                                        id="bannerEnabled"
                                         checked
+                                        onchange="toggleBanner('banner2', this)"
                                     >
 
                                     <span class="slider"></span>
+                                </span>
+                            </label>
 
-                                </label>
+                            <div class="action-buttons">
+
+                                <button
+                                    class="small-btn"
+                                    onclick="previewBanner('Premium Doctor Tools')">
+                                    Preview
+                                </button>
+
+                                <button
+                                    class="small-btn"
+                                    onclick="editBanner('Premium Doctor Tools')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="small-btn delete"
+                                    onclick="deleteBanner('banner2')">
+                                    Delete
+                                </button>
 
                             </div>
 
@@ -1201,179 +951,184 @@
 
                     </div>
 
-
-                    <div class="form-actions">
-
-                        <button
-                            class="btn btn-secondary"
-                            onclick="clearBannerForm()"
-                        >
-                            Clear
-                        </button>
-
-                        <button
-                            class="btn btn-primary"
-                            onclick="saveBanner()"
-                        >
-                            Save Banner
-                        </button>
-
-                    </div>
-
                 </div>
 
             </div>
 
-        </section>
+
+            <!-- INFO -->
+            <div class="info-box">
+
+                <div class="info-icon">
+                    i
+                </div>
+
+                <div>
+                    <strong>Banner System</strong>
+
+                    <p>
+                        These banners are website UI elements only.
+                        They will never appear inside poster designs,
+                        downloaded PNG files, or printed posters.
+                        This frontend version stores settings locally.
+                        Later, MongoDB will make banner settings available globally.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
 
     </main>
 
-</div>
+
+    <script>
+
+        const STORAGE_KEY = "doctorPosterBannerStatus";
 
 
-<script>
+        function loadBannerStatus() {
 
-    /* =========================
-       SAVE BANNER
-    ========================== */
+            const saved =
+                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
 
-    function saveBanner() {
+            Object.keys(saved).forEach(id => {
 
-        const title =
-            document.getElementById("bannerTitle").value.trim();
+                const checkbox =
+                    document.querySelector(
+                        `[data-banner="${id}"] input[type="checkbox"]`
+                    );
 
-        const description =
-            document.getElementById("bannerDescription").value.trim();
+                const status =
+                    document.getElementById(`status-${id}`);
 
-        const button =
-            document.getElementById("bannerButton").value.trim();
+                if (!checkbox || !status) return;
 
-        const link =
-            document.getElementById("bannerLink").value.trim();
+                checkbox.checked = saved[id];
 
-        const position =
-            document.getElementById("bannerPosition").value;
+                updateStatus(status, saved[id]);
 
-        const enabled =
-            document.getElementById("bannerEnabled").checked;
-
-
-        if (!title) {
-
-            alert("Please enter a banner title.");
-
-            return;
+            });
 
         }
 
 
-        const banner = {
+        function toggleBanner(id, checkbox) {
 
-            id: Date.now(),
+            const saved =
+                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
 
-            title: title,
+            saved[id] = checkbox.checked;
 
-            description: description,
-
-            buttonText: button,
-
-            buttonLink: link,
-
-            position: position,
-
-            enabled: enabled,
-
-            createdAt: new Date().toISOString()
-
-        };
-
-
-        let banners =
-            JSON.parse(
-                localStorage.getItem("doctorPosterBanners")
-            ) || [];
-
-
-        banners.push(banner);
-
-
-        localStorage.setItem(
-            "doctorPosterBanners",
-            JSON.stringify(banners)
-        );
-
-
-        alert(
-            "Banner saved successfully!"
-        );
-
-
-        clearBannerForm();
-
-    }
-
-
-    /* =========================
-       CLEAR FORM
-    ========================== */
-
-    function clearBannerForm() {
-
-        document.getElementById("bannerTitle").value = "";
-
-        document.getElementById("bannerDescription").value = "";
-
-        document.getElementById("bannerButton").value = "";
-
-        document.getElementById("bannerLink").value = "";
-
-        document.getElementById("bannerPosition").value =
-            "homepage";
-
-        document.getElementById("bannerEnabled").checked =
-            true;
-
-        document.getElementById("bannerImage").value = "";
-
-    }
-
-
-    /* =========================
-       EDIT
-    ========================== */
-
-    function editBanner(name) {
-
-        alert(
-            "Edit mode for: " + name +
-            "\n\nFull edit functionality will be connected later."
-        );
-
-    }
-
-
-    /* =========================
-       DELETE
-    ========================== */
-
-    function deleteBanner(button) {
-
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this banner?"
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(saved)
             );
 
-        if (!confirmed) return;
+            const status =
+                document.getElementById(`status-${id}`);
+
+            updateStatus(status, checkbox.checked);
+
+        }
 
 
-        const item =
-            button.closest(".banner-item");
+        function updateStatus(status, active) {
 
-        item.remove();
+            if (!status) return;
 
-    }
+            if (active) {
 
-</script>
+                status.textContent = "ACTIVE";
+
+                status.classList.add("active");
+                status.classList.remove("inactive");
+
+            } else {
+
+                status.textContent = "INACTIVE";
+
+                status.classList.add("inactive");
+                status.classList.remove("active");
+
+            }
+
+        }
+
+
+        function previewBanner(name) {
+
+            alert(
+                "Banner Preview\n\n" +
+                name +
+                "\n\nFull preview screen will be connected later."
+            );
+
+        }
+
+
+        function editBanner(name) {
+
+            alert(
+                "Edit Banner\n\n" +
+                name +
+                "\n\nBanner editor will be connected later."
+            );
+
+        }
+
+
+        function deleteBanner(id) {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete this banner?"
+                );
+
+            if (!confirmed) return;
+
+            const card =
+                document.querySelector(
+                    `[data-banner="${id}"]`
+                );
+
+            if (card) {
+                card.remove();
+            }
+
+            const saved =
+                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+
+            delete saved[id];
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(saved)
+            );
+
+        }
+
+
+        function addBanner() {
+
+            alert(
+                "Add New Banner\n\n" +
+                "The complete banner creation form will be connected here."
+            );
+
+        }
+
+
+        function goDashboard() {
+
+            window.location.href = "dashboard.html";
+
+        }
+
+
+        loadBannerStatus();
+
+    </script>
 
 </body>
 </html>
