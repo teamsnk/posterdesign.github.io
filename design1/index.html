@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="bn">
 <head>
 <meta charset="utf-8">
@@ -344,6 +345,7 @@ body{
     padding:4px;
 }
 
+
 /* =========================
    POSTER
 ========================= */
@@ -358,11 +360,6 @@ body{
     border-radius:6px;
     font-family:"Noto Sans Bengali",sans-serif;
 }
-
-/*
-    IMPORTANT:
-    No advertisement inside poster.
-*/
 
 .head{
     padding:23px 38px 13px;
@@ -535,6 +532,7 @@ body{
     background:#fff;
 }
 
+
 /* =========================
    EXPORT INFO
 ========================= */
@@ -566,6 +564,118 @@ body{
     font-size:10px;
     display:none;
 }
+
+
+/* =========================================================
+   POSTER CREATION DISABLED OVERLAY
+========================================================= */
+
+.creation-disabled-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(13,42,49,.72);
+
+    backdrop-filter:blur(7px);
+
+}
+
+.creation-disabled-card{
+
+    width:min(440px,100%);
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:34px 28px;
+
+    text-align:center;
+
+    box-shadow:0 25px 80px rgba(0,0,0,.22);
+
+    border:1px solid #e4eeee;
+
+}
+
+.creation-disabled-icon{
+
+    width:68px;
+
+    height:68px;
+
+    margin:0 auto 18px;
+
+    border-radius:20px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:#edf7f7;
+
+    color:#087f86;
+
+    font-size:28px;
+
+}
+
+.creation-disabled-card h2{
+
+    margin:0 0 9px;
+
+    color:#173c46;
+
+    font-size:22px;
+
+    font-weight:800;
+
+}
+
+.creation-disabled-card p{
+
+    margin:0;
+
+    color:#6f8086;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+.creation-disabled-badge{
+
+    display:inline-block;
+
+    margin-top:18px;
+
+    padding:7px 13px;
+
+    border-radius:999px;
+
+    background:#f1f4f5;
+
+    color:#64767c;
+
+    font-size:11px;
+
+    font-weight:800;
+
+}
+
 
 /* =========================
    RESPONSIVE
@@ -666,7 +776,13 @@ body{
     .layout{
         gap:8px;
     }
+
+    .creation-disabled-card{
+        padding:28px 20px;
+    }
+
 }
+
 
 /* =========================
    PRINT
@@ -681,6 +797,10 @@ body{
     .top,
     .panel,
     .previewBar{
+        display:none !important;
+    }
+
+    .creation-disabled-overlay{
         display:none !important;
     }
 
@@ -714,30 +834,74 @@ body{
         border-radius:0;
     }
 }
+
 </style>
+
 </head>
 
 <body>
+
+<!-- =========================================================
+     POSTER CREATION DISABLED MESSAGE
+========================================================= -->
+
+<div
+    id="creationDisabledOverlay"
+    class="creation-disabled-overlay"
+>
+
+<div class="creation-disabled-card">
+
+    <div class="creation-disabled-icon">
+        🔒
+    </div>
+
+    <h2>
+        Poster Creation Disabled
+    </h2>
+
+    <p>
+        Poster creation is currently unavailable.
+        Please try again later.
+    </p>
+
+    <span class="creation-disabled-badge">
+        Disabled by Administrator
+    </span>
+
+</div>
+
+</div>
 
 <div class="app">
 
 <header class="top">
 
-    <div class="brand">
+<div class="brand">
 
-        <div class="brandIcon">🩺</div>
+    <div class="brandIcon">
+        🩺
+    </div>
 
-        <div>
-            <h1>Doctor Poster Maker</h1>
-            <p>Professional poster তৈরি করুন কয়েক মিনিটে</p>
-        </div>
+    <div>
+
+        <h1>
+            Doctor Poster Maker
+        </h1>
+
+        <p>
+            Professional poster তৈরি করুন কয়েক মিনিটে
+        </p>
 
     </div>
 
-    <div class="free">100% FREE</div>
+</div>
+
+<div class="free">
+    100% FREE
+</div>
 
 </header>
-
 
 <div class="layout">
 
@@ -749,29 +913,28 @@ body{
 
 <div class="tabs">
 
-    <button
-        class="tab active"
-        onclick="tab('content',this)"
-    >
-        ① তথ্য
-    </button>
+<button
+    class="tab active"
+    onclick="tab('content',this)"
+>
+    ① তথ্য
+</button>
 
-    <button
-        class="tab"
-        onclick="tab('design',this)"
-    >
-        ② ডিজাইন
-    </button>
+<button
+    class="tab"
+    onclick="tab('design',this)"
+>
+    ② ডিজাইন
+</button>
 
-    <button
-        class="tab"
-        onclick="tab('export',this)"
-    >
-        ③ Export
-    </button>
+<button
+    class="tab"
+    onclick="tab('export',this)"
+>
+    ③ Export
+</button>
 
 </div>
-
 
 <!-- =========================
      CONTENT TAB
@@ -787,107 +950,121 @@ body{
 
 <div class="field">
 
-<label>Doctor Name</label>
+<label>
+    Doctor Name
+</label>
 
 <input
-    class="input"
-    id="name"
-    value="ডাঃ মোঃ আব্দুল করিম"
-    oninput="sync()"
->
+class="input"
+id="name"
+value="ডাঃ মোঃ আব্দুল করিম"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="field">
 
-<label>Degrees</label>
+<label>
+    Degrees
+</label>
 
 <input
-    class="input"
-    id="degree"
-    value="MBBS, FCPS (Medicine)"
-    oninput="sync()"
->
+class="input"
+id="degree"
+value="MBBS, FCPS (Medicine)"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="field">
 
-<label>Specialty</label>
+<label>
+    Specialty
+</label>
 
 <input
-    class="input"
-    id="specialty"
-    value="মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ"
-    oninput="sync()"
->
+class="input"
+id="specialty"
+value="মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="row">
 
 <div class="field">
 
-<label>Consultant</label>
+<label>
+    Consultant
+</label>
 
 <input
-    class="input"
-    id="consultant"
-    value="কনসালটেন্ট, মেডিসিন বিভাগ"
-    oninput="sync()"
->
+class="input"
+id="consultant"
+value="কনসালটেন্ট, মেডিসিন বিভাগ"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="field">
 
-<label>Visiting</label>
+<label>
+    Visiting
+</label>
 
 <input
-    class="input"
-    id="visiting"
-    value="বিকাল ৫টা — রাত ৯টা"
-    oninput="sync()"
->
+class="input"
+id="visiting"
+value="বিকাল ৫টা — রাত ৯টা"
+oninput="sync()"
+
+
 
 </div>
 
 </div>
-
 
 <div class="field">
 
-<label>Chamber</label>
+<label>
+    Chamber
+</label>
 
 <input
-    class="input"
-    id="chamber"
-    value="রয়েল মাল্টিকেয়ার, মৌলভীবাজার"
-    oninput="sync()"
->
+class="input"
+id="chamber"
+value="রয়েল মাল্টিকেয়ার, মৌলভীবাজার"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="field">
 
-<label>Serial / Appointment</label>
+<label>
+    Serial / Appointment
+</label>
 
 <input
-    class="input"
-    id="serial"
-    value="01718-005011 | 01718-002112"
-    oninput="sync()"
->
+class="input"
+id="serial"
+value="01718-005011 | 01718-002112"
+oninput="sync()"
+
+
 
 </div>
 
 </div>
-
 
 <div class="section">
 
@@ -899,56 +1076,61 @@ body{
 
 <div class="field">
 
-<label>Clinic Name</label>
+<label>
+    Clinic Name
+</label>
 
 <input
-    class="input"
-    id="clinic"
-    value="রয়েল মাল্টিকেয়ার"
-    oninput="sync()"
->
+class="input"
+id="clinic"
+value="রয়েল মাল্টিকেয়ার"
+oninput="sync()"
+
+
 
 </div>
-
 
 <div class="field">
 
-<label>Tagline</label>
+<label>
+    Tagline
+</label>
 
 <input
-    class="input"
-    id="tagline"
-    value="ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার"
-    oninput="sync()"
->
+class="input"
+id="tagline"
+value="ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার"
+oninput="sync()"
+
+
 
 </div>
 
 </div>
-
 
 <div class="field">
 
-<label>Address</label>
+<label>
+    Address
+</label>
 
 <input
-    class="input"
-    id="address"
-    value="শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার"
-    oninput="sync()"
->
+class="input"
+id="address"
+value="শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার"
+oninput="sync()"
+
+
 
 </div>
 
 </div>
-
 
 <div class="section">
 
 <div class="sectionTitle">
     Photos
 </div>
-
 
 <label class="field">
 
@@ -963,15 +1145,15 @@ Doctor Photo
 </span>
 
 <input
-    id="doctorFile"
-    class="upload"
-    type="file"
-    accept="image/*"
-    onchange="loadPhoto(event)"
->
+id="doctorFile"
+class="upload"
+type="file"
+accept="image/*"
+onchange="loadPhoto(event)"
+
+
 
 </label>
-
 
 <label class="field">
 
@@ -986,27 +1168,29 @@ Clinic Logo
 </span>
 
 <input
-    id="logoFile"
-    class="upload"
-    type="file"
-    accept="image/*"
-    onchange="loadLogo(event)"
->
+id="logoFile"
+class="upload"
+type="file"
+accept="image/*"
+onchange="loadLogo(event)"
+
+
 
 </label>
 
 </div>
 
-
 <button
-    class="primary"
-    onclick="tab('design',document.querySelectorAll('.tab')[1])"
->
-    Next: Design →
+class="primary"
+onclick="tab('design',document.querySelectorAll('.tab')[1])"
+
+
+
+Next: Design →
+
 </button>
 
 </div>
-
 
 <!-- =========================
      DESIGN TAB
@@ -1020,60 +1204,67 @@ Clinic Logo
     Choose a Template
 </div>
 
-
 <div class="templates">
 
 <button
-    class="tpl active"
-    onclick="setTemplate('classic',this)"
->
+class="tpl active"
+onclick="setTemplate('classic',this)"
+
+
 
 <div class="thumb"></div>
 
-<span>Classic</span>
+<span>
+    Classic
+</span>
 
 </button>
 
-
 <button
-    class="tpl"
-    onclick="setTemplate('modern',this)"
->
+class="tpl"
+onclick="setTemplate('modern',this)"
+
+
 
 <div class="thumb mod"></div>
 
-<span>Modern</span>
+<span>
+    Modern
+</span>
 
 </button>
 
-
 <button
-    class="tpl"
-    onclick="setTemplate('split',this)"
->
+class="tpl"
+onclick="setTemplate('split',this)"
+
+
 
 <div class="thumb split"></div>
 
-<span>Split</span>
+<span>
+    Split
+</span>
 
 </button>
 
-
 <button
-    class="tpl"
-    onclick="setTemplate('minimal',this)"
->
+class="tpl"
+onclick="setTemplate('minimal',this)"
+
+
 
 <div class="thumb min"></div>
 
-<span>Minimal</span>
+<span>
+    Minimal
+</span>
 
 </button>
 
 </div>
 
 </div>
-
 
 <div class="section">
 
@@ -1082,19 +1273,27 @@ Clinic Logo
 </div>
 
 <select
-    id="font"
-    class="select"
-    onchange="setFont(this.value)"
->
+id="font"
+class="select"
+onchange="setFont(this.value)"
 
-<option>Noto Sans Bengali</option>
-<option>Hind Siliguri</option>
-<option>SolaimanLipi</option>
+
+
+<option>
+    Noto Sans Bengali
+</option>
+
+<option>
+    Hind Siliguri
+</option>
+
+<option>
+    SolaimanLipi
+</option>
 
 </select>
 
 </div>
-
 
 <div class="section">
 
@@ -1111,14 +1310,14 @@ Zoom
 </label>
 
 <input
-    id="zoom"
-    class="range"
-    type="range"
-    min="80"
-    max="140"
-    value="100"
-    oninput="applyPhotoTransform()"
->
+id="zoom"
+class="range"
+type="range"
+min="80"
+max="140"
+value="100"
+oninput="applyPhotoTransform()"
+
 
 
 <label
@@ -1130,17 +1329,17 @@ Vertical Position
 </label>
 
 <input
-    id="photoY"
-    class="range"
-    type="range"
-    min="-40"
-    max="40"
-    value="0"
-    oninput="applyPhotoTransform()"
->
+id="photoY"
+class="range"
+type="range"
+min="-40"
+max="40"
+value="0"
+oninput="applyPhotoTransform()"
+
+
 
 </div>
-
 
 <div class="section">
 
@@ -1151,43 +1350,40 @@ Vertical Position
 <div class="swatches">
 
 <button
-    class="sw"
-    style="background:#fff"
-    onclick="setBg('#fff')"
-></button>
+class="sw"
+style="background:#fff"
+onclick="setBg('#fff')"
 
 <button
-    class="sw"
-    style="background:#f4fbfb"
-    onclick="setBg('#f4fbfb')"
-></button>
+class="sw"
+style="background:#f4fbfb"
+onclick="setBg('#f4fbfb')"
 
 <button
-    class="sw"
-    style="background:#fffaf4"
-    onclick="setBg('#fffaf4')"
-></button>
+class="sw"
+style="background:#fffaf4"
+onclick="setBg('#fffaf4')"
 
 <button
-    class="sw"
-    style="background:#f5f6f7"
-    onclick="setBg('#f5f6f7')"
-></button>
+class="sw"
+style="background:#f5f6f7"
+onclick="setBg('#f5f6f7')"
 
 </div>
 
 </div>
 
-
 <button
-    class="primary"
-    onclick="tab('export',document.querySelectorAll('.tab')[2])"
->
-    Next: Export →
+class="primary"
+onclick="tab('export',document.querySelectorAll('.tab')[2])"
+
+
+
+Next: Export →
+
 </button>
 
 </div>
-
 
 <!-- =========================
      EXPORT TAB
@@ -1197,52 +1393,58 @@ Vertical Position
 
 <div class="exportBox">
 
-<b>Poster Ready ✓</b>
+<b>
+    Poster Ready ✓
+</b>
 
 <p>
-আপনার তথ্য অনুযায়ী poster তৈরি হয়েছে।
-এখন 1080 × 1350 PNG হিসেবে save করুন।
+    আপনার তথ্য অনুযায়ী poster তৈরি হয়েছে।
+    এখন 1080 × 1350 PNG হিসেবে save করুন।
 </p>
 
 </div>
 
-
 <button
-    id="downloadBtn"
-    class="primary"
-    onclick="downloadPoster()"
->
-    ⬇ Download PNG
-</button>
+id="downloadBtn"
+class="primary"
+onclick="downloadPoster()"
 
+
+
+⬇ Download PNG
+
+</button>
 
 <div style="height:8px"></div>
 
-
 <button
-    class="secondary"
-    onclick="printPoster()"
->
-    🖨 Print Poster
-</button>
+id="printBtn"
+class="secondary"
+onclick="printPoster()"
 
+
+
+🖨 Print Poster
+
+</button>
 
 <div style="height:8px"></div>
 
-
 <button
-    class="secondary"
-    onclick="resetPoster()"
->
-    ↺ Start Over
-</button>
+id="resetBtn"
+class="secondary"
+onclick="resetPoster()"
 
+
+
+↺ Start Over
+
+</button>
 
 <div
     id="exportStatus"
     class="export-status"
 ></div>
-
 
 <p
 class="hint"
@@ -1256,7 +1458,6 @@ Tip: Download করার আগে preview-তে নাম,
 
 </aside>
 
-
 <!-- =========================
      PREVIEW
 ========================= -->
@@ -1265,14 +1466,15 @@ Tip: Download করার আগে preview-তে নাম,
 
 <div class="previewBar">
 
-<b>Live Preview</b>
+<b>
+    Live Preview
+</b>
 
 <span>
-1080 × 1350 • Social Media Ready
+    1080 × 1350 • Social Media Ready
 </span>
 
 </div>
-
 
 <div class="preview">
 
@@ -1281,43 +1483,40 @@ Tip: Download করার আগে preview-তে নাম,
     class="poster"
 >
 
-
 <!-- NO ADVERTISEMENT HERE -->
-
 
 <div class="head">
 
 <div class="clinic">
 
 <h2 id="pClinic">
-রয়েল মাল্টিকেয়ার
+    রয়েল মাল্টিকেয়ার
 </h2>
 
 <div
     class="sub"
     id="pTagline"
 >
-ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার
+    ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার
 </div>
 
 <div
     class="addr"
     id="pAddress"
 >
-শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার
+    শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার
 </div>
 
 </div>
-
 
 <img
-    id="logoImg"
-    class="logo"
-    alt="Clinic Logo"
->
+id="logoImg"
+class="logo"
+alt="Clinic Logo"
+
+
 
 </div>
-
 
 <div class="hero">
 
@@ -1327,130 +1526,128 @@ Tip: Download করার আগে preview-তে নাম,
     class="name"
     id="pName"
 >
-ডাঃ মোঃ আব্দুল করিম
+    ডাঃ মোঃ আব্দুল করিম
 </div>
-
 
 <div
     class="degree"
     id="pDegree"
 >
-MBBS, FCPS (Medicine)
+    MBBS, FCPS (Medicine)
 </div>
-
 
 <div
     class="special"
     id="pSpecial"
 >
-মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ
+    মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ
 </div>
 
 </div>
-
 
 <div class="docbox">
 
 <img
-    id="docImg"
-    alt="Doctor Photo"
->
+id="docImg"
+alt="Doctor Photo"
+
+
 
 </div>
 
 </div>
-
 
 <div class="info">
 
 <div class="card">
 
-<b>Consultant</b>
+<b>
+    Consultant
+</b>
 
 <div id="pConsultant">
-কনসালটেন্ট, মেডিসিন বিভাগ
+    কনসালটেন্ট, মেডিসিন বিভাগ
 </div>
 
 </div>
-
 
 <div class="card">
 
-<b>Chamber</b>
+<b>
+    Chamber
+</b>
 
 <div id="pChamber">
-রয়েল মাল্টিকেয়ার, মৌলভীবাজার
+    রয়েল মাল্টিকেয়ার, মৌলভীবাজার
 </div>
 
 </div>
-
 
 <div class="card">
 
-<b>Visiting Hours</b>
+<b>
+    Visiting Hours
+</b>
 
 <div id="pVisiting">
-বিকাল ৫টা — রাত ৯টা
+    বিকাল ৫টা — রাত ৯টা
 </div>
 
 </div>
-
 
 <div class="card">
 
-<b>Serial / Appointment</b>
+<b>
+    Serial / Appointment
+</b>
 
 <div id="pSerialSmall">
-01718-005011 | 01718-002112
+    01718-005011 | 01718-002112
 </div>
 
 </div>
 
 </div>
-
 
 <div class="serial">
 
 <div>
 
 <strong>
-📞 Serial & Appointment
+    📞 Serial & Appointment
 </strong>
 
 <span id="pSerial">
-01718-005011 | 01718-002112
+    01718-005011 | 01718-002112
 </span>
 
 </div>
-
 
 <div>
 
 <strong>
-📍 Chamber
+    📍 Chamber
 </strong>
 
 <span id="pChamber2">
-রয়েল মাল্টিকেয়ার, মৌলভীবাজার
+    রয়েল মাল্টিকেয়ার, মৌলভীবাজার
 </span>
 
 </div>
 
 </div>
-
 
 <div class="foot">
 
 <span>
-royaldiagnostic21@gmail.com
+    royaldiagnostic21@gmail.com
 </span>
 
 <span>
-@royaldiagnostic21
+    @royaldiagnostic21
 </span>
 
 </div>
-
 
 </div>
 
@@ -1462,10 +1659,9 @@ royaldiagnostic21@gmail.com
 
 </div>
 
-
 <!-- html2canvas -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 
@@ -1473,24 +1669,220 @@ royaldiagnostic21@gmail.com
    HELPER
 ========================= */
 
-const $ = id => document.getElementById(id);
+const $ = id =>
+    document.getElementById(id);
 
 
-/* =========================
+/* =========================================================
+   SYSTEM SETTINGS
+========================================================= */
+
+const SYSTEM_KEY =
+    "doctorPosterSystemSettings";
+
+
+const defaultSystemSettings = {
+
+    websiteStatus:true,
+
+    maintenanceMode:false,
+
+    posterCreation:true,
+
+    advertisementSystem:true
+
+};
+
+
+function getSystemSettings(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                SYSTEM_KEY
+            );
+
+
+        if(!saved){
+
+            return {
+                ...defaultSystemSettings
+            };
+
+        }
+
+
+        const parsed =
+            JSON.parse(saved);
+
+
+        return {
+
+            ...defaultSystemSettings,
+
+            ...parsed
+
+        };
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Unable to read system settings:",
+            error
+        );
+
+
+        return {
+            ...defaultSystemSettings
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   POSTER CREATION CONTROL
+========================================================= */
+
+let posterCreationEnabled =
+    true;
+
+
+function isPosterCreationEnabled(){
+
+    const settings =
+        getSystemSettings();
+
+
+    return settings.posterCreation !== false;
+
+}
+
+
+function applyPosterCreationControl(){
+
+    posterCreationEnabled =
+        isPosterCreationEnabled();
+
+
+    const overlay =
+        $("creationDisabledOverlay");
+
+
+    const controls =
+        document.querySelectorAll(
+            ".panel button, .panel input, .panel select"
+        );
+
+
+    if(
+        !posterCreationEnabled
+    ){
+
+        /*
+         * Show full-page disabled message.
+         */
+
+        if(overlay){
+
+            overlay.style.display =
+                "flex";
+
+        }
+
+
+        /*
+         * Disable editor controls.
+         */
+
+        controls.forEach(function(control){
+
+            control.disabled =
+                true;
+
+        });
+
+
+        document.body.style.overflow =
+            "hidden";
+
+
+        document.title =
+            "Poster Creation Disabled";
+
+    }
+
+    else{
+
+        /*
+         * Hide disabled message.
+         */
+
+        if(overlay){
+
+            overlay.style.display =
+                "none";
+
+        }
+
+
+        /*
+         * Re-enable editor controls.
+         */
+
+        controls.forEach(function(control){
+
+            control.disabled =
+                false;
+
+        });
+
+
+        document.body.style.overflow =
+            "";
+
+
+        document.title =
+            "Doctor Poster Maker — Design 1";
+
+    }
+
+}
+
+
+/* =========================================================
    TAB SYSTEM
-========================= */
+========================================================= */
 
 function tab(id,el){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     document
         .querySelectorAll(".pane")
-        .forEach(x => x.classList.add("hidden"));
+        .forEach(x =>
+            x.classList.add("hidden")
+        );
+
 
     $(id).classList.remove("hidden");
 
+
     document
         .querySelectorAll(".tab")
-        .forEach(x => x.classList.remove("active"));
+        .forEach(x =>
+            x.classList.remove("active")
+        );
+
 
     el.classList.add("active");
 
@@ -1502,6 +1894,13 @@ function tab(id,el){
 ========================= */
 
 function sync(){
+
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
 
     pName.textContent =
         name.value;
@@ -1548,11 +1947,19 @@ function sync(){
 
 function setTemplate(t,el){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     poster.classList.remove(
         "modern",
         "split",
         "minimal"
     );
+
 
     if(t !== "classic"){
 
@@ -1560,11 +1967,13 @@ function setTemplate(t,el){
 
     }
 
+
     document
         .querySelectorAll(".tpl")
         .forEach(x =>
             x.classList.remove("active")
         );
+
 
     el.classList.add("active");
 
@@ -1577,8 +1986,17 @@ function setTemplate(t,el){
 
 function setFont(v){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     poster.style.fontFamily =
-        '"' + v + '","Noto Sans Bengali",sans-serif';
+        '"' +
+        v +
+        '","Noto Sans Bengali",sans-serif';
 
 }
 
@@ -1589,7 +2007,15 @@ function setFont(v){
 
 function setBg(c){
 
-    poster.style.background = c;
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
+    poster.style.background =
+        c;
 
 }
 
@@ -1600,11 +2026,20 @@ function setBg(c){
 
 function applyPhotoTransform(){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     let z =
         (+zoom.value || 100) / 100;
 
+
     let y =
         +photoY.value || 0;
+
 
     docImg.style.transform =
         `translateY(${y}px) scale(${z})`;
@@ -1618,35 +2053,57 @@ function applyPhotoTransform(){
 
 function loadPhoto(e){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     const file =
         e.target.files[0];
 
+
     if(!file) return;
 
-    if(!file.type.startsWith("image/")){
 
-        alert("Please select an image file.");
+    if(
+        !file.type.startsWith("image/")
+    ){
 
-        e.target.value = "";
+        alert(
+            "Please select an image file."
+        );
+
+
+        e.target.value =
+            "";
+
 
         return;
+
     }
 
 
     const reader =
         new FileReader();
 
-    reader.onload = function(event){
 
-        docImg.src =
-            event.target.result;
+    reader.onload =
+        function(event){
 
-        docImg.style.display =
-            "block";
+            docImg.src =
+                event.target.result;
 
-        applyPhotoTransform();
 
-    };
+            docImg.style.display =
+                "block";
+
+
+            applyPhotoTransform();
+
+        };
+
 
     reader.readAsDataURL(file);
 
@@ -1659,33 +2116,54 @@ function loadPhoto(e){
 
 function loadLogo(e){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     const file =
         e.target.files[0];
 
+
     if(!file) return;
 
-    if(!file.type.startsWith("image/")){
 
-        alert("Please select an image file.");
+    if(
+        !file.type.startsWith("image/")
+    ){
 
-        e.target.value = "";
+        alert(
+            "Please select an image file."
+        );
+
+
+        e.target.value =
+            "";
+
 
         return;
+
     }
 
 
     const reader =
         new FileReader();
 
-    reader.onload = function(event){
 
-        logoImg.src =
-            event.target.result;
+    reader.onload =
+        function(event){
 
-        logoImg.style.display =
-            "block";
+            logoImg.src =
+                event.target.result;
 
-    };
+
+            logoImg.style.display =
+                "block";
+
+        };
+
 
     reader.readAsDataURL(file);
 
@@ -1703,21 +2181,28 @@ function waitForImages(container){
             container.querySelectorAll("img")
         );
 
+
     return Promise.all(
 
         images.map(img => {
 
-            if(img.complete &&
-               img.naturalWidth > 0){
+            if(
+                img.complete &&
+                img.naturalWidth > 0
+            ){
 
                 return Promise.resolve();
 
             }
 
+
             return new Promise(resolve => {
 
-                img.onload = resolve;
-                img.onerror = resolve;
+                img.onload =
+                    resolve;
+
+                img.onerror =
+                    resolve;
 
             });
 
@@ -1734,20 +2219,37 @@ function waitForImages(container){
 
 async function downloadPoster(){
 
+    if(!isPosterCreationEnabled()){
+
+        alert(
+            "Poster creation is currently disabled by the administrator."
+        );
+
+        return;
+
+    }
+
+
     const button =
         $("downloadBtn");
+
 
     const status =
         $("exportStatus");
 
 
-    if(typeof html2canvas === "undefined"){
+    if(
+        typeof html2canvas ===
+        "undefined"
+    ){
 
         alert(
             "Export engine load হয়নি। Internet connection check করুন এবং আবার চেষ্টা করুন."
         );
 
+
         return;
+
     }
 
 
@@ -1755,7 +2257,9 @@ async function downloadPoster(){
         button.textContent;
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
+
 
     button.textContent =
         "Creating PNG...";
@@ -1764,25 +2268,16 @@ async function downloadPoster(){
     status.style.display =
         "block";
 
+
     status.textContent =
         "Poster image তৈরি হচ্ছে...";
 
 
     try{
 
-        /*
-         * The poster uses aspect-ratio 1080/1350.
-         *
-         * html2canvas scale:2 creates
-         * exact 1080 × 1350 output when
-         * preview width is 540px.
-         *
-         * But because responsive preview can
-         * have different CSS width, we explicitly
-         * render at 1080 × 1350.
-         */
-
-        await waitForImages(poster);
+        await waitForImages(
+            poster
+        );
 
 
         const canvas =
@@ -1790,46 +2285,63 @@ async function downloadPoster(){
                 poster,
                 {
 
-                    width:poster.clientWidth,
+                    width:
+                        poster.clientWidth,
 
-                    height:poster.clientHeight,
+                    height:
+                        poster.clientHeight,
 
                     scale:
-                        1080 / poster.clientWidth,
+                        1080 /
+                        poster.clientWidth,
 
-                    useCORS:true,
+                    useCORS:
+                        true,
 
-                    allowTaint:false,
+                    allowTaint:
+                        false,
 
                     backgroundColor:
                         "#ffffff",
 
-                    logging:false,
+                    logging:
+                        false,
 
                     imageTimeout:
                         20000,
 
                     onclone:
-                        function(clonedDocument){
+                        function(
+                            clonedDocument
+                        ){
 
                             const clonedPoster =
                                 clonedDocument.getElementById(
                                     "poster"
                                 );
 
-                            if(clonedPoster){
+
+                            if(
+                                clonedPoster
+                            ){
 
                                 clonedPoster.style.width =
-                                    poster.clientWidth + "px";
+                                    poster.clientWidth +
+                                    "px";
+
 
                                 clonedPoster.style.height =
-                                    poster.clientHeight + "px";
+                                    poster.clientHeight +
+                                    "px";
+
 
                                 clonedPoster.style.maxWidth =
                                     "none";
 
+
                                 clonedPoster.style.boxShadow =
                                     "none";
+
 
                                 clonedPoster.style.borderRadius =
                                     "0";
@@ -1842,22 +2354,24 @@ async function downloadPoster(){
             );
 
 
-        /*
-         * Ensure exact output dimensions.
-         */
-
         const finalCanvas =
-            document.createElement("canvas");
+            document.createElement(
+                "canvas"
+            );
+
 
         finalCanvas.width =
             1080;
+
 
         finalCanvas.height =
             1350;
 
 
         const finalContext =
-            finalCanvas.getContext("2d");
+            finalCanvas.getContext(
+                "2d"
+            );
 
 
         finalContext.drawImage(
@@ -1877,17 +2391,26 @@ async function downloadPoster(){
 
 
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
+
 
         link.download =
             "doctor-poster-design-1.png";
 
+
         link.href =
             image;
 
-        document.body.appendChild(link);
+
+        document.body.appendChild(
+            link
+        );
+
 
         link.click();
+
 
         link.remove();
 
@@ -1919,7 +2442,9 @@ async function downloadPoster(){
 
     finally{
 
-        button.disabled = false;
+        button.disabled =
+            false;
+
 
         button.textContent =
             originalText;
@@ -1935,6 +2460,17 @@ async function downloadPoster(){
 
 function printPoster(){
 
+    if(!isPosterCreationEnabled()){
+
+        alert(
+            "Poster creation is currently disabled by the administrator."
+        );
+
+        return;
+
+    }
+
+
     window.print();
 
 }
@@ -1946,23 +2482,62 @@ function printPoster(){
 
 function resetPoster(){
 
+    if(!isPosterCreationEnabled()){
+
+        return;
+
+    }
+
+
     const confirmReset =
         confirm(
             "সব তথ্য reset করে default design-এ ফিরে যেতে চান?"
         );
 
-    if(!confirmReset) return;
+
+    if(!confirmReset)
+        return;
+
 
     location.reload();
 
 }
 
 
-/* =========================
+/* =========================================================
    INITIAL LOAD
-========================= */
+========================================================= */
 
-sync();
+applyPosterCreationControl();
+
+
+if(
+    posterCreationEnabled
+){
+
+    sync();
+
+}
+
+
+/* =========================================================
+   STORAGE SYNC
+========================================================= */
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key === SYSTEM_KEY
+        ){
+
+            applyPosterCreationControl();
+
+        }
+
+    }
+);
 
 </script>
 
