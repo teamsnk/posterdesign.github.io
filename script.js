@@ -46,41 +46,58 @@ function scrollToDesigns() {
 
 
 /* =========================================
-   OPEN POSTER DESIGN
+   OPEN DESIGN
 ========================================= */
 
 function openDesign(design) {
 
-    /*
-        Folder structure:
-
-        design1/index.html
-        design2/index.html
-        design3/index.html
-        design4/index.html
-    */
-
     if (!design) return;
 
-    window.location.href = design + "/index.html";
+    window.location.href =
+        design + "/index.html";
 }
 
 
 /* =========================================
-   HEADER CREATE BUTTON
+   CREATE POSTER BUTTON
 ========================================= */
 
-const headerButton = document.querySelector(".header-btn");
+const headerButton =
+    document.querySelector(".header-btn");
 
 if (headerButton) {
 
-    headerButton.addEventListener("click", function(event) {
+    headerButton.addEventListener(
+        "click",
+        function () {
 
-        event.preventDefault();
+            scrollToDesigns();
 
-        scrollToDesigns();
+        }
+    );
 
-    });
+}
+
+
+/* =========================================
+   MOBILE CREATE BUTTON
+========================================= */
+
+const mobileCreateButton =
+    document.querySelector(".mobile-create-btn");
+
+if (mobileCreateButton) {
+
+    mobileCreateButton.addEventListener(
+        "click",
+        function () {
+
+            closeMenu();
+
+            scrollToDesigns();
+
+        }
+    );
 
 }
 
@@ -89,15 +106,19 @@ if (headerButton) {
    MOBILE NAVIGATION
 ========================================= */
 
-const mobileLinks = document.querySelectorAll(".mobile-nav a");
+const mobileLinks =
+    document.querySelectorAll(".mobile-nav a");
 
-mobileLinks.forEach(function(link) {
+mobileLinks.forEach(function (link) {
 
-    link.addEventListener("click", function() {
+    link.addEventListener(
+        "click",
+        function () {
 
-        closeMenu();
+            closeMenu();
 
-    });
+        }
+    );
 
 });
 
@@ -106,60 +127,79 @@ mobileLinks.forEach(function(link) {
    ESCAPE KEY
 ========================================= */
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener(
+    "keydown",
+    function (event) {
 
-    if (event.key === "Escape") {
+        if (event.key === "Escape") {
 
-        closeMenu();
+            closeMenu();
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================
-   CLOSE MOBILE MENU
-   WHEN CLICKING OUTSIDE
+   CLICK OUTSIDE MOBILE MENU
 ========================================= */
 
-document.addEventListener("click", function(event) {
+document.addEventListener(
+    "click",
+    function (event) {
 
-    const menu = document.getElementById("mobileNav");
-    const menuButton = document.querySelector(".menu-btn");
+        const menu =
+            document.getElementById("mobileNav");
 
-    if (!menu || !menuButton) return;
+        const menuButton =
+            document.querySelector(".menu-btn");
 
-    const clickedInsideMenu = menu.contains(event.target);
-    const clickedMenuButton = menuButton.contains(event.target);
+        if (!menu || !menuButton) return;
 
-    if (!clickedInsideMenu && !clickedMenuButton) {
+        const clickedInsideMenu =
+            menu.contains(event.target);
 
-        closeMenu();
+        const clickedMenuButton =
+            menuButton.contains(event.target);
+
+        if (
+            !clickedInsideMenu &&
+            !clickedMenuButton
+        ) {
+
+            closeMenu();
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================
    DESIGN BUTTONS
 ========================================= */
 
-const designButtons = document.querySelectorAll(".use-btn");
+const designButtons =
+    document.querySelectorAll(".use-btn");
 
-designButtons.forEach(function(button) {
+designButtons.forEach(function (button) {
 
-    button.addEventListener("click", function() {
+    button.addEventListener(
+        "click",
+        function () {
 
-        const design = button.getAttribute("data-design");
+            const design =
+                button.getAttribute("data-design");
 
-        if (design) {
+            if (design) {
 
-            openDesign(design);
+                openDesign(design);
+
+            }
 
         }
-
-    });
+    );
 
 });
 
@@ -168,15 +208,49 @@ designButtons.forEach(function(button) {
    CTA BUTTON
 ========================================= */
 
-const ctaButton = document.querySelector(".cta button");
+const ctaButton =
+    document.querySelector(".cta button");
 
 if (ctaButton) {
 
-    ctaButton.addEventListener("click", function() {
+    ctaButton.addEventListener(
+        "click",
+        function () {
 
-        scrollToDesigns();
+            scrollToDesigns();
 
-    });
+        }
+    );
+
+}
+
+
+/* =========================================
+   ADVERTISEMENT BUTTON
+========================================= */
+
+const adButton =
+    document.querySelector(".ad-btn");
+
+if (adButton) {
+
+    adButton.addEventListener(
+        "click",
+        function () {
+
+            /*
+             * পরে এখানে আপনার
+             * Advertisement contact page,
+             * WhatsApp বা contact form
+             * link করা যাবে।
+             */
+
+            alert(
+                "Advertisement contact page coming soon."
+            );
+
+        }
+    );
 
 }
 
@@ -185,78 +259,108 @@ if (ctaButton) {
    HEADER SHADOW ON SCROLL
 ========================================= */
 
-const header = document.querySelector(".header");
+const header =
+    document.querySelector(".header");
 
-window.addEventListener("scroll", function() {
+window.addEventListener(
+    "scroll",
+    function () {
 
-    if (!header) return;
+        if (!header) return;
 
-    if (window.scrollY > 20) {
+        if (window.scrollY > 20) {
 
-        header.style.boxShadow =
-            "0 10px 35px rgba(18,52,59,.10)";
+            header.style.boxShadow =
+                "0 10px 35px rgba(18,52,59,.10)";
 
-    } else {
+        } else {
 
-        header.style.boxShadow =
-            "0 8px 35px rgba(18,52,59,.06)";
+            header.style.boxShadow =
+                "0 8px 35px rgba(18,52,59,.06)";
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================
    ACTIVE NAVIGATION
 ========================================= */
 
-const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".nav a");
+const sections =
+    document.querySelectorAll("section[id]");
 
-window.addEventListener("scroll", function() {
-
-    let currentSection = "";
-
-    sections.forEach(function(section) {
-
-        const sectionTop = section.offsetTop - 150;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-            window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight
-        ) {
-
-            currentSection = section.getAttribute("id");
-
-        }
-
-    });
+const navLinks =
+    document.querySelectorAll(".nav a");
 
 
-    navLinks.forEach(function(link) {
+window.addEventListener(
+    "scroll",
+    function () {
 
-        link.style.color = "";
+        let currentSection = "";
 
-        const href = link.getAttribute("href");
+        sections.forEach(
+            function (section) {
 
-        if (href === "#" + currentSection) {
+                const sectionTop =
+                    section.offsetTop - 150;
 
-            link.style.color = "#087f86";
+                const sectionHeight =
+                    section.offsetHeight;
 
-        }
+                if (
+                    window.scrollY >= sectionTop &&
+                    window.scrollY <
+                    sectionTop + sectionHeight
+                ) {
 
-    });
+                    currentSection =
+                        section.getAttribute("id");
 
-});
+                }
+
+            }
+        );
+
+
+        navLinks.forEach(
+            function (link) {
+
+                link.style.color = "";
+
+                const href =
+                    link.getAttribute("href");
+
+                if (
+                    href ===
+                    "#" + currentSection
+                ) {
+
+                    link.style.color =
+                        "#087f86";
+
+                }
+
+            }
+        );
+
+    }
+);
 
 
 /* =========================================
    PAGE LOAD
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    console.log("Doctor Poster Maker Homepage Loaded ✓");
+        console.log(
+            "Doctor Poster Maker Homepage Loaded ✓"
+        );
 
-});
+    }
+);
