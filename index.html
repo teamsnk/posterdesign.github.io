@@ -4,15 +4,90 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Doctor Poster — Royal Multicare</title>
-<link rel="stylesheet" href="style.css">
+<style>
+:root{box-sizing:border-box;--teal:#0f6f7a;--teal2:#0a545c;--blue:#0B5C9E;--green:#2EAD3A;--ink:#10305a;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe7ec;font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;color:#222;display:flex;flex-direction:column;align-items:center;padding:16px}
+.tip{font-size:13px;color:#445;margin-bottom:10px;text-align:center;max-width:580px}
+.toolbar{display:flex;gap:10px;margin-bottom:14px}
+.btn{font-family:inherit;font-size:14px;font-weight:600;border:none;border-radius:8px;padding:10px 18px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn.primary{background:#0f6f7a;color:#fff}
+.btn.primary:hover{background:#0c5a63}
+.btn.ghost{background:#fff;color:#445;border:1.3px solid #c9d3d7}
+.btn.ghost:hover{background:#f2f5f6}
+.btn svg{width:16px;height:16px}
+.poster{width:100%;max-width:580px;aspect-ratio:0.707;background:linear-gradient(180deg,#f5fafc 0%,#fff 18%);position:relative;overflow:hidden;border-radius:12px;box-shadow:0 18px 48px -12px #0005,0 3px 10px #0002;container-type:inline-size}
+
+.ribbon{position:absolute;right:-14%;top:-6%;width:46%;height:34%;transform:rotate(18deg);display:flex;gap:1.6cqw;opacity:.9;pointer-events:none}
+.ribbon i{display:block;width:5.5cqw;height:60cqw;border-radius:3cqw}
+.ribbon i:nth-child(1){background:var(--blue);opacity:.16}
+.ribbon i:nth-child(2){background:var(--green);opacity:.18}
+.ribbon i:nth-child(3){background:var(--blue);opacity:.12}
+
+.header{position:absolute;left:0;top:0;width:100%;padding:4cqw 5cqw 2.5cqw;display:flex;align-items:center;gap:3cqw;background:linear-gradient(90deg,#fff 70%,transparent);border-bottom:1px solid #e6edf0}
+.logo{width:13cqw;height:13cqw;border-radius:2.8cqw;border:2px dashed #9bb;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#668;font-size:1.9cqw;overflow:hidden;background:#fff;box-shadow:0 2px 8px #0001;transition:box-shadow .15s}
+.logo:hover{box-shadow:0 4px 14px #0002}
+.logo img{width:100%;height:100%;object-fit:contain;display:none}
+.htext b{display:block;font-size:6.3cqw;color:var(--blue);line-height:1.15;letter-spacing:.2px}
+.htext .sub{font-size:3cqw;color:var(--teal);font-weight:600;margin-top:.5cqw}
+.htext .addr{font-size:2.7cqw;color:var(--teal);font-weight:600;margin-top:.5cqw}
+
+.photo{position:absolute;right:0;top:19%;width:50%;height:58%;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;color:#668;font-size:3cqw;border:2px dashed #9bb;background:#f2f7fa;transition:background .15s}
+.photo:hover{background:#e9f1f4}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:top;display:none;filter:drop-shadow(-6px 4px 10px #0002)}
+
+.info{position:absolute;left:5%;top:23%;width:48%}
+h1{margin:0;font-size:6.5cqw;color:var(--blue);line-height:1.2;font-weight:800;letter-spacing:-.1px}
+.deg{font-size:2.8cqw;line-height:1.55;margin:1.5cqw 0 2cqw;color:#223}
+.rule{position:absolute;left:5%;top:44%;border:none;border-top:2px solid var(--green);width:90%;margin:0}
+
+.spec{position:absolute;left:5%;top:47%;display:flex;align-items:center;gap:2.2cqw;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border-radius:2.8cqw;padding:2.3cqw 3cqw;font-size:3.5cqw;font-weight:700;line-height:1.3;width:90%;margin:0;box-shadow:0 6px 16px -4px #0f6f7a66}
+.spec .ic{width:8cqw;height:8cqw;border-radius:50%;background:#ffffff26;border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.spec svg{width:4.5cqw;height:4.5cqw}
+
+.rows{position:absolute;left:5%;width:48%;top:51%;bottom:34%;overflow:hidden}
+.row{display:flex;gap:2.2cqw;align-items:flex-start;padding:1.4cqw 0;border-bottom:1px dashed #cdd9de}
+.icon{width:7cqw;height:7cqw;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.3cqw;box-shadow:0 3px 8px -2px #0f6f7a55}
+.icon svg{width:4cqw;height:4cqw}
+.row .label{font-size:2.9cqw;font-weight:700;color:var(--teal);line-height:1.4}
+.row .detail{font-size:2.7cqw;color:#334;line-height:1.5}
+
+.boxes{position:absolute;left:5%;width:48%;bottom:4%;top:66%;display:flex;flex-direction:column;justify-content:flex-end}
+.box{border:1.3px solid #d4e9e7;background:linear-gradient(135deg,#f6fcfb,#eef8f7);border-radius:2.8cqw;padding:1.8cqw 2.4cqw;font-size:2.6cqw;line-height:1.45;margin-bottom:1.6cqw;display:flex;gap:1.8cqw;box-shadow:0 2px 8px -3px #0f6f7a22}
+.box .icon{background:var(--teal)}
+.box b{color:var(--teal);font-size:3cqw;display:block;margin-bottom:.3cqw}
+
+.callwrap{position:absolute;right:5%;width:44%;bottom:4%}
+.calltitle{color:var(--teal);font-weight:700;font-size:3cqw;line-height:1.4;margin-bottom:2cqw}
+.call{background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:3.2cqw;padding:2.5cqw;display:flex;gap:2.5cqw;align-items:center;box-shadow:0 10px 24px -8px #0f6f7a77}
+.call .icon{background:#fff;color:var(--teal);width:8cqw;height:8cqw;box-shadow:none}
+.call .icon svg{width:4.3cqw;height:4.3cqw}
+.nums{display:flex;flex-direction:column;gap:1.5cqw;flex:1}
+.nums span{background:#fff;color:var(--teal);border-radius:2.2cqw;padding:1.6cqw 2cqw;font-size:3.2cqw;font-weight:700;text-align:center;box-shadow:inset 0 0 0 1px #0f6f7a1a}
+
+.footer{position:absolute;bottom:0;left:0;width:100%;border-top:1px solid #e3e9ec;color:#223;text-align:center;font-size:2.6cqw;padding:2.2cqw;display:flex;justify-content:center;align-items:center;gap:2.5cqw}
+.footer .sep{width:1px;height:2.6cqw;background:#ccd6da}
+
+[contenteditable]:focus{outline:1px dashed var(--blue)}
+@media print{body{background:#fff;padding:0}.tip{display:none}}
+</style>
 </head>
 <body>
 <div class="tip">লেখাগুলোতে ক্লিক করে এডিট করুন। লোগো ও ডাক্তারের ছবিতে ক্লিক করে আপলোড করুন।</div>
 
-<div class="poster" contenteditable="true" spellcheck="false">
-  <div class="deco" contenteditable="false">
-    <svg viewBox="0 0 24 24" fill="#1b8fd6" opacity="0.25"><path d="M10 2h4v8h8v4h-8v8h-4v-8H2v-4h8z"/></svg>
-  </div>
+<div class="toolbar">
+  <button class="btn primary" id="downloadBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+    ছবি ডাউনলোড করুন
+  </button>
+  <button class="btn ghost" id="resetBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#445" stroke-width="2"><path d="M4 4v6h6M20 20v-6h-6"/><path d="M5 15a8 8 0 0014 3M19 9a8 8 0 00-14-3"/></svg>
+    রিসেট
+  </button>
+</div>
+
+<div class="poster" id="posterEl" contenteditable="true" spellcheck="false">
+  <div class="ribbon" contenteditable="false"><i></i><i></i><i></i></div>
 
   <div class="header">
     <div class="logo" contenteditable="false" id="logoBox" onclick="document.getElementById('flogo').click()">
@@ -77,6 +152,43 @@
 
 <input type="file" id="f" accept="image/*" hidden>
 <input type="file" id="flogo" accept="image/*" hidden>
-<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function wireUpload(inputId, imgId, hintId, boxId){
+  document.getElementById(inputId).onchange = function(e){
+    var file = e.target.files[0]; if(!file) return;
+    var r = new FileReader();
+    r.onload = function(){
+      var im = document.getElementById(imgId);
+      im.src = r.result; im.style.display = 'block';
+      var hint = document.getElementById(hintId); if(hint) hint.style.display='none';
+      var box = document.getElementById(boxId);
+      box.style.border = 'none'; box.style.background = 'none';
+    };
+    r.readAsDataURL(file);
+  };
+}
+wireUpload('f','im','hint','ph');
+wireUpload('flogo','logoImg','logoHint','logoBox');
+
+document.getElementById('downloadBtn').onclick = function(){
+  var btn = this;
+  btn.disabled = true; btn.style.opacity = '.6';
+  html2canvas(document.getElementById('posterEl'), {scale: 3, useCORS: true, backgroundColor: '#ffffff'}).then(function(canvas){
+    var link = document.createElement('a');
+    link.download = 'doctor-poster.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    btn.disabled = false; btn.style.opacity = '1';
+  }).catch(function(){
+    alert('ডাউনলোড করতে সমস্যা হয়েছে, স্ক্রিনশট নিয়ে চেষ্টা করুন।');
+    btn.disabled = false; btn.style.opacity = '1';
+  });
+};
+
+document.getElementById('resetBtn').onclick = function(){
+  if(confirm('সব এডিট করা লেখা মুছে আবার ডিফল্ট টেমপ্লেটে ফিরে যাবেন?')) location.reload();
+};
+</script>
 </body>
 </html>
