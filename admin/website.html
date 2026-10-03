@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -318,6 +319,10 @@
             background: #35a66b;
         }
 
+        .status-dot.warning {
+            background: #d88a00;
+        }
+
         .status-dot.offline {
             background: #d75c5c;
         }
@@ -533,6 +538,11 @@
             font-weight: 800;
         }
 
+        .status-badge.warning {
+            background: #fff7e5;
+            color: #b97800;
+        }
+
         .status-badge.offline {
             background: #fff0f0;
             color: #b94a4a;
@@ -673,10 +683,7 @@
 
 <div class="admin-layout">
 
-
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+    <!-- SIDEBAR -->
 
     <aside
         class="sidebar"
@@ -798,12 +805,9 @@
     </aside>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
+    <!-- MAIN -->
 
     <main class="main-content">
-
 
         <!-- TOPBAR -->
 
@@ -849,15 +853,11 @@
 
         <div class="page-content">
 
-
-            <!-- =================================================
-                 STATS
-            ================================================== -->
+            <!-- STATS -->
 
             <div class="stats-grid">
 
-
-                <!-- WEBSITE STATUS -->
+                <!-- WEBSITE -->
 
                 <div class="stat-card">
 
@@ -895,7 +895,7 @@
                 </div>
 
 
-                <!-- POSTER DESIGNS -->
+                <!-- DESIGNS -->
 
                 <div class="stat-card">
 
@@ -905,7 +905,10 @@
                             ▣
                         </div>
 
-                        <span class="status-dot"></span>
+                        <span
+                            class="status-dot"
+                            id="designDot"
+                        ></span>
 
                     </div>
 
@@ -965,7 +968,7 @@
                 </div>
 
 
-                <!-- SYSTEM -->
+                <!-- PLATFORM -->
 
                 <div class="stat-card">
 
@@ -975,7 +978,10 @@
                             ⚙
                         </div>
 
-                        <span class="status-dot"></span>
+                        <span
+                            class="status-dot"
+                            id="systemDot"
+                        ></span>
 
                     </div>
 
@@ -983,12 +989,18 @@
                         Platform
                     </h3>
 
-                    <div class="stat-value">
-                        Frontend
+                    <div
+                        class="stat-value"
+                        id="systemStatus"
+                    >
+                        Healthy
                     </div>
 
-                    <div class="stat-sub">
-                        Local storage connected
+                    <div
+                        class="stat-sub"
+                        id="systemStatusSub"
+                    >
+                        All systems operational
                     </div>
 
                 </div>
@@ -996,12 +1008,9 @@
             </div>
 
 
-            <!-- =================================================
-                 MAIN GRID
-            ================================================== -->
+            <!-- MAIN GRID -->
 
             <div class="main-grid">
-
 
                 <!-- WEBSITE PREVIEW -->
 
@@ -1026,7 +1035,6 @@
 
                     <div class="website-preview">
 
-
                         <div class="browser-bar">
 
                             <span class="browser-dot"></span>
@@ -1042,8 +1050,10 @@
 
                         <div class="preview-content">
 
-
-                            <div class="preview-ad">
+                            <div
+                                class="preview-ad"
+                                id="previewAd"
+                            >
                                 Advertisement — Browser UI only
                             </div>
 
@@ -1056,7 +1066,9 @@
                                         ✚
                                     </div>
 
-                                    <strong id="previewWebsiteName">
+                                    <strong
+                                        id="previewWebsiteName"
+                                    >
                                         Doctor Poster Maker
                                     </strong>
 
@@ -1144,7 +1156,6 @@
 
                     <div class="info-list">
 
-
                         <div class="info-row">
 
                             <small>
@@ -1219,6 +1230,21 @@
                         </div>
 
 
+                        <div class="info-row">
+
+                            <small>
+                                Maintenance Mode
+                            </small>
+
+                            <span
+                                class="status-badge"
+                                id="infoMaintenanceStatus"
+                            >
+                                OFF
+                            </span>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -1226,9 +1252,7 @@
             </div>
 
 
-            <!-- =================================================
-                 QUICK ACTIONS
-            ================================================== -->
+            <!-- QUICK ACTIONS -->
 
             <div class="card quick-actions">
 
@@ -1250,7 +1274,6 @@
 
 
                 <div class="action-grid">
-
 
                     <a
                         href="website-edit.html"
@@ -1365,6 +1388,12 @@
         heroDescription:
             "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
 
+        primaryButton:
+            "Start Creating →",
+
+        secondaryButton:
+            "Explore Designs",
+
         websiteEnabled:
             true
 
@@ -1383,20 +1412,52 @@
 
     const defaultAd = {
 
-        enabled: true
+        enabled:
+            true,
+
+        label:
+            "Advertisement",
+
+        title:
+            "Promote Your Healthcare Brand",
+
+        description:
+            "Reach doctors, clinics & healthcare professionals",
+
+        buttonText:
+            "Advertise With Us →",
+
+        buttonLink:
+            "#",
+
+        backgroundColor:
+            "#087f86",
+
+        buttonColor:
+            "#ffffff",
+
+        showCloseButton:
+            true,
+
+        image:
+            ""
 
     };
 
 
     const defaultSystem = {
 
-        websiteStatus: true,
+        websiteStatus:
+            true,
 
-        maintenanceMode: false,
+        maintenanceMode:
+            false,
 
-        posterCreation: true,
+        posterCreation:
+            true,
 
-        advertisementSystem: true
+        advertisementSystem:
+            true
 
     };
 
@@ -1410,32 +1471,50 @@
         fallback
     ) {
 
-        const saved =
-            localStorage.getItem(key);
+        try {
+
+            const saved =
+                localStorage.getItem(key);
 
 
-        if (!saved) {
+            if (!saved) {
+
+                return {
+                    ...fallback
+                };
+
+            }
+
+
+            const parsed =
+                JSON.parse(saved);
+
+
+            if (
+                parsed &&
+                typeof parsed === "object"
+            ) {
+
+                return {
+                    ...fallback,
+                    ...parsed
+                };
+
+            }
+
 
             return {
                 ...fallback
             };
 
-        }
-
-
-        try {
-
-            return {
-                ...fallback,
-                ...JSON.parse(saved)
-            };
-
         } catch (error) {
 
-            console.error(
-                "Storage error:",
+            console.warn(
+                "Storage read error:",
+                key,
                 error
             );
+
 
             return {
                 ...fallback
@@ -1466,10 +1545,13 @@
             );
 
 
-        const enabled =
+        const websiteEnabled =
             website.websiteEnabled !== false &&
-            system.websiteStatus !== false &&
-            system.maintenanceMode !== true;
+            system.websiteStatus !== false;
+
+
+        const maintenance =
+            system.maintenanceMode === true;
 
 
         /* Preview */
@@ -1512,22 +1594,25 @@
             website.websiteTagline;
 
 
-        /* Status */
+        /* Website status */
 
         const status =
             document.getElementById(
                 "websiteStatus"
             );
 
+
         const statusSub =
             document.getElementById(
                 "websiteStatusSub"
             );
 
+
         const dot =
             document.getElementById(
                 "websiteDot"
             );
+
 
         const infoStatus =
             document.getElementById(
@@ -1535,45 +1620,102 @@
             );
 
 
-        if (enabled) {
+        dot.className =
+            "status-dot";
 
-            status.textContent =
-                "Online";
 
-            statusSub.textContent =
-                "Website is active";
+        infoStatus.className =
+            "status-badge";
 
-            dot.classList.remove(
-                "offline"
-            );
 
-            infoStatus.textContent =
-                "ONLINE";
-
-            infoStatus.classList.remove(
-                "offline"
-            );
-
-        } else {
+        if (!websiteEnabled) {
 
             status.textContent =
                 "Offline";
 
+
             statusSub.textContent =
-                system.maintenanceMode
-                    ? "Maintenance mode"
-                    : "Website is disabled";
+                "Website is disabled";
+
 
             dot.classList.add(
                 "offline"
             );
 
+
             infoStatus.textContent =
                 "OFFLINE";
+
 
             infoStatus.classList.add(
                 "offline"
             );
+
+        } else if (maintenance) {
+
+            status.textContent =
+                "Maintenance";
+
+
+            statusSub.textContent =
+                "Maintenance mode is active";
+
+
+            dot.classList.add(
+                "warning"
+            );
+
+
+            infoStatus.textContent =
+                "MAINTENANCE";
+
+
+            infoStatus.classList.add(
+                "warning"
+            );
+
+        } else {
+
+            status.textContent =
+                "Online";
+
+
+            statusSub.textContent =
+                "Website is active";
+
+
+            infoStatus.textContent =
+                "ONLINE";
+
+        }
+
+
+        /* Maintenance information */
+
+        const maintenanceStatus =
+            document.getElementById(
+                "infoMaintenanceStatus"
+            );
+
+
+        maintenanceStatus.className =
+            "status-badge";
+
+
+        if (maintenance) {
+
+            maintenanceStatus.textContent =
+                "ON";
+
+
+            maintenanceStatus.classList.add(
+                "warning"
+            );
+
+        } else {
+
+            maintenanceStatus.textContent =
+                "OFF";
 
         }
 
@@ -1593,30 +1735,56 @@
             );
 
 
-        let activeCount = 0;
+        const designKeys = [
+            "design1",
+            "design2",
+            "design3",
+            "design4"
+        ];
 
 
-        Object.keys(
-            defaultDesigns
-        ).forEach(
-            design => {
-
-                if (
+        const activeCount =
+            designKeys.filter(
+                design =>
                     designs[design] !== false
-                ) {
-
-                    activeCount++;
-
-                }
-
-            }
-        );
+            ).length;
 
 
-        document.getElementById(
-            "designCount"
-        ).textContent =
+        const designCount =
+            document.getElementById(
+                "designCount"
+            );
+
+
+        const designDot =
+            document.getElementById(
+                "designDot"
+            );
+
+
+        designCount.textContent =
             activeCount;
+
+
+        designDot.className =
+            "status-dot";
+
+
+        if (activeCount === 0) {
+
+            designDot.classList.add(
+                "offline"
+            );
+
+        } else if (
+            activeCount < designKeys.length
+        ) {
+
+            designDot.classList.add(
+                "warning"
+            );
+
+        }
 
 
         const posterStatus =
@@ -1625,14 +1793,14 @@
             );
 
 
+        posterStatus.className =
+            "status-badge";
+
+
         if (activeCount > 0) {
 
             posterStatus.textContent =
                 "ACTIVE";
-
-            posterStatus.classList.remove(
-                "offline"
-            );
 
         } else {
 
@@ -1668,9 +1836,17 @@
             );
 
 
-        const active =
-            ad.enabled !== false &&
+        const adEnabled =
+            ad.enabled !== false;
+
+
+        const systemEnabled =
             system.advertisementSystem !== false;
+
+
+        const active =
+            adEnabled &&
+            systemEnabled;
 
 
         const status =
@@ -1678,15 +1854,18 @@
                 "adStatus"
             );
 
+
         const statusSub =
             document.getElementById(
                 "adStatusSub"
             );
 
+
         const dot =
             document.getElementById(
                 "adDot"
             );
+
 
         const infoStatus =
             document.getElementById(
@@ -1694,43 +1873,100 @@
             );
 
 
-        if (active) {
-
-            status.textContent =
-                "ON";
-
-            statusSub.textContent =
-                "Advertisement active";
-
-            dot.classList.remove(
-                "offline"
+        const previewAd =
+            document.getElementById(
+                "previewAd"
             );
 
-            infoStatus.textContent =
-                "ACTIVE";
 
-            infoStatus.classList.remove(
-                "offline"
-            );
+        dot.className =
+            "status-dot";
 
-        } else {
+
+        infoStatus.className =
+            "status-badge";
+
+
+        if (!systemEnabled) {
 
             status.textContent =
                 "OFF";
 
+
             statusSub.textContent =
-                "Advertisement disabled";
+                "Advertisement system disabled";
+
 
             dot.classList.add(
                 "offline"
             );
 
+
             infoStatus.textContent =
-                "OFF";
+                "SYSTEM OFF";
+
 
             infoStatus.classList.add(
                 "offline"
             );
+
+
+            previewAd.style.display =
+                "none";
+
+        } else if (!adEnabled) {
+
+            status.textContent =
+                "OFF";
+
+
+            statusSub.textContent =
+                "Advertisement disabled";
+
+
+            dot.classList.add(
+                "warning"
+            );
+
+
+            infoStatus.textContent =
+                "OFF";
+
+
+            infoStatus.classList.add(
+                "warning"
+            );
+
+
+            previewAd.style.display =
+                "none";
+
+        } else {
+
+            status.textContent =
+                "ON";
+
+
+            statusSub.textContent =
+                "Advertisement active";
+
+
+            infoStatus.textContent =
+                "ACTIVE";
+
+
+            previewAd.style.display =
+                "block";
+
+
+            previewAd.textContent =
+                ad.label ||
+                "Advertisement";
+
+
+            previewAd.style.background =
+                ad.backgroundColor ||
+                "#087f86";
 
         }
 
@@ -1738,7 +1974,128 @@
 
 
     /* =========================================================
-       LOAD ALL
+       SYSTEM STATUS
+    ========================================================= */
+
+    function loadSystemData() {
+
+        const system =
+            readStorage(
+                SYSTEM_KEY,
+                defaultSystem
+            );
+
+
+        const website =
+            readStorage(
+                WEBSITE_KEY,
+                defaultWebsite
+            );
+
+
+        const systemStatus =
+            document.getElementById(
+                "systemStatus"
+            );
+
+
+        const systemSub =
+            document.getElementById(
+                "systemStatusSub"
+            );
+
+
+        const systemDot =
+            document.getElementById(
+                "systemDot"
+            );
+
+
+        systemDot.className =
+            "status-dot";
+
+
+        const websiteOffline =
+            website.websiteEnabled === false ||
+            system.websiteStatus === false;
+
+
+        const maintenance =
+            system.maintenanceMode === true;
+
+
+        const posterDisabled =
+            system.posterCreation === false;
+
+
+        const adDisabled =
+            system.advertisementSystem === false;
+
+
+        if (websiteOffline) {
+
+            systemStatus.textContent =
+                "Offline";
+
+
+            systemSub.textContent =
+                "Website is disabled";
+
+
+            systemDot.classList.add(
+                "offline"
+            );
+
+
+        } else if (maintenance) {
+
+            systemStatus.textContent =
+                "Maintenance";
+
+
+            systemSub.textContent =
+                "Maintenance mode is active";
+
+
+            systemDot.classList.add(
+                "warning"
+            );
+
+
+        } else if (
+            posterDisabled ||
+            adDisabled
+        ) {
+
+            systemStatus.textContent =
+                "Limited";
+
+
+            systemSub.textContent =
+                "Some services are disabled";
+
+
+            systemDot.classList.add(
+                "warning"
+            );
+
+
+        } else {
+
+            systemStatus.textContent =
+                "Healthy";
+
+
+            systemSub.textContent =
+                "All systems operational";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD ALL DATA
     ========================================================= */
 
     function loadPage() {
@@ -1748,6 +2105,8 @@
         loadDesignData();
 
         loadAdData();
+
+        loadSystemData();
 
     }
 
@@ -1760,6 +2119,7 @@
         document.getElementById(
             "mobileMenuBtn"
         );
+
 
     const sidebar =
         document.getElementById(
@@ -1817,9 +2177,18 @@
 
     window.addEventListener(
         "storage",
-        function () {
+        function (event) {
 
-            loadPage();
+            if (
+                event.key === WEBSITE_KEY ||
+                event.key === DESIGN_KEY ||
+                event.key === AD_KEY ||
+                event.key === SYSTEM_KEY
+            ) {
+
+                loadPage();
+
+            }
 
         }
     );
@@ -1838,7 +2207,15 @@
         }
     );
 
+
+    /* =========================================================
+       IMMEDIATE LOAD
+    ========================================================= */
+
+    loadPage();
+
 </script>
 
 </body>
 </html>
+```
