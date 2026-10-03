@@ -631,6 +631,75 @@
         }
 
         /* ==============================
+           CREATION LOCK
+        ============================== */
+
+        .creation-lock {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(18,52,59,.78);
+            backdrop-filter: blur(6px);
+        }
+
+        .creation-lock.show {
+            display: flex;
+        }
+
+        .creation-lock-card {
+            width: min(440px, 100%);
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0,0,0,.25);
+        }
+
+        .creation-lock-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            background: #e9f7f6;
+            color: #087f86;
+            display: grid;
+            place-items: center;
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .creation-lock-card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .creation-lock-card p {
+            color: #718487;
+            font-size: 12px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .creation-lock-btn {
+            border: 0;
+            background: #087f86;
+            color: #ffffff;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .creation-lock-btn:hover {
+            background: #05656b;
+        }
+
+        /* ==============================
            RESPONSIVE
         ============================== */
 
@@ -717,6 +786,38 @@
 
 <body>
 
+<!-- =====================================
+     POSTER CREATION LOCK
+====================================== -->
+
+<div class="creation-lock" id="creationLock">
+
+    <div class="creation-lock-card">
+
+        <div class="creation-lock-icon">
+            ✦
+        </div>
+
+        <h2>
+            Poster Creation Unavailable
+        </h2>
+
+        <p>
+            Poster creation is currently disabled by the administrator.
+            Please try again later.
+        </p>
+
+        <button
+            class="creation-lock-btn"
+            onclick="goHome()">
+            ← Back to Home
+        </button>
+
+    </div>
+
+</div>
+
+
 <div class="app">
 
     <!-- =====================================
@@ -726,12 +827,21 @@
     <aside class="sidebar">
 
         <div class="brand">
-            <div class="brand-icon">✚</div>
+
+            <div class="brand-icon">
+                ✚
+            </div>
 
             <div>
-                <strong>Doctor Poster Maker</strong>
-                <span>Design 03 — Modern Minimal</span>
+                <strong>
+                    Doctor Poster Maker
+                </strong>
+
+                <span>
+                    Design 03 — Modern Minimal
+                </span>
             </div>
+
         </div>
 
 
@@ -742,33 +852,48 @@
         </div>
 
         <div class="field">
-            <label>Doctor Name</label>
+
+            <label>
+                Doctor Name
+            </label>
+
             <input
                 type="text"
                 id="doctorName"
                 value="Dr. Sarah Ahmed"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Degrees</label>
+
+            <label>
+                Degrees
+            </label>
+
             <input
                 type="text"
                 id="doctorDegree"
                 value="MBBS, FCPS (Medicine)"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Specialty</label>
+
+            <label>
+                Specialty
+            </label>
+
             <input
                 type="text"
                 id="specialty"
                 value="Consultant Physician"
                 oninput="updatePoster()"
             >
+
         </div>
 
 
@@ -779,33 +904,48 @@
         </div>
 
         <div class="field">
-            <label>Clinic Name</label>
+
+            <label>
+                Clinic Name
+            </label>
+
             <input
                 type="text"
                 id="clinicName"
                 value="Care Medical Center"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Tagline</label>
+
+            <label>
+                Tagline
+            </label>
+
             <input
                 type="text"
                 id="clinicTagline"
                 value="Advanced healthcare with compassionate care"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Address</label>
+
+            <label>
+                Address
+            </label>
+
             <input
                 type="text"
                 id="address"
                 value="Dhanmondi, Dhaka"
                 oninput="updatePoster()"
             >
+
         </div>
 
 
@@ -816,33 +956,48 @@
         </div>
 
         <div class="field">
-            <label>Chamber</label>
+
+            <label>
+                Chamber
+            </label>
+
             <input
                 type="text"
                 id="chamber"
                 value="Room 405, 4th Floor"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Visiting Hours</label>
+
+            <label>
+                Visiting Hours
+            </label>
+
             <input
                 type="text"
                 id="visiting"
                 value="Sat – Thu | 5:00 PM – 9:00 PM"
                 oninput="updatePoster()"
             >
+
         </div>
 
         <div class="field">
-            <label>Appointment Number</label>
+
+            <label>
+                Appointment Number
+            </label>
+
             <input
                 type="text"
                 id="appointment"
                 value="+880 1700-000000"
                 oninput="updatePoster()"
             >
+
         </div>
 
 
@@ -854,8 +1009,12 @@
 
         <div class="upload-box">
 
-            <label class="upload-btn" for="doctorPhotoInput">
+            <label
+                class="upload-btn"
+                for="doctorPhotoInput">
+
                 Upload Doctor Photo
+
             </label>
 
             <input
@@ -868,7 +1027,9 @@
             <div
                 class="upload-name"
                 id="uploadName">
+
                 No photo selected
+
             </div>
 
         </div>
@@ -882,8 +1043,12 @@
 
         <div class="upload-box">
 
-            <label class="upload-btn" for="logoInput">
+            <label
+                class="upload-btn"
+                for="logoInput">
+
                 Upload Logo
+
             </label>
 
             <input
@@ -896,7 +1061,9 @@
             <div
                 class="upload-name"
                 id="logoName">
+
                 No logo selected
+
             </div>
 
         </div>
@@ -943,27 +1110,37 @@
         <div class="action-buttons">
 
             <button
+                id="exportBtn"
                 class="action-btn primary"
                 onclick="downloadPoster()">
+
                 Export PNG
+
             </button>
 
             <button
+                id="printBtn"
                 class="action-btn"
                 onclick="printPoster()">
+
                 Print
+
             </button>
 
             <button
                 class="action-btn"
                 onclick="resetPoster()">
+
                 Reset
+
             </button>
 
             <button
                 class="action-btn"
                 onclick="goHome()">
+
                 Home
+
             </button>
 
         </div>
@@ -980,17 +1157,23 @@
         <div class="topbar">
 
             <div>
-                <h1>Modern Minimal Medical</h1>
+
+                <h1>
+                    Modern Minimal Medical
+                </h1>
 
                 <p>
                     Design 03 · Clean professional medical poster
                 </p>
+
             </div>
 
             <button
                 class="back-btn"
                 onclick="goHome()">
+
                 ← Back to Designs
+
             </button>
 
         </div>
@@ -1002,7 +1185,9 @@
                  POSTER
             ================================== -->
 
-            <div class="poster" id="poster">
+            <div
+                class="poster"
+                id="poster">
 
                 <div class="poster-top-line"></div>
 
@@ -1016,26 +1201,36 @@
                         <div
                             class="clinic-name"
                             id="previewClinicName">
+
                             Care Medical Center
+
                         </div>
 
                         <div
                             class="clinic-tagline"
                             id="previewTagline">
+
                             Advanced healthcare with compassionate care
+
                         </div>
 
                         <div
                             class="clinic-address"
                             id="previewAddress">
+
                             Dhanmondi, Dhaka
+
                         </div>
 
                     </div>
 
 
-                    <div class="clinic-logo" id="clinicLogo">
+                    <div
+                        class="clinic-logo"
+                        id="clinicLogo">
+
                         ✚
+
                     </div>
 
                 </div>
@@ -1051,25 +1246,33 @@
                     <div class="doctor-copy">
 
                         <div class="doctor-label">
+
                             ● SPECIALIST DOCTOR
+
                         </div>
 
                         <div
                             class="doctor-name"
                             id="previewDoctorName">
+
                             Dr. Sarah Ahmed
+
                         </div>
 
                         <div
                             class="doctor-degree"
                             id="previewDegree">
+
                             MBBS, FCPS (Medicine)
+
                         </div>
 
                         <div
                             class="specialty"
                             id="previewSpecialty">
+
                             Consultant Physician
+
                         </div>
 
                     </div>
@@ -1088,7 +1291,9 @@
 
                             <div class="person"></div>
 
-                            <span>DOCTOR PHOTO</span>
+                            <span>
+                                DOCTOR PHOTO
+                            </span>
 
                         </div>
 
@@ -1102,7 +1307,9 @@
                 <section class="info-section">
 
                     <div class="section-label">
+
                         Consultation Information
+
                     </div>
 
                     <div class="info-grid">
@@ -1116,7 +1323,9 @@
                             <div
                                 class="info-card-value"
                                 id="previewChamber">
+
                                 Room 405, 4th Floor
+
                             </div>
 
                         </div>
@@ -1131,7 +1340,9 @@
                             <div
                                 class="info-card-value"
                                 id="previewVisiting">
+
                                 Sat – Thu | 5:00 PM – 9:00 PM
+
                             </div>
 
                         </div>
@@ -1143,9 +1354,10 @@
                                 Appointment
                             </div>
 
-                            <div
-                                class="info-card-value">
+                            <div class="info-card-value">
+
                                 Prior Appointment Required
+
                             </div>
 
                         </div>
@@ -1160,7 +1372,9 @@
                             <div
                                 class="info-card-value"
                                 id="previewLocation">
+
                                 Dhanmondi, Dhaka
+
                             </div>
 
                         </div>
@@ -1177,23 +1391,31 @@
                     <div>
 
                         <div class="appointment-label">
+
                             Appointment & Serial
+
                         </div>
 
                         <div
                             class="appointment-number"
                             id="previewAppointment">
+
                             +880 1700-000000
+
                         </div>
 
                         <div class="appointment-note">
+
                             Call for appointment & serial
+
                         </div>
 
                     </div>
 
                     <div class="appointment-button">
+
                         BOOK APPOINTMENT
+
                     </div>
 
                 </div>
@@ -1206,11 +1428,15 @@
                     <div
                         class="footer-address"
                         id="previewFooterAddress">
+
                         Care Medical Center · Dhanmondi, Dhaka
+
                     </div>
 
                     <div class="footer-social">
+
                         @caremedical
+
                     </div>
 
                 </footer>
@@ -1227,105 +1453,315 @@
 <script>
 
     /* =====================================
+       SYSTEM — POSTER CREATION
+    ===================================== */
+
+    function getSystemSettings() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    "doctorPosterSystemSettings"
+                );
+
+            if (!saved) {
+
+                return {
+                    posterCreation: true
+                };
+
+            }
+
+            return JSON.parse(saved);
+
+        } catch (error) {
+
+            return {
+                posterCreation: true
+            };
+
+        }
+
+    }
+
+
+    function checkPosterCreation() {
+
+        const settings =
+            getSystemSettings();
+
+        const enabled =
+            settings.posterCreation !== false;
+
+        const lock =
+            document.getElementById(
+                "creationLock"
+            );
+
+
+        if (!enabled) {
+
+            lock.classList.add("show");
+
+        } else {
+
+            lock.classList.remove("show");
+
+        }
+
+
+        /* Disable editor fields */
+
+        document
+            .querySelectorAll(
+                ".sidebar .field input"
+            )
+            .forEach(element => {
+
+                element.disabled =
+                    !enabled;
+
+                element.style.opacity =
+                    enabled ? "" : ".5";
+
+            });
+
+
+        /* Disable upload areas */
+
+        document
+            .querySelectorAll(
+                ".upload-box"
+            )
+            .forEach(element => {
+
+                element.style.pointerEvents =
+                    enabled ? "" : "none";
+
+                element.style.opacity =
+                    enabled ? "" : ".5";
+
+            });
+
+
+        /* Disable color buttons */
+
+        document
+            .querySelectorAll(
+                ".color-option"
+            )
+            .forEach(element => {
+
+                element.disabled =
+                    !enabled;
+
+                element.style.pointerEvents =
+                    enabled ? "" : "none";
+
+                element.style.opacity =
+                    enabled ? "" : ".5";
+
+            });
+
+
+        /* Disable Export and Print */
+
+        document
+            .getElementById("exportBtn")
+            .disabled =
+            !enabled;
+
+        document
+            .getElementById("printBtn")
+            .disabled =
+            !enabled;
+
+
+        document
+            .getElementById("exportBtn")
+            .style.opacity =
+            enabled ? "" : ".5";
+
+        document
+            .getElementById("printBtn")
+            .style.opacity =
+            enabled ? "" : ".5";
+
+
+        return enabled;
+
+    }
+
+
+    function guardPosterCreation() {
+
+        if (!checkPosterCreation()) {
+
+            alert(
+                "Poster creation is currently disabled by the administrator."
+            );
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+
+    /* =====================================
+       STORAGE SYNC
+    ===================================== */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                event.key ===
+                "doctorPosterSystemSettings"
+            ) {
+
+                checkPosterCreation();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================
        UPDATE POSTER
     ===================================== */
 
     function updatePoster() {
 
         const doctorName =
-            document.getElementById("doctorName").value;
+            document.getElementById(
+                "doctorName"
+            ).value;
 
         const degree =
-            document.getElementById("doctorDegree").value;
+            document.getElementById(
+                "doctorDegree"
+            ).value;
 
         const specialty =
-            document.getElementById("specialty").value;
+            document.getElementById(
+                "specialty"
+            ).value;
 
         const clinicName =
-            document.getElementById("clinicName").value;
+            document.getElementById(
+                "clinicName"
+            ).value;
 
         const tagline =
-            document.getElementById("clinicTagline").value;
+            document.getElementById(
+                "clinicTagline"
+            ).value;
 
         const address =
-            document.getElementById("address").value;
+            document.getElementById(
+                "address"
+            ).value;
 
         const chamber =
-            document.getElementById("chamber").value;
+            document.getElementById(
+                "chamber"
+            ).value;
 
         const visiting =
-            document.getElementById("visiting").value;
+            document.getElementById(
+                "visiting"
+            ).value;
 
         const appointment =
-            document.getElementById("appointment").value;
+            document.getElementById(
+                "appointment"
+            ).value;
 
 
         document.getElementById(
             "previewDoctorName"
         ).textContent =
-            doctorName || "Doctor Name";
+            doctorName ||
+            "Doctor Name";
 
 
         document.getElementById(
             "previewDegree"
         ).textContent =
-            degree || "Medical Degree";
+            degree ||
+            "Medical Degree";
 
 
         document.getElementById(
             "previewSpecialty"
         ).textContent =
-            specialty || "Specialist Doctor";
+            specialty ||
+            "Specialist Doctor";
 
 
         document.getElementById(
             "previewClinicName"
         ).textContent =
-            clinicName || "Clinic Name";
+            clinicName ||
+            "Clinic Name";
 
 
         document.getElementById(
             "previewTagline"
         ).textContent =
-            tagline || "Healthcare with compassionate care";
+            tagline ||
+            "Healthcare with compassionate care";
 
 
         document.getElementById(
             "previewAddress"
         ).textContent =
-            address || "Clinic Address";
+            address ||
+            "Clinic Address";
 
 
         document.getElementById(
             "previewLocation"
         ).textContent =
-            address || "Clinic Address";
+            address ||
+            "Clinic Address";
 
 
         document.getElementById(
             "previewChamber"
         ).textContent =
-            chamber || "Chamber Information";
+            chamber ||
+            "Chamber Information";
 
 
         document.getElementById(
             "previewVisiting"
         ).textContent =
-            visiting || "Visiting Hours";
+            visiting ||
+            "Visiting Hours";
 
 
         document.getElementById(
             "previewAppointment"
         ).textContent =
-            appointment || "Appointment Number";
+            appointment ||
+            "Appointment Number";
 
 
         document.getElementById(
             "previewFooterAddress"
         ).textContent =
-            (clinicName || "Clinic Name") +
+            (clinicName ||
+                "Clinic Name") +
             " · " +
-            (address || "Clinic Address");
+            (address ||
+                "Clinic Address");
 
     }
 
@@ -1336,33 +1772,56 @@
 
     function loadDoctorPhoto(event) {
 
+        if (!guardPosterCreation()) {
+
+            event.target.value = "";
+
+            return;
+
+        }
+
+
         const file =
             event.target.files[0];
 
         if (!file) return;
 
+
         const reader =
             new FileReader();
 
-        reader.onload = function(e) {
 
-            const image =
-                document.getElementById("doctorImage");
+        reader.onload =
+            function(e) {
 
-            const placeholder =
-                document.getElementById("doctorPlaceholder");
+                const image =
+                    document.getElementById(
+                        "doctorImage"
+                    );
 
-            image.src = e.target.result;
+                const placeholder =
+                    document.getElementById(
+                        "doctorPlaceholder"
+                    );
 
-            image.style.display = "block";
 
-            placeholder.style.display = "none";
+                image.src =
+                    e.target.result;
 
-            document.getElementById(
-                "uploadName"
-            ).textContent = file.name;
+                image.style.display =
+                    "block";
 
-        };
+                placeholder.style.display =
+                    "none";
+
+
+                document.getElementById(
+                    "uploadName"
+                ).textContent =
+                    file.name;
+
+            };
+
 
         reader.readAsDataURL(file);
 
@@ -1375,27 +1834,45 @@
 
     function loadLogo(event) {
 
+        if (!guardPosterCreation()) {
+
+            event.target.value = "";
+
+            return;
+
+        }
+
+
         const file =
             event.target.files[0];
 
         if (!file) return;
 
+
         const reader =
             new FileReader();
 
-        reader.onload = function(e) {
 
-            const logo =
-                document.getElementById("clinicLogo");
+        reader.onload =
+            function(e) {
 
-            logo.innerHTML =
-                `<img src="${e.target.result}" alt="Clinic Logo">`;
+                const logo =
+                    document.getElementById(
+                        "clinicLogo"
+                    );
 
-            document.getElementById(
-                "logoName"
-            ).textContent = file.name;
 
-        };
+                logo.innerHTML =
+                    `<img src="${e.target.result}" alt="Clinic Logo">`;
+
+
+                document.getElementById(
+                    "logoName"
+                ).textContent =
+                    file.name;
+
+            };
+
 
         reader.readAsDataURL(file);
 
@@ -1406,11 +1883,23 @@
        COLOR
     ===================================== */
 
-    function changeColor(color, element) {
+    function changeColor(
+        color,
+        element
+    ) {
+
+        if (!guardPosterCreation()) {
+            return;
+        }
+
 
         document.documentElement
             .style
-            .setProperty("--primary", color);
+            .setProperty(
+                "--primary",
+                color
+            );
+
 
         document.documentElement
             .style
@@ -1418,6 +1907,7 @@
                 "--primary-dark",
                 darkenColor(color)
             );
+
 
         document.documentElement
             .style
@@ -1428,29 +1918,52 @@
 
 
         document
-            .querySelectorAll(".color-option")
+            .querySelectorAll(
+                ".color-option"
+            )
             .forEach(button => {
-                button.classList.remove("active");
+
+                button.classList.remove(
+                    "active"
+                );
+
             });
 
-        element.classList.add("active");
+
+        element.classList.add(
+            "active"
+        );
 
     }
 
 
-    function hexToRgba(hex, alpha) {
+    function hexToRgba(
+        hex,
+        alpha
+    ) {
 
         const value =
             hex.replace("#", "");
 
+
         const r =
-            parseInt(value.substring(0, 2), 16);
+            parseInt(
+                value.substring(0, 2),
+                16
+            );
 
         const g =
-            parseInt(value.substring(2, 4), 16);
+            parseInt(
+                value.substring(2, 4),
+                16
+            );
 
         const b =
-            parseInt(value.substring(4, 6), 16);
+            parseInt(
+                value.substring(4, 6),
+                16
+            );
+
 
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 
@@ -1462,22 +1975,53 @@
         const value =
             hex.replace("#", "");
 
+
         let r =
-            parseInt(value.substring(0, 2), 16);
+            parseInt(
+                value.substring(0, 2),
+                16
+            );
 
         let g =
-            parseInt(value.substring(2, 4), 16);
+            parseInt(
+                value.substring(2, 4),
+                16
+            );
 
         let b =
-            parseInt(value.substring(4, 6), 16);
+            parseInt(
+                value.substring(4, 6),
+                16
+            );
 
-        r = Math.max(0, r - 25);
-        g = Math.max(0, g - 25);
-        b = Math.max(0, b - 25);
+
+        r =
+            Math.max(
+                0,
+                r - 25
+            );
+
+        g =
+            Math.max(
+                0,
+                g - 25
+            );
+
+        b =
+            Math.max(
+                0,
+                b - 25
+            );
+
 
         return "#" +
             [r, g, b]
-                .map(x => x.toString(16).padStart(2, "0"))
+                .map(
+                    x =>
+                        x
+                            .toString(16)
+                            .padStart(2, "0")
+                )
                 .join("");
 
     }
@@ -1488,6 +2032,11 @@
     ===================================== */
 
     function downloadPoster() {
+
+        if (!guardPosterCreation()) {
+            return;
+        }
+
 
         alert(
             "PNG Export\n\n" +
@@ -1503,17 +2052,46 @@
 
     function printPoster() {
 
+        if (!guardPosterCreation()) {
+            return;
+        }
+
+
         const poster =
-            document.getElementById("poster");
+            document.getElementById(
+                "poster"
+            );
+
 
         const printWindow =
-            window.open("", "_blank");
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if (!printWindow) {
+
+            alert(
+                "Please allow pop-ups to print the poster."
+            );
+
+            return;
+
+        }
+
 
         printWindow.document.write(`
+
             <!DOCTYPE html>
+
             <html>
+
             <head>
-                <title>Doctor Poster</title>
+
+                <title>
+                    Doctor Poster
+                </title>
 
                 <style>
 
@@ -1553,21 +2131,31 @@
             <body>
 
                 <div class="poster-copy">
+
                     ${poster.outerHTML}
+
                 </div>
 
             </body>
 
             </html>
+
         `);
+
 
         printWindow.document.close();
 
         printWindow.focus();
 
-        setTimeout(() => {
-            printWindow.print();
-        }, 500);
+
+        setTimeout(
+            () => {
+
+                printWindow.print();
+
+            },
+            500
+        );
 
     }
 
@@ -1578,63 +2166,122 @@
 
     function resetPoster() {
 
-        document.getElementById("doctorName").value =
+        if (!guardPosterCreation()) {
+            return;
+        }
+
+
+        document.getElementById(
+            "doctorName"
+        ).value =
             "Dr. Sarah Ahmed";
 
-        document.getElementById("doctorDegree").value =
+
+        document.getElementById(
+            "doctorDegree"
+        ).value =
             "MBBS, FCPS (Medicine)";
 
-        document.getElementById("specialty").value =
+
+        document.getElementById(
+            "specialty"
+        ).value =
             "Consultant Physician";
 
-        document.getElementById("clinicName").value =
+
+        document.getElementById(
+            "clinicName"
+        ).value =
             "Care Medical Center";
 
-        document.getElementById("clinicTagline").value =
+
+        document.getElementById(
+            "clinicTagline"
+        ).value =
             "Advanced healthcare with compassionate care";
 
-        document.getElementById("address").value =
+
+        document.getElementById(
+            "address"
+        ).value =
             "Dhanmondi, Dhaka";
 
-        document.getElementById("chamber").value =
+
+        document.getElementById(
+            "chamber"
+        ).value =
             "Room 405, 4th Floor";
 
-        document.getElementById("visiting").value =
+
+        document.getElementById(
+            "visiting"
+        ).value =
             "Sat – Thu | 5:00 PM – 9:00 PM";
 
-        document.getElementById("appointment").value =
+
+        document.getElementById(
+            "appointment"
+        ).value =
             "+880 1700-000000";
 
 
-        document.getElementById("doctorImage").style.display =
+        document.getElementById(
+            "doctorImage"
+        ).style.display =
             "none";
 
-        document.getElementById("doctorPlaceholder").style.display =
+
+        document.getElementById(
+            "doctorPlaceholder"
+        ).style.display =
             "flex";
 
-        document.getElementById("doctorPhotoInput").value =
+
+        document.getElementById(
+            "doctorPhotoInput"
+        ).value =
             "";
 
-        document.getElementById("logoInput").value =
+
+        document.getElementById(
+            "logoInput"
+        ).value =
             "";
 
-        document.getElementById("uploadName").textContent =
+
+        document.getElementById(
+            "uploadName"
+        ).textContent =
             "No photo selected";
 
-        document.getElementById("logoName").textContent =
+
+        document.getElementById(
+            "logoName"
+        ).textContent =
             "No logo selected";
 
-        document.getElementById("clinicLogo").innerHTML =
+
+        document.getElementById(
+            "clinicLogo"
+        ).innerHTML =
             "✚";
 
 
         document.documentElement
             .style
-            .setProperty("--primary", "#087f86");
+            .setProperty(
+                "--primary",
+                "#087f86"
+            );
+
 
         document.documentElement
             .style
-            .setProperty("--primary-dark", "#05656b");
+            .setProperty(
+                "--primary-dark",
+                "#05656b"
+            );
+
 
         document.documentElement
             .style
@@ -1645,14 +2292,25 @@
 
 
         document
-            .querySelectorAll(".color-option")
+            .querySelectorAll(
+                ".color-option"
+            )
             .forEach(button => {
-                button.classList.remove("active");
+
+                button.classList.remove(
+                    "active"
+                );
+
             });
 
+
         document
-            .querySelector(".color-option.teal")
-            .classList.add("active");
+            .querySelector(
+                ".color-option.teal"
+            )
+            .classList.add(
+                "active"
+            );
 
 
         updatePoster();
@@ -1675,6 +2333,8 @@
     /* =====================================
        INITIAL LOAD
     ===================================== */
+
+    checkPosterCreation();
 
     updatePoster();
 
