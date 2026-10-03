@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Website - Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f8fa;
+            color: #17353b;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================== */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            width: 260px;
+            background: #073f45;
+            color: #fff;
+            padding: 24px 16px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #fff;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            color: #a9c7ca;
+        }
+
+        .menu-title {
+            margin: 28px 10px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #7faeb2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #c8dfe1;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
+        }
+
+        .sidebar a.active {
+            background: #087f86;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 18px;
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================== */
+
+        .topbar {
+            height: 74px;
+            background: #fff;
+            border-bottom: 1px solid #e6edef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: #789095;
+            font-size: 12px;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: #e7f6f5;
+            color: #087f86;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           CONTENT
+        ========================== */
+
+        .content {
+            padding: 30px 34px 50px;
+        }
+
+        .intro {
+            margin-bottom: 22px;
+        }
+
+        .intro h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #7d9094;
+            font-size: 12px;
+        }
+
+        /* =========================
+           GRID
+        ========================== */
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 390px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        /* =========================
+           CARD
+        ========================== */
+
+        .card {
+            background: #fff;
+            border: 1px solid #e4ecee;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(20,50,60,.04);
+        }
+
+        .card-header {
+            padding: 21px 23px;
+            border-bottom: 1px solid #edf1f2;
+        }
+
+        .card-header h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            color: #849397;
+            font-size: 11px;
+        }
+
+        .card-body {
+            padding: 23px;
+        }
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .section-title {
+            font-size: 12px;
+            color: #087f86;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .input,
+        textarea {
+            width: 100%;
+            border: 1px solid #dbe5e7;
+            border-radius: 9px;
+            padding: 11px 12px;
+            outline: none;
+            background: #fbfcfc;
+            color: #17353b;
+        }
+
+        .input:focus,
+        textarea:focus {
+            border-color: #087f86;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(8,127,134,.08);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .help {
+            color: #8a9a9e;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* =========================
+           LOGO
+        ========================== */
+
+        .logo-upload {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            border: 1px dashed #cbdadc;
+            border-radius: 10px;
+            background: #fafcfc;
+        }
+
+        .logo-preview {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: #e8f6f5;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 8px 11px;
+            background: #e8f6f5;
+            color: #087f86;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .upload-label input {
+            display: none;
+        }
+
+        /* =========================
+           TOGGLE
+        ========================== */
+
+        .setting-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background: #fafcfc;
+            border: 1px solid #e3eaeb;
+            border-radius: 10px;
+        }
+
+        .setting-box strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .setting-box span {
+            display: block;
+            color: #849397;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .switch {
+            position: relative;
+            width: 46px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #ccd7d9;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            left: 3px;
+            top: 3px;
+            border-radius: 50%;
+            background: #fff;
+            transition: .2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.12);
+        }
+
+        .switch input:checked + .slider {
+            background: #087f86;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(21px);
+        }
+
+        /* =========================
+           ACTIONS
+        ========================== */
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 1px solid #edf1f2;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: #087f86;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #056b71;
+        }
+
+        .btn-secondary {
+            background: #edf3f4;
+            color: #4e686d;
+        }
+
+        /* =========================
+           PREVIEW
+        ========================== */
+
+        .preview-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .site-preview {
+            border: 1px solid #e0e8e9;
+            border-radius: 11px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .fake-browser {
+            height: 31px;
+            background: #eef2f3;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0 9px;
+        }
+
+        .browser-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #b8c4c6;
+        }
+
+        .fake-url {
+            flex: 1;
+            height: 18px;
+            margin-left: 7px;
+            border-radius: 5px;
+            background: #fff;
+            color: #9aa7aa;
+            font-size: 8px;
+            padding: 5px 8px;
+        }
+
+        .preview-site-content {
+            padding: 18px;
+        }
+
+        .preview-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .preview-brand {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .preview-brand-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 7px;
+            background: #087f86;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .preview-brand-text strong {
+            display: block;
+            font-size: 10px;
+        }
+
+        .preview-brand-text span {
+            display: block;
+            font-size: 6px;
+            color: #8a9a9e;
+        }
+
+        .preview-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .preview-links span {
+            width: 25px;
+            height: 4px;
+            border-radius: 4px;
+            background: #e0e8e9;
+        }
+
+        .preview-hero {
+            background: #eaf7f6;
+            border-radius: 11px;
+            padding: 19px;
+        }
+
+        .preview-badge {
+            display: inline-block;
+            background: #d5f0ef;
+            color: #087f86;
+            padding: 4px 6px;
+            border-radius: 20px;
+            font-size: 6px;
+            font-weight: 700;
+        }
+
+        .preview-hero h4 {
+            font-size: 16px;
+            line-height: 1.15;
+            margin: 9px 0 6px;
+        }
+
+        .preview-hero p {
+            color: #7e9195;
+            font-size: 7px;
+            line-height: 1.5;
+        }
+
+        .preview-button {
+            display: inline-block;
+            margin-top: 12px;
+            background: #087f86;
+            color: #fff;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 7px;
+            font-weight: 700;
+        }
+
+        .preview-section {
+            margin-top: 15px;
+        }
+
+        .preview-section-title {
+            width: 75px;
+            height: 6px;
+            border-radius: 5px;
+            background: #dce5e6;
+            margin: auto;
+        }
+
+        .preview-cards {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .preview-design-card {
+            height: 45px;
+            background: #f1f5f5;
+            border-radius: 6px;
+        }
+
+        .preview-note {
+            margin-top: 15px;
+            padding: 11px;
+            background: #f1f7f7;
+            color: #718589;
+            font-size: 10px;
+            line-height: 1.5;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        .mobile-header {
+            display: none;
+        }
+
+        @media (max-width: 1050px) {
+
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-header {
+                display: flex;
+                height: 64px;
+                background: #073f45;
+                color: #fff;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 18px;
+            }
+
+            .mobile-brand {
+                font-weight: 800;
+            }
+
+            .mobile-menu-btn {
+                border: 0;
+                background: none;
+                color: #fff;
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .admin-user {
+                display: none;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header,
+            .card-body {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">✚</div>
+
+            <div class="brand-text">
+                <strong>Doctor Poster</strong>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">Main</div>
+
+        <a href="dashboard.html">
+            <span>▦</span>
+            Dashboard
+        </a>
+
+
+        <div class="menu-title">Website</div>
+
+        <a href="website.html">
+            <span>◉</span>
+            Website Overview
+        </a>
+
+        <a href="website-edit.html" class="active">
+            <span>✎</span>
+            Edit Website
+        </a>
+
+
+        <div class="menu-title">Advertisement</div>
+
+        <a href="browser-ui.html">
+            <span>▣</span>
+            Browser UI Ad
+        </a>
+
+        <a href="banner.html">
+            <span>▰</span>
+            Banner
+        </a>
+
+
+        <div class="menu-title">Designs</div>
+
+        <a href="design-manage.html">
+            <span>◇</span>
+            Design Management
+        </a>
+
+
+        <div class="menu-title">System</div>
+
+        <a href="system.html">
+            <span>⚙</span>
+            System Settings
+        </a>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <!-- Mobile Header -->
+
+        <div class="mobile-header">
+
+            <div class="mobile-brand">
+                Doctor Poster Admin
+            </div>
+
+            <button
+                class="mobile-menu-btn"
+                onclick="alert('Mobile menu can be added later.')"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+        <!-- Topbar -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+
+                <h1>Edit Website</h1>
+
+                <p>
+                    Update your website's main content and branding.
+                </p>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <strong>Administrator</strong>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Content -->
+
+        <section class="content">
+
+            <div class="intro">
+
+                <h2>
+                    Website Content Editor
+                </h2>
+
+                <p>
+                    Change the information displayed on your public website.
+                </p>
+
+            </div>
+
+
+            <div class="editor-grid">
+
+                <!-- =========================
+                     EDITOR
+                ========================== -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>
+                            Website Settings
+                        </h3>
+
+                        <p>
+                            Update your branding, hero section and footer.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <!-- BRANDING -->
+
+                        <div class="section-title">
+                            Branding
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Website Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="websiteName"
+                                class="input"
+                                value="Doctor Poster Maker"
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Website Tagline
+                            </label>
+
+                            <input
+                                type="text"
+                                id="websiteTagline"
+                                class="input"
+                                value="Create professional doctor posters in minutes."
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Website Logo
+                            </label>
+
+                            <div class="logo-upload">
+
+                                <div
+                                    class="logo-preview"
+                                    id="logoPreview"
+                                >
+                                    ✚
+                                </div>
+
+                                <div>
+
+                                    <label class="upload-label">
+
+                                        Choose Logo
+
+                                        <input
+                                            type="file"
+                                            id="logoInput"
+                                            accept="image/*"
+                                            onchange="previewLogo(event)"
+                                        >
+
+                                    </label>
+
+                                    <div class="help">
+                                        PNG or JPG recommended.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- HERO -->
+
+                        <div
+                            class="section-title"
+                            style="margin-top:30px;"
+                        >
+                            Hero Section
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Hero Badge
+                            </label>
+
+                            <input
+                                type="text"
+                                id="heroBadge"
+                                class="input"
+                                value="✦ Built for Healthcare Professionals"
+                                oninput="updatePreview()"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Hero Title
+                            </label>
+
+                            <textarea
+                                id="heroTitle"
+                                oninput="updatePreview()"
+                            >Create Beautiful Doctor Posters in Minutes.</textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Hero Description
+                            </label>
+
+                            <textarea
+                                id="heroDescription"
+                                oninput="updatePreview()"
+                            >Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.</textarea>
+
+                        </div>
+
+
+                        <div class="two-col">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Primary Button Text
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="primaryButton"
+                                    class="input"
+                                    value="Start Creating →"
+                                    oninput="updatePreview()"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Secondary Button Text
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="secondaryButton"
+                                    class="input"
+                                    value="Explore Designs"
+                                    oninput="updatePreview()"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATS -->
+
+                        <div
+                            class="section-title"
+                            style="margin-top:30px;"
+                        >
+                            Hero Statistics
+                        </div>
+
+
+                        <div class="two-col">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Statistic 1
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="stat1"
+                                    class="input"
+                                    value="4+ Designs"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Statistic 2
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="stat2"
+                                    class="input"
+                                    value="1080px Quality"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FOOTER -->
+
+                        <div
+                            class="section-title"
+                            style="margin-top:15px;"
+                        >
+                            Footer
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Footer Description
+                            </label>
+
+                            <textarea
+                                id="footerDescription"
+                            >Create beautiful professional doctor posters quickly and easily.</textarea>
+
+                        </div>
+
+
+                        <div class="two-col">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Copyright Text
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="copyrightText"
+                                    class="input"
+                                    value="© 2026 Doctor Poster Maker"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Contact Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="contactEmail"
+                                    class="input"
+                                    placeholder="admin@example.com"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- WEBSITE STATUS -->
+
+                        <div class="setting-box">
+
+                            <div>
+
+                                <strong>
+                                    Website Status
+                                </strong>
+
+                                <span>
+                                    Allow visitors to access the website.
+                                </span>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="websiteEnabled"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="resetWebsite()"
+                            >
+                                Reset
+                            </button>
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="saveWebsite()"
+                            >
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     PREVIEW
+                ========================== -->
+
+                <div class="card preview-card">
+
+                    <div class="card-header">
+
+                        <h3>
+                            Live Preview
+                        </h3>
+
+                        <p>
+                            Preview your homepage content.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="site-preview">
+
+                            <div class="fake-browser">
+
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+
+                                <div class="fake-url">
+                                    doctorpostermaker.github.io
+                                </div>
+
+                            </div>
+
+
+                            <div class="preview-site-content">
+
+                                <!-- NAV -->
+
+                                <div class="preview-nav">
+
+                                    <div class="preview-brand">
+
+                                        <div
+                                            class="preview-brand-icon"
+                                            id="previewLogoIcon"
+                                        >
+                                            ✚
+                                        </div>
+
+                                        <div class="preview-brand-text">
+
+                                            <strong id="previewName">
+                                                Doctor Poster Maker
+                                            </strong>
+
+                                            <span id="previewTagline">
+                                                Create professional doctor posters
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="preview-links">
+
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- HERO -->
+
+                                <div class="preview-hero">
+
+                                    <div
+                                        class="preview-badge"
+                                        id="previewBadge"
+                                    >
+                                        ✦ Built for Healthcare Professionals
+                                    </div>
+
+
+                                    <h4 id="previewHeroTitle">
+                                        Create Beautiful Doctor Posters in Minutes.
+                                    </h4>
+
+
+                                    <p id="previewHeroDescription">
+                                        Create professional medical posters
+                                        quickly with beautiful ready-made designs.
+                                    </p>
+
+
+                                    <div
+                                        class="preview-button"
+                                        id="previewPrimaryButton"
+                                    >
+                                        Start Creating →
+                                    </div>
+
+                                </div>
+
+
+                                <!-- DESIGNS -->
+
+                                <div class="preview-section">
+
+                                    <div class="preview-section-title"></div>
+
+                                    <div class="preview-cards">
+
+                                        <div class="preview-design-card"></div>
+                                        <div class="preview-design-card"></div>
+                                        <div class="preview-design-card"></div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-note">
+
+                            <strong>Note:</strong>
+                            These changes are currently saved in this browser
+                            only. Later, MongoDB will store the settings so
+                            every visitor sees the updated website.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       DEFAULT SETTINGS
+    ========================== */
+
+    const defaultWebsite = {
+
+        websiteName:
+            "Doctor Poster Maker",
+
+        websiteTagline:
+            "Create professional doctor posters in minutes.",
+
+        heroBadge:
+            "✦ Built for Healthcare Professionals",
+
+        heroTitle:
+            "Create Beautiful Doctor Posters in Minutes.",
+
+        heroDescription:
+            "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
+
+        primaryButton:
+            "Start Creating →",
+
+        secondaryButton:
+            "Explore Designs",
+
+        stat1:
+            "4+ Designs",
+
+        stat2:
+            "1080px Quality",
+
+        footerDescription:
+            "Create beautiful professional doctor posters quickly and easily.",
+
+        copyrightText:
+            "© 2026 Doctor Poster Maker",
+
+        contactEmail:
+            "",
+
+        websiteEnabled:
+            true
+
+    };
+
+
+    /* =========================
+       UPDATE PREVIEW
+    ========================== */
+
+    function updatePreview() {
+
+        document.getElementById("previewName").textContent =
+            document.getElementById("websiteName").value ||
+            "Doctor Poster Maker";
+
+
+        document.getElementById("previewTagline").textContent =
+            document.getElementById("websiteTagline").value ||
+            "Create professional doctor posters";
+
+
+        document.getElementById("previewBadge").textContent =
+            document.getElementById("heroBadge").value ||
+            "Healthcare Professionals";
+
+
+        document.getElementById("previewHeroTitle").textContent =
+            document.getElementById("heroTitle").value ||
+            "Create Beautiful Doctor Posters";
+
+
+        document.getElementById("previewHeroDescription").textContent =
+            document.getElementById("heroDescription").value ||
+            "Create professional medical posters.";
+
+
+        document.getElementById("previewPrimaryButton").textContent =
+            document.getElementById("primaryButton").value ||
+            "Start Creating →";
+
+    }
+
+
+    /* =========================
+       LOGO PREVIEW
+    ========================== */
+
+    function previewLogo(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload = function(e) {
+
+            const logo =
+                document.getElementById("logoPreview");
+
+            const previewLogo =
+                document.getElementById("previewLogoIcon");
+
+
+            logo.innerHTML =
+                `<img src="${e.target.result}" alt="Logo">`;
+
+
+            previewLogo.innerHTML =
+                `<img src="${e.target.result}" alt="Logo">`;
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+    }
+
+
+    /* =========================
+       SAVE WEBSITE
+    ========================== */
+
+    function saveWebsite() {
+
+        const data = {
+
+            websiteName:
+                document.getElementById("websiteName").value,
+
+            websiteTagline:
+                document.getElementById("websiteTagline").value,
+
+            heroBadge:
+                document.getElementById("heroBadge").value,
+
+            heroTitle:
+                document.getElementById("heroTitle").value,
+
+            heroDescription:
+                document.getElementById("heroDescription").value,
+
+            primaryButton:
+                document.getElementById("primaryButton").value,
+
+            secondaryButton:
+                document.getElementById("secondaryButton").value,
+
+            stat1:
+                document.getElementById("stat1").value,
+
+            stat2:
+                document.getElementById("stat2").value,
+
+            footerDescription:
+                document.getElementById("footerDescription").value,
+
+            copyrightText:
+                document.getElementById("copyrightText").value,
+
+            contactEmail:
+                document.getElementById("contactEmail").value,
+
+            websiteEnabled:
+                document.getElementById("websiteEnabled").checked
+
+        };
+
+
+        localStorage.setItem(
+            "doctorPosterWebsiteSettings",
+            JSON.stringify(data)
+        );
+
+
+        alert(
+            "Website settings saved successfully!"
+        );
+
+    }
+
+
+    /* =========================
+       LOAD WEBSITE
+    ========================== */
+
+    function loadWebsite() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterWebsiteSettings"
+            );
+
+
+        const data =
+            saved
+                ? {
+                    ...defaultWebsite,
+                    ...JSON.parse(saved)
+                }
+                : defaultWebsite;
+
+
+        document.getElementById("websiteName").value =
+            data.websiteName;
+
+        document.getElementById("websiteTagline").value =
+            data.websiteTagline;
+
+        document.getElementById("heroBadge").value =
+            data.heroBadge;
+
+        document.getElementById("heroTitle").value =
+            data.heroTitle;
+
+        document.getElementById("heroDescription").value =
+            data.heroDescription;
+
+        document.getElementById("primaryButton").value =
+            data.primaryButton;
+
+        document.getElementById("secondaryButton").value =
+            data.secondaryButton;
+
+        document.getElementById("stat1").value =
+            data.stat1;
+
+        document.getElementById("stat2").value =
+            data.stat2;
+
+        document.getElementById("footerDescription").value =
+            data.footerDescription;
+
+        document.getElementById("copyrightText").value =
+            data.copyrightText;
+
+        document.getElementById("contactEmail").value =
+            data.contactEmail;
+
+        document.getElementById("websiteEnabled").checked =
+            data.websiteEnabled;
+
+
+        updatePreview();
+
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
+    function resetWebsite() {
+
+        const confirmed =
+            confirm(
+                "Reset website settings to default?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        localStorage.removeItem(
+            "doctorPosterWebsiteSettings"
+        );
+
+
+        loadWebsite();
+
+
+        alert(
+            "Website settings restored."
+        );
+
+    }
+
+
+    /* =========================
+       INITIALIZE
+    ========================== */
+
+    loadWebsite();
+
+</script>
+
+</body>
+</html>
