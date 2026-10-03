@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Browser Permission | Chatter</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --border: #e4e8ef;
+            --text: #172033;
+            --muted: #778195;
+            --success: #16a05d;
+            --danger: #dc3545;
+            --warning: #c88400;
+            --primary: #111827;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand h1 {
+            font-size: 19px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .back-btn {
+            border: 0;
+            background: #f0f3f7;
+            color: #273246;
+            padding: 10px 15px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .back-btn:hover {
+            background: #e5e9ef;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+            width: min(1000px, calc(100% - 30px));
+            margin: 32px auto;
+        }
+
+        .hero {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 27px;
+            margin-bottom: 20px;
+        }
+
+        .hero h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .security-note {
+            margin-top: 18px;
+            padding: 15px 17px;
+            background: #eefbf3;
+            border: 1px solid #ccefd8;
+            border-radius: 12px;
+            color: #176b39;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           SYSTEM OFF NOTICE
+        ===================================================== */
+
+        .system-off {
+            display: none;
+            background: #fff3f3;
+            border: 1px solid #f2caca;
+            color: #a92323;
+            border-radius: 13px;
+            padding: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .system-off.show {
+            display: block;
+        }
+
+        /* =====================================================
+           PERMISSION CARDS
+        ===================================================== */
+
+        .permission-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .permission-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .permission-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .permission-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: #f1f4f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .permission-info h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .permission-info p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .right-side {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            flex-shrink: 0;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #f0f2f5;
+            color: #6c7482;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status.allowed {
+            background: #eaf8ef;
+            color: #188344;
+        }
+
+        .status.blocked {
+            background: #fff0f0;
+            color: #c62828;
+        }
+
+        .status.ask {
+            background: #fff8e7;
+            color: #a66a00;
+        }
+
+        .status.off {
+            background: #f1f1f2;
+            color: #777;
+        }
+
+        /* =====================================================
+           SWITCH
+        ===================================================== */
+
+        .switch {
+            position: relative;
+            width: 54px;
+            height: 30px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cfd5dd;
+            border-radius: 30px;
+            transition: .25s;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 4px;
+            top: 4px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,.18);
+            transition: .25s;
+        }
+
+        .switch input:checked + .slider {
+            background: var(--success);
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(24px);
+        }
+
+        .switch input:disabled + .slider {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* =====================================================
+           BROWSER INFO
+        ===================================================== */
+
+        .browser-section {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 23px;
+            margin-top: 20px;
+        }
+
+        .browser-section h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .browser-section p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .help-btn {
+            margin-top: 15px;
+            border: 0;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .help-box {
+            display: none;
+            margin-top: 14px;
+            background: #f6f8fb;
+            border-radius: 10px;
+            padding: 15px;
+            color: #5b6678;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            text-align: center;
+            color: #8b94a3;
+            font-size: 11px;
+            margin: 25px 0;
+        }
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 13px 17px;
+            border-radius: 10px;
+            font-size: 13px;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand h1 {
+                font-size: 17px;
+            }
+
+            .brand p {
+                display: none;
+            }
+
+            .back-btn {
+                padding: 8px 11px;
+            }
+
+            .container {
+                width: calc(100% - 20px);
+                margin-top: 20px;
+            }
+
+            .hero {
+                padding: 21px;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            .permission-card {
+                align-items: flex-start;
+            }
+
+            .right-side {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 8px;
+            }
+
+            .permission-info {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🔐
+        </div>
+
+        <div>
+
+            <h1>Browser Permission</h1>
+
+            <p>
+                Chatter Privacy & Device Access
+            </p>
+
+        </div>
+
+    </div>
+
+    <button
+        class="back-btn"
+        onclick="goBack()"
+    >
+        ← Back
+    </button>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <h2>
+            Device Permission
+        </h2>
+
+        <p>
+            Chatter-এর Camera, Microphone এবং Screen Share
+            ব্যবহারের permission এখান থেকে নিয়ন্ত্রণ করুন।
+        </p>
+
+        <div class="security-note">
+
+            🔒 <strong>Privacy Protection</strong>
+
+            <br>
+
+            Admin/Super Admin কোনোভাবেই আপনার browser permission
+            bypass করে Camera, Microphone বা Screen দেখতে বা
+            শুনতে পারবে না।
+
+            Feature ON থাকলেও আপনার নিজের browser permission
+            প্রয়োজন হবে।
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SYSTEM OFF
+    ====================================================== -->
+
+    <div
+        class="system-off"
+        id="systemOff"
+    >
+
+        ⚠️
+
+        <strong>
+            Chatter System বর্তমানে OFF।
+        </strong>
+
+        <br>
+
+        Administrator Chatter system বন্ধ রেখেছেন।
+        System ON না হওয়া পর্যন্ত communication features
+        ব্যবহার করা যাবে না।
+
+    </div>
+
+
+    <!-- =====================================================
+         PERMISSION LIST
+    ====================================================== -->
+
+    <section class="permission-list">
+
+
+        <!-- =================================================
+             CAMERA
+        ================================================== -->
+
+        <div
+            class="permission-card"
+            id="cameraCard"
+        >
+
+            <div class="permission-info">
+
+                <div class="permission-icon">
+                    📷
+                </div>
+
+                <div>
+
+                    <h3>
+                        Camera
+                    </h3>
+
+                    <p>
+                        Video Call-এর জন্য Camera ব্যবহার করুন।
+                        Browser permission প্রয়োজন।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="right-side">
+
+                <span
+                    class="status"
+                    id="cameraStatus"
+                >
+                    Checking...
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="cameraSwitch"
+                        onchange="togglePermission('camera')"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MICROPHONE
+        ================================================== -->
+
+        <div
+            class="permission-card"
+            id="microphoneCard"
+        >
+
+            <div class="permission-info">
+
+                <div class="permission-icon">
+                    🎤
+                </div>
+
+                <div>
+
+                    <h3>
+                        Microphone
+                    </h3>
+
+                    <p>
+                        Voice Call, Video Call এবং Voice Message-এর
+                        জন্য Microphone ব্যবহার করুন।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="right-side">
+
+                <span
+                    class="status"
+                    id="microphoneStatus"
+                >
+                    Checking...
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="microphoneSwitch"
+                        onchange="togglePermission('microphone')"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SCREEN SHARE
+        ================================================== -->
+
+        <div
+            class="permission-card"
+            id="screenCard"
+        >
+
+            <div class="permission-info">
+
+                <div class="permission-icon">
+                    🖥️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Screen Share
+                    </h3>
+
+                    <p>
+                        User নিজে Screen Share শুরু করবেন এবং
+                        browser থেকে screen/window নির্বাচন করবেন।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="right-side">
+
+                <span
+                    class="status ask"
+                    id="screenStatus"
+                >
+                    Browser Controlled
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="screenSwitch"
+                        onchange="toggleScreenShare()"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BROWSER INFORMATION
+    ====================================================== -->
+
+    <section class="browser-section">
+
+        <h3>
+            🌐 Browser Permission
+        </h3>
+
+        <p>
+            এই page-এর ON/OFF এবং browser-এর permission আলাদা।
+            System Manager feature ON করলেও browser Camera,
+            Microphone বা Screen Share permission block করলে
+            device access সম্ভব হবে না।
+        </p>
+
+        <button
+            class="help-btn"
+            onclick="toggleHelp()"
+        >
+            Permission Help
+        </button>
+
+
+        <div
+            class="help-box"
+            id="helpBox"
+        >
+
+            <strong>
+                Camera / Microphone কাজ না করলে:
+            </strong>
+
+            <br>
+
+            1. Browser address bar-এর 🔒 icon-এ click করুন।<br>
+
+            2. Camera অথবা Microphone permission খুঁজুন।<br>
+
+            3. প্রয়োজন হলে Allow নির্বাচন করুন।<br>
+
+            4. Page reload করুন।<br><br>
+
+            <strong>
+                Screen Share:
+            </strong>
+
+            <br>
+
+            Screen Share শুরু করার সময় browser নিজেই
+            screen/window/tab নির্বাচন করতে বলবে।
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+
+        Chatter Security System
+        •
+        User Controlled Permissions
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Setting updated
+</div>
+
+
+<script>
+
+    /* =========================================================
+       STORAGE KEYS
+    ========================================================= */
+
+    const SYSTEM_SETTINGS_KEY =
+        "chatterSystemSettings";
+
+    const USER_PERMISSION_KEY =
+        "chatterBrowserPermissions";
+
+
+    /* =========================================================
+       DEFAULT SYSTEM SETTINGS
+    ========================================================= */
+
+    const DEFAULT_SYSTEM_SETTINGS = {
+
+        chatterEnabled: true,
+
+        messaging: true,
+
+        voiceCall: true,
+
+        videoCall: true,
+
+        voiceMessages: true,
+
+        camera: true,
+
+        microphone: true,
+
+        screenShare: true,
+
+        videoRecording: false,
+
+        fileSharing: true,
+
+        imageSharing: true,
+
+        typingIndicator: true,
+
+        notifications: true
+
+    };
+
+
+    /* =========================================================
+       DEFAULT USER PERMISSION SETTINGS
+    ========================================================= */
+
+    const DEFAULT_USER_PERMISSIONS = {
+
+        camera: false,
+
+        microphone: false,
+
+        screenShare: false
+
+    };
+
+
+    /* =========================================================
+       GET SYSTEM SETTINGS
+    ========================================================= */
+
+    function getSystemSettings() {
+
+        try {
+
+            const saved =
+                JSON.parse(
+                    localStorage.getItem(
+                        SYSTEM_SETTINGS_KEY
+                    )
+                ) || {};
+
+            return {
+                ...DEFAULT_SYSTEM_SETTINGS,
+                ...saved
+            };
+
+        } catch (error) {
+
+            return {
+                ...DEFAULT_SYSTEM_SETTINGS
+            };
+
+        }
+
+    }
+
+
+    /* =========================================================
+       GET USER SETTINGS
+    ========================================================= */
+
+    function getUserPermissions() {
+
+        try {
+
+            const saved =
+                JSON.parse(
+                    localStorage.getItem(
+                        USER_PERMISSION_KEY
+                    )
+                ) || {};
+
+            return {
+                ...DEFAULT_USER_PERMISSIONS,
+                ...saved
+            };
+
+        } catch (error) {
+
+            return {
+                ...DEFAULT_USER_PERMISSIONS
+            };
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SAVE USER SETTINGS
+    ========================================================= */
+
+    function saveUserPermissions(settings) {
+
+        localStorage.setItem(
+            USER_PERMISSION_KEY,
+            JSON.stringify(settings)
+        );
+
+    }
+
+
+    /* =========================================================
+       BROWSER PERMISSION
+    ========================================================= */
+
+    async function getBrowserPermission(type) {
+
+        if (!navigator.permissions) {
+
+            return "unknown";
+
+        }
+
+        try {
+
+            const result =
+                await navigator.permissions.query({
+                    name: type
+                });
+
+            return result.state;
+
+        } catch (error) {
+
+            return "unknown";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       UPDATE CAMERA BROWSER STATUS
+    ========================================================= */
+
+    async function updateCameraStatus() {
+
+        const system =
+            getSystemSettings();
+
+        const element =
+            document.getElementById(
+                "cameraStatus"
+            );
+
+        const input =
+            document.getElementById(
+                "cameraSwitch"
+            );
+
+
+        if (!system.chatterEnabled) {
+
+            element.textContent =
+                "System OFF";
+
+            element.className =
+                "status off";
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            return;
+
+        }
+
+
+        if (!system.camera) {
+
+            element.textContent =
+                "Disabled by Admin";
+
+            element.className =
+                "status off";
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            return;
+
+        }
+
+
+        input.disabled = false;
+
+
+        const browserState =
+            await getBrowserPermission(
+                "camera"
+            );
+
+
+        if (
+            browserState === "granted"
+        ) {
+
+            element.textContent =
+                "Allowed";
+
+            element.className =
+                "status allowed";
+
+        }
+
+        else if (
+            browserState === "denied"
+        ) {
+
+            element.textContent =
+                "Blocked";
+
+            element.className =
+                "status blocked";
+
+        }
+
+        else {
+
+            element.textContent =
+                "Ask on use";
+
+            element.className =
+                "status ask";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       UPDATE MICROPHONE BROWSER STATUS
+    ========================================================= */
+
+    async function updateMicrophoneStatus() {
+
+        const system =
+            getSystemSettings();
+
+        const element =
+            document.getElementById(
+                "microphoneStatus"
+            );
+
+        const input =
+            document.getElementById(
+                "microphoneSwitch"
+            );
+
+
+        if (!system.chatterEnabled) {
+
+            element.textContent =
+                "System OFF";
+
+            element.className =
+                "status off";
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            return;
+
+        }
+
+
+        if (!system.microphone) {
+
+            element.textContent =
+                "Disabled by Admin";
+
+            element.className =
+                "status off";
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            return;
+
+        }
+
+
+        input.disabled = false;
+
+
+        const browserState =
+            await getBrowserPermission(
+                "microphone"
+            );
+
+
+        if (
+            browserState === "granted"
+        ) {
+
+            element.textContent =
+                "Allowed";
+
+            element.className =
+                "status allowed";
+
+        }
+
+        else if (
+            browserState === "denied"
+        ) {
+
+            element.textContent =
+                "Blocked";
+
+            element.className =
+                "status blocked";
+
+        }
+
+        else {
+
+            element.textContent =
+                "Ask on use";
+
+            element.className =
+                "status ask";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       UPDATE SCREEN SHARE
+    ========================================================= */
+
+    function updateScreenShareStatus() {
+
+        const system =
+            getSystemSettings();
+
+        const input =
+            document.getElementById(
+                "screenSwitch"
+            );
+
+        const status =
+            document.getElementById(
+                "screenStatus"
+            );
+
+
+        if (!system.chatterEnabled) {
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            status.textContent =
+                "System OFF";
+
+            status.className =
+                "status off";
+
+            return;
+
+        }
+
+
+        if (!system.screenShare) {
+
+            input.checked = false;
+
+            input.disabled = true;
+
+            status.textContent =
+                "Disabled by Admin";
+
+            status.className =
+                "status off";
+
+            return;
+
+        }
+
+
+        input.disabled = false;
+
+
+        const userSettings =
+            getUserPermissions();
+
+
+        input.checked =
+            userSettings.screenShare;
+
+
+        status.textContent =
+            userSettings.screenShare
+                ? "Enabled"
+                : "Ready on use";
+
+        status.className =
+            userSettings.screenShare
+                ? "status allowed"
+                : "status ask";
+
+    }
+
+
+    /* =========================================================
+       UPDATE SYSTEM NOTICE
+    ========================================================= */
+
+    function updateSystemNotice() {
+
+        const system =
+            getSystemSettings();
+
+        const notice =
+            document.getElementById(
+                "systemOff"
+            );
+
+
+        if (system.chatterEnabled) {
+
+            notice.classList.remove(
+                "show"
+            );
+
+        } else {
+
+            notice.classList.add(
+                "show"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD UI
+    ========================================================= */
+
+    async function loadUI() {
+
+        const system =
+            getSystemSettings();
+
+        const user =
+            getUserPermissions();
+
+
+        /*
+         * Camera
+         */
+
+        document.getElementById(
+            "cameraSwitch"
+        ).checked =
+            system.camera &&
+            system.chatterEnabled &&
+            user.camera;
+
+
+        /*
+         * Microphone
+         */
+
+        document.getElementById(
+            "microphoneSwitch"
+        ).checked =
+            system.microphone &&
+            system.chatterEnabled &&
+            user.microphone;
+
+
+        /*
+         * Screen
+         */
+
+        document.getElementById(
+            "screenSwitch"
+        ).checked =
+            system.screenShare &&
+            system.chatterEnabled &&
+            user.screenShare;
+
+
+        updateSystemNotice();
+
+        await updateCameraStatus();
+
+        await updateMicrophoneStatus();
+
+        updateScreenShareStatus();
+
+    }
+
+
+    /* =========================================================
+       CAMERA / MICROPHONE TOGGLE
+    ========================================================= */
+
+    async function togglePermission(type) {
+
+        const system =
+            getSystemSettings();
+
+        const user =
+            getUserPermissions();
+
+
+        /*
+         * Master system check
+         */
+
+        if (!system.chatterEnabled) {
+
+            await loadUI();
+
+            showToast(
+                "Chatter System is OFF"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Admin feature check
+         */
+
+        if (!system[type]) {
+
+            await loadUI();
+
+            showToast(
+                "এই feature Admin OFF করেছেন"
+            );
+
+            return;
+
+        }
+
+
+        const input =
+            document.getElementById(
+                type === "camera"
+                    ? "cameraSwitch"
+                    : "microphoneSwitch"
+            );
+
+
+        const enabled =
+            input.checked;
+
+
+        /*
+         * User OFF
+         */
+
+        if (!enabled) {
+
+            user[type] = false;
+
+            saveUserPermissions(user);
+
+            showToast(
+                type === "camera"
+                    ? "Camera OFF"
+                    : "Microphone OFF"
+            );
+
+            await loadUI();
+
+            return;
+
+        }
+
+
+        /*
+         * User ON
+         *
+         * Browser native permission request.
+         */
+
+        if (
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ) {
+
+            input.checked = false;
+
+            user[type] = false;
+
+            saveUserPermissions(user);
+
+            showToast(
+                "এই browser device access support করে না"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            let stream;
+
+
+            if (type === "camera") {
+
+                stream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: true
+                    });
+
+            } else {
+
+                stream =
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
+
+            }
+
+
+            /*
+             * Permission check complete.
+             *
+             * Temporary stream immediately stopped.
+             */
+
+            stream.getTracks().forEach(
+                track => track.stop()
+            );
+
+
+            user[type] = true;
+
+            saveUserPermissions(user);
+
+
+            showToast(
+                type === "camera"
+                    ? "Camera permission allowed"
+                    : "Microphone permission allowed"
+            );
+
+
+            await loadUI();
+
+        }
+
+        catch (error) {
+
+            input.checked = false;
+
+            user[type] = false;
+
+            saveUserPermissions(user);
+
+
+            if (
+                error.name === "NotAllowedError" ||
+                error.name === "PermissionDeniedError"
+            ) {
+
+                showToast(
+                    "Browser permission দেওয়া হয়নি"
+                );
+
+            } else {
+
+                showToast(
+                    "Device permission পাওয়া যায়নি"
+                );
+
+            }
+
+
+            await loadUI();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SCREEN SHARE TOGGLE
+    ========================================================= */
+
+    async function toggleScreenShare() {
+
+        const system =
+            getSystemSettings();
+
+        const user =
+            getUserPermissions();
+
+        const input =
+            document.getElementById(
+                "screenSwitch"
+            );
+
+
+        /*
+         * Admin/system check
+         */
+
+        if (
+            !system.chatterEnabled ||
+            !system.screenShare
+        ) {
+
+            input.checked = false;
+
+            await loadUI();
+
+            showToast(
+                "Screen Share বর্তমানে disabled"
+            );
+
+            return;
+
+        }
+
+
+        const enabled =
+            input.checked;
+
+
+        /*
+         * OFF
+         */
+
+        if (!enabled) {
+
+            user.screenShare = false;
+
+            saveUserPermissions(user);
+
+            showToast(
+                "Screen Share OFF"
+            );
+
+            updateScreenShareStatus();
+
+            return;
+
+        }
+
+
+        /*
+         * Browser support
+         */
+
+        if (
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getDisplayMedia
+        ) {
+
+            input.checked = false;
+
+            user.screenShare = false;
+
+            saveUserPermissions(user);
+
+            showToast(
+                "Screen Share supported নয়"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Browser native Screen Share dialog
+         */
+
+        try {
+
+            const stream =
+                await navigator.mediaDevices.getDisplayMedia({
+                    video: true
+                });
+
+
+            /*
+             * Permission/selection completed.
+             *
+             * Stop temporary stream.
+             */
+
+            stream.getTracks().forEach(
+                track => track.stop()
+            );
+
+
+            user.screenShare = true;
+
+            saveUserPermissions(user);
+
+
+            showToast(
+                "Screen Share allowed"
+            );
+
+
+            updateScreenShareStatus();
+
+        }
+
+        catch (error) {
+
+            input.checked = false;
+
+            user.screenShare = false;
+
+            saveUserPermissions(user);
+
+
+            showToast(
+                "Screen Share দেওয়া হয়নি"
+            );
+
+
+            updateScreenShareStatus();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       HELP
+    ========================================================= */
+
+    function toggleHelp() {
+
+        const box =
+            document.getElementById(
+                "helpBox"
+            );
+
+
+        if (
+            box.style.display === "block"
+        ) {
+
+            box.style.display =
+                "none";
+
+        } else {
+
+            box.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        toast.textContent =
+            message;
+
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        clearTimeout(
+            toastTimer
+        );
+
+
+        toastTimer =
+            setTimeout(
+                () => {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2400
+            );
+
+    }
+
+
+    /* =========================================================
+       BACK
+    ========================================================= */
+
+    function goBack() {
+
+        if (
+            document.referrer
+        ) {
+
+            history.back();
+
+        } else {
+
+            window.location.href =
+                "../chatter/index.html";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SYSTEM SETTINGS CHANGE
+       অন্য tab থেকে Admin ON/OFF করলে
+       এই page automatic update করবে।
+    ========================================================= */
+
+    window.addEventListener(
+        "storage",
+        async event => {
+
+            if (
+                event.key ===
+                SYSTEM_SETTINGS_KEY
+            ) {
+
+                await loadUI();
+
+                showToast(
+                    "System settings updated"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       PAGE VISIBILITY
+    ========================================================= */
+
+    document.addEventListener(
+        "visibilitychange",
+        async () => {
+
+            if (
+                document.visibilityState ===
+                "visible"
+            ) {
+
+                await loadUI();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       PAGE START
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async () => {
+
+            await loadUI();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
