@@ -1,168 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Doctor Poster Maker Pro</title>
+<title>Free Doctor Poster Maker V4</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-.quickbar{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:12px;flex-wrap:wrap}
-.q,.quickbar select{border:1px solid #d1e0e5;background:#fff;color:#47616c;border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700;cursor:pointer}
-.q.active{background:#078c9e;color:#fff;border-color:#078c9e}
-.quickbar select{border-radius:8px}
-.divider{width:1px;height:22px;background:#d5e1e5;margin:0 3px}
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
-*{box-sizing:border-box}
-body{margin:0;background:#eef3f5;color:#123c50;font-family:"Noto Sans Bengali",sans-serif}
-button,input,textarea{font:inherit}
-.ad{height:90px;background:#fff;padding:10px;border-bottom:1px solid #dbe7eb}
-.ad div{height:70px;max-width:970px;margin:auto;border:2px dashed #bfd2d9;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#79909a;font-size:13px}
-.nav{height:62px;background:#fff;border-bottom:1px solid #dbe4e8;display:flex;align-items:center;justify-content:space-between;padding:0 25px;position:sticky;top:0;z-index:20}
-.logoBrand{font-weight:800;color:#087e98;font-size:20px}.logoBrand small{display:block;color:#7a9099;font-size:10px;font-weight:500}
-.actions{display:flex;gap:8px}.btn{border:0;border-radius:8px;padding:9px 15px;cursor:pointer;font-weight:700}.blue{background:#078aa1;color:white}.gray{background:#edf3f5;color:#375563}
-.wrap{max-width:1260px;margin:24px auto;padding:0 18px}
-.title{text-align:center;margin-bottom:18px}.title h1{margin:0;font-size:27px;color:#123c50}.title p{margin:3px;color:#748992;font-size:13px}
-.grid{display:grid;grid-template-columns:355px 1fr;gap:20px}
-.panel,.preview{background:#fff;border:1px solid #dbe5e9;border-radius:14px;box-shadow:0 8px 28px #17495c12}
-.panel{padding:17px;position:sticky;top:78px;max-height:calc(100vh - 95px);overflow:auto}
-.panel h2{margin:0 0 14px;font-size:17px}.g{margin-bottom:12px}.g label{display:block;font-size:12px;font-weight:700;color:#506b77;margin-bottom:5px}
-.in,.ta{width:100%;border:1px solid #d4e1e6;border-radius:7px;padding:9px;outline:none;background:#fcfeff}.ta{resize:vertical;min-height:58px}.in:focus,.ta:focus{border-color:#078aa1;box-shadow:0 0 0 2px #078aa115}
-.fileRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.upload{border:1px dashed #a8c5cd;border-radius:8px;background:#f5fbfc;padding:11px;text-align:center;font-size:12px;font-weight:700;color:#32616e;cursor:pointer}.upload input{display:none}
-.preview{padding:18px}.ph{display:flex;justify-content:space-between;margin-bottom:12px;font-size:14px}.tag{font-size:10px;background:#e6f6f8;color:#087d91;border-radius:20px;padding:5px 9px}
-.stage{background:#e8eef0;border-radius:10px;padding:24px;display:flex;justify-content:center;overflow:auto}
-.poster{width:540px;height:675px;position:relative;overflow:hidden;background:#f8fcfd;box-shadow:0 12px 30px #183e4a33}
-.poster:before{content:"";position:absolute;inset:0;background:
-radial-gradient(circle at 92% 8%,#dff4f7 0 7%,transparent 7.2%),
-radial-gradient(circle at 78% 43%,#e8f5f7 0 19%,transparent 19.2%),
-linear-gradient(125deg,transparent 0 55%,#e9f5f6 55.2% 55.7%,transparent 56%);
-opacity:.9}
-.p{position:relative;z-index:2;height:100%;padding:18px 27px 10px}
-.top{display:flex;align-items:center;gap:13px;height:74px}
-.plogo{width:72px;height:67px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}.plogo img{width:100%;height:100%;object-fit:contain;display:none}.plogo span{font-size:8px;color:#77939b}
-.clinic b{font-size:23px;color:#006caa;line-height:1.05;display:block}.clinic strong{font-size:10px;color:#087b9a;display:block;margin-top:2px}.clinic span{font-size:8.5px;color:#127395}
-.main{position:relative;height:235px}
-.copy{position:absolute;left:0;top:37px;width:58%;z-index:4}.copy h1{font-size:28px;line-height:1.12;color:#06538c;margin:0 0 7px;font-weight:800}.degree{font-size:10px;line-height:1.55;color:#263f4a}.greenLine{width:92%;height:2px;background:#54a982;margin:8px 0}
-.docPhoto{position:absolute;right:-18px;top:5px;width:245px;height:250px;overflow:hidden;display:flex;justify-content:center;align-items:flex-end}.docPhoto img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:none}.docPhoto .hint{font-size:10px;color:#78929a;text-align:center}
-.special{width:58%;min-height:55px;border-radius:9px;background:#058c9e;color:#fff;display:flex;align-items:center;padding:7px 9px;gap:9px;font-size:11px;font-weight:800;line-height:1.35}.specialIcon{width:35px;height:35px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
-.rows{width:57%;margin-top:8px}.row{display:flex;gap:8px;padding:7px 0;border-bottom:1px dotted #b9d1d6}.ico{width:31px;height:31px;border-radius:50%;background:#078c9e;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;font-size:15px}.row b{display:block;font-size:9px;color:#00869c}.row span{display:block;font-size:8px;line-height:1.45;color:#405760}
-.bottom{position:absolute;left:27px;right:27px;bottom:42px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{border:1px solid #a8d3d9;border-radius:10px;background:#f4fbfc;padding:8px 9px;min-height:62px}.card b{display:block;color:#087e92;font-size:9px}.card span{font-size:8px;line-height:1.4;color:#3c5660}
-.call{position:absolute;right:27px;bottom:112px;width:44%;background:#058c9e;color:#fff;border-radius:10px 10px 0 0;padding:7px 10px 0;text-align:center;font-size:11px;font-weight:800}.callBox{background:#fff;color:#087b91;margin:7px -2px 0;border-radius:9px 9px 0 0;padding:7px;font-size:12px;font-weight:800;line-height:1.45}.callIcon{display:inline-flex;width:31px;height:31px;border-radius:50%;background:#058c9e;color:#fff;align-items:center;justify-content:center;margin-right:4px}
-.footer{position:absolute;bottom:0;left:0;right:0;height:30px;background:#fff;border-top:1px solid #b8d1d6;display:flex;align-items:center;justify-content:center;gap:12px;font-size:7.5px;color:#334f5a}.bar{width:2px;height:20px;background:#058c9e}
-\n/* Ready-made templates */\n.poster.modern:before{background:radial-gradient(circle at 92% 7%,#dff5f8 0 9%,transparent 9.2%),linear-gradient(145deg,#f9fdfe 0 42%,#e7f6f7 42.2% 67%,#f9fdfe 67.2%)}\n.poster.modern .main{height:250px}.poster.modern .copy{top:20px;width:60%}.poster.modern .copy h1{font-size:30px}.poster.modern .docPhoto{right:-5px;top:0;width:255px;height:265px}.poster.modern .special{width:62%;border-radius:18px}.poster.modern .call{bottom:104px;border-radius:14px}\n.poster.split{background:#fff}.poster.split:before{background:linear-gradient(90deg,#f1fafb 0 53%,#fff 53.2%),radial-gradient(circle at 85% 25%,#dff2f5 0 22%,transparent 22.2%)}\n.poster.split .top{background:#fff;border-bottom:1px solid #d5e8ec;margin:0 -27px;padding:0 27px}.poster.split .main{height:255px}.poster.split .copy{top:25px;width:53%}.poster.split .docPhoto{right:-25px;top:0;width:260px;height:265px;background:#e8f6f7;border-radius:50% 0 0 50%}.poster.split .special{width:55%;border-radius:6px}.poster.split .rows{width:54%}.poster.split .call{bottom:104px;width:45%;border-radius:8px}\n@media(max-width:900px){.grid{grid-template-columns:1fr}.panel{position:static;max-height:none}}
-@media(max-width:600px){.nav{padding:0 12px}.logoBrand{font-size:15px}.actions .btn{padding:7px 9px;font-size:11px}.wrap{padding:0 9px}.stage{padding:10px}.poster{transform:scale(.75);transform-origin:top center;margin-bottom:-165px}.preview{padding:10px}}
-@media print{body{background:#fff}.ad,.nav,.title,.panel,.ph{display:none}.wrap{margin:0;padding:0}.grid{display:block}.preview{border:0;box-shadow:none;padding:0}.stage{padding:0}.poster{box-shadow:none}}
+*{box-sizing:border-box}body{margin:0;background:#eef3f5;color:#123; font-family:Arial,"Noto Sans Bengali",sans-serif}.app{max-width:1450px;margin:auto;padding:18px}.top{background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 28px #173f4b12;margin-bottom:16px}.top h1{margin:0 0 4px;font-size:24px}.top p{margin:0;color:#65747b}.layout{display:grid;grid-template-columns:330px 1fr;gap:18px}.panel{background:#fff;border-radius:18px;padding:16px;box-shadow:0 8px 28px #173f4b12;align-self:start}.panel h3{margin:4px 0 12px}.group{border-top:1px solid #e7eef0;padding-top:13px;margin-top:13px}.label{font-size:13px;font-weight:700;margin:9px 0 6px;display:block}.q,.select,input[type=text],input[type=email],input[type=tel]{width:100%;border:1px solid #d8e2e5;background:#fff;border-radius:10px;padding:10px;font-size:14px}.q{cursor:pointer}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.colors{display:flex;gap:7px;flex-wrap:wrap}.sw{width:36px;height:30px;border-radius:8px;border:2px solid #ddd;cursor:pointer}.preview{min-height:720px;display:flex;align-items:flex-start;justify-content:center;padding:10px}.poster{width:min(760px,100%);aspect-ratio:1080/1350;background:#fff;overflow:hidden;position:relative;box-shadow:0 12px 40px #1234;border-radius:4px;font-family:"Noto Sans Bengali",sans-serif}.ad{height:58px;background:#0b7f84;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;letter-spacing:.2px}.head{padding:25px 38px 16px;display:flex;justify-content:space-between;gap:20px}.clinic h2{font-size:30px;margin:0;color:#087d82}.clinic .sub{font-size:15px;font-weight:700;color:#53656b;margin-top:3px}.clinic .addr{font-size:13px;color:#65747a;margin-top:9px}.logo{width:82px;height:82px;border-radius:50%;border:3px solid #0b8790;object-fit:cover;background:#eef7f7}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;padding:8px 38px 18px;align-items:center}.name{font-size:37px;font-weight:800;color:#153c47;line-height:1.15;margin-bottom:7px}.degree{font-size:16px;font-weight:700;color:#4b626a}.special{display:inline-block;background:#087f86;color:#fff;border-radius:20px;padding:8px 16px;margin-top:13px;font-size:14px;font-weight:700}.docbox{height:285px;overflow:hidden;border-radius:24px;background:#e9f4f5;border:1px solid #cfe1e4;display:flex;align-items:flex-end;justify-content:center}.docbox img{width:100%;height:100%;object-fit:contain;transform-origin:center bottom;transition:.15s}.info{padding:0 38px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{border:1px solid #d7e4e6;border-radius:14px;padding:14px 16px;background:#fbfdfd}.card b{color:#087f86}.serial{margin:18px 38px 0;background:#087f86;color:#fff;border-radius:15px;padding:17px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.serial strong{font-size:18px}.serial span{display:block;font-size:13px;margin-top:3px}.foot{padding:14px 38px;font-size:12px;color:#66777d;display:flex;justify-content:space-between;gap:15px}.poster.modern .head{background:#f1faf9}.poster.split .hero{background:linear-gradient(100deg,#fff 0 61%,#e8f7f7 61%)}.poster.split .docbox{border-radius:0;border:none;background:transparent;height:315px}.poster.minimal{background:#fafafa}.poster.minimal .ad{background:#173c46}.poster.minimal .head{padding-top:35px}.poster.minimal .special,.poster.minimal .serial{background:#173c46}.poster.minimal .docbox{border-radius:8px;background:#fff}.hint{font-size:12px;color:#77868b;line-height:1.5}.template-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.template{padding:9px 5px!important}.preview-card{height:75px;border:1px solid #d7e2e5;border-radius:10px;padding:8px;cursor:pointer;background:#fafcfc}.mini{height:100%;border-radius:6px;background:#fff;border:1px solid #e2eaec;position:relative;overflow:hidden}.mini:before{content:"";position:absolute;left:7px;top:7px;width:42%;height:7px;background:#0b8287;border-radius:4px}.mini:after{content:"";position:absolute;right:7px;top:22px;width:30%;height:40px;background:#dcecee;border-radius:6px}.preview-card span{font-size:11px;position:absolute;bottom:6px;left:7px;color:#587078}.btn{background:#087f86;color:#fff;border:0;border-radius:10px;padding:11px;width:100%;font-weight:700;cursor:pointer}.btn.alt{background:#edf5f6;color:#17636a}.range{width:100%}@media(max-width:900px){.layout{grid-template-columns:1fr}.preview{padding:0}.poster{width:100%}}@media(max-width:600px){.app{padding:8px}.hero{grid-template-columns:1fr}.docbox{height:240px}.info,.serial{grid-template-columns:1fr}.head,.hero,.info{padding-left:18px;padding-right:18px}.serial{margin-left:18px;margin-right:18px}.foot{padding:12px 18px}.name{font-size:29px}}
 </style>
 </head>
 <body>
-<div class="ad"><div id="ad">আপনার বিজ্ঞাপন এখানে • 728 × 90 / Responsive Banner</div></div>
-<div class="nav"><div class="logoBrand">🩺 Doctor Poster Maker <small>Free Online Tool</small></div><div class="actions"><button class="btn gray" onclick="location.reload()">↻ Reset</button><button class="btn blue" onclick="downloadPoster()">⬇ Download</button></div></div>
-
-<div class="wrap">
-<div class="title">
-<h1>Professional Doctor Poster Maker</h1>
-<p>তথ্য, ছবি, রং ও সাইজ পরিবর্তন করে কয়েক মিনিটেই professional doctor poster তৈরি করুন।</p>
-<div class="quickbar">
-  <button class="q active" onclick="setTheme('teal',this)">Teal</button>
-  <button class="q" onclick="setTheme('blue',this)">Blue</button>
-  <button class="q" onclick="setTheme('green',this)">Green</button>
-  <button class="q" onclick="setTheme('navy',this)">Navy</button>
-  <span class="divider"></span>
-  <button class="q template active" onclick="setTemplate('classic',this)">Template 1</button>
-  <button class="q template" onclick="setTemplate('modern',this)">Template 2</button>
-  <button class="q template" onclick="setTemplate('split',this)">Template 3</button>
-  <select onchange="setSize(this.value)">
-    <option value="1080x1350">1080 × 1350 — Social</option>
-    <option value="1080x1080">1080 × 1080 — Square</option>
-    <option value="1080x1920">1080 × 1920 — Story</option>
-  </select>
-</div>
-</div>
-<div class="grid">
+<div class="app">
+<div class="top"><h1>🩺 Free Doctor Poster Maker</h1><p>নিজের ডাক্তার পোস্টার তৈরি করুন — ছবি, নাম, তথ্য, রং ও টেমপ্লেট বদলে PNG হিসেবে ডাউনলোড করুন।</p></div>
+<div class="layout">
 <aside class="panel">
-<h2>✏️ Poster Information</h2>
-<div class="g"><label>ডাক্তারের নাম</label><input class="in" id="doctor" value="ডাঃ রাফি আহমদ খান" oninput="update()"></div>
-<div class="g"><label>ডিগ্রি / যোগ্যতা</label><textarea class="ta" id="degree" oninput="update()">এমবিবিএস, বিসিএস (স্বাস্থ্য)
-ডিএনও (বাংলাদেশ মেডিকেল বিশ্ববিদ্যালয়, ঢাকা)</textarea></div>
-<div class="g"><label>বিশেষজ্ঞ</label><input class="in" id="special" value="নাক, কান, গলা রোগ বিশেষজ্ঞ ও হেড নেক সার্জন" oninput="update()"></div>
-<div class="g"><label>কনসালটেন্ট</label><input class="in" id="consult" value="কনসালটেন্ট (নাক, কান ও গলা বিভাগ)" oninput="update()"></div>
-<div class="g"><label>হাসপাতাল</label><input class="in" id="hospital" value="২৫০ শয্যা বিশিষ্ট সদর হাসপাতাল, মৌলভীবাজার।" oninput="update()"></div>
-<div class="g"><label>এক্স কনসালটেন্ট</label><input class="in" id="exconsult" value="এক্স কনসালটেন্ট (নাক, কান, গলা বিভাগ)" oninput="update()"></div>
-<div class="g"><label>প্রতিষ্ঠান</label><input class="in" id="exhospital" value="সিলেট এম এ জি ওসমানী মেডিকেল কলেজ হাসপাতাল।" oninput="update()"></div>
-<div class="g"><label>রোগী দেখার সময়</label><textarea class="ta" id="time" oninput="update()">প্রতি শুক্র ও বৃহষ্পতিবার
-বিকাল ৩টা থেকে ৫টা পর্যন্ত।</textarea></div>
-<div class="g"><label>চেম্বার</label><textarea class="ta" id="chamber" oninput="update()">রয়েল হাসপাতাল এন্ড মাল্টিকেয়ার ডায়াগনস্টিক সেন্টার,
-বেড়িরপাড়, মৌলভীবাজার।</textarea></div>
-<div class="g"><label>ফোন</label><input class="in" id="phone" value="01718-002112 | 01718-005011" oninput="update()"></div>
-<div class="g"><label>ক্লিনিক</label><input class="in" id="clinic" value="রয়েল মাল্টিকেয়ার" oninput="update()"></div>
-<div class="g"><label>ঠিকানা</label><input class="in" id="address" value="শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার" oninput="update()"></div>
-<div class="g"><label>ডাক্তার ছবি ও লোগো</label><div class="fileRow">
-<label class="upload">👨‍⚕️ Doctor Photo<input type="file" accept="image/*" onchange="load(this,'docImg','docHint')"></label>
-<label class="upload">🏥 Logo<input type="file" accept="image/*" onchange="load(this,'logoImg','logoHint')"></label>
-</div></div>
-<div class="g"><label>বিজ্ঞাপন</label><input type="text" class="in" value="আপনার বিজ্ঞাপন এখানে • 728 × 90 / Responsive Banner" oninput="document.getElementById('ad').textContent=this.value"></div>
-</aside>
-
-<section class="preview">
-<div class="ph"><b>👁 Live Preview</b><span class="tag">1080 × 1350 Social Post</span></div>
-<div class="stage">
-<div class="poster" id="poster">
-<div class="p">
-<div class="top"><div class="plogo"><span id="logoHint">YOUR<br>LOGO</span><img id="logoImg"></div><div class="clinic"><b id="pClinic">রয়েল মাল্টিকেয়ার</b><strong>ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার</strong><span id="pAddress">শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার</span></div></div>
-<div class="main"><div class="copy"><h1 id="pDoctor">ডাঃ রাফি আহমদ খান</h1><div class="degree" id="pDegree">এমবিবিএস, বিসিএস (স্বাস্থ্য)<br>ডিএনও (বাংলাদেশ মেডিকেল বিশ্ববিদ্যালয়, ঢাকা)</div><div class="greenLine"></div></div><div class="docPhoto"><span class="hint" id="docHint">ডাক্তারের ছবি<br>আপলোড করুন</span><img id="docImg"></div></div>
-<div class="special"><div class="specialIcon">♧</div><span id="pSpecial">নাক, কান, গলা রোগ বিশেষজ্ঞ ও হেড নেক সার্জন</span></div>
-<div class="rows">
-<div class="row"><div class="ico">●</div><div><b id="pConsult">কনসালটেন্ট (নাক, কান ও গলা বিভাগ)</b><span id="pHospital">২৫০ শয্যা বিশিষ্ট সদর হাসপাতাল, মৌলভীবাজার।</span></div></div>
-<div class="row"><div class="ico">▣</div><div><b id="pExconsult">এক্স কনসালটেন্ট (নাক, কান, গলা বিভাগ)</b><span id="pExhospital">সিলেট এম এ জি ওসমানী মেডিকেল কলেজ হাসপাতাল।</span></div></div>
+<h3>Poster Editor</h3>
+<button class="btn" onclick="downloadPoster()">⬇ Download PNG</button>
+<div class="group"><b>Template</b><div class="template-grid" style="margin-top:8px">
+<button class="q template" onclick="setTemplate('classic',this)">Classic</button><button class="q template" onclick="setTemplate('modern',this)">Modern</button><button class="q template" onclick="setTemplate('split',this)">Split</button><button class="q template" onclick="setTemplate('minimal',this)">Minimal</button></div></div>
+<div class="group"><b>Doctor Information</b>
+<label class="label">Doctor Name</label><input id="name" value="ডাঃ মোঃ আব্দুল করিম" oninput="sync()">
+<label class="label">Degrees</label><input id="degree" value="MBBS, FCPS (Medicine)" oninput="sync()">
+<label class="label">Specialty</label><input id="specialty" value="মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ" oninput="sync()">
+<label class="label">Consultant</label><input id="consultant" value="কনসালটেন্ট, মেডিসিন বিভাগ" oninput="sync()">
+<label class="label">Chamber</label><input id="chamber" value="রয়েল মাল্টিকেয়ার, মৌলভীবাজার" oninput="sync()">
+<label class="label">Visiting</label><input id="visiting" value="বিকাল ৫টা — রাত ৯টা" oninput="sync()">
+<label class="label">Serial</label><input id="serial" value="01718-005011 | 01718-002112" oninput="sync()">
 </div>
-<div class="bottom"><div class="card"><b>▣ রোগী দেখার সময়:</b><span id="pTime">প্রতি শুক্র ও বৃহষ্পতিবার<br>বিকাল ৩টা থেকে ৫টা পর্যন্ত।</span></div><div class="card"><b>● চেম্বার:</b><span id="pChamber">রয়েল হাসপাতাল এন্ড মাল্টিকেয়ার ডায়াগনস্টিক সেন্টার,<br>বেড়িরপাড়, মৌলভীবাজার।</span></div></div>
-<div class="call">সিরিয়ালের জন্যে<br>যোগাযোগ করুন :<div class="callBox"><span class="callIcon">☎</span><span id="pPhone">01718-002112<br>01718-005011</span></div></div>
-<div class="footer"><span>✉ royaldiagnostic21@gmail.com</span><i class="bar"></i><span>● ◎ ♪ royaldiagnostic21</span></div>
-</div></div></div>
-</section>
+<div class="group"><b>Photos</b><label class="label">Doctor Photo</label><input type="file" accept="image/*" onchange="loadPhoto(event)"><label class="label">Logo</label><input type="file" accept="image/*" onchange="loadLogo(event)"><label class="label">Photo Zoom</label><input id="zoom" class="range" type="range" min="80" max="140" value="100" oninput="applyPhotoTransform()"><label class="label">Photo Vertical Position</label><input id="photoY" class="range" type="range" min="-40" max="40" value="0" oninput="applyPhotoTransform()"></div>
+<div class="group"><b>Font</b><select id="font" class="select" onchange="setFont(this.value)"><option>Noto Sans Bengali</option><option>Hind Siliguri</option><option>SolaimanLipi</option></select></div>
+<div class="group"><b>Background</b><div class="colors" style="margin-top:8px"><button class="sw" title="White" style="background:#fff" onclick="setBg('#fff')"></button><button class="sw" title="Soft" style="background:#f4fbfb" onclick="setBg('#f4fbfb')"></button><button class="sw" title="Warm" style="background:#fffaf4" onclick="setBg('#fffaf4')"></button><button class="sw" title="Gray" style="background:#f5f6f7" onclick="setBg('#f5f6f7')"></button></div></div>
+<div class="group"><b>Top Ad Banner</b><input id="ad" value="আপনার বিজ্ঞাপন / ব্র্যান্ড এখানে দেখান" oninput="sync()"><p class="hint">এই জায়গায় নিজের সার্ভিস, Facebook page, website বা sponsor ad লিখতে পারবেন।</p></div>
+<div class="group"><button class="btn alt" onclick="resetPoster()">↺ Reset</button></div>
+</aside>
+<main class="preview"><div id="poster" class="poster">
+<div class="ad" id="pAd">আপনার বিজ্ঞাপন / ব্র্যান্ড এখানে দেখান</div>
+<div class="head"><div class="clinic"><h2>রয়েল মাল্টিকেয়ার</h2><div class="sub">ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার</div><div class="addr">শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার</div></div><img id="logoImg" class="logo" alt="Logo"></div>
+<div class="hero"><div><div class="name" id="pName">ডাঃ মোঃ আব্দুল করিম</div><div class="degree" id="pDegree">MBBS, FCPS (Medicine)</div><div class="special" id="pSpecial">মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ</div></div><div class="docbox"><img id="docImg" alt="Doctor Photo"></div></div>
+<div class="info"><div class="card"><b>Consultant</b><div id="pConsultant">কনসালটেন্ট, মেডিসিন বিভাগ</div></div><div class="card"><b>Chamber</b><div id="pChamber">রয়েল মাল্টিকেয়ার, মৌলভীবাজার</div></div><div class="card"><b>Visiting Hours</b><div id="pVisiting">বিকাল ৫টা — রাত ৯টা</div></div><div class="card"><b>Serial / Appointment</b><div id="pSerialSmall">01718-005011 | 01718-002112</div></div></div>
+<div class="serial"><div><strong>📞 Serial & Appointment</strong><span id="pSerial">01718-005011 | 01718-002112</span></div><div><strong>📍 Chamber</strong><span>রয়েল মাল্টিকেয়ার, মৌলভীবাজার</span></div></div>
+<div class="foot"><span>royaldiagnostic21@gmail.com</span><span>@royaldiagnostic21</span></div>
+</div></main>
 </div></div>
-
 <script>
-const v=id=>document.getElementById(id).value;
-function html(id,s){document.getElementById(id).innerHTML=s.replace(/\n/g,'<br>')}
-function setTheme(name,btn){
- const colors={teal:['#058c9e','#006caa','#54a982'],blue:['#087fc1','#07538f','#50a9b8'],green:['#188b72','#126f63','#65a97d'],navy:['#174b72','#12385a','#4f9aa6']};
- const c=colors[name]||colors.teal;
- document.querySelectorAll('.q').forEach(x=>x.classList.remove('active'));
- if(btn)btn.classList.add('active');
- let style=document.getElementById('themeStyle');
- if(!style){style=document.createElement('style');style.id='themeStyle';document.head.appendChild(style)}
- style.textContent=`.poster .special,.poster .call{background:${c[0]}!important}.poster .clinic b{color:${c[1]}!important}.poster .clinic strong,.poster .row b,.poster .card b{color:${c[0]}!important}.poster .greenLine{background:${c[2]}!important}.poster .ico,.poster .callIcon{background:${c[0]}!important}.poster .bar{background:${c[0]}!important}`;
+const $=id=>document.getElementById(id);
+function sync(){ $('pName').textContent=$('name').value; $('pDegree').textContent=$('degree').value; $('pSpecial').textContent=$('specialty').value; $('pConsultant').textContent=$('consultant').value; $('pChamber').textContent=$('chamber').value; $('pVisiting').textContent=$('visiting').value; $('pSerial').textContent=$('serial').value; $('pSerialSmall').textContent=$('serial').value; $('pAd').textContent=$('ad').value; }
+function setTemplate(t,el){$('poster').classList.remove('modern','split','minimal');if(t!=='classic')$('poster').classList.add(t);document.querySelectorAll('.template').forEach(x=>x.style.outline='');el.style.outline='2px solid #087f86'}
+function setFont(v){$('poster').style.fontFamily='"'+v+'", "Noto Sans Bengali", sans-serif'}
+function setBg(c){$('poster').style.background=c}
+function applyPhotoTransform(){const z=(+$('zoom').value||100)/100,y=+$('photoY').value||0;$('docImg').style.transform=`translateY(${y}px) scale(${z})`}
+function loadPhoto(e){const f=e.target.files[0];if(f){$('docImg').src=URL.createObjectURL(f);$('docImg').style.objectFit='contain'}}
+function loadLogo(e){const f=e.target.files[0];if(f)$('logoImg').src=URL.createObjectURL(f)}
+function resetPoster(){location.reload()}
+function downloadPoster(){
+ const poster=$('poster'); const w=poster.offsetWidth,h=poster.offsetHeight; const c=document.createElement('canvas'); const scale=2;c.width=w*scale;c.height=h*scale;const ctx=c.getContext('2d');ctx.fillStyle=getComputedStyle(poster).backgroundColor||'#fff';ctx.fillRect(0,0,c.width,c.height);
+ // Use SVG foreignObject for a faithful single-file export.
+ const data=new XMLSerializer().serializeToString(poster.cloneNode(true)); const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w*scale}" height="${h*scale}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px">${data}</div></foreignObject></svg>`;
+ const img=new Image();img.onload=()=>{ctx.drawImage(img,0,0,w*scale,h*scale);const a=document.createElement('a');a.download='doctor-poster.png';a.href=c.toDataURL('image/png');a.click()};img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
-function setSize(size){
- const p=document.getElementById('poster');
- if(size==='1080x1080'){p.style.height='540px';p.style.width='540px'}
- else if(size==='1080x1920'){p.style.height='960px';p.style.width='540px'}
- else {p.style.height='675px';p.style.width='540px'}
-}
-function setTemplate(name,btn){
- const poster=document.getElementById('poster'); poster.classList.remove('modern','split'); if(name!=='classic') poster.classList.add(name);
- document.querySelectorAll('.template').forEach(x=>x.classList.remove('active')); if(btn)btn.classList.add('active');
-}
-function update(){
- document.getElementById('pDoctor').textContent=v('doctor');
- html('pDegree',v('degree')); document.getElementById('pSpecial').textContent=v('special');
- document.getElementById('pConsult').textContent=v('consult');document.getElementById('pHospital').textContent=v('hospital');
- document.getElementById('pExconsult').textContent=v('exconsult');document.getElementById('pExhospital').textContent=v('exhospital');
- html('pTime',v('time'));html('pChamber',v('chamber'));html('pPhone',v('phone').replace(/\s*\|\s*/g,'\n'));
- document.getElementById('pClinic').textContent=v('clinic');document.getElementById('pAddress').textContent=v('address');
-}
-function load(input,img,hint){
- const f=input.files[0];if(!f)return;
- const r=new FileReader();r.onload=e=>{document.getElementById(img).src=e.target.result;document.getElementById(img).style.display='block';document.getElementById(hint).style.display='none'};r.readAsDataURL(f);
-}
-async function downloadPoster(){
- try{
-  if(!window.html2canvas){let s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';document.head.appendChild(s);await new Promise((a,b)=>{s.onload=a;s.onerror=b})}
-  const c=await html2canvas(document.getElementById('poster'),{scale:3,useCORS:true,backgroundColor:'#f8fcfd'});
-  const a=document.createElement('a');a.download='doctor-poster.png';a.href=c.toDataURL('image/png');a.click();
- }catch(e){alert('Download করা যায়নি। আবার চেষ্টা করুন।')}
-}
-update();
-setTheme('teal',document.querySelector('.q.active'));
+sync();
 </script>
-</body>
-</html>
+</body></html>
