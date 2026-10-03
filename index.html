@@ -3,59 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Doctor Poster</title>
-<style>
-:root{box-sizing:border-box;--teal:#0f6f7a;--blue:#1b8fd6;--green:#4a9a3a;--ink:#10305a;--bg:#f2f7fa;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:#dfe7ec;font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;color:#222;display:flex;flex-direction:column;align-items:center;padding:16px;background:#dfe7ec}
-.tip{font-size:13px;color:#445;margin-bottom:10px;text-align:center;max-width:520px}
-.poster{width:100%;max-width:520px;aspect-ratio:2/3;background:linear-gradient(160deg,#fff,var(--bg));position:relative;overflow:hidden;border-radius:6px;box-shadow:0 6px 24px #0003;container-type:inline-size}
-.circle{position:absolute;right:-18%;top:6%;width:80%;aspect-ratio:1;border-radius:50%;background:#dcebf5}
-.logo{position:absolute;left:8%;top:3%;width:45%;text-align:center}
-.logo .mark{font-size:6cqw;color:var(--blue);font-weight:700}
-.logo b{display:block;font-size:9cqw;color:var(--ink);letter-spacing:1px;font-family:Georgia,serif}
-.logo small{display:block;font-size:2.4cqw;color:var(--ink);border-top:1px solid var(--green);margin-top:1cqw;padding-top:1cqw}
-.photo{position:absolute;right:0;bottom:11%;width:52%;height:72%;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;color:#668;font-size:3cqw;border:2px dashed #9bb;background:#ffffff80}
-.photo img{width:100%;height:100%;object-fit:cover;object-position:top;display:none}
-.info{position:absolute;left:5%;top:27%;width:50%}
-h1{margin:0;font-size:8cqw;color:var(--ink);line-height:1.15}
-.deg{font-size:3.2cqw;line-height:1.5;margin:1.5cqw 0 2cqw;border-bottom:1px solid var(--green);padding-bottom:2cqw}
-.spec{background:var(--teal);color:#fff;border-radius:2.5cqw;padding:2.5cqw 3cqw;font-size:4cqw;font-weight:700;line-height:1.35}
-.role{font-size:3cqw;line-height:1.45;margin-top:2.5cqw;padding-bottom:2cqw;border-bottom:1px dotted #aab}
-.role b{color:var(--teal);font-size:3.3cqw}
-.box{position:absolute;left:5%;width:45%;border:1px solid #cfe0e8;background:#eef6f9;border-radius:2.5cqw;padding:2cqw 3cqw;font-size:3cqw;line-height:1.45}
-.box b{color:var(--teal);font-size:3.6cqw;display:block}
-.time{bottom:20%}.addr{bottom:8.5%}
-.call{position:absolute;right:4%;bottom:6%;width:46%;background:var(--teal);border-radius:3cqw;color:#fff;overflow:hidden;text-align:center}
-.call div:first-child{padding:2.5cqw;font-size:4cqw;font-weight:700;line-height:1.3}
-.nums{background:#fff;color:var(--teal);margin:0 1.5cqw 1.5cqw;border-radius:2.5cqw;padding:2cqw;font-size:4.6cqw;font-weight:700;line-height:1.6}
-.tag{position:absolute;bottom:1.5%;left:0;right:0;text-align:center;font-size:3cqw;color:var(--teal);border-top:1px solid #bcd;padding-top:1cqw;margin:0 5%}
-[contenteditable]:focus{outline:1px dashed var(--blue)}
-@media print{body{background:#fff;padding:0}.tip{display:none}}
-</style>
+<title>Doctor Poster — Royal Multicare</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="tip">লেখাগুলোতে ক্লিক করে এডিট করুন। ছবির ঘরে ক্লিক করে AI-তে বানানো ডাক্তার-লুকের ছবি দিন।</div>
+<div class="tip">লেখাগুলোতে ক্লিক করে এডিট করুন। লোগো ও ডাক্তারের ছবিতে ক্লিক করে আপলোড করুন।</div>
+
 <div class="poster" contenteditable="true" spellcheck="false">
-  <div class="circle"></div>
-  <div class="logo"><span class="mark">✚</span><b>ROYAL</b><small>SPECIALIZED HOSPITAL<br>MOULVIBAZAR</small></div>
-  <div class="photo" contenteditable="false" id="ph" onclick="document.getElementById('f').click()">
-    <span id="hint">ছবি দিতে এখানে ক্লিক করুন</span><img id="im" alt="">
+  <div class="deco" contenteditable="false">
+    <svg viewBox="0 0 24 24" fill="#1b8fd6" opacity="0.25"><path d="M10 2h4v8h8v4h-8v8h-4v-8H2v-4h8z"/></svg>
   </div>
+
+  <div class="header">
+    <div class="logo" contenteditable="false" id="logoBox" onclick="document.getElementById('flogo').click()">
+      <span id="logoHint">লোগো</span><img id="logoImg" alt="">
+    </div>
+    <div class="htext">
+      <b>রয়েল মাল্টিকেয়ার</b>
+      <div class="sub">ডায়াগনস্টিক এন্ড কনসালটেশন সেন্টার</div>
+      <div class="addr">শ্রীমঙ্গল রোড, বেড়িরপাড়, মৌলভীবাজার</div>
+    </div>
+  </div>
+
+  <div class="photo" contenteditable="false" id="ph" onclick="document.getElementById('f').click()">
+    <span id="hint">ডাক্তারের ছবি<br>দিতে ক্লিক করুন</span><img id="im" alt="">
+  </div>
+
   <div class="info">
     <h1>ডাঃ [ডাক্তারের নাম]</h1>
     <div class="deg">এমবিবিএস, [ডিগ্রি]<br>[প্রতিষ্ঠানের নাম]</div>
-    <div class="spec">[বিশেষজ্ঞ বিভাগ]</div>
-    <div class="role"><b>কনসালটেন্ট</b> ([বিভাগ])<br>[হাসপাতালের নাম], মৌলভীবাজার।</div>
   </div>
-  <div class="box time" style="bottom:21%"><b>রোগী দেখার সময়:</b>প্রতি [বার] ও [বার]<br>বিকাল ৩টা থেকে ৫টা পর্যন্ত।</div>
-  <div class="box addr" style="bottom:8%"><b>চেম্বার:</b>[চেম্বারের ঠিকানা], মৌলভীবাজার।</div>
-  <div class="call"><div>সিরিয়ালের জন্যে<br>যোগাযোগ করুন :</div><div class="nums">01718-002112<br>01718-005011</div></div>
-  <div class="tag">আপনার সুস্থতাই আমাদের অঙ্গীকার</div>
+  <hr class="rule">
+
+  <div class="spec">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 3 3M12 12v3"/></svg></span>
+    <span>[বিশেষজ্ঞ বিভাগের নাম]</span>
+  </div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
+      <div><div class="label">কনসালটেন্ট ([বিভাগ])</div><div class="detail">[হাসপাতালের নাম], মৌলভীবাজার।</div></div>
+    </div>
+    <div class="row" style="border-bottom:none">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></div>
+      <div><div class="label">এক্স কনসালটেন্ট ([বিভাগ])</div><div class="detail">[প্রতিষ্ঠানের নাম]।</div></div>
+    </div>
+  </div>
+
+  <div class="boxes">
+    <div class="box">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+      <div><b>রোগী দেখার সময়:</b>প্রতি [বার] ও [বার]<br>বিকাল ৩টা থেকে ৫টা পর্যন্ত।</div>
+    </div>
+    <div class="box" style="margin-bottom:0">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+      <div><b>চেম্বার:</b>[চেম্বারের ঠিকানা], মৌলভীবাজার।</div>
+    </div>
+  </div>
+
+  <div class="callwrap">
+    <div class="calltitle">সিরিয়ালের জন্যে<br>যোগাযোগ করুন :</div>
+    <div class="call">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.4a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2z"/></svg></div>
+      <div class="nums"><span>01718-005011</span><span>01718-002112</span></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>royaldiagnostic21@gmail.com</span><span class="sep"></span><span>royaldiagnostic21</span>
+  </div>
 </div>
+
 <input type="file" id="f" accept="image/*" hidden>
-<script>
-document.getElementById('f').onchange=function(e){var file=e.target.files[0];if(!file)return;var r=new FileReader();r.onload=function(){var im=document.getElementById('im');im.src=r.result;im.style.display='block';document.getElementById('hint').style.display='none';document.getElementById('ph').style.border='none';document.getElementById('ph').style.background='none'};r.readAsDataURL(file)};
-</script>
+<input type="file" id="flogo" accept="image/*" hidden>
+<script src="script.js"></script>
 </body>
 </html>
