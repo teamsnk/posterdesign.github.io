@@ -1,6 +1,6 @@
 /* =========================================================
    DOCTOR POSTER MAKER
-   HOMEPAGE JAVASCRIPT
+   HOMEPAGE SCRIPT
 ========================================================= */
 
 
@@ -8,20 +8,13 @@
    STORAGE KEYS
 ========================================================= */
 
-const WEBSITE_KEY =
-    "doctorPosterWebsiteSettings";
+const WEBSITE_KEY = "doctorPosterWebsiteSettings";
+const DESIGN_KEY = "doctorPosterDesignStatus";
+const AD_KEY = "doctorPosterAdvertisement";
+const SYSTEM_KEY = "doctorPosterSystemSettings";
 
-const DESIGN_KEY =
-    "doctorPosterDesignStatus";
-
-const AD_KEY =
-    "doctorPosterAdvertisement";
-
-const SYSTEM_KEY =
-    "doctorPosterSystemSettings";
-
-const BANNER_KEY =
-    "doctorPosterBannerStatus";
+const BANNER_KEY = "doctorPosterBannerStatus";
+const BANNER_CONTENT_KEY = "doctorPosterBanners";
 
 
 /* =========================================================
@@ -30,8 +23,7 @@ const BANNER_KEY =
 
 const defaultWebsiteSettings = {
 
-    websiteName:
-        "Doctor Poster Maker",
+    websiteName: "Doctor Poster Maker",
 
     websiteTagline:
         "Create professional doctor posters in minutes.",
@@ -87,13 +79,12 @@ const defaultDesignStatus = {
 
 
 /* =========================================================
-   DEFAULT BROWSER UI ADVERTISEMENT
+   DEFAULT ADVERTISEMENT
 ========================================================= */
 
 const defaultAdvertisement = {
 
-    enabled:
-        true,
+    enabled: true,
 
     label:
         "Advertisement",
@@ -126,22 +117,18 @@ const defaultAdvertisement = {
 
 
 /* =========================================================
-   DEFAULT SYSTEM SETTINGS
+   DEFAULT SYSTEM
 ========================================================= */
 
 const defaultSystemSettings = {
 
-    websiteStatus:
-        true,
+    websiteStatus: true,
 
-    maintenanceMode:
-        false,
+    maintenanceMode: false,
 
-    posterCreation:
-        true,
+    posterCreation: true,
 
-    advertisementSystem:
-        true
+    advertisementSystem: true
 
 };
 
@@ -152,17 +139,68 @@ const defaultSystemSettings = {
 
 const defaultBannerStatus = {
 
-    banner1:
-        true,
-
-    banner2:
-        true
+    banner1: true,
+    banner2: true
 
 };
 
 
 /* =========================================================
-   SAFE LOCAL STORAGE READER
+   DEFAULT BANNER CONTENT
+========================================================= */
+
+const defaultBanners = {
+
+    banner1: {
+
+        label:
+            "Healthcare Promotion",
+
+        title:
+            "Professional Healthcare Promotion",
+
+        description:
+            "Promote your healthcare service, clinic or brand.",
+
+        buttonText:
+            "Learn More →",
+
+        buttonLink:
+            "#",
+
+        image:
+            ""
+
+    },
+
+
+    banner2: {
+
+        label:
+            "Healthcare Service",
+
+        title:
+            "Grow Your Healthcare Brand",
+
+        description:
+            "Reach doctors, clinics and healthcare professionals.",
+
+        buttonText:
+            "Get Started →",
+
+        buttonLink:
+            "#",
+
+        image:
+            ""
+
+    }
+
+};
+
+
+/* =========================================================
+   SAFE JSON READER
 ========================================================= */
 
 function readJSON(key, fallback) {
@@ -172,42 +210,34 @@ function readJSON(key, fallback) {
         const value =
             localStorage.getItem(key);
 
-
         if (!value) {
 
-            return {
-                ...fallback
-            };
+            return fallback;
 
         }
-
 
         const parsed =
             JSON.parse(value);
 
-
         if (
-            parsed &&
-            typeof parsed === "object"
+            !parsed ||
+            typeof parsed !== "object"
         ) {
 
-            return {
-                ...fallback,
-                ...parsed
-            };
+            return fallback;
 
         }
 
-
-        return {
-            ...fallback
-        };
+        return parsed;
 
     } catch (error) {
 
-        return {
-            ...fallback
-        };
+        console.error(
+            "LocalStorage read error:",
+            error
+        );
+
+        return fallback;
 
     }
 
@@ -215,83 +245,53 @@ function readJSON(key, fallback) {
 
 
 /* =========================================================
-   WEBSITE SETTINGS
+   GET SYSTEM SETTINGS
+========================================================= */
+
+function getSystemSettings() {
+
+    const saved =
+        readJSON(
+            SYSTEM_KEY,
+            {}
+        );
+
+    return {
+
+        ...defaultSystemSettings,
+        ...saved
+
+    };
+
+}
+
+
+/* =========================================================
+   LOAD WEBSITE SETTINGS
 ========================================================= */
 
 function loadWebsiteSettings() {
 
-    const settings =
+    const saved =
         readJSON(
             WEBSITE_KEY,
-            defaultWebsiteSettings
+            {}
         );
 
+    const settings = {
+
+        ...defaultWebsiteSettings,
+        ...saved
+
+    };
+
+
+    /* Website Name */
 
     const navWebsiteName =
         document.getElementById(
             "navWebsiteName"
         );
-
-    const navTagline =
-        document.getElementById(
-            "navTagline"
-        );
-
-    const heroBadge =
-        document.getElementById(
-            "heroBadge"
-        );
-
-    const heroTitle =
-        document.getElementById(
-            "heroTitle"
-        );
-
-    const heroDescription =
-        document.getElementById(
-            "heroDescription"
-        );
-
-    const primaryButton =
-        document.getElementById(
-            "primaryButton"
-        );
-
-    const secondaryButton =
-        document.getElementById(
-            "secondaryButton"
-        );
-
-    const stat1 =
-        document.getElementById(
-            "stat1"
-        );
-
-    const stat2 =
-        document.getElementById(
-            "stat2"
-        );
-
-    const footerWebsiteName =
-        document.getElementById(
-            "footerWebsiteName"
-        );
-
-    const footerDescription =
-        document.getElementById(
-            "footerDescription"
-        );
-
-    const copyrightText =
-        document.getElementById(
-            "copyrightText"
-        );
-
-    const footerContactEmail =
-        document.getElementById(
-            "footerContactEmail"
-        );
-
 
     if (navWebsiteName) {
 
@@ -301,69 +301,10 @@ function loadWebsiteSettings() {
     }
 
 
-    if (navTagline) {
-
-        navTagline.textContent =
-            settings.websiteTagline;
-
-    }
-
-
-    if (heroBadge) {
-
-        heroBadge.textContent =
-            settings.heroBadge;
-
-    }
-
-
-    if (heroTitle) {
-
-        heroTitle.textContent =
-            settings.heroTitle;
-
-    }
-
-
-    if (heroDescription) {
-
-        heroDescription.textContent =
-            settings.heroDescription;
-
-    }
-
-
-    if (primaryButton) {
-
-        primaryButton.textContent =
-            settings.primaryButton;
-
-    }
-
-
-    if (secondaryButton) {
-
-        secondaryButton.textContent =
-            settings.secondaryButton;
-
-    }
-
-
-    if (stat1) {
-
-        stat1.textContent =
-            settings.stat1;
-
-    }
-
-
-    if (stat2) {
-
-        stat2.textContent =
-            settings.stat2;
-
-    }
-
+    const footerWebsiteName =
+        document.getElementById(
+            "footerWebsiteName"
+        );
 
     if (footerWebsiteName) {
 
@@ -373,6 +314,138 @@ function loadWebsiteSettings() {
     }
 
 
+    /* Tagline */
+
+    const navTagline =
+        document.getElementById(
+            "navTagline"
+        );
+
+    if (navTagline) {
+
+        navTagline.textContent =
+            settings.websiteTagline;
+
+    }
+
+
+    /* Hero */
+
+    const heroBadge =
+        document.getElementById(
+            "heroBadge"
+        );
+
+    if (heroBadge) {
+
+        heroBadge.textContent =
+            settings.heroBadge;
+
+    }
+
+
+    const heroTitle =
+        document.getElementById(
+            "heroTitle"
+        );
+
+    if (heroTitle) {
+
+        heroTitle.textContent =
+            settings.heroTitle;
+
+    }
+
+
+    const heroDescription =
+        document.getElementById(
+            "heroDescription"
+        );
+
+    if (heroDescription) {
+
+        heroDescription.textContent =
+            settings.heroDescription;
+
+    }
+
+
+    /* Buttons */
+
+    const primaryButton =
+        document.getElementById(
+            "primaryButton"
+        );
+
+    if (primaryButton) {
+
+        primaryButton.textContent =
+            settings.primaryButton;
+
+    }
+
+
+    const secondaryButton =
+        document.getElementById(
+            "secondaryButton"
+        );
+
+    if (secondaryButton) {
+
+        secondaryButton.textContent =
+            settings.secondaryButton;
+
+    }
+
+
+    const ctaCreateButton =
+        document.getElementById(
+            "ctaCreateButton"
+        );
+
+    if (ctaCreateButton) {
+
+        ctaCreateButton.textContent =
+            settings.primaryButton;
+
+    }
+
+
+    /* Stats */
+
+    const stat1 =
+        document.getElementById(
+            "stat1"
+        );
+
+    if (stat1) {
+
+        stat1.textContent =
+            settings.stat1;
+
+    }
+
+
+    const stat2 =
+        document.getElementById(
+            "stat2"
+        );
+
+    if (stat2) {
+
+        stat2.textContent =
+            settings.stat2;
+
+    }
+
+
+    /* Footer */
+
+    const footerDescription =
+        document.getElementById(
+            "footerDescription"
+        );
+
     if (footerDescription) {
 
         footerDescription.textContent =
@@ -380,6 +453,11 @@ function loadWebsiteSettings() {
 
     }
 
+
+    const copyrightText =
+        document.getElementById(
+            "copyrightText"
+        );
 
     if (copyrightText) {
 
@@ -389,6 +467,11 @@ function loadWebsiteSettings() {
     }
 
 
+    const footerContactEmail =
+        document.getElementById(
+            "footerContactEmail"
+        );
+
     if (footerContactEmail) {
 
         if (settings.contactEmail) {
@@ -397,27 +480,31 @@ function loadWebsiteSettings() {
                 settings.contactEmail;
 
             footerContactEmail.href =
-                "mailto:" + settings.contactEmail;
+                `mailto:${settings.contactEmail}`;
+
+            footerContactEmail.style.display =
+                "";
 
         } else {
 
-            footerContactEmail.textContent =
-                "Contact Us";
-
-            footerContactEmail.href =
-                "#";
+            footerContactEmail.style.display =
+                "none";
 
         }
 
     }
 
 
+    /* Page Title */
+
     document.title =
         settings.websiteName;
 
 
+    /* Website Status */
+
     applyWebsiteStatus(
-        settings.websiteEnabled
+        settings.websiteEnabled !== false
     );
 
 }
@@ -440,10 +527,7 @@ function applyWebsiteStatus(enabled) {
         );
 
 
-    if (
-        !websiteContent ||
-        !websiteOffline
-    ) {
+    if (!websiteContent) {
         return;
     }
 
@@ -453,16 +537,24 @@ function applyWebsiteStatus(enabled) {
         websiteContent.style.display =
             "none";
 
-        websiteOffline.style.display =
-            "flex";
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "flex";
+
+        }
 
     } else {
 
         websiteContent.style.display =
             "";
 
-        websiteOffline.style.display =
-            "none";
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "none";
+
+        }
 
     }
 
@@ -470,16 +562,23 @@ function applyWebsiteStatus(enabled) {
 
 
 /* =========================================================
-   DESIGN STATUS
+   LOAD DESIGN STATUS
 ========================================================= */
 
 function loadDesignStatus() {
 
-    const status =
+    const saved =
         readJSON(
             DESIGN_KEY,
-            defaultDesignStatus
+            {}
         );
+
+    const designs = {
+
+        ...defaultDesignStatus,
+        ...saved
+
+    };
 
 
     const cards =
@@ -491,51 +590,39 @@ function loadDesignStatus() {
     let activeCount = 0;
 
 
-    cards.forEach((card) => {
+    cards.forEach(card => {
 
         const design =
             card.dataset.designCard;
 
-
         const active =
-            status[design] !== false;
+            designs[design] !== false;
 
 
         if (active) {
 
-            card.style.display =
-                "";
-
-            card.classList.remove(
-                "inactive-card"
-            );
-
             activeCount++;
+
+            card.style.display = "";
 
         } else {
 
-            card.style.display =
-                "none";
-
-            card.classList.add(
-                "inactive-card"
-            );
+            card.style.display = "none";
 
         }
 
     });
 
 
-    const countElement =
+    const designCountStat =
         document.getElementById(
             "designCountStat"
         );
 
+    if (designCountStat) {
 
-    if (countElement) {
-
-        countElement.textContent =
-            activeCount;
+        designCountStat.textContent =
+            `${activeCount} Designs`;
 
     }
 
@@ -546,38 +633,14 @@ function loadDesignStatus() {
         );
 
 
-    const designGrid =
-        document.getElementById(
-            "designGrid"
-        );
+    if (noDesignMessage) {
 
-
-    if (activeCount === 0) {
-
-        if (designGrid) {
-
-            designGrid.style.display =
-                "none";
-
-        }
-
-        if (noDesignMessage) {
+        if (activeCount === 0) {
 
             noDesignMessage.style.display =
                 "block";
 
-        }
-
-    } else {
-
-        if (designGrid) {
-
-            designGrid.style.display =
-                "";
-
-        }
-
-        if (noDesignMessage) {
+        } else {
 
             noDesignMessage.style.display =
                 "none";
@@ -586,50 +649,292 @@ function loadDesignStatus() {
 
     }
 
-
-    document
-        .querySelectorAll("[data-design]")
-        .forEach((button) => {
-
-            const design =
-                button.dataset.design;
+}
 
 
-            if (
-                status[design] === false
-            ) {
+/* =========================================================
+   GET BANNER STATUS
+========================================================= */
 
-                button.disabled =
-                    true;
+function getBannerStatus() {
 
-                button.style.cursor =
-                    "not-allowed";
+    const saved =
+        readJSON(
+            BANNER_KEY,
+            {}
+        );
 
-            } else {
+    return {
 
-                button.disabled =
-                    false;
+        ...defaultBannerStatus,
+        ...saved
 
-                button.style.cursor =
-                    "";
-
-            }
-
-        });
+    };
 
 }
 
 
 /* =========================================================
-   SYSTEM SETTINGS
+   GET BANNER CONTENT
 ========================================================= */
 
-function getSystemSettings() {
+function getBannerContent() {
 
-    return readJSON(
-        SYSTEM_KEY,
-        defaultSystemSettings
-    );
+    const saved =
+        readJSON(
+            BANNER_CONTENT_KEY,
+            {}
+        );
+
+    return {
+
+        banner1: {
+
+            ...defaultBanners.banner1,
+
+            ...(saved.banner1 || {})
+
+        },
+
+        banner2: {
+
+            ...defaultBanners.banner2,
+
+            ...(saved.banner2 || {})
+
+        }
+
+    };
+
+}
+
+
+/* =========================================================
+   LOAD HOMEPAGE BANNERS
+========================================================= */
+
+function loadBannerStatus() {
+
+    const bannerArea =
+        document.getElementById(
+            "homepageBannerArea"
+        );
+
+
+    if (!bannerArea) {
+
+        return;
+
+    }
+
+
+    const system =
+        getSystemSettings();
+
+
+    /*
+       Advertisement System OFF
+       = Entire homepage banner system OFF
+    */
+
+    if (
+        system.advertisementSystem === false
+    ) {
+
+        bannerArea.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const status =
+        getBannerStatus();
+
+    const banners =
+        getBannerContent();
+
+
+    let visibleCount = 0;
+
+
+    ["banner1", "banner2"].forEach(id => {
+
+        const banner =
+            document.querySelector(
+                `[data-banner-slot="${id}"]`
+            );
+
+
+        if (!banner) {
+            return;
+        }
+
+
+        const enabled =
+            status[id] !== false;
+
+
+        if (!enabled) {
+
+            banner.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        visibleCount++;
+
+        banner.style.display =
+            "";
+
+
+        applyBannerContent(
+            banner,
+            banners[id]
+        );
+
+    });
+
+
+    if (visibleCount === 0) {
+
+        bannerArea.style.display =
+            "none";
+
+    } else {
+
+        bannerArea.style.display =
+            "";
+
+    }
+
+}
+
+
+/* =========================================================
+   APPLY BANNER CONTENT
+========================================================= */
+
+function applyBannerContent(
+    bannerElement,
+    data
+) {
+
+    const label =
+        bannerElement.querySelector(
+            ".homepage-banner-label"
+        );
+
+    const title =
+        bannerElement.querySelector(
+            ".homepage-banner-title"
+        );
+
+    const text =
+        bannerElement.querySelector(
+            ".homepage-banner-text"
+        );
+
+    const button =
+        bannerElement.querySelector(
+            ".homepage-banner-button"
+        );
+
+    const image =
+        bannerElement.querySelector(
+            ".homepage-banner-image"
+        );
+
+    const placeholder =
+        bannerElement.querySelector(
+            ".homepage-banner-placeholder"
+        );
+
+
+    if (label) {
+
+        label.textContent =
+            data.label || "";
+
+    }
+
+
+    if (title) {
+
+        title.textContent =
+            data.title || "";
+
+    }
+
+
+    if (text) {
+
+        text.textContent =
+            data.description || "";
+
+    }
+
+
+    if (button) {
+
+        button.textContent =
+            data.buttonText || "";
+
+        button.href =
+            data.buttonLink || "#";
+
+        button.target =
+            "_blank";
+
+        button.rel =
+            "noopener noreferrer";
+
+    }
+
+
+    if (image) {
+
+        if (data.image) {
+
+            image.src =
+                data.image;
+
+            image.style.display =
+                "block";
+
+        } else {
+
+            image.removeAttribute(
+                "src"
+            );
+
+            image.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    if (placeholder) {
+
+        if (data.image) {
+
+            placeholder.style.display =
+                "none";
+
+        } else {
+
+            placeholder.style.display =
+                "";
+
+        }
+
+    }
 
 }
 
@@ -678,395 +983,7 @@ function openDesign(design) {
 
 
     window.location.href =
-        design + "/index.html";
-
-}
-
-
-/* =========================================================
-   DESIGN BUTTON EVENTS
-========================================================= */
-
-function setupDesignButtons() {
-
-    document
-        .querySelectorAll("[data-design]")
-        .forEach((button) => {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const design =
-                        this.dataset.design;
-
-                    openDesign(design);
-
-                }
-            );
-
-        });
-
-}
-
-
-/* =========================================================
-   BANNER STATUS
-========================================================= */
-
-function loadBannerStatus() {
-
-    const status =
-        readJSON(
-            BANNER_KEY,
-            defaultBannerStatus
-        );
-
-
-    const system =
-        getSystemSettings();
-
-
-    const bannerArea =
-        document.getElementById(
-            "homepageBannerArea"
-        );
-
-
-    const banner1 =
-        document.getElementById(
-            "homepageBanner1"
-        );
-
-
-    const banner2 =
-        document.getElementById(
-            "homepageBanner2"
-        );
-
-
-    if (!bannerArea) {
-        return;
-    }
-
-
-    /*
-        Advertisement System OFF
-        means all homepage banners
-        must be hidden.
-    */
-
-    if (
-        system.advertisementSystem === false
-    ) {
-
-        bannerArea.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    let activeCount =
-        0;
-
-
-    if (banner1) {
-
-        if (
-            status.banner1 !== false
-        ) {
-
-            banner1.style.display =
-                "";
-
-            activeCount++;
-
-        } else {
-
-            banner1.style.display =
-                "none";
-
-        }
-
-    }
-
-
-    if (banner2) {
-
-        if (
-            status.banner2 !== false
-        ) {
-
-            banner2.style.display =
-                "";
-
-            activeCount++;
-
-        } else {
-
-            banner2.style.display =
-                "none";
-
-        }
-
-    }
-
-
-    /*
-        If both banners are OFF,
-        hide the complete banner area.
-    */
-
-    if (activeCount === 0) {
-
-        bannerArea.style.display =
-            "none";
-
-    } else {
-
-        bannerArea.style.display =
-            "";
-
-    }
-
-}
-
-
-/* =========================================================
-   BROWSER UI ADVERTISEMENT
-========================================================= */
-
-function loadAdvertisement() {
-
-    const ad =
-        readJSON(
-            AD_KEY,
-            defaultAdvertisement
-        );
-
-
-    const system =
-        getSystemSettings();
-
-
-    const topAdBanner =
-        document.getElementById(
-            "topAdBanner"
-        );
-
-
-    if (!topAdBanner) {
-        return;
-    }
-
-
-    /*
-        Advertisement System OFF
-        OR advertisement itself OFF
-        => Browser UI ad hidden.
-    */
-
-    if (
-        system.advertisementSystem === false ||
-        ad.enabled === false
-    ) {
-
-        topAdBanner.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    topAdBanner.style.display =
-        "";
-
-
-    const adLabel =
-        document.getElementById(
-            "adLabel"
-        );
-
-    const adTitle =
-        document.getElementById(
-            "adTitle"
-        );
-
-    const adDescription =
-        document.getElementById(
-            "adDescription"
-        );
-
-    const adButton =
-        document.getElementById(
-            "adButton"
-        );
-
-    const adIcon =
-        document.getElementById(
-            "adIcon"
-        );
-
-    const adImageWrap =
-        document.getElementById(
-            "adImageWrap"
-        );
-
-    const adImage =
-        document.getElementById(
-            "adImage"
-        );
-
-    const adClose =
-        document.getElementById(
-            "adClose"
-        );
-
-
-    if (adLabel) {
-
-        adLabel.textContent =
-            ad.label;
-
-    }
-
-
-    if (adTitle) {
-
-        adTitle.textContent =
-            ad.title;
-
-    }
-
-
-    if (adDescription) {
-
-        adDescription.textContent =
-            ad.description;
-
-    }
-
-
-    if (adButton) {
-
-        adButton.textContent =
-            ad.buttonText;
-
-        adButton.href =
-            ad.buttonLink || "#";
-
-        adButton.style.background =
-            ad.buttonColor ||
-            "#ffffff";
-
-        adButton.style.color =
-            ad.backgroundColor ||
-            "#087f86";
-
-    }
-
-
-    topAdBanner.style.background =
-        ad.backgroundColor ||
-        "#087f86";
-
-
-    /*
-        Advertisement image
-    */
-
-    if (
-        ad.image &&
-        adImage &&
-        adImageWrap
-    ) {
-
-        adImage.src =
-            ad.image;
-
-        adImageWrap.style.display =
-            "block";
-
-        if (adIcon) {
-
-            adIcon.style.display =
-                "none";
-
-        }
-
-    } else {
-
-        if (adImageWrap) {
-
-            adImageWrap.style.display =
-                "none";
-
-        }
-
-        if (adIcon) {
-
-            adIcon.style.display =
-                "flex";
-
-        }
-
-    }
-
-
-    /*
-        Advertisement close button
-    */
-
-    if (adClose) {
-
-        adClose.style.display =
-            ad.showCloseButton === false
-                ? "none"
-                : "flex";
-
-    }
-
-}
-
-
-/* =========================================================
-   ADVERTISEMENT CLOSE
-========================================================= */
-
-function setupAdvertisementClose() {
-
-    const adClose =
-        document.getElementById(
-            "adClose"
-        );
-
-
-    const topAdBanner =
-        document.getElementById(
-            "topAdBanner"
-        );
-
-
-    if (
-        !adClose ||
-        !topAdBanner
-    ) {
-        return;
-    }
-
-
-    adClose.addEventListener(
-        "click",
-        function () {
-
-            topAdBanner.style.display =
-                "none";
-
-        }
-    );
+        `${design}/index.html`;
 
 }
 
@@ -1077,47 +994,45 @@ function setupAdvertisementClose() {
 
 function setupMobileMenu() {
 
-    const mobileMenuBtn =
+    const button =
         document.getElementById(
             "mobileMenuBtn"
         );
 
-    const mobileMenu =
+    const menu =
         document.getElementById(
             "mobileMenu"
         );
 
 
-    if (
-        !mobileMenuBtn ||
-        !mobileMenu
-    ) {
+    if (!button || !menu) {
+
         return;
+
     }
 
 
-    mobileMenuBtn.addEventListener(
+    button.addEventListener(
         "click",
-        function () {
+        function() {
 
-            mobileMenu.classList.toggle(
-                "open"
+            menu.classList.toggle(
+                "active"
             );
 
         }
     );
 
 
-    mobileMenu
-        .querySelectorAll("a")
-        .forEach((link) => {
+    menu.querySelectorAll("a")
+        .forEach(link => {
 
             link.addEventListener(
                 "click",
-                function () {
+                function() {
 
-                    mobileMenu.classList.remove(
-                        "open"
+                    menu.classList.remove(
+                        "active"
                     );
 
                 }
@@ -1185,73 +1100,38 @@ function setupActiveNavigation() {
 
     const links =
         document.querySelectorAll(
-            ".desktop-nav .nav-link"
+            ".nav-link"
         );
 
 
-    const sections =
-        document.querySelectorAll(
-            "main section[id]"
-        );
-
-
-    if (
-        !links.length ||
-        !sections.length
-    ) {
+    if (!links.length) {
         return;
     }
 
 
-    function updateActiveNavigation() {
+    links.forEach(link => {
 
-        let current =
-            "home";
+        link.addEventListener(
+            "click",
+            function() {
 
+                links.forEach(item => {
 
-        sections.forEach((section) => {
+                    item.classList.remove(
+                        "active"
+                    );
 
-            const top =
-                section.offsetTop - 150;
-
-
-            if (
-                window.scrollY >= top
-            ) {
-
-                current =
-                    section.id;
-
-            }
-
-        });
+                });
 
 
-        links.forEach((link) => {
-
-            const href =
-                link.getAttribute(
-                    "href"
+                this.classList.add(
+                    "active"
                 );
 
+            }
+        );
 
-            link.classList.toggle(
-                "active",
-                href === "#" + current
-            );
-
-        });
-
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateActiveNavigation
-    );
-
-
-    updateActiveNavigation();
+    });
 
 }
 
@@ -1262,64 +1142,370 @@ function setupActiveNavigation() {
 
 function setupSmoothScroll() {
 
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach((link) => {
+    document.querySelectorAll(
+        'a[href^="#"]'
+    ).forEach(link => {
 
-            link.addEventListener(
-                "click",
-                function (event) {
+        link.addEventListener(
+            "click",
+            function(event) {
 
-                    const targetId =
-                        this.getAttribute(
-                            "href"
-                        );
-
-
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) {
-
-                        return;
-
-                    }
+                const targetId =
+                    this.getAttribute(
+                        "href"
+                    );
 
 
-                    const target =
-                        document.querySelector(
-                            targetId
-                        );
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
 
-
-                    if (!target) {
-                        return;
-                    }
-
-
-                    event.preventDefault();
-
-
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    return;
 
                 }
-            );
 
-        });
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }
+        );
+
+    });
 
 }
 
 
 /* =========================================================
-   STORAGE SYNC
+   LOAD BROWSER UI ADVERTISEMENT
+========================================================= */
+
+function loadAdvertisement() {
+
+    const adBanner =
+        document.getElementById(
+            "topAdBanner"
+        );
+
+
+    if (!adBanner) {
+        return;
+    }
+
+
+    const system =
+        getSystemSettings();
+
+
+    /*
+       System Advertisement OFF
+    */
+
+    if (
+        system.advertisementSystem === false
+    ) {
+
+        adBanner.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const saved =
+        readJSON(
+            AD_KEY,
+            {}
+        );
+
+
+    const ad = {
+
+        ...defaultAdvertisement,
+        ...saved
+
+    };
+
+
+    /*
+       Advertisement itself OFF
+    */
+
+    if (
+        ad.enabled === false
+    ) {
+
+        adBanner.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    adBanner.style.display =
+        "";
+
+
+    /* Background */
+
+    if (ad.backgroundColor) {
+
+        adBanner.style.background =
+            ad.backgroundColor;
+
+    }
+
+
+    /* Label */
+
+    const label =
+        document.getElementById(
+            "adLabel"
+        );
+
+    if (label) {
+
+        label.textContent =
+            ad.label;
+
+    }
+
+
+    /* Title */
+
+    const title =
+        document.getElementById(
+            "adTitle"
+        );
+
+    if (title) {
+
+        title.textContent =
+            ad.title;
+
+    }
+
+
+    /* Description */
+
+    const description =
+        document.getElementById(
+            "adDescription"
+        );
+
+    if (description) {
+
+        description.textContent =
+            ad.description;
+
+    }
+
+
+    /* Button */
+
+    const button =
+        document.getElementById(
+            "adButton"
+        );
+
+    if (button) {
+
+        button.textContent =
+            ad.buttonText;
+
+        button.href =
+            ad.buttonLink || "#";
+
+    }
+
+
+    /* Button Color */
+
+    if (
+        button &&
+        ad.buttonColor
+    ) {
+
+        button.style.background =
+            ad.buttonColor;
+
+    }
+
+
+    /* Image */
+
+    const image =
+        document.getElementById(
+            "adImage"
+        );
+
+    const imageWrap =
+        document.getElementById(
+            "adImageWrap"
+        );
+
+    const icon =
+        document.getElementById(
+            "adIcon"
+        );
+
+
+    if (
+        image &&
+        ad.image
+    ) {
+
+        image.src =
+            ad.image;
+
+        image.style.display =
+            "block";
+
+
+        if (imageWrap) {
+
+            imageWrap.style.display =
+                "";
+
+        }
+
+
+        if (icon) {
+
+            icon.style.display =
+                "none";
+
+        }
+
+    } else {
+
+        if (image) {
+
+            image.removeAttribute(
+                "src"
+            );
+
+            image.style.display =
+                "none";
+
+        }
+
+
+        if (imageWrap) {
+
+            imageWrap.style.display =
+                "none";
+
+        }
+
+
+        if (icon) {
+
+            icon.style.display =
+                "";
+
+        }
+
+    }
+
+
+    /* Close Button */
+
+    const closeButton =
+        document.getElementById(
+            "adClose"
+        );
+
+
+    if (closeButton) {
+
+        if (
+            ad.showCloseButton === false
+        ) {
+
+            closeButton.style.display =
+                "none";
+
+        } else {
+
+            closeButton.style.display =
+                "";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ADVERTISEMENT CLOSE
+========================================================= */
+
+function setupAdvertisementClose() {
+
+    const closeButton =
+        document.getElementById(
+            "adClose"
+        );
+
+
+    const adBanner =
+        document.getElementById(
+            "topAdBanner"
+        );
+
+
+    if (
+        !closeButton ||
+        !adBanner
+    ) {
+
+        return;
+
+    }
+
+
+    closeButton.addEventListener(
+        "click",
+        function() {
+
+            adBanner.style.display =
+                "none";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   STORAGE EVENT
 ========================================================= */
 
 window.addEventListener(
     "storage",
-    function (event) {
+    function(event) {
+
 
         if (
             event.key === WEBSITE_KEY
@@ -1349,6 +1535,16 @@ window.addEventListener(
 
 
         if (
+            event.key === BANNER_KEY ||
+            event.key === BANNER_CONTENT_KEY
+        ) {
+
+            loadBannerStatus();
+
+        }
+
+
+        if (
             event.key === SYSTEM_KEY
         ) {
 
@@ -1360,26 +1556,17 @@ window.addEventListener(
 
         }
 
-
-        if (
-            event.key === BANNER_KEY
-        ) {
-
-            loadBannerStatus();
-
-        }
-
     }
 );
 
 
 /* =========================================================
-   INITIALIZATION
+   DOM READY
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    function() {
 
         loadWebsiteSettings();
 
@@ -1390,8 +1577,6 @@ document.addEventListener(
         loadBannerStatus();
 
         setupAdvertisementClose();
-
-        setupDesignButtons();
 
         setupMobileMenu();
 
