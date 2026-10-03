@@ -1,1048 +1,960 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Poster Maker</title>
 
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        name="description"
+        content="Create beautiful professional doctor posters in minutes."
     >
-
-    <title>
-        Doctor Poster Maker
-    </title>
-
-
-    <!-- =========================================
-         GOOGLE FONTS
-    ========================================== -->
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-
-    <!-- =========================================
-         HOMEPAGE CSS
-    ========================================== -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+    <!-- =========================================
+         TOP ADVERTISEMENT
+    ========================================== -->
 
-<!-- =====================================================
-     TOP ADVERTISEMENT
-===================================================== -->
+    <section class="top-ad-banner" id="topAdBanner">
 
-<section class="top-ad-banner">
+        <div class="top-ad-inner">
 
-    <div class="top-ad-inner">
-
-        <div class="ad-label">
-            Advertisement
-        </div>
-
-
-        <div class="ad-content">
-
-            <div class="ad-icon">
-                ✦
+            <div class="ad-label" id="adLabel">
+                Advertisement
             </div>
 
+            <div class="ad-content">
 
-            <div class="ad-text">
-
-                <strong>
-                    Promote Your Healthcare Brand
-                </strong>
-
-                <span>
-                    Reach doctors, clinics & healthcare professionals
-                </span>
-
-            </div>
-
-
-            <button
-                class="ad-btn"
-                type="button"
-            >
-                Advertise With Us →
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<header class="header">
-
-    <div class="nav-container">
-
-
-        <!-- LOGO -->
-
-        <a
-            href="index.html"
-            class="logo"
-        >
-
-            <div class="logo-icon">
-                ✚
-            </div>
-
-            <div class="logo-text">
-
-                <strong>
-                    Doctor
-                </strong>
-
-                <span>
-                    Poster Maker
-                </span>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- DESKTOP NAVIGATION -->
-
-        <nav class="nav">
-
-            <a href="#home">
-                Home
-            </a>
-
-            <a href="#designs">
-                Designs
-            </a>
-
-            <a href="#features">
-                Features
-            </a>
-
-            <a href="#how-it-works">
-                How It Works
-            </a>
-
-        </nav>
-
-
-
-        <!-- HEADER BUTTON -->
-
-        <div class="header-actions">
-
-            <button
-                class="header-btn"
-                type="button"
-            >
-                Create Poster
-            </button>
-
-        </div>
-
-
-
-        <!-- MOBILE MENU -->
-
-        <button
-            class="menu-btn"
-            type="button"
-            onclick="toggleMenu()"
-            aria-label="Open Menu"
-        >
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-    </div>
-
-
-
-    <!-- MOBILE NAVIGATION -->
-
-    <div
-        class="mobile-nav"
-        id="mobileNav"
-    >
-
-        <a href="#home">
-            Home
-        </a>
-
-        <a href="#designs">
-            Designs
-        </a>
-
-        <a href="#features">
-            Features
-        </a>
-
-        <a href="#how-it-works">
-            How It Works
-        </a>
-
-
-        <button
-            class="mobile-create-btn"
-            type="button"
-        >
-            Create Poster
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<main>
-
-
-<section
-    class="hero"
-    id="home"
->
-
-    <div class="hero-container">
-
-
-        <!-- HERO TEXT -->
-
-        <div class="hero-content">
-
-            <div class="hero-badge">
-                ✦ Built for Healthcare Professionals
-            </div>
-
-
-            <h1>
-
-                Create Beautiful
-                <span>
-                    Doctor Posters
-                </span>
-                in Minutes.
-
-            </h1>
-
-
-            <p>
-
-                Create professional doctor posters,
-                clinic advertisements and healthcare
-                social media designs without complicated
-                design software.
-
-            </p>
-
-
-            <div class="hero-buttons">
-
-                <button
-                    class="primary-btn"
-                    onclick="scrollToDesigns()"
-                >
-                    Start Creating →
-                </button>
-
-
-                <button
-                    class="secondary-btn"
-                    onclick="scrollToDesigns()"
-                >
-                    Explore Designs
-                </button>
-
-            </div>
-
-
-            <div class="hero-stats">
-
-                <div>
-
-                    <strong>
-                        4+
-                    </strong>
-
-                    <span>
-                        Premium Designs
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <strong>
-                        1080
-                    </strong>
-
-                    <span>
-                        Export Quality
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <strong>
-                        Free
-                    </strong>
-
-                    <span>
-                        To Get Started
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- HERO POSTER MOCKUP -->
-
-        <div class="hero-visual">
-
-            <div class="floating-card card-one">
-
-                <span>
-                    ✓
-                </span>
-
-                Professional Design
-
-            </div>
-
-
-            <div class="floating-card card-two">
-
-                <span>
-                    HD
-                </span>
-
-                PNG Export
-
-            </div>
-
-
-            <div class="hero-poster">
-
-                <div class="poster-top">
-
-                    <small>
-                        SPECIALIST DOCTOR
-                    </small>
-
-                    <h3>
-                        DR. ALEXANDER
-                    </h3>
-
-                    <p>
-                        MBBS, FCPS
-                    </p>
-
-                </div>
-
-
-                <div class="poster-photo">
-                    <span>
-                        Doctor
-                    </span>
-                </div>
-
-
-                <div class="poster-specialty">
-
-                    CARDIOLOGY
-                    SPECIALIST
-
-                </div>
-
-
-                <div class="poster-info">
-
-                    <div>
-                        <strong>
-                            Chamber
-                        </strong>
-
-                        <span>
-                            City Medical Center
-                        </span>
-                    </div>
-
-
-                    <div>
-                        <strong>
-                            Visiting
-                        </strong>
-
-                        <span>
-                            5:00 PM – 9:00 PM
-                        </span>
-                    </div>
-
-                </div>
-
-
-                <div class="poster-footer">
-
-                    Appointment:
-                    +880 1700 000000
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     DESIGNS
-===================================================== -->
-
-<section
-    class="designs section"
-    id="designs"
->
-
-    <div class="section-container">
-
-
-        <div class="section-heading">
-
-            <div class="section-label">
-                OUR DESIGNS
-            </div>
-
-            <h2>
-                Choose Your Poster Style
-            </h2>
-
-            <p>
-                Select a professional template and
-                customize it with your own information.
-            </p>
-
-        </div>
-
-
-
-        <div class="design-grid">
-
-
-            <!-- DESIGN 1 -->
-
-            <div class="design-card">
-
-                <div class="design-preview classic-preview">
-
-                    <div class="mini-header">
-                        MEDICAL CENTER
-                    </div>
-
-                    <div class="mini-doctor">
-                        DOCTOR
-                    </div>
-
-                    <div class="mini-name">
-                        DR. YOUR NAME
-                    </div>
-
-                    <div class="mini-line"></div>
-
-                    <div class="mini-info">
-                        SPECIALIST DOCTOR
-                    </div>
-
-                </div>
-
-
-                <div class="design-card-content">
-
-                    <div>
-
-                        <span class="design-number">
-                            01
-                        </span>
-
-                        <h3>
-                            Classic Medical
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        Clean and professional
-                        healthcare poster style.
-                    </p>
-
-
-                    <button
-                        class="use-btn"
-                        data-design="design1"
-                    >
-                        Use Design →
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- DESIGN 2 -->
-
-            <div class="design-card">
-
-                <div class="design-preview premium-preview">
-
-                    <div class="premium-circle"></div>
-
-                    <div class="premium-title">
-                        SPECIALIST
-                    </div>
-
-                    <div class="premium-name">
-                        DR. YOUR NAME
-                    </div>
-
-                    <div class="premium-badge">
-                        CARDIOLOGY
-                    </div>
-
-                </div>
-
-
-                <div class="design-card-content">
-
-                    <div>
-
-                        <span class="design-number">
-                            02
-                        </span>
-
-                        <h3>
-                            Premium Modern
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        Modern premium layout
-                        for professional clinics.
-                    </p>
-
-
-                    <button
-                        class="use-btn"
-                        data-design="design2"
-                    >
-                        Use Design →
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- DESIGN 3 -->
-
-            <div class="design-card">
-
-                <div class="design-preview minimal-preview">
-
-                    <div class="minimal-top">
-                        DOCTOR
-                    </div>
-
-                    <div class="minimal-name">
-                        DR. YOUR NAME
-                    </div>
-
-                    <div class="minimal-photo">
-                        PHOTO
-                    </div>
-
-                    <div class="minimal-specialty">
-                        SPECIALIST
-                    </div>
-
-                </div>
-
-
-                <div class="design-card-content">
-
-                    <div>
-
-                        <span class="design-number">
-                            03
-                        </span>
-
-                        <h3>
-                            Modern Minimal
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        Minimal design with
-                        a clean modern look.
-                    </p>
-
-
-                    <button
-                        class="use-btn"
-                        data-design="design3"
-                    >
-                        Use Design →
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- DESIGN 4 -->
-
-            <div class="design-card">
-
-                <div class="design-preview split-preview">
-
-                    <div class="split-photo">
-                        PHOTO
-                    </div>
-
-                    <div class="split-content">
-
-                        <small>
-                            SPECIALIST
-                        </small>
-
-                        <strong>
-                            DR. YOUR NAME
-                        </strong>
-
-                        <span>
-                            MBBS, FCPS
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="design-card-content">
-
-                    <div>
-
-                        <span class="design-number">
-                            04
-                        </span>
-
-                        <h3>
-                            Elegant Split
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        Elegant split layout
-                        for premium branding.
-                    </p>
-
-
-                    <button
-                        class="use-btn"
-                        data-design="design4"
-                    >
-                        Use Design →
-                    </button>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FEATURES
-===================================================== -->
-
-<section
-    class="features section"
-    id="features"
->
-
-    <div class="section-container">
-
-
-        <div class="section-heading">
-
-            <div class="section-label">
-                FEATURES
-            </div>
-
-            <h2>
-                Everything You Need
-            </h2>
-
-            <p>
-                Simple tools designed specifically
-                for professional healthcare posters.
-            </p>
-
-        </div>
-
-
-
-        <div class="feature-grid">
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
+                <!-- Default Icon -->
+                <div class="ad-icon" id="adIcon">
                     ✦
                 </div>
 
-                <h3>
-                    Professional Templates
-                </h3>
-
-                <p>
-                    Ready-made medical designs
-                    that look professional from
-                    the first click.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ✎
+                <!-- Advertisement Image -->
+                <div class="ad-image-wrap" id="adImageWrap">
+                    <img
+                        id="adImage"
+                        src=""
+                        alt="Advertisement"
+                    >
                 </div>
 
-                <h3>
-                    Easy Customization
-                </h3>
+                <!-- Advertisement Text -->
+                <div class="ad-text">
 
-                <p>
-                    Add doctor information,
-                    clinic details, photos
-                    and logos easily.
-                </p>
+                    <strong id="adTitle">
+                        Promote Your Healthcare Brand
+                    </strong>
 
-            </div>
+                    <span id="adDescription">
+                        Reach doctors, clinics & healthcare professionals
+                    </span>
 
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    HD
                 </div>
 
-                <h3>
-                    High Quality Export
-                </h3>
+                <!-- Advertisement Button -->
+                <button
+                    class="ad-btn"
+                    id="adButton"
+                    type="button"
+                >
+                    Advertise With Us →
+                </button>
 
-                <p>
-                    Export your finished poster
-                    in high-quality PNG format.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ⚡
-                </div>
-
-                <h3>
-                    Fast & Simple
-                </h3>
-
-                <p>
-                    No complicated software.
-                    Create a professional poster
-                    in minutes.
-                </p>
+                <!-- Close -->
+                <button
+                    class="ad-close"
+                    id="adClose"
+                    type="button"
+                    aria-label="Close Advertisement"
+                >
+                    ×
+                </button>
 
             </div>
-
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
 
-<!-- =====================================================
-     HOW IT WORKS
-===================================================== -->
+    <header class="header" id="header">
 
-<section
-    class="how-it-works section"
-    id="how-it-works"
->
+        <div class="nav-container">
 
-    <div class="section-container">
-
-
-        <div class="section-heading">
-
-            <div class="section-label">
-                HOW IT WORKS
-            </div>
-
-            <h2>
-                Create Your Poster in 3 Steps
-            </h2>
-
-        </div>
-
-
-
-        <div class="steps-grid">
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    01
-                </div>
-
-                <h3>
-                    Choose a Design
-                </h3>
-
-                <p>
-                    Select a poster style
-                    that fits your clinic
-                    or professional profile.
-                </p>
-
-            </div>
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    02
-                </div>
-
-                <h3>
-                    Add Your Information
-                </h3>
-
-                <p>
-                    Enter your name, degrees,
-                    specialty, chamber,
-                    visiting hours and more.
-                </p>
-
-            </div>
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    03
-                </div>
-
-                <h3>
-                    Export & Share
-                </h3>
-
-                <p>
-                    Download your finished
-                    poster and share it
-                    on social media.
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CTA
-===================================================== -->
-
-<section class="cta">
-
-    <div class="cta-container">
-
-        <div>
-
-            <span>
-                READY TO CREATE?
-            </span>
-
-            <h2>
-                Build Your Professional
-                Doctor Poster Today.
-            </h2>
-
-            <p>
-                Choose a design and start
-                creating in just a few clicks.
-            </p>
-
-        </div>
-
-
-        <button type="button">
-            Start Creating →
-        </button>
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-    <div class="footer-container">
-
-
-        <div class="footer-brand">
-
-            <div class="logo">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
 
                 <div class="logo-icon">
                     ✚
                 </div>
 
                 <div class="logo-text">
+                    <strong>Doctor</strong>
+                    <span>Poster Maker</span>
+                </div>
 
-                    <strong>
-                        Doctor
-                    </strong>
+            </a>
 
-                    <span>
-                        Poster Maker
-                    </span>
+
+            <!-- Desktop Navigation -->
+            <nav class="nav">
+
+                <a href="#home" class="nav-link active">
+                    Home
+                </a>
+
+                <a href="#designs" class="nav-link">
+                    Designs
+                </a>
+
+                <a href="#features" class="nav-link">
+                    Features
+                </a>
+
+                <a href="#how-it-works" class="nav-link">
+                    How It Works
+                </a>
+
+            </nav>
+
+
+            <!-- Header Action -->
+            <div class="header-actions">
+
+                <button
+                    class="header-btn"
+                    type="button"
+                    onclick="scrollToDesigns()"
+                >
+                    Create Poster
+                </button>
+
+            </div>
+
+
+            <!-- Mobile Menu -->
+            <button
+                class="menu-btn"
+                type="button"
+                onclick="toggleMenu()"
+                aria-label="Open Menu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+
+            <a href="#home" onclick="closeMenu()">
+                Home
+            </a>
+
+            <a href="#designs" onclick="closeMenu()">
+                Designs
+            </a>
+
+            <a href="#features" onclick="closeMenu()">
+                Features
+            </a>
+
+            <a href="#how-it-works" onclick="closeMenu()">
+                How It Works
+            </a>
+
+            <button
+                class="mobile-create-btn"
+                type="button"
+                onclick="scrollToDesigns(); closeMenu();"
+            >
+                Create Poster
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         HERO
+    ========================================== -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="hero-container">
+
+                <!-- Hero Content -->
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+                        <span>✦</span>
+                        Built for Healthcare Professionals
+                    </div>
+
+                    <h1>
+                        Create Beautiful
+                        <span>Doctor Posters</span>
+                        in Minutes.
+                    </h1>
+
+                    <p>
+                        Create professional medical posters quickly
+                        with beautiful ready-made designs built for
+                        doctors, clinics and healthcare professionals.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <button
+                            class="primary-btn"
+                            type="button"
+                            onclick="scrollToDesigns()"
+                        >
+                            Start Creating →
+                        </button>
+
+                        <button
+                            class="secondary-btn"
+                            type="button"
+                            onclick="scrollToDesigns()"
+                        >
+                            Explore Designs
+                        </button>
+
+                    </div>
+
+
+                    <!-- Stats -->
+                    <div class="hero-stats">
+
+                        <div class="stat">
+                            <strong>4+</strong>
+                            <span>Designs</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>1080</strong>
+                            <span>Pixel Quality</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>Free</strong>
+                            <span>To Start</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hero Poster Mockup -->
+                <div class="hero-visual">
+
+                    <div class="floating-card card-one">
+                        <span class="floating-icon">✓</span>
+                        <div>
+                            <strong>Easy Editing</strong>
+                            <small>Live preview</small>
+                        </div>
+                    </div>
+
+                    <div class="floating-card card-two">
+                        <span class="floating-icon">HD</span>
+                        <div>
+                            <strong>High Quality</strong>
+                            <small>1080 × 1350</small>
+                        </div>
+                    </div>
+
+
+                    <div class="hero-poster">
+
+                        <div class="poster-top">
+
+                            <div class="poster-logo">
+                                ✚
+                            </div>
+
+                            <div>
+                                <strong>CARE MEDICAL</strong>
+                                <small>HEALTHCARE CENTER</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="poster-body">
+
+                            <div class="doctor-photo">
+                                <div class="doctor-silhouette">
+                                    <div class="doctor-head"></div>
+                                    <div class="doctor-body"></div>
+                                </div>
+                            </div>
+
+                            <div class="poster-info">
+
+                                <small>CONSULTANT</small>
+
+                                <h3>
+                                    Dr. Sarah Ahmed
+                                </h3>
+
+                                <p>
+                                    MBBS, FCPS
+                                </p>
+
+                                <span>
+                                    Specialist Physician
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="poster-details">
+
+                            <div>
+                                <small>CHAMBER</small>
+                                <strong>Care Medical Center</strong>
+                            </div>
+
+                            <div>
+                                <small>VISITING</small>
+                                <strong>5:00 PM – 9:00 PM</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="poster-appointment">
+                            Appointment: 01700-000000
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
+        </section>
 
-            <p>
-                Create beautiful and professional
-                healthcare posters with ease.
-            </p>
+
+        <!-- =========================================
+             DESIGNS
+        ========================================== -->
+
+        <section class="designs-section" id="designs">
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-label">
+                            DESIGN COLLECTION
+                        </span>
+
+                        <h2>
+                            Choose Your Design
+                        </h2>
+                    </div>
+
+                    <p>
+                        Select a professional design and customize
+                        it with your own information.
+                    </p>
+
+                </div>
+
+
+                <div class="design-grid">
+
+                    <!-- Design 1 -->
+                    <div class="design-card">
+
+                        <div class="design-preview preview-one">
+
+                            <div class="mini-poster">
+
+                                <div class="mini-header">
+                                    <span>✚</span>
+                                    <small>MEDICAL CENTER</small>
+                                </div>
+
+                                <div class="mini-photo"></div>
+
+                                <div class="mini-name">
+                                    <strong>Dr. Ahmed</strong>
+                                    <span>MBBS, FCPS</span>
+                                </div>
+
+                                <div class="mini-line"></div>
+
+                            </div>
+
+                            <div class="design-number">
+                                01
+                            </div>
+
+                        </div>
+
+                        <div class="design-info">
+
+                            <span>CLASSIC MEDICAL</span>
+
+                            <h3>
+                                Classic Medical
+                            </h3>
+
+                            <p>
+                                Clean and professional medical poster.
+                            </p>
+
+                            <button
+                                class="use-btn"
+                                type="button"
+                                data-design="design1"
+                            >
+                                Use Design →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Design 2 -->
+                    <div class="design-card">
+
+                        <div class="design-preview preview-two">
+
+                            <div class="mini-poster">
+
+                                <div class="mini-header dark">
+                                    <span>✚</span>
+                                    <small>PREMIUM CLINIC</small>
+                                </div>
+
+                                <div class="mini-dark-box">
+
+                                    <div class="mini-photo circle"></div>
+
+                                    <div class="mini-name light">
+                                        <strong>Dr. Sarah</strong>
+                                        <span>Specialist</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="mini-cards">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+                            <div class="design-number">
+                                02
+                            </div>
+
+                        </div>
+
+                        <div class="design-info">
+
+                            <span>PREMIUM MODERN</span>
+
+                            <h3>
+                                Premium Modern
+                            </h3>
+
+                            <p>
+                                Bold modern layout for premium clinics.
+                            </p>
+
+                            <button
+                                class="use-btn"
+                                type="button"
+                                data-design="design2"
+                            >
+                                Use Design →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Design 3 -->
+                    <div class="design-card">
+
+                        <div class="design-preview preview-three">
+
+                            <div class="mini-poster">
+
+                                <div class="mini-header">
+                                    <span>✚</span>
+                                    <small>HEALTH CENTER</small>
+                                </div>
+
+                                <div class="minimal-title">
+                                    <strong>Dr. Rahman</strong>
+                                    <span>MBBS, MD</span>
+                                </div>
+
+                                <div class="minimal-photo"></div>
+
+                                <div class="minimal-info">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+                            <div class="design-number">
+                                03
+                            </div>
+
+                        </div>
+
+                        <div class="design-info">
+
+                            <span>MODERN MINIMAL</span>
+
+                            <h3>
+                                Modern Minimal
+                            </h3>
+
+                            <p>
+                                Simple, elegant and clean visual style.
+                            </p>
+
+                            <button
+                                class="use-btn"
+                                type="button"
+                                data-design="design3"
+                            >
+                                Use Design →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Design 4 -->
+                    <div class="design-card">
+
+                        <div class="design-preview preview-four">
+
+                            <div class="mini-poster split">
+
+                                <div class="split-photo"></div>
+
+                                <div class="split-content">
+
+                                    <small>
+                                        MEDICAL
+                                    </small>
+
+                                    <strong>
+                                        Dr. Khan
+                                    </strong>
+
+                                    <span>
+                                        Specialist
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="design-number">
+                                04
+                            </div>
+
+                        </div>
+
+                        <div class="design-info">
+
+                            <span>ELEGANT SPLIT</span>
+
+                            <h3>
+                                Elegant Split
+                            </h3>
+
+                            <p>
+                                Premium split layout with strong visual impact.
+                            </p>
+
+                            <button
+                                class="use-btn"
+                                type="button"
+                                data-design="design4"
+                            >
+                                Use Design →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             FEATURES
+        ========================================== -->
+
+        <section class="features-section" id="features">
+
+            <div class="section-container">
+
+                <div class="center-heading">
+
+                    <span class="section-label">
+                        POWERFUL FEATURES
+                    </span>
+
+                    <h2>
+                        Everything You Need
+                    </h2>
+
+                    <p>
+                        Everything you need to create professional
+                        healthcare posters without complicated software.
+                    </p>
+
+                </div>
+
+
+                <div class="features-grid">
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ✦
+                        </div>
+
+                        <h3>
+                            Professional Templates
+                        </h3>
+
+                        <p>
+                            Ready-made medical designs created
+                            specifically for healthcare professionals.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ✎
+                        </div>
+
+                        <h3>
+                            Easy Customization
+                        </h3>
+
+                        <p>
+                            Add your doctor name, degrees, chamber,
+                            visiting hours and contact details easily.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            HD
+                        </div>
+
+                        <h3>
+                            High Quality Export
+                        </h3>
+
+                        <p>
+                            Download your finished poster in
+                            high-quality PNG format.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Fast & Simple
+                        </h3>
+
+                        <p>
+                            Create a professional poster in just
+                            a few simple steps.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             HOW IT WORKS
+        ========================================== -->
+
+        <section class="how-section" id="how-it-works">
+
+            <div class="section-container">
+
+                <div class="center-heading">
+
+                    <span class="section-label">
+                        HOW IT WORKS
+                    </span>
+
+                    <h2>
+                        Create Your Poster in 3 Steps
+                    </h2>
+
+                </div>
+
+
+                <div class="steps-grid">
+
+                    <div class="step-card">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Choose a Design
+                        </h3>
+
+                        <p>
+                            Select the poster design that matches
+                            your professional style.
+                        </p>
+
+                    </div>
+
+
+                    <div class="step-card">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Add Your Information
+                        </h3>
+
+                        <p>
+                            Enter your name, degrees, specialty,
+                            chamber and appointment details.
+                        </p>
+
+                    </div>
+
+
+                    <div class="step-card">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Export & Share
+                        </h3>
+
+                        <p>
+                            Download your poster and share it
+                            on social media or print it.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             CTA
+        ========================================== -->
+
+        <section class="cta-section">
+
+            <div class="cta-container">
+
+                <div>
+
+                    <span class="section-label">
+                        READY TO CREATE?
+                    </span>
+
+                    <h2>
+                        Build Your Professional
+                        Doctor Poster Today.
+                    </h2>
+
+                    <p>
+                        Choose a design and start creating
+                        your professional poster.
+                    </p>
+
+                </div>
+
+                <button
+                    class="cta-btn"
+                    type="button"
+                    onclick="scrollToDesigns()"
+                >
+                    Start Creating →
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo footer-logo">
+
+                    <div class="logo-icon">
+                        ✚
+                    </div>
+
+                    <div class="logo-text">
+                        <strong>Doctor</strong>
+                        <span>Poster Maker</span>
+                    </div>
+
+                </a>
+
+                <p>
+                    Create beautiful professional doctor posters
+                    quickly and easily.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Platform
+                    </h4>
+
+                    <a href="#designs">
+                        Designs
+                    </a>
+
+                    <a href="#features">
+                        Features
+                    </a>
+
+                    <a href="#how-it-works">
+                        How It Works
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Quick Links
+                    </h4>
+
+                    <a href="#home">
+                        Home
+                    </a>
+
+                    <a href="#designs">
+                        Create Poster
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
 
+        <div class="footer-bottom">
 
-        <div class="footer-links">
+            <span>
+                © 2026 Doctor Poster Maker
+            </span>
 
-            <a href="#home">
-                Home
-            </a>
-
-            <a href="#designs">
-                Designs
-            </a>
-
-            <a href="#features">
-                Features
-            </a>
-
-            <a href="#how-it-works">
-                How It Works
-            </a>
+            <span>
+                Built for Healthcare Professionals
+            </span>
 
         </div>
 
-    </div>
+    </footer>
 
 
-    <div class="footer-bottom">
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
-        © 2026 Doctor Poster Maker.
-        All rights reserved.
-
-    </div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     HOMEPAGE JAVASCRIPT
-===================================================== -->
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 
 </body>
-
 </html>
