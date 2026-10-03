@@ -104,7 +104,7 @@
 
 
 <!-- =========================================================
-     WEBSITE OFFLINE MESSAGE
+     WEBSITE OFFLINE / MAINTENANCE MESSAGE
 ========================================================= -->
 
 <div
@@ -114,15 +114,18 @@
 
     <div class="offline-card">
 
-        <div class="offline-icon">
+        <div
+            class="offline-icon"
+            id="offlineIcon"
+        >
             ⚙
         </div>
 
-        <h1>
+        <h1 id="offlineTitle">
             Website Temporarily Unavailable
         </h1>
 
-        <p>
+        <p id="offlineDescription">
             We are currently updating the website.
             Please check back again soon.
         </p>
@@ -626,6 +629,7 @@
                         <div class="design-preview preview-two">
 
                             <div class="mini-two-header">
+
                                 <strong>
                                     MEDICAL
                                 </strong>
@@ -633,6 +637,7 @@
                                 <span>
                                     HEALTHCARE
                                 </span>
+
                             </div>
 
                             <div class="mini-two-dark">
@@ -721,11 +726,15 @@
                         <div class="design-preview preview-three">
 
                             <div class="mini-three-top">
-                                <span>✚</span>
+
+                                <span>
+                                    ✚
+                                </span>
 
                                 <strong>
                                     CLINIC
                                 </strong>
+
                             </div>
 
                             <div class="mini-three-doctor">
@@ -1141,6 +1150,7 @@
                     <a
                         href="#designs"
                         class="btn btn-white"
+                        id="ctaCreateButton"
                     >
                         Start Creating →
                     </a>
@@ -1244,7 +1254,709 @@
 </div>
 
 
+<!-- =========================================================
+     EXISTING WEBSITE SCRIPT
+========================================================= -->
+
 <script src="script.js"></script>
+
+
+<!-- =========================================================
+     SYSTEM SETTINGS → HOMEPAGE CONNECTION
+     
+     Connected controls:
+     1. Website Status
+     2. Maintenance Mode
+     3. Poster Creation
+     4. Advertisement System
+========================================================= -->
+
+<script>
+
+    /* =========================================
+       SYSTEM STORAGE KEY
+    ========================================== */
+
+    const HOMEPAGE_SYSTEM_KEY =
+        "doctorPosterSystemSettings";
+
+
+    const HOMEPAGE_DEFAULT_SYSTEM = {
+
+        websiteStatus: true,
+
+        maintenanceMode: false,
+
+        posterCreation: true,
+
+        advertisementSystem: true
+
+    };
+
+
+    /* =========================================
+       READ SYSTEM SETTINGS
+    ========================================== */
+
+    function getHomepageSystemSettings() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    HOMEPAGE_SYSTEM_KEY
+                );
+
+
+            if (!saved) {
+
+                return {
+                    ...HOMEPAGE_DEFAULT_SYSTEM
+                };
+
+            }
+
+
+            const parsed =
+                JSON.parse(saved);
+
+
+            if (
+                !parsed ||
+                typeof parsed !== "object"
+            ) {
+
+                return {
+                    ...HOMEPAGE_DEFAULT_SYSTEM
+                };
+
+            }
+
+
+            return {
+                ...HOMEPAGE_DEFAULT_SYSTEM,
+                ...parsed
+            };
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to read system settings:",
+                error
+            );
+
+
+            return {
+                ...HOMEPAGE_DEFAULT_SYSTEM
+            };
+
+        }
+
+    }
+
+
+    /* =========================================
+       SHOW WEBSITE OFFLINE
+    ========================================== */
+
+    function showHomepageOffline(
+        title,
+        description,
+        icon = "⚙"
+    ) {
+
+        const websiteContent =
+            document.getElementById(
+                "websiteContent"
+            );
+
+
+        const websiteOffline =
+            document.getElementById(
+                "websiteOffline"
+            );
+
+
+        const offlineTitle =
+            document.getElementById(
+                "offlineTitle"
+            );
+
+
+        const offlineDescription =
+            document.getElementById(
+                "offlineDescription"
+            );
+
+
+        const offlineIcon =
+            document.getElementById(
+                "offlineIcon"
+            );
+
+
+        if (websiteContent) {
+
+            websiteContent.style.display =
+                "none";
+
+        }
+
+
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "flex";
+
+        }
+
+
+        if (offlineTitle) {
+
+            offlineTitle.textContent =
+                title;
+
+        }
+
+
+        if (offlineDescription) {
+
+            offlineDescription.textContent =
+                description;
+
+        }
+
+
+        if (offlineIcon) {
+
+            offlineIcon.textContent =
+                icon;
+
+        }
+
+    }
+
+
+    /* =========================================
+       SHOW WEBSITE
+    ========================================== */
+
+    function showHomepageContent() {
+
+        const websiteContent =
+            document.getElementById(
+                "websiteContent"
+            );
+
+
+        const websiteOffline =
+            document.getElementById(
+                "websiteOffline"
+            );
+
+
+        if (websiteContent) {
+
+            websiteContent.style.display =
+                "";
+
+        }
+
+
+        if (websiteOffline) {
+
+            websiteOffline.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =========================================
+       APPLY SYSTEM SETTINGS
+    ========================================== */
+
+    function applyHomepageSystemSettings() {
+
+        const settings =
+            getHomepageSystemSettings();
+
+
+        /* -------------------------------------
+           1. WEBSITE STATUS
+        -------------------------------------- */
+
+        if (
+            settings.websiteStatus === false
+        ) {
+
+            showHomepageOffline(
+
+                "Website Temporarily Unavailable",
+
+                "The website is currently offline. Please check back again later.",
+
+                "×"
+
+            );
+
+            return;
+
+        }
+
+
+        /* -------------------------------------
+           2. MAINTENANCE MODE
+        -------------------------------------- */
+
+        if (
+            settings.maintenanceMode === true
+        ) {
+
+            showHomepageOffline(
+
+                "Website Under Maintenance",
+
+                "We are currently performing maintenance. Please check back again soon.",
+
+                "⚙"
+
+            );
+
+            return;
+
+        }
+
+
+        /* -------------------------------------
+           WEBSITE AVAILABLE
+        -------------------------------------- */
+
+        showHomepageContent();
+
+
+        /* -------------------------------------
+           3. POSTER CREATION
+        -------------------------------------- */
+
+        applyPosterCreationStatus(
+            settings.posterCreation
+        );
+
+
+        /* -------------------------------------
+           4. ADVERTISEMENT SYSTEM
+        -------------------------------------- */
+
+        applyAdvertisementSystemStatus(
+            settings.advertisementSystem
+        );
+
+    }
+
+
+    /* =========================================
+       POSTER CREATION CONTROL
+    ========================================== */
+
+    function applyPosterCreationStatus(
+        enabled
+    ) {
+
+        const designButtons =
+            document.querySelectorAll(
+                "[data-design]"
+            );
+
+
+        const primaryButton =
+            document.getElementById(
+                "primaryButton"
+            );
+
+
+        const secondaryButton =
+            document.getElementById(
+                "secondaryButton"
+            );
+
+
+        const ctaButton =
+            document.getElementById(
+                "ctaCreateButton"
+            );
+
+
+        if (enabled === false) {
+
+            /* ---------------------------------
+               Disable all Design buttons
+            ---------------------------------- */
+
+            designButtons.forEach(
+                function (button) {
+
+                    button.dataset.posterDisabled =
+                        "true";
+
+                    button.setAttribute(
+                        "aria-disabled",
+                        "true"
+                    );
+
+                    button.style.opacity =
+                        "0.55";
+
+                    button.style.cursor =
+                        "not-allowed";
+
+                }
+            );
+
+
+            /* ---------------------------------
+               Disable Hero buttons
+            ---------------------------------- */
+
+            [
+                primaryButton,
+                secondaryButton,
+                ctaButton
+            ].forEach(
+                function (button) {
+
+                    if (!button) {
+                        return;
+                    }
+
+
+                    button.dataset.posterDisabled =
+                        "true";
+
+                    button.setAttribute(
+                        "aria-disabled",
+                        "true"
+                    );
+
+                    button.style.opacity =
+                        "0.55";
+
+                    button.style.cursor =
+                        "not-allowed";
+
+                }
+            );
+
+
+            /* ---------------------------------
+               Add user message
+            ---------------------------------- */
+
+            const designSection =
+                document.getElementById(
+                    "designs"
+                );
+
+
+            if (designSection) {
+
+                let notice =
+                    document.getElementById(
+                        "posterCreationNotice"
+                    );
+
+
+                if (!notice) {
+
+                    notice =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    notice.id =
+                        "posterCreationNotice";
+
+
+                    notice.textContent =
+                        "Poster creation is temporarily unavailable.";
+
+
+                    notice.style.margin =
+                        "0 auto 20px";
+
+                    notice.style.padding =
+                        "12px 18px";
+
+                    notice.style.maxWidth =
+                        "600px";
+
+                    notice.style.textAlign =
+                        "center";
+
+                    notice.style.borderRadius =
+                        "10px";
+
+                    notice.style.background =
+                        "#fff7e5";
+
+                    notice.style.color =
+                        "#9a6500";
+
+                    notice.style.fontSize =
+                        "13px";
+
+                    notice.style.fontWeight =
+                        "600";
+
+
+                    const container =
+                        designSection.querySelector(
+                            ".section-container"
+                        );
+
+
+                    const heading =
+                        designSection.querySelector(
+                            ".section-heading"
+                        );
+
+
+                    if (
+                        container &&
+                        heading
+                    ) {
+
+                        container.insertBefore(
+                            notice,
+                            heading.nextSibling
+                        );
+
+                    }
+
+                }
+
+            }
+
+        } else {
+
+            /* ---------------------------------
+               Enable Design buttons
+            ---------------------------------- */
+
+            designButtons.forEach(
+                function (button) {
+
+                    delete button.dataset
+                        .posterDisabled;
+
+                    button.removeAttribute(
+                        "aria-disabled"
+                    );
+
+                    button.style.opacity =
+                        "";
+
+                    button.style.cursor =
+                        "";
+
+                }
+            );
+
+
+            /* ---------------------------------
+               Enable Hero buttons
+            ---------------------------------- */
+
+            [
+                primaryButton,
+                secondaryButton,
+                ctaButton
+            ].forEach(
+                function (button) {
+
+                    if (!button) {
+                        return;
+                    }
+
+
+                    delete button.dataset
+                        .posterDisabled;
+
+                    button.removeAttribute(
+                        "aria-disabled"
+                    );
+
+                    button.style.opacity =
+                        "";
+
+                    button.style.cursor =
+                        "";
+
+                }
+            );
+
+
+            const notice =
+                document.getElementById(
+                    "posterCreationNotice"
+                );
+
+
+            if (notice) {
+
+                notice.remove();
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================
+       ADVERTISEMENT SYSTEM CONTROL
+    ========================================== */
+
+    function applyAdvertisementSystemStatus(
+        enabled
+    ) {
+
+        const topAdBanner =
+            document.getElementById(
+                "topAdBanner"
+            );
+
+
+        if (!topAdBanner) {
+            return;
+        }
+
+
+        if (enabled === false) {
+
+            topAdBanner.style.display =
+                "none";
+
+
+            topAdBanner.dataset
+                .systemDisabled =
+                "true";
+
+        } else {
+
+            topAdBanner.dataset
+                .systemDisabled =
+                "false";
+
+
+            /*
+             * Only restore display when system
+             * itself is enabled.
+             *
+             * script.js will still decide
+             * whether the individual ad is
+             * enabled or disabled.
+             */
+
+            topAdBanner.style.display =
+                "";
+
+        }
+
+    }
+
+
+    /* =========================================
+       BLOCK POSTER ACTION WHEN DISABLED
+    ========================================== */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const target =
+                event.target.closest(
+                    "[data-design], #primaryButton, #secondaryButton, #ctaCreateButton"
+                );
+
+
+            if (!target) {
+                return;
+            }
+
+
+            const settings =
+                getHomepageSystemSettings();
+
+
+            if (
+                settings.posterCreation === false
+            ) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                alert(
+                    "Poster creation is currently unavailable."
+                );
+
+            }
+
+        },
+        true
+    );
+
+
+    /* =========================================
+       INITIALIZE
+    ========================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            applyHomepageSystemSettings();
+
+        }
+    );
+
+
+    /* =========================================
+       SYNC WHEN ADMIN CHANGES SETTINGS
+       
+       Works when Admin Panel and Website
+       are open in different browser tabs.
+    ========================================== */
+
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (
+                event.key ===
+                HOMEPAGE_SYSTEM_KEY
+            ) {
+
+                applyHomepageSystemSettings();
+
+            }
+
+
+            /*
+             * Advertisement settings may also
+             * change from admin/browser-ui.html.
+             *
+             * Existing script.js handles those.
+             */
+
+        }
+    );
+
+</script>
 
 </body>
 </html>
