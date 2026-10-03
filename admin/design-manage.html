@@ -223,6 +223,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            transition: .2s;
         }
 
         .btn-primary {
@@ -242,6 +243,17 @@
         .btn-danger {
             background: #fff0f0;
             color: #c74a4a;
+        }
+
+        /* =========================
+           DISABLED OPEN DESIGN
+        ========================== */
+
+        .btn-disabled {
+            background: #e8edef !important;
+            color: #9aa8ab !important;
+            cursor: not-allowed !important;
+            pointer-events: none;
         }
 
         /* =========================
@@ -266,6 +278,10 @@
         .design-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(20,50,60,.07);
+        }
+
+        .design-card.inactive-card {
+            opacity: .72;
         }
 
         /* =========================
@@ -308,7 +324,9 @@
             position: relative;
         }
 
-        /* Classic */
+        /* =========================
+           CLASSIC
+        ========================== */
 
         .classic-poster-top {
             height: 35px;
@@ -354,7 +372,9 @@
             border-radius: 4px;
         }
 
-        /* Modern */
+        /* =========================
+           MODERN
+        ========================== */
 
         .modern-poster-header {
             height: 50px;
@@ -390,7 +410,9 @@
             border-radius: 4px;
         }
 
-        /* Minimal */
+        /* =========================
+           MINIMAL
+        ========================== */
 
         .minimal-poster {
             padding: 15px;
@@ -424,7 +446,9 @@
             border-radius: 4px;
         }
 
-        /* Split */
+        /* =========================
+           SPLIT
+        ========================== */
 
         .split-left {
             position: absolute;
@@ -728,6 +752,14 @@
             .design-preview {
                 height: 220px;
             }
+
+            .design-actions {
+                flex-wrap: wrap;
+            }
+
+            .design-actions .btn {
+                min-width: 30%;
+            }
         }
     </style>
 </head>
@@ -889,7 +921,7 @@
 
                 <div class="design-count">
                     Total Designs:
-                    <strong id="designCount">4</strong>
+                    <strong id="designCount">4 / 4 Active</strong>
                 </div>
 
                 <button
@@ -1001,6 +1033,7 @@
                                 <input
                                     type="checkbox"
                                     checked
+                                    data-design-toggle="design1"
                                     onchange="toggleDesign('design1', this)"
                                 >
 
@@ -1016,7 +1049,8 @@
                             <a
                                 href="../design1/index.html"
                                 target="_blank"
-                                class="btn btn-primary"
+                                class="btn btn-primary open-design"
+                                data-open-design="design1"
                             >
                                 Open Design
                             </a>
@@ -1138,6 +1172,7 @@
                                 <input
                                     type="checkbox"
                                     checked
+                                    data-design-toggle="design2"
                                     onchange="toggleDesign('design2', this)"
                                 >
 
@@ -1153,7 +1188,8 @@
                             <a
                                 href="../design2/index.html"
                                 target="_blank"
-                                class="btn btn-primary"
+                                class="btn btn-primary open-design"
+                                data-open-design="design2"
                             >
                                 Open Design
                             </a>
@@ -1266,6 +1302,7 @@
                                 <input
                                     type="checkbox"
                                     checked
+                                    data-design-toggle="design3"
                                     onchange="toggleDesign('design3', this)"
                                 >
 
@@ -1281,7 +1318,8 @@
                             <a
                                 href="../design3/index.html"
                                 target="_blank"
-                                class="btn btn-primary"
+                                class="btn btn-primary open-design"
+                                data-open-design="design3"
                             >
                                 Open Design
                             </a>
@@ -1402,6 +1440,7 @@
                                 <input
                                     type="checkbox"
                                     checked
+                                    data-design-toggle="design4"
                                     onchange="toggleDesign('design4', this)"
                                 >
 
@@ -1417,7 +1456,8 @@
                             <a
                                 href="../design4/index.html"
                                 target="_blank"
-                                class="btn btn-primary"
+                                class="btn btn-primary open-design"
+                                data-open-design="design4"
                             >
                                 Open Design
                             </a>
@@ -1482,7 +1522,7 @@
 <script>
 
     /* =========================
-       DESIGN STATUS
+       DEFAULT DESIGN STATUS
     ========================== */
 
     const defaultDesigns = {
@@ -1496,55 +1536,125 @@
 
 
     /* =========================
+       GET DESIGN STATUS
+    ========================== */
+
+    function getDesignStatus() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    "doctorPosterDesignStatus"
+                );
+
+            if (!saved) {
+
+                return {
+                    ...defaultDesigns
+                };
+
+            }
+
+            const parsed =
+                JSON.parse(saved);
+
+            return {
+                ...defaultDesigns,
+                ...parsed
+            };
+
+        } catch (error) {
+
+            console.error(
+                "Design status error:",
+                error
+            );
+
+            return {
+                ...defaultDesigns
+            };
+
+        }
+
+    }
+
+
+    /* =========================
+       SAVE DESIGN STATUS
+    ========================== */
+
+    function saveDesignStatus(status) {
+
+        localStorage.setItem(
+            "doctorPosterDesignStatus",
+            JSON.stringify(status)
+        );
+
+    }
+
+
+    /* =========================
        LOAD DESIGN STATUS
     ========================== */
 
     function loadDesignStatus() {
 
-        const saved =
-            localStorage.getItem(
-                "doctorPosterDesignStatus"
-            );
-
-
         const status =
-            saved
-                ? {
-                    ...defaultDesigns,
-                    ...JSON.parse(saved)
+            getDesignStatus();
+
+
+        Object.keys(defaultDesigns).forEach(
+            function(design) {
+
+                const checkbox =
+                    document.querySelector(
+                        `[data-design-toggle="${design}"]`
+                    );
+
+                const statusElement =
+                    document.getElementById(
+                        `status-${design}`
+                    );
+
+                const card =
+                    document.querySelector(
+                        `[data-design="${design}"]`
+                    );
+
+                const openButton =
+                    document.querySelector(
+                        `[data-open-design="${design}"]`
+                    );
+
+
+                if (!checkbox) {
+                    return;
                 }
-                : defaultDesigns;
 
 
-        Object.keys(status).forEach(function(design) {
+                const active =
+                    status[design] !== false;
 
-            const checkbox =
-                document.querySelector(
-                    `[onchange*="${design}"]`
+
+                checkbox.checked =
+                    active;
+
+
+                updateStatusUI(
+                    statusElement,
+                    active
                 );
 
 
-            const statusElement =
-                document.getElementById(
-                    `status-${design}`
+                updateCardUI(
+                    card,
+                    openButton,
+                    active
                 );
 
-
-            if (!checkbox || !statusElement) {
-                return;
             }
-
-
-            checkbox.checked =
-                status[design];
-
-
-            updateStatusUI(
-                statusElement,
-                status[design]
-            );
-
-        });
+        );
 
 
         updateCount();
@@ -1556,32 +1666,21 @@
        TOGGLE DESIGN
     ========================== */
 
-    function toggleDesign(design, checkbox) {
-
-        const saved =
-            localStorage.getItem(
-                "doctorPosterDesignStatus"
-            );
-
+    function toggleDesign(
+        design,
+        checkbox
+    ) {
 
         const status =
-            saved
-                ? {
-                    ...defaultDesigns,
-                    ...JSON.parse(saved)
-                }
-                : {
-                    ...defaultDesigns
-                };
+            getDesignStatus();
 
 
         status[design] =
             checkbox.checked;
 
 
-        localStorage.setItem(
-            "doctorPosterDesignStatus",
-            JSON.stringify(status)
+        saveDesignStatus(
+            status
         );
 
 
@@ -1590,9 +1689,26 @@
                 `status-${design}`
             );
 
+        const card =
+            document.querySelector(
+                `[data-design="${design}"]`
+            );
+
+        const openButton =
+            document.querySelector(
+                `[data-open-design="${design}"]`
+            );
+
 
         updateStatusUI(
             statusElement,
+            checkbox.checked
+        );
+
+
+        updateCardUI(
+            card,
+            openButton,
             checkbox.checked
         );
 
@@ -1610,6 +1726,11 @@
         element,
         active
     ) {
+
+        if (!element) {
+            return;
+        }
+
 
         if (active) {
 
@@ -1633,24 +1754,123 @@
 
 
     /* =========================
+       UPDATE CARD UI
+    ========================== */
+
+    function updateCardUI(
+        card,
+        openButton,
+        active
+    ) {
+
+        if (card) {
+
+            if (active) {
+
+                card.classList.remove(
+                    "inactive-card"
+                );
+
+            } else {
+
+                card.classList.add(
+                    "inactive-card"
+                );
+
+            }
+
+        }
+
+
+        if (!openButton) {
+            return;
+        }
+
+
+        if (active) {
+
+            openButton.classList.remove(
+                "btn-disabled"
+            );
+
+            openButton.removeAttribute(
+                "aria-disabled"
+            );
+
+            openButton.textContent =
+                "Open Design";
+
+        } else {
+
+            openButton.classList.add(
+                "btn-disabled"
+            );
+
+            openButton.setAttribute(
+                "aria-disabled",
+                "true"
+            );
+
+            openButton.textContent =
+                "Design Disabled";
+
+        }
+
+    }
+
+
+    /* =========================
+       PROTECT OPEN DESIGN
+    ========================== */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const openButton =
+                event.target.closest(
+                    "[data-open-design]"
+                );
+
+
+            if (!openButton) {
+                return;
+            }
+
+
+            const design =
+                openButton.getAttribute(
+                    "data-open-design"
+                );
+
+
+            const status =
+                getDesignStatus();
+
+
+            if (status[design] === false) {
+
+                event.preventDefault();
+
+
+                alert(
+                    "This design is currently disabled by the administrator."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
        COUNT ACTIVE DESIGNS
     ========================== */
 
     function updateCount() {
 
-        const saved =
-            localStorage.getItem(
-                "doctorPosterDesignStatus"
-            );
-
-
         const status =
-            saved
-                ? {
-                    ...defaultDesigns,
-                    ...JSON.parse(saved)
-                }
-                : defaultDesigns;
+            getDesignStatus();
 
 
         const activeCount =
@@ -1659,10 +1879,18 @@
                 .length;
 
 
-        document.getElementById(
-            "designCount"
-        ).textContent =
-            `${activeCount} / 4 Active`;
+        const countElement =
+            document.getElementById(
+                "designCount"
+            );
+
+
+        if (countElement) {
+
+            countElement.textContent =
+                `${activeCount} / 4 Active`;
+
+        }
 
     }
 
@@ -1715,6 +1943,27 @@
         );
 
     }
+
+
+    /* =========================
+       SYNC WHEN OTHER TAB CHANGES
+    ========================== */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                event.key ===
+                "doctorPosterDesignStatus"
+            ) {
+
+                loadDesignStatus();
+
+            }
+
+        }
+    );
 
 
     /* =========================
