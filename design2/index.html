@@ -239,6 +239,89 @@ button{
     background:var(--primary-dark);
 }
 
+.action-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+/* =================================
+   DISABLED CREATION STATE
+================================= */
+
+.creation-disabled{
+    pointer-events:none;
+    opacity:.52;
+}
+
+.creation-disabled .brand{
+    pointer-events:none;
+}
+
+.creation-disabled .action-btn{
+    cursor:not-allowed;
+}
+
+#creationOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,35,39,.64);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    padding:20px;
+}
+
+#creationOverlay.show{
+    display:flex;
+}
+
+.overlay-card{
+    width:min(430px,100%);
+    background:#fff;
+    border-radius:20px;
+    padding:32px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.22);
+}
+
+.overlay-icon{
+    width:58px;
+    height:58px;
+    margin:0 auto 17px;
+    border-radius:50%;
+    background:#fff3e8;
+    color:#c97828;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.overlay-card h2{
+    font-size:21px;
+    color:var(--dark);
+    margin-bottom:9px;
+}
+
+.overlay-card p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.overlay-home{
+    border:0;
+    background:var(--primary);
+    color:#fff;
+    padding:12px 22px;
+    border-radius:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
 /* =================================
    MAIN
 ================================= */
@@ -304,8 +387,6 @@ button{
 
 /* =================================
    POSTER
-   Preview 540x675
-   Export 1080x1350 @ 2x
 ================================= */
 
 .poster{
@@ -723,7 +804,7 @@ button{
      SIDEBAR
 ================================= -->
 
-<aside class="sidebar">
+<aside class="sidebar" id="editorPanel">
 
     <div class="brand">
 
@@ -948,18 +1029,21 @@ button{
 
         <button
             class="action-btn primary"
+            id="exportBtn"
             onclick="downloadPoster()">
             Export PNG
         </button>
 
         <button
             class="action-btn"
+            id="printBtn"
             onclick="printPoster()">
             Print
         </button>
 
         <button
             class="action-btn"
+            id="resetBtn"
             onclick="resetPoster()">
             Reset
         </button>
@@ -1277,13 +1361,224 @@ button{
 </div>
 
 
+<!-- =================================
+     CREATION DISABLED OVERLAY
+================================= -->
+
+<div id="creationOverlay">
+
+    <div class="overlay-card">
+
+        <div class="overlay-icon">
+            🔒
+        </div>
+
+        <h2>
+            Poster Creation Unavailable
+        </h2>
+
+        <p>
+            Poster creation is currently disabled by the administrator.
+            Please try again later.
+        </p>
+
+        <button
+            class="overlay-home"
+            onclick="goHome()">
+
+            ← Back to Home
+
+        </button>
+
+    </div>
+
+</div>
+
+
 <script>
+
+/* =================================
+   SYSTEM SETTINGS
+================================= */
+
+const SYSTEM_KEY =
+    "doctorPosterSystemSettings";
+
+
+const DEFAULT_SYSTEM_SETTINGS = {
+
+    websiteStatus:true,
+
+    maintenanceMode:false,
+
+    posterCreation:true,
+
+    advertisementSystem:true
+
+};
+
+
+/* =================================
+   GET SYSTEM SETTINGS
+================================= */
+
+function getSystemSettings(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(SYSTEM_KEY);
+
+        if(!saved){
+
+            return {
+                ...DEFAULT_SYSTEM_SETTINGS
+            };
+
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        return {
+            ...DEFAULT_SYSTEM_SETTINGS,
+            ...parsed
+        };
+
+    }catch(error){
+
+        console.error(
+            "System settings error:",
+            error
+        );
+
+        return {
+            ...DEFAULT_SYSTEM_SETTINGS
+        };
+
+    }
+
+}
+
+
+/* =================================
+   CHECK POSTER CREATION
+================================= */
+
+function isPosterCreationDisabled(){
+
+    const settings =
+        getSystemSettings();
+
+    return settings.posterCreation === false;
+
+}
+
+
+/* =================================
+   SHOW OVERLAY
+================================= */
+
+function showCreationDisabled(){
+
+    document
+        .getElementById("creationOverlay")
+        .classList.add("show");
+
+}
+
+
+/* =================================
+   HIDE OVERLAY
+================================= */
+
+function hideCreationDisabled(){
+
+    document
+        .getElementById("creationOverlay")
+        .classList.remove("show");
+
+}
+
+
+/* =================================
+   APPLY CREATION STATUS
+================================= */
+
+function applyPosterCreationStatus(){
+
+    const disabled =
+        isPosterCreationDisabled();
+
+
+    const editor =
+        document.getElementById("editorPanel");
+
+
+    const exportBtn =
+        document.getElementById("exportBtn");
+
+
+    const printBtn =
+        document.getElementById("printBtn");
+
+
+    const resetBtn =
+        document.getElementById("resetBtn");
+
+
+    if(disabled){
+
+        editor.classList.add(
+            "creation-disabled"
+        );
+
+
+        exportBtn.disabled = true;
+
+        printBtn.disabled = true;
+
+        resetBtn.disabled = true;
+
+
+        showCreationDisabled();
+
+
+    }else{
+
+        editor.classList.remove(
+            "creation-disabled"
+        );
+
+
+        exportBtn.disabled = false;
+
+        printBtn.disabled = false;
+
+        resetBtn.disabled = false;
+
+
+        hideCreationDisabled();
+
+    }
+
+}
+
 
 /* =================================
    UPDATE POSTER
 ================================= */
 
 function updatePoster(){
+
+    if(isPosterCreationDisabled()){
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
 
     const doctorName =
         document.getElementById("doctorName").value;
@@ -1383,6 +1678,17 @@ function updatePoster(){
 
 function loadDoctorPhoto(event){
 
+    if(isPosterCreationDisabled()){
+
+        event.target.value = "";
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
+
     const file =
         event.target.files[0];
 
@@ -1431,6 +1737,17 @@ function loadDoctorPhoto(event){
 
 function loadLogo(event){
 
+    if(isPosterCreationDisabled()){
+
+        event.target.value = "";
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
+
     const file =
         event.target.files[0];
 
@@ -1467,6 +1784,15 @@ function loadLogo(event){
 ================================= */
 
 function changeColor(color, element){
+
+    if(isPosterCreationDisabled()){
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
 
     document.documentElement
         .style
@@ -1506,6 +1832,10 @@ function changeColor(color, element){
 }
 
 
+/* =================================
+   HEX TO RGBA
+================================= */
+
 function hexToRgba(hex,alpha){
 
     const value =
@@ -1538,6 +1868,10 @@ function hexToRgba(hex,alpha){
 }
 
 
+/* =================================
+   DARKEN COLOR
+================================= */
+
 function darkenColor(hex){
 
     const value =
@@ -1566,7 +1900,9 @@ function darkenColor(hex){
 
 
     r = Math.max(0,r-25);
+
     g = Math.max(0,g-25);
+
     b = Math.max(0,b-25);
 
 
@@ -1589,14 +1925,21 @@ function darkenColor(hex){
 
 async function downloadPoster(){
 
+    if(isPosterCreationDisabled()){
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
+
     const poster =
         document.getElementById("poster");
 
 
     const button =
-        document.querySelector(
-            ".action-btn.primary"
-        );
+        document.getElementById("exportBtn");
 
 
     const originalText =
@@ -1612,16 +1955,6 @@ async function downloadPoster(){
 
 
     try{
-
-        /*
-          Preview:
-          540 × 675
-
-          Export:
-          1080 × 1350
-
-          Scale = 2
-        */
 
         const canvas =
             await html2canvas(
@@ -1670,8 +2003,12 @@ async function downloadPoster(){
     button.textContent =
         originalText;
 
+
     button.disabled =
         false;
+
+
+    applyPosterCreationStatus();
 
 }
 
@@ -1682,6 +2019,15 @@ async function downloadPoster(){
 
 function printPoster(){
 
+    if(isPosterCreationDisabled()){
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
+
     const poster =
         document.getElementById("poster");
 
@@ -1691,6 +2037,17 @@ function printPoster(){
             "",
             "_blank"
         );
+
+
+    if(!printWindow){
+
+        alert(
+            "Please allow pop-ups to print the poster."
+        );
+
+        return;
+
+    }
 
 
     printWindow.document.write(`
@@ -1781,6 +2138,15 @@ function printPoster(){
 
 function resetPoster(){
 
+    if(isPosterCreationDisabled()){
+
+        showCreationDisabled();
+
+        return;
+
+    }
+
+
     document.getElementById(
         "doctorName"
     ).value =
@@ -1866,6 +2232,12 @@ function resetPoster(){
 
 
     document.getElementById(
+        "doctorImage"
+    ).src =
+        "";
+
+
+    document.getElementById(
         "photoPlaceholder"
     ).style.display =
         "flex";
@@ -1932,10 +2304,37 @@ function goHome(){
 
 
 /* =================================
-   INITIAL
+   SYSTEM STORAGE CHANGE
 ================================= */
 
-updatePoster();
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(event.key === SYSTEM_KEY){
+
+            applyPosterCreationStatus();
+
+        }
+
+    }
+);
+
+
+/* =================================
+   INITIAL LOAD
+================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        updatePoster();
+
+        applyPosterCreationStatus();
+
+    }
+);
 
 </script>
 
