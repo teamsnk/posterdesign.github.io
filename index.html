@@ -1,1 +1,2476 @@
-#
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Doctor Poster Maker — Professional Medical Poster Design</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#087f86;
+    --primary-dark:#05656b;
+    --primary-light:#e9f8f7;
+    --dark:#12343b;
+    --text:#496168;
+    --muted:#7d8d92;
+    --border:#e4eeee;
+    --bg:#f6faf9;
+    --white:#ffffff;
+    --shadow:0 20px 60px rgba(18,52,59,.10);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--dark);
+    font-family:"Inter","Noto Sans Bengali",Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+button,
+a{
+    font-family:inherit;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header-wrap{
+    padding:18px 20px 0;
+}
+
+.header{
+    max-width:1240px;
+    height:70px;
+    margin:auto;
+
+    background:rgba(255,255,255,.92);
+    border:1px solid var(--border);
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 18px 0 20px;
+
+    box-shadow:0 8px 35px rgba(18,52,59,.06);
+
+    position:relative;
+    z-index:20;
+
+    backdrop-filter:blur(15px);
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.logo-icon{
+    width:43px;
+    height:43px;
+
+    border-radius:13px;
+
+    background:linear-gradient(135deg,#087f86,#11a8a0);
+
+    color:white;
+
+    display:grid;
+    place-items:center;
+
+    font-size:21px;
+
+    box-shadow:0 8px 20px rgba(8,127,134,.20);
+}
+
+.logo-text h2{
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:-.3px;
+}
+
+.logo-text span{
+    display:block;
+    margin-top:2px;
+    font-size:9px;
+    color:var(--muted);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.nav a{
+    font-size:12px;
+    font-weight:600;
+    color:#61757b;
+    transition:.2s;
+}
+
+.nav a:hover{
+    color:var(--primary);
+}
+
+.header-btn{
+    background:var(--primary);
+    color:white;
+
+    border:0;
+    border-radius:11px;
+
+    padding:11px 17px;
+
+    font-size:11px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 18px rgba(8,127,134,.18);
+
+    transition:.2s;
+}
+
+.header-btn:hover{
+    background:var(--primary-dark);
+    transform:translateY(-1px);
+}
+
+.menu-btn{
+    display:none;
+    border:0;
+    background:var(--primary-light);
+    color:var(--primary);
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    max-width:1240px;
+    margin:0 auto;
+
+    min-height:650px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    align-items:center;
+
+    gap:55px;
+
+    padding:75px 25px 80px;
+
+    position:relative;
+}
+
+.hero:before{
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border-radius:50%;
+
+    background:#dff5f3;
+
+    filter:blur(2px);
+
+    right:-180px;
+    top:80px;
+
+    z-index:-1;
+
+    opacity:.7;
+}
+
+.hero:after{
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    background:#eaf8f7;
+
+    left:-170px;
+    bottom:30px;
+
+    z-index:-1;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    background:var(--primary-light);
+    color:var(--primary);
+
+    padding:8px 13px;
+
+    border-radius:999px;
+
+    font-size:10px;
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.badge-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#16a39d;
+}
+
+.hero h1{
+    max-width:620px;
+
+    font-size:56px;
+    line-height:1.08;
+
+    letter-spacing:-2.3px;
+
+    font-weight:800;
+
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:var(--primary);
+}
+
+.hero-description{
+    max-width:540px;
+
+    font-size:15px;
+    line-height:1.8;
+
+    color:var(--text);
+
+    margin-bottom:30px;
+}
+
+.hero-buttons{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.btn-primary{
+    border:0;
+
+    background:var(--primary);
+    color:white;
+
+    padding:14px 21px;
+
+    border-radius:12px;
+
+    font-size:12px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    box-shadow:0 12px 25px rgba(8,127,134,.22);
+
+    transition:.2s;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:white;
+    border:1px solid var(--border);
+
+    color:var(--dark);
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    font-size:12px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-secondary:hover{
+    border-color:#a9d8d5;
+    color:var(--primary);
+}
+
+.hero-note{
+    margin-top:20px;
+
+    font-size:10px;
+    color:#8a999d;
+}
+
+/* =========================
+   HERO POSTER MOCKUP
+========================= */
+
+.hero-visual{
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:530px;
+}
+
+.mockup-shadow{
+    position:absolute;
+
+    width:390px;
+    height:70px;
+
+    background:rgba(8,70,76,.16);
+
+    filter:blur(28px);
+
+    bottom:25px;
+
+    border-radius:50%;
+}
+
+.poster-mockup{
+    width:330px;
+    aspect-ratio:1080/1350;
+
+    background:white;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    box-shadow:
+        0 35px 80px rgba(13,60,67,.20),
+        0 5px 15px rgba(13,60,67,.08);
+
+    transform:rotate(3deg);
+
+    z-index:3;
+}
+
+.poster-top{
+    height:24%;
+
+    background:
+        linear-gradient(135deg,#087f86,#075f68);
+
+    color:white;
+
+    padding:25px 22px;
+
+    position:relative;
+}
+
+.poster-top:after{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    border:25px solid rgba(255,255,255,.07);
+
+    border-radius:50%;
+
+    right:-45px;
+    top:-55px;
+}
+
+.poster-clinic{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.poster-title{
+    margin-top:18px;
+
+    font-size:25px;
+    line-height:1.1;
+
+    font-weight:800;
+}
+
+.poster-sub{
+    margin-top:7px;
+
+    font-size:8px;
+
+    opacity:.82;
+}
+
+.poster-body{
+    padding:19px;
+
+    position:relative;
+}
+
+.poster-doctor{
+    display:grid;
+    grid-template-columns:1fr 105px;
+
+    gap:10px;
+
+    align-items:center;
+}
+
+.doctor-small-label{
+    font-size:7px;
+    color:var(--primary);
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.doctor-name{
+    margin-top:5px;
+
+    font-size:18px;
+    font-weight:800;
+
+    line-height:1.15;
+}
+
+.doctor-degree{
+    margin-top:5px;
+
+    font-size:7px;
+    color:#718187;
+}
+
+.doctor-specialty{
+    display:inline-block;
+
+    margin-top:10px;
+
+    background:#e7f6f5;
+
+    color:var(--primary);
+
+    padding:6px 8px;
+
+    border-radius:7px;
+
+    font-size:7px;
+
+    font-weight:700;
+}
+
+.doctor-image{
+    height:145px;
+
+    border-radius:13px;
+
+    background:
+        radial-gradient(circle at 50% 28%,#f4c8aa 0 17%,transparent 17.5%),
+        radial-gradient(circle at 50% 32%,#283d42 0 22%,transparent 22.5%),
+        linear-gradient(180deg,#dff2f1 0 57%,#c4e0df 57%);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.doctor-image:before{
+    content:"";
+
+    position:absolute;
+
+    width:65px;
+    height:80px;
+
+    background:#ffffff;
+
+    left:20px;
+    right:20px;
+
+    margin:auto;
+
+    bottom:-17px;
+
+    border-radius:30px 30px 7px 7px;
+}
+
+.doctor-image:after{
+    content:"";
+
+    position:absolute;
+
+    width:37px;
+    height:37px;
+
+    border-radius:50%;
+
+    background:#efbd9d;
+
+    left:0;
+    right:0;
+
+    margin:auto;
+
+    top:35px;
+}
+
+.poster-info{
+    margin-top:15px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:7px;
+}
+
+.poster-card{
+    border:1px solid #e4eeee;
+
+    border-radius:7px;
+
+    padding:8px;
+
+    background:#fbfdfd;
+}
+
+.poster-card b{
+    display:block;
+
+    font-size:6px;
+
+    color:var(--primary);
+
+    margin-bottom:3px;
+}
+
+.poster-card span{
+    font-size:7px;
+    color:#62747a;
+}
+
+.poster-bottom{
+    position:absolute;
+
+    bottom:0;
+    left:0;
+    right:0;
+
+    height:72px;
+
+    background:#087f86;
+
+    color:white;
+
+    padding:11px 18px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.poster-bottom b{
+    font-size:8px;
+}
+
+.poster-bottom span{
+    display:block;
+
+    font-size:6px;
+
+    margin-top:3px;
+
+    opacity:.85;
+}
+
+.floating-card{
+    position:absolute;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    border-radius:14px;
+
+    padding:12px 14px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    z-index:5;
+}
+
+.floating-icon{
+    width:33px;
+    height:33px;
+
+    border-radius:10px;
+
+    background:var(--primary-light);
+
+    display:grid;
+    place-items:center;
+
+    color:var(--primary);
+
+    font-size:15px;
+}
+
+.floating-card strong{
+    display:block;
+    font-size:10px;
+}
+
+.floating-card small{
+    display:block;
+    margin-top:2px;
+    color:#87969a;
+    font-size:8px;
+}
+
+.card-one{
+    left:0;
+    top:95px;
+}
+
+.card-two{
+    right:-5px;
+    bottom:100px;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+    max-width:1240px;
+
+    margin:auto;
+
+    padding:90px 25px;
+}
+
+.section-heading{
+    text-align:center;
+
+    max-width:650px;
+
+    margin:0 auto 45px;
+}
+
+.section-label{
+    color:var(--primary);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin-bottom:10px;
+}
+
+.section-heading h2{
+    font-size:34px;
+
+    letter-spacing:-1px;
+
+    margin-bottom:12px;
+}
+
+.section-heading p{
+    font-size:13px;
+
+    line-height:1.7;
+
+    color:var(--text);
+}
+
+/* =========================
+   DESIGNS
+========================= */
+
+.design-section{
+    background:white;
+
+    border-top:1px solid #edf3f3;
+    border-bottom:1px solid #edf3f3;
+}
+
+.design-grid{
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+}
+
+.design-card{
+    border:1px solid var(--border);
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:12px;
+
+    transition:.3s;
+
+    overflow:hidden;
+}
+
+.design-card:hover{
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow);
+
+    border-color:#cce4e2;
+}
+
+.design-preview{
+    height:290px;
+
+    border-radius:13px;
+
+    overflow:hidden;
+
+    background:#edf6f5;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+.mini-poster{
+    width:165px;
+
+    height:225px;
+
+    background:white;
+
+    border-radius:5px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.14);
+
+    overflow:hidden;
+
+    position:relative;
+
+    transition:.3s;
+}
+
+.design-card:hover .mini-poster{
+    transform:scale(1.04);
+}
+
+/* Design 1 */
+
+.mini-classic .mini-header{
+    height:42px;
+    background:#087f86;
+}
+
+.mini-classic .mini-photo{
+    width:55px;
+    height:75px;
+
+    background:#d8eeee;
+
+    border-radius:7px;
+
+    position:absolute;
+
+    right:9px;
+    top:55px;
+}
+
+.mini-classic .mini-lines{
+    position:absolute;
+
+    left:10px;
+    top:58px;
+}
+
+.mini-lines i{
+    display:block;
+
+    height:5px;
+
+    background:#173c47;
+
+    border-radius:3px;
+
+    margin-bottom:5px;
+
+    width:75px;
+}
+
+.mini-lines i:nth-child(2){
+    width:52px;
+    background:#087f86;
+}
+
+.mini-lines i:nth-child(3){
+    width:67px;
+    background:#dce8e8;
+}
+
+.mini-boxes{
+    position:absolute;
+
+    left:10px;
+    right:10px;
+    top:145px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:5px;
+}
+
+.mini-boxes span{
+    height:24px;
+
+    background:#f1f7f7;
+
+    border:1px solid #dfeaea;
+
+    border-radius:4px;
+}
+
+/* Design 2 */
+
+.mini-premium .mini-header{
+    height:62px;
+
+    background:#075f68;
+}
+
+.mini-premium .mini-title{
+    position:absolute;
+
+    top:13px;
+    left:11px;
+
+    color:white;
+
+    font-size:9px;
+
+    font-weight:800;
+}
+
+.mini-premium .mini-photo{
+    width:75px;
+    height:92px;
+
+    position:absolute;
+
+    right:11px;
+    top:47px;
+
+    background:#d5ebea;
+
+    border-radius:8px;
+}
+
+.mini-premium .mini-name{
+    position:absolute;
+
+    left:10px;
+    top:80px;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    color:#173c47;
+}
+
+.mini-premium .mini-special{
+    position:absolute;
+
+    left:10px;
+    top:110px;
+
+    width:55px;
+    height:7px;
+
+    border-radius:5px;
+
+    background:#087f86;
+}
+
+.mini-premium .mini-info{
+    position:absolute;
+
+    left:10px;
+    right:10px;
+
+    top:155px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:5px;
+}
+
+.mini-premium .mini-info span{
+    height:25px;
+
+    border:1px solid #e0e9e9;
+
+    border-radius:4px;
+}
+
+.mini-premium .mini-footer{
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+    right:0;
+
+    height:38px;
+
+    background:#087f86;
+}
+
+/* Card bottom */
+
+.design-info{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:15px 7px 6px;
+}
+
+.design-info h3{
+    font-size:14px;
+    margin-bottom:3px;
+}
+
+.design-info p{
+    font-size:9px;
+    color:var(--muted);
+}
+
+.use-btn{
+    border:1px solid #cfe5e4;
+
+    background:#f4fbfa;
+
+    color:var(--primary);
+
+    border-radius:9px;
+
+    padding:9px 12px;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.use-btn:hover{
+    background:var(--primary);
+
+    color:white;
+
+    border-color:var(--primary);
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features{
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:14px;
+}
+
+.feature{
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:17px;
+
+    padding:22px;
+
+    transition:.25s;
+}
+
+.feature:hover{
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 35px rgba(18,52,59,.07);
+}
+
+.feature-icon{
+    width:42px;
+    height:42px;
+
+    background:var(--primary-light);
+
+    color:var(--primary);
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    margin-bottom:16px;
+}
+
+.feature h3{
+    font-size:13px;
+
+    margin-bottom:7px;
+}
+
+.feature p{
+    font-size:10px;
+
+    line-height:1.65;
+
+    color:var(--text);
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps-section{
+    background:#edf7f6;
+}
+
+.steps{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+    position:relative;
+}
+
+.step{
+    text-align:center;
+
+    background:white;
+
+    border:1px solid #dceceb;
+
+    border-radius:18px;
+
+    padding:28px 20px;
+}
+
+.step-number{
+    width:42px;
+    height:42px;
+
+    margin:0 auto 15px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    display:grid;
+
+    place-items:center;
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+.step h3{
+    font-size:14px;
+
+    margin-bottom:7px;
+}
+
+.step p{
+    color:var(--text);
+
+    font-size:10px;
+
+    line-height:1.7;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+    max-width:1190px;
+
+    margin:80px auto;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(circle at 90% 10%,rgba(255,255,255,.13),transparent 30%),
+        linear-gradient(135deg,#075e67,#087f86);
+
+    color:white;
+
+    padding:65px 40px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.cta:before,
+.cta:after{
+    content:"";
+
+    position:absolute;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    border-radius:50%;
+}
+
+.cta:before{
+    width:300px;
+    height:300px;
+
+    right:-110px;
+    top:-170px;
+}
+
+.cta:after{
+    width:220px;
+    height:220px;
+
+    left:-100px;
+    bottom:-150px;
+}
+
+.cta h2{
+    font-size:35px;
+
+    letter-spacing:-1px;
+
+    margin-bottom:12px;
+
+    position:relative;
+    z-index:2;
+}
+
+.cta p{
+    font-size:12px;
+
+    opacity:.85;
+
+    margin-bottom:24px;
+
+    position:relative;
+    z-index:2;
+}
+
+.cta button{
+    background:white;
+
+    color:var(--primary);
+
+    border:0;
+
+    padding:13px 21px;
+
+    border-radius:11px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    position:relative;
+    z-index:2;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    background:#102f35;
+
+    color:white;
+
+    padding:45px 25px 25px;
+}
+
+.footer-inner{
+    max-width:1240px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:30px;
+}
+
+.footer-brand{
+    max-width:330px;
+}
+
+.footer-brand h3{
+    font-size:15px;
+
+    margin-bottom:8px;
+}
+
+.footer-brand p{
+    font-size:10px;
+
+    line-height:1.7;
+
+    color:#a8bdc0;
+}
+
+.footer-links{
+    display:flex;
+
+    gap:60px;
+}
+
+.footer-col h4{
+    font-size:10px;
+
+    margin-bottom:13px;
+}
+
+.footer-col a{
+    display:block;
+
+    font-size:9px;
+
+    color:#a8bdc0;
+
+    margin-bottom:9px;
+}
+
+.footer-col a:hover{
+    color:white;
+}
+
+.footer-bottom{
+    max-width:1240px;
+
+    margin:35px auto 0;
+
+    padding-top:18px;
+
+    border-top:1px solid rgba(255,255,255,.09);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#80999d;
+
+    font-size:8px;
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+.mobile-nav{
+    display:none;
+
+    position:absolute;
+
+    top:76px;
+
+    left:15px;
+    right:15px;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:12px;
+
+    box-shadow:var(--shadow);
+
+    z-index:50;
+}
+
+.mobile-nav.show{
+    display:block;
+}
+
+.mobile-nav a{
+    display:block;
+
+    padding:12px;
+
+    border-radius:9px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    color:#5b7076;
+}
+
+.mobile-nav a:hover{
+    background:var(--primary-light);
+
+    color:var(--primary);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .nav{
+        display:none;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .header-btn{
+        display:none;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+
+        text-align:center;
+
+        padding-top:60px;
+    }
+
+    .hero-description{
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .hero-visual{
+        min-height:500px;
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .header-wrap{
+        padding:10px 10px 0;
+    }
+
+    .header{
+        height:62px;
+
+        padding:0 12px;
+    }
+
+    .logo-icon{
+        width:38px;
+        height:38px;
+    }
+
+    .hero{
+        padding:55px 18px 50px;
+
+        min-height:auto;
+    }
+
+    .hero h1{
+        font-size:39px;
+
+        letter-spacing:-1.6px;
+    }
+
+    .hero-description{
+        font-size:13px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .btn-primary,
+    .btn-secondary{
+        width:100%;
+        max-width:280px;
+    }
+
+    .hero-visual{
+        min-height:450px;
+    }
+
+    .poster-mockup{
+        width:270px;
+    }
+
+    .card-one{
+        left:-2px;
+        top:65px;
+    }
+
+    .card-two{
+        right:-2px;
+        bottom:55px;
+    }
+
+    .floating-card{
+        padding:9px 11px;
+    }
+
+    .section{
+        padding:65px 18px;
+    }
+
+    .section-heading h2{
+        font-size:28px;
+    }
+
+    .design-grid{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .cta{
+        margin:50px 12px;
+
+        padding:48px 20px;
+
+        border-radius:20px;
+    }
+
+    .cta h2{
+        font-size:27px;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+    }
+
+    .footer-links{
+        gap:45px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+
+        gap:8px;
+    }
+}
+
+@media(max-width:420px){
+
+    .logo-text h2{
+        font-size:14px;
+    }
+
+    .logo-text span{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero-visual{
+        transform:scale(.92);
+        margin-left:-5%;
+        margin-right:-5%;
+    }
+
+    .footer-links{
+        gap:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header-wrap">
+
+<header class="header">
+
+    <a href="#" class="logo-area">
+
+        <div class="logo-icon">
+            🩺
+        </div>
+
+        <div class="logo-text">
+            <h2>Doctor Poster Maker</h2>
+            <span>Professional Medical Design Tool</span>
+        </div>
+
+    </a>
+
+    <nav class="nav">
+
+        <a href="#home">Home</a>
+        <a href="#designs">Designs</a>
+        <a href="#features">Features</a>
+        <a href="#how">How It Works</a>
+
+    </nav>
+
+    <a href="#designs" class="header-btn">
+        Create Poster →
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        ☰
+    </button>
+
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#designs" onclick="closeMenu()">Designs</a>
+    <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#how" onclick="closeMenu()">How It Works</a>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            <span class="badge-dot"></span>
+            PROFESSIONAL MEDICAL DESIGN TOOL
+        </div>
+
+        <h1>
+            Create Beautiful
+            <span>Doctor Posters</span>
+            in Minutes.
+        </h1>
+
+        <p class="hero-description">
+            আপনার ডাক্তার, ক্লিনিক বা চেম্বারের জন্য
+            professional medical poster তৈরি করুন।
+            কোনো Photoshop skill ছাড়াই সহজে design করুন এবং
+            HD PNG হিসেবে download করুন।
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#designs" class="btn-primary">
+                ✨ Create Your Poster
+            </a>
+
+            <a href="#designs" class="btn-secondary">
+                Explore Designs →
+            </a>
+
+        </div>
+
+        <div class="hero-note">
+            ✓ Free to use &nbsp;&nbsp; ✓ No software required &nbsp;&nbsp; ✓ HD Export
+        </div>
+
+    </div>
+
+
+    <!-- HERO POSTER -->
+
+    <div class="hero-visual">
+
+        <div class="mockup-shadow"></div>
+
+        <div class="floating-card card-one">
+
+            <div class="floating-icon">
+                ✨
+            </div>
+
+            <div>
+                <strong>Professional Design</strong>
+                <small>Ready-made medical layouts</small>
+            </div>
+
+        </div>
+
+
+        <div class="poster-mockup">
+
+            <div class="poster-top">
+
+                <div class="poster-clinic">
+                    ROYAL MULTICARE
+                </div>
+
+                <div class="poster-title">
+                    Specialist<br>
+                    Doctor
+                </div>
+
+                <div class="poster-sub">
+                    Diagnostic & Consultation Center
+                </div>
+
+            </div>
+
+
+            <div class="poster-body">
+
+                <div class="poster-doctor">
+
+                    <div>
+
+                        <div class="doctor-small-label">
+                            CONSULTANT PHYSICIAN
+                        </div>
+
+                        <div class="doctor-name">
+                            Dr. Md.<br>
+                            Abdul Karim
+                        </div>
+
+                        <div class="doctor-degree">
+                            MBBS, FCPS (Medicine)
+                        </div>
+
+                        <div class="doctor-specialty">
+                            Medicine & Diabetes
+                        </div>
+
+                    </div>
+
+                    <div class="doctor-image"></div>
+
+                </div>
+
+
+                <div class="poster-info">
+
+                    <div class="poster-card">
+                        <b>CHAMBER</b>
+                        <span>Royal Multicare</span>
+                    </div>
+
+                    <div class="poster-card">
+                        <b>VISITING</b>
+                        <span>5 PM — 9 PM</span>
+                    </div>
+
+                    <div class="poster-card">
+                        <b>APPOINTMENT</b>
+                        <span>01718-005011</span>
+                    </div>
+
+                    <div class="poster-card">
+                        <b>LOCATION</b>
+                        <span>Moulvibazar</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="poster-bottom">
+
+                <div>
+                    <b>📞 Appointment</b>
+                    <span>01718-005011</span>
+                </div>
+
+                <div>
+                    <b>📍 Chamber</b>
+                    <span>Royal Multicare</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="floating-card card-two">
+
+            <div class="floating-icon">
+                ✓
+            </div>
+
+            <div>
+                <strong>HD PNG Export</strong>
+                <small>Social media ready</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DESIGNS
+========================= -->
+
+<section class="design-section" id="designs">
+
+<div class="section">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            Ready-made Designs
+        </div>
+
+        <h2>
+            Choose Your Perfect Design
+        </h2>
+
+        <p>
+            আপনার প্রয়োজন অনুযায়ী professional medical
+            poster template নির্বাচন করুন।
+        </p>
+
+    </div>
+
+
+    <div class="design-grid">
+
+
+        <!-- DESIGN 1 -->
+
+        <div class="design-card">
+
+            <div class="design-preview">
+
+                <div class="mini-poster mini-classic">
+
+                    <div class="mini-header"></div>
+
+                    <div class="mini-lines">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="mini-photo"></div>
+
+                    <div class="mini-boxes">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="design-info">
+
+                <div>
+                    <h3>Classic Medical</h3>
+                    <p>Clean & professional layout</p>
+                </div>
+
+                <button
+                    class="use-btn"
+                    onclick="openDesign('design1')">
+                    Use Design →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- DESIGN 2 -->
+
+        <div class="design-card">
+
+            <div class="design-preview">
+
+                <div class="mini-poster mini-premium">
+
+                    <div class="mini-header"></div>
+
+                    <div class="mini-title">
+                        ROYAL MULTICARE
+                    </div>
+
+                    <div class="mini-name">
+                        Dr. Abdul Karim
+                    </div>
+
+                    <div class="mini-special"></div>
+
+                    <div class="mini-photo"></div>
+
+                    <div class="mini-info">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                    <div class="mini-footer"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="design-info">
+
+                <div>
+                    <h3>Premium Modern</h3>
+                    <p>Elegant & modern medical style</p>
+                </div>
+
+                <button
+                    class="use-btn"
+                    onclick="openDesign('design2')">
+                    Use Design →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- DESIGN 3 -->
+
+        <div class="design-card">
+
+            <div class="design-preview">
+
+                <div class="mini-poster mini-classic">
+
+                    <div
+                        class="mini-header"
+                        style="background:#173c46;">
+                    </div>
+
+                    <div class="mini-lines">
+                        <i style="width:80px"></i>
+                        <i style="background:#173c46"></i>
+                        <i></i>
+                    </div>
+
+                    <div
+                        class="mini-photo"
+                        style="background:#e5eeee;">
+                    </div>
+
+                    <div class="mini-boxes">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="design-info">
+
+                <div>
+                    <h3>Modern Minimal</h3>
+                    <p>Simple & elegant design</p>
+                </div>
+
+                <button
+                    class="use-btn"
+                    onclick="openDesign('design3')">
+                    Use Design →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- DESIGN 4 -->
+
+        <div class="design-card">
+
+            <div class="design-preview">
+
+                <div class="mini-poster mini-premium">
+
+                    <div
+                        class="mini-header"
+                        style="background:#173c46;">
+                    </div>
+
+                    <div class="mini-title">
+                        MEDICAL CENTER
+                    </div>
+
+                    <div
+                        class="mini-name"
+                        style="color:#087f86;">
+                        Specialist Doctor
+                    </div>
+
+                    <div
+                        class="mini-special"
+                        style="background:#173c46;">
+                    </div>
+
+                    <div
+                        class="mini-photo"
+                        style="background:#edf4f4;">
+                    </div>
+
+                    <div class="mini-info">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div
+                        class="mini-footer"
+                        style="background:#173c46;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="design-info">
+
+                <div>
+                    <h3>Elegant Split</h3>
+                    <p>Premium split composition</p>
+                </div>
+
+                <button
+                    class="use-btn"
+                    onclick="openDesign('design4')">
+                    Use Design →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="section" id="features">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            Why Doctor Poster Maker
+        </div>
+
+        <h2>
+            Everything You Need
+        </h2>
+
+        <p>
+            Professional poster তৈরি করার জন্য
+            প্রয়োজনীয় সবকিছু এক জায়গায়।
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Easy to Use
+            </h3>
+
+            <p>
+                শুধু তথ্য দিন, design নির্বাচন করুন
+                এবং আপনার poster ready।
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🎨
+            </div>
+
+            <h3>
+                Professional Designs
+            </h3>
+
+            <p>
+                Medical professionals-এর জন্য
+                carefully designed templates।
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📱
+            </div>
+
+            <h3>
+                Mobile Friendly
+            </h3>
+
+            <p>
+                Desktop, tablet এবং mobile—
+                সব device-এ ব্যবহার করতে পারবেন।
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🖼️
+            </div>
+
+            <h3>
+                HD PNG Export
+            </h3>
+
+            <p>
+                Social media ও digital promotion-এর
+                জন্য high-quality poster export করুন।
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section class="steps-section" id="how">
+
+<div class="section">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            Simple Process
+        </div>
+
+        <h2>
+            How It Works
+        </h2>
+
+        <p>
+            মাত্র ৩টি সহজ ধাপে আপনার professional
+            doctor poster তৈরি করুন।
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <h3>
+                Add Information
+            </h3>
+
+            <p>
+                Doctor name, degree, specialty,
+                chamber, visiting hours এবং appointment
+                information দিন।
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <h3>
+                Customize Design
+            </h3>
+
+            <p>
+                আপনার পছন্দের design নির্বাচন করুন,
+                photo ও logo upload করুন এবং preview দেখুন।
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <h3>
+                Download
+            </h3>
+
+            <p>
+                সবকিছু ঠিক থাকলে high-quality PNG
+                হিসেবে poster download করুন।
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Create Your Doctor Poster?
+    </h2>
+
+    <p>
+        আপনার professional medical poster এখনই তৈরি করুন।
+    </p>
+
+    <button onclick="scrollToDesigns()">
+        ✨ Start Creating Poster →
+    </button>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+<div class="footer-inner">
+
+
+    <div class="footer-brand">
+
+        <h3>
+            🩺 Doctor Poster Maker
+        </h3>
+
+        <p>
+            Professional medical poster তৈরি করার
+            সহজ এবং দ্রুত online design tool।
+        </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+        <div class="footer-col">
+
+            <h4>
+                PRODUCT
+            </h4>
+
+            <a href="#designs">
+                Designs
+            </a>
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#how">
+                How It Works
+            </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h4>
+                SUPPORT
+            </h4>
+
+            <a href="#">
+                Help Center
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#">
+                Privacy
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+    <span>
+        © 2026 Doctor Poster Maker. All rights reserved.
+    </span>
+
+    <span>
+        Made for Medical Professionals
+    </span>
+
+</div>
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu(){
+
+    const menu = document.getElementById("mobileNav");
+
+    menu.classList.toggle("show");
+
+}
+
+function closeMenu(){
+
+    document.getElementById("mobileNav")
+        .classList.remove("show");
+
+}
+
+
+/* =========================
+   SCROLL TO DESIGNS
+========================= */
+
+function scrollToDesigns(){
+
+    document.getElementById("designs")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================
+   OPEN DESIGN
+========================= */
+
+function openDesign(design){
+
+    /*
+        Design folders:
+
+        design1/index.html
+        design2/index.html
+        design3/index.html
+        design4/index.html
+    */
+
+    window.location.href =
+        design + "/index.html";
+
+}
+
+
+/* =========================
+   HEADER CTA
+========================= */
+
+document.querySelector(".header-btn")
+    .addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        scrollToDesigns();
+
+    });
+
+
+/* =========================
+   ESC CLOSE MOBILE MENU
+========================= */
+
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
+        closeMenu();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
