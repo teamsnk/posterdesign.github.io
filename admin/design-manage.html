@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Design Management - Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f8fa;
+            color: #17353b;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================== */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            width: 260px;
+            background: #073f45;
+            color: #fff;
+            padding: 24px 16px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #fff;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            color: #a9c7ca;
+        }
+
+        .menu-title {
+            margin: 28px 10px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #7faeb2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #c8dfe1;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
+        }
+
+        .sidebar a.active {
+            background: #087f86;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 18px;
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================== */
+
+        .topbar {
+            height: 74px;
+            background: #fff;
+            border-bottom: 1px solid #e6edef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: #789095;
+            font-size: 12px;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: #e7f6f5;
+            color: #087f86;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           CONTENT
+        ========================== */
+
+        .content {
+            padding: 30px 34px 50px;
+        }
+
+        .intro {
+            margin-bottom: 22px;
+        }
+
+        .intro h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #7d9094;
+            font-size: 12px;
+        }
+
+        /* =========================
+           TOP ACTIONS
+        ========================== */
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .design-count {
+            font-size: 12px;
+            color: #7f9195;
+        }
+
+        .design-count strong {
+            color: #17353b;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #087f86;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #056b71;
+        }
+
+        .btn-secondary {
+            background: #edf3f4;
+            color: #4d686d;
+        }
+
+        .btn-danger {
+            background: #fff0f0;
+            color: #c74a4a;
+        }
+
+        /* =========================
+           DESIGN GRID
+        ========================== */
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .design-card {
+            background: #fff;
+            border: 1px solid #e2eaeb;
+            border-radius: 17px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(20,50,60,.04);
+            transition: .2s;
+        }
+
+        .design-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(20,50,60,.07);
+        }
+
+        /* =========================
+           PREVIEW
+        ========================== */
+
+        .design-preview {
+            height: 250px;
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .classic-preview {
+            background: #eaf7f6;
+        }
+
+        .modern-preview {
+            background: #e9eef2;
+        }
+
+        .minimal-preview {
+            background: #f5f4f0;
+        }
+
+        .split-preview {
+            background: #edf1f4;
+        }
+
+        .poster {
+            width: 125px;
+            height: 170px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.13);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Classic */
+
+        .classic-poster-top {
+            height: 35px;
+            background: #087f86;
+        }
+
+        .classic-poster-photo {
+            width: 53px;
+            height: 53px;
+            border-radius: 50%;
+            background: #dce7e8;
+            position: absolute;
+            top: 22px;
+            left: 36px;
+            border: 4px solid #fff;
+        }
+
+        .classic-lines {
+            padding: 48px 12px 10px;
+            text-align: center;
+        }
+
+        .line-lg {
+            width: 75px;
+            height: 6px;
+            background: #17353b;
+            margin: 0 auto 6px;
+            border-radius: 4px;
+        }
+
+        .line-sm {
+            width: 50px;
+            height: 4px;
+            background: #9aaeb1;
+            margin: 0 auto 10px;
+            border-radius: 4px;
+        }
+
+        .classic-box {
+            height: 32px;
+            margin: 8px 10px;
+            background: #e9f6f5;
+            border-radius: 4px;
+        }
+
+        /* Modern */
+
+        .modern-poster-header {
+            height: 50px;
+            background: #12343b;
+            padding: 10px;
+        }
+
+        .modern-poster-header .line {
+            width: 50px;
+            height: 4px;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .modern-photo {
+            width: 65px;
+            height: 65px;
+            border-radius: 8px;
+            background: #cfd9db;
+            position: absolute;
+            right: 10px;
+            top: 32px;
+        }
+
+        .modern-lines {
+            padding: 25px 10px;
+        }
+
+        .modern-box {
+            height: 24px;
+            background: #087f86;
+            margin-top: 12px;
+            border-radius: 4px;
+        }
+
+        /* Minimal */
+
+        .minimal-poster {
+            padding: 15px;
+        }
+
+        .minimal-photo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 8px auto 15px;
+        }
+
+        .minimal-line {
+            width: 75%;
+            height: 5px;
+            background: #293b40;
+            border-radius: 5px;
+            margin: 5px auto;
+        }
+
+        .minimal-line.small {
+            width: 45%;
+            background: #aebabc;
+        }
+
+        .minimal-box {
+            height: 28px;
+            border: 1px solid #d8dede;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+
+        /* Split */
+
+        .split-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 42%;
+            background: #087f86;
+        }
+
+        .split-photo {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #d4e0e1;
+            position: absolute;
+            left: 14px;
+            top: 55px;
+        }
+
+        .split-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 58%;
+            background: #fff;
+            padding: 30px 10px;
+        }
+
+        .split-line {
+            height: 5px;
+            width: 70px;
+            background: #17353b;
+            margin-bottom: 7px;
+            border-radius: 4px;
+        }
+
+        .split-line.small {
+            width: 45px;
+            background: #9aabad;
+        }
+
+        .split-box {
+            height: 35px;
+            margin-top: 20px;
+            background: #edf6f5;
+            border-radius: 4px;
+        }
+
+        /* =========================
+           CARD CONTENT
+        ========================== */
+
+        .design-content {
+            padding: 20px;
+        }
+
+        .design-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .design-title {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .design-number {
+            color: #9aa8ab;
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .status.active {
+            background: #e8f7ef;
+            color: #1c8e51;
+        }
+
+        .status.inactive {
+            background: #f0f2f3;
+            color: #7e8d91;
+        }
+
+        .status-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .design-description {
+            color: #829397;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .design-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 17px;
+        }
+
+        .meta {
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #f1f5f5;
+            color: #718589;
+            font-size: 9px;
+        }
+
+        .design-actions {
+            display: flex;
+            gap: 7px;
+            border-top: 1px solid #edf1f2;
+            padding-top: 15px;
+        }
+
+        .design-actions .btn {
+            flex: 1;
+        }
+
+        /* =========================
+           TOGGLE
+        ========================== */
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .toggle-label {
+            color: #7e9094;
+            font-size: 10px;
+        }
+
+        .switch {
+            position: relative;
+            width: 42px;
+            height: 23px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd6d8;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 17px;
+            height: 17px;
+            left: 3px;
+            top: 3px;
+            border-radius: 50%;
+            background: #fff;
+            transition: .2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.12);
+        }
+
+        .switch input:checked + .slider {
+            background: #087f86;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(19px);
+        }
+
+        /* =========================
+           ADD DESIGN
+        ========================== */
+
+        .add-design {
+            margin-top: 20px;
+            border: 2px dashed #ccd9db;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            background: #fbfcfc;
+        }
+
+        .add-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #e8f6f5;
+            color: #087f86;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 20px;
+        }
+
+        .add-design h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .add-design p {
+            color: #849397;
+            font-size: 10px;
+            margin-bottom: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        .mobile-header {
+            display: none;
+        }
+
+        @media (max-width: 1050px) {
+
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-header {
+                display: flex;
+                height: 64px;
+                background: #073f45;
+                color: #fff;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 18px;
+            }
+
+            .mobile-brand {
+                font-weight: 800;
+            }
+
+            .mobile-menu-btn {
+                border: 0;
+                background: none;
+                color: #fff;
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .admin-user {
+                display: none;
+            }
+
+            .top-actions {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .design-preview {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">✚</div>
+
+            <div class="brand-text">
+                <strong>Doctor Poster</strong>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">Main</div>
+
+        <a href="dashboard.html">
+            <span>▦</span>
+            Dashboard
+        </a>
+
+
+        <div class="menu-title">Website</div>
+
+        <a href="website.html">
+            <span>◉</span>
+            Website Overview
+        </a>
+
+        <a href="website-edit.html">
+            <span>✎</span>
+            Edit Website
+        </a>
+
+
+        <div class="menu-title">Advertisement</div>
+
+        <a href="browser-ui.html">
+            <span>▣</span>
+            Browser UI Ad
+        </a>
+
+        <a href="banner.html">
+            <span>▰</span>
+            Banner
+        </a>
+
+
+        <div class="menu-title">Designs</div>
+
+        <a href="design-manage.html" class="active">
+            <span>◇</span>
+            Design Management
+        </a>
+
+
+        <div class="menu-title">System</div>
+
+        <a href="system.html">
+            <span>⚙</span>
+            System Settings
+        </a>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <div class="mobile-header">
+
+            <div class="mobile-brand">
+                Doctor Poster Admin
+            </div>
+
+            <button
+                class="mobile-menu-btn"
+                onclick="alert('Mobile menu can be added later.')"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+                    Design Management
+                </h1>
+
+                <p>
+                    Manage all poster designs available on your website.
+                </p>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <strong>Administrator</strong>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <div class="intro">
+
+                <h2>
+                    Poster Designs
+                </h2>
+
+                <p>
+                    Control which designs are visible to your website visitors.
+                </p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <div class="design-count">
+                    Total Designs:
+                    <strong id="designCount">4</strong>
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="addDesign()"
+                >
+                    + Add New Design
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 DESIGN GRID
+            ========================== -->
+
+            <div class="design-grid" id="designGrid">
+
+
+                <!-- DESIGN 1 -->
+
+                <div
+                    class="design-card"
+                    data-design="design1"
+                >
+
+                    <div class="design-preview classic-preview">
+
+                        <div class="poster">
+
+                            <div class="classic-poster-top"></div>
+
+                            <div class="classic-poster-photo"></div>
+
+                            <div class="classic-lines">
+
+                                <div class="line-lg"></div>
+                                <div class="line-sm"></div>
+
+                            </div>
+
+                            <div class="classic-box"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="design-content">
+
+                        <div class="design-header">
+
+                            <div>
+
+                                <div class="design-number">
+                                    DESIGN 01
+                                </div>
+
+                                <div class="design-title">
+                                    Classic Medical
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="status active"
+                                id="status-design1"
+                            >
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+
+                        </div>
+
+
+                        <div class="design-description">
+
+                            Clean and professional medical poster
+                            design for doctors, clinics and chambers.
+
+                        </div>
+
+
+                        <div class="design-meta">
+
+                            <span class="meta">
+                                1080 × 1350
+                            </span>
+
+                            <span class="meta">
+                                Medical
+                            </span>
+
+                            <span class="meta">
+                                Professional
+                            </span>
+
+                        </div>
+
+
+                        <div class="toggle-row">
+
+                            <span class="toggle-label">
+                                Show this design on website
+                            </span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    onchange="toggleDesign('design1', this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="design-actions">
+
+                            <a
+                                href="../design1/index.html"
+                                target="_blank"
+                                class="btn btn-primary"
+                            >
+                                Open Design
+                            </a>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="editDesign('Classic Medical')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteDesign('design1')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESIGN 2 -->
+
+                <div
+                    class="design-card"
+                    data-design="design2"
+                >
+
+                    <div class="design-preview modern-preview">
+
+                        <div class="poster">
+
+                            <div class="modern-poster-header">
+
+                                <div class="line"></div>
+
+                            </div>
+
+                            <div class="modern-photo"></div>
+
+                            <div class="modern-lines">
+
+                                <div class="line-lg"></div>
+                                <div class="line-sm"></div>
+
+                                <div class="modern-box"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="design-content">
+
+                        <div class="design-header">
+
+                            <div>
+
+                                <div class="design-number">
+                                    DESIGN 02
+                                </div>
+
+                                <div class="design-title">
+                                    Premium Modern
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="status active"
+                                id="status-design2"
+                            >
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+
+                        </div>
+
+
+                        <div class="design-description">
+
+                            Premium modern layout with strong typography,
+                            doctor profile and appointment information.
+
+                        </div>
+
+
+                        <div class="design-meta">
+
+                            <span class="meta">
+                                1080 × 1350
+                            </span>
+
+                            <span class="meta">
+                                Premium
+                            </span>
+
+                            <span class="meta">
+                                Modern
+                            </span>
+
+                        </div>
+
+
+                        <div class="toggle-row">
+
+                            <span class="toggle-label">
+                                Show this design on website
+                            </span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    onchange="toggleDesign('design2', this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="design-actions">
+
+                            <a
+                                href="../design2/index.html"
+                                target="_blank"
+                                class="btn btn-primary"
+                            >
+                                Open Design
+                            </a>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="editDesign('Premium Modern')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteDesign('design2')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESIGN 3 -->
+
+                <div
+                    class="design-card"
+                    data-design="design3"
+                >
+
+                    <div class="design-preview minimal-preview">
+
+                        <div class="poster minimal-poster">
+
+                            <div class="minimal-photo"></div>
+
+                            <div class="minimal-line"></div>
+
+                            <div class="minimal-line small"></div>
+
+                            <div class="minimal-box"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="design-content">
+
+                        <div class="design-header">
+
+                            <div>
+
+                                <div class="design-number">
+                                    DESIGN 03
+                                </div>
+
+                                <div class="design-title">
+                                    Modern Minimal
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="status active"
+                                id="status-design3"
+                            >
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+
+                        </div>
+
+
+                        <div class="design-description">
+
+                            Minimal and elegant poster style with
+                            clean spacing and simple visual hierarchy.
+
+                        </div>
+
+
+                        <div class="design-meta">
+
+                            <span class="meta">
+                                1080 × 1350
+                            </span>
+
+                            <span class="meta">
+                                Minimal
+                            </span>
+
+                            <span class="meta">
+                                Clean
+                            </span>
+
+                        </div>
+
+
+                        <div class="toggle-row">
+
+                            <span class="toggle-label">
+                                Show this design on website
+                            </span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    onchange="toggleDesign('design3', this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="design-actions">
+
+                            <a
+                                href="../design3/index.html"
+                                target="_blank"
+                                class="btn btn-primary"
+                            >
+                                Open Design
+                            </a>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="editDesign('Modern Minimal')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteDesign('design3')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESIGN 4 -->
+
+                <div
+                    class="design-card"
+                    data-design="design4"
+                >
+
+                    <div class="design-preview split-preview">
+
+                        <div class="poster">
+
+                            <div class="split-left">
+
+                                <div class="split-photo"></div>
+
+                            </div>
+
+                            <div class="split-right">
+
+                                <div class="split-line"></div>
+
+                                <div class="split-line small"></div>
+
+                                <div class="split-box"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="design-content">
+
+                        <div class="design-header">
+
+                            <div>
+
+                                <div class="design-number">
+                                    DESIGN 04
+                                </div>
+
+                                <div class="design-title">
+                                    Elegant Split
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="status active"
+                                id="status-design4"
+                            >
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+
+                        </div>
+
+
+                        <div class="design-description">
+
+                            Elegant split-screen layout designed
+                            for premium doctor and clinic branding.
+
+                        </div>
+
+
+                        <div class="design-meta">
+
+                            <span class="meta">
+                                1080 × 1350
+                            </span>
+
+                            <span class="meta">
+                                Elegant
+                            </span>
+
+                            <span class="meta">
+                                Split
+                            </span>
+
+                        </div>
+
+
+                        <div class="toggle-row">
+
+                            <span class="toggle-label">
+                                Show this design on website
+                            </span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    onchange="toggleDesign('design4', this)"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="design-actions">
+
+                            <a
+                                href="../design4/index.html"
+                                target="_blank"
+                                class="btn btn-primary"
+                            >
+                                Open Design
+                            </a>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="editDesign('Elegant Split')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteDesign('design4')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 ADD DESIGN
+            ========================== -->
+
+            <div class="add-design">
+
+                <div class="add-icon">
+                    +
+                </div>
+
+                <h3>
+                    Create Another Poster Design
+                </h3>
+
+                <p>
+                    Add a new independent design folder to your platform.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="addDesign()"
+                >
+                    + Add New Design
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       DESIGN STATUS
+    ========================== */
+
+    const defaultDesigns = {
+
+        design1: true,
+        design2: true,
+        design3: true,
+        design4: true
+
+    };
+
+
+    /* =========================
+       LOAD DESIGN STATUS
+    ========================== */
+
+    function loadDesignStatus() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterDesignStatus"
+            );
+
+
+        const status =
+            saved
+                ? {
+                    ...defaultDesigns,
+                    ...JSON.parse(saved)
+                }
+                : defaultDesigns;
+
+
+        Object.keys(status).forEach(function(design) {
+
+            const checkbox =
+                document.querySelector(
+                    `[onchange*="${design}"]`
+                );
+
+
+            const statusElement =
+                document.getElementById(
+                    `status-${design}`
+                );
+
+
+            if (!checkbox || !statusElement) {
+                return;
+            }
+
+
+            checkbox.checked =
+                status[design];
+
+
+            updateStatusUI(
+                statusElement,
+                status[design]
+            );
+
+        });
+
+
+        updateCount();
+
+    }
+
+
+    /* =========================
+       TOGGLE DESIGN
+    ========================== */
+
+    function toggleDesign(design, checkbox) {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterDesignStatus"
+            );
+
+
+        const status =
+            saved
+                ? {
+                    ...defaultDesigns,
+                    ...JSON.parse(saved)
+                }
+                : {
+                    ...defaultDesigns
+                };
+
+
+        status[design] =
+            checkbox.checked;
+
+
+        localStorage.setItem(
+            "doctorPosterDesignStatus",
+            JSON.stringify(status)
+        );
+
+
+        const statusElement =
+            document.getElementById(
+                `status-${design}`
+            );
+
+
+        updateStatusUI(
+            statusElement,
+            checkbox.checked
+        );
+
+
+        updateCount();
+
+    }
+
+
+    /* =========================
+       UPDATE STATUS UI
+    ========================== */
+
+    function updateStatusUI(
+        element,
+        active
+    ) {
+
+        if (active) {
+
+            element.className =
+                "status active";
+
+            element.innerHTML =
+                `<span class="status-dot"></span>Active`;
+
+        } else {
+
+            element.className =
+                "status inactive";
+
+            element.innerHTML =
+                `<span class="status-dot"></span>Inactive`;
+
+        }
+
+    }
+
+
+    /* =========================
+       COUNT ACTIVE DESIGNS
+    ========================== */
+
+    function updateCount() {
+
+        const saved =
+            localStorage.getItem(
+                "doctorPosterDesignStatus"
+            );
+
+
+        const status =
+            saved
+                ? {
+                    ...defaultDesigns,
+                    ...JSON.parse(saved)
+                }
+                : defaultDesigns;
+
+
+        const activeCount =
+            Object.values(status)
+                .filter(Boolean)
+                .length;
+
+
+        document.getElementById(
+            "designCount"
+        ).textContent =
+            `${activeCount} / 4 Active`;
+
+    }
+
+
+    /* =========================
+       EDIT DESIGN
+    ========================== */
+
+    function editDesign(name) {
+
+        alert(
+            `"${name}" editor management will be connected here later.`
+        );
+
+    }
+
+
+    /* =========================
+       DELETE DESIGN
+    ========================== */
+
+    function deleteDesign(design) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this design?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        alert(
+            "Design deletion will be connected to the backend later."
+        );
+
+    }
+
+
+    /* =========================
+       ADD DESIGN
+    ========================== */
+
+    function addDesign() {
+
+        alert(
+            "New design creation will be connected later."
+        );
+
+    }
+
+
+    /* =========================
+       INITIALIZE
+    ========================== */
+
+    loadDesignStatus();
+
+</script>
+
+</body>
+</html>
