@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Website Overview - Doctor Poster Maker</title>
+    <title>Website Overview | Doctor Poster Maker</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,991 +15,1173 @@
     >
 
     <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        body {
-            font-family: "Inter", "Noto Sans Bengali", sans-serif;
-            background: #f4f7f9;
-            color: #12343b;
+        :root{
+            --primary:#087f86;
+            --primary-dark:#05656b;
+            --primary-light:#e9f8f7;
+            --dark:#12343b;
+            --text:#38565c;
+            --muted:#71878c;
+            --border:#e3edef;
+            --bg:#f5f9fa;
+            --white:#ffffff;
+            --success:#159957;
+            --success-bg:#eaf8f0;
+            --danger:#d64545;
+            --danger-bg:#fff0f0;
+            --warning:#b7791f;
+            --warning-bg:#fff7e6;
+            --shadow:0 10px 35px rgba(18,52,59,.07);
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        body{
+            font-family:"Inter","Noto Sans Bengali",sans-serif;
+            background:var(--bg);
+            color:var(--dark);
+            min-height:100vh;
         }
 
-        button {
-            font: inherit;
+        button,
+        input,
+        textarea,
+        select{
+            font:inherit;
         }
 
-        /* ================================
-           LAYOUT
-        ================================= */
-
-        .admin-layout {
-            min-height: 100vh;
-            display: flex;
+        a{
+            text-decoration:none;
+            color:inherit;
         }
 
-        /* ================================
+        /* =========================
            SIDEBAR
-        ================================= */
+        ========================== */
 
-        .sidebar {
-            width: 250px;
-            background: #ffffff;
-            border-right: 1px solid #e4ebed;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
+        .sidebar{
+            position:fixed;
+            left:0;
+            top:0;
+            width:260px;
+            height:100vh;
+            background:var(--white);
+            border-right:1px solid var(--border);
+            display:flex;
+            flex-direction:column;
+            z-index:100;
         }
 
-        .sidebar-brand {
-            height: 76px;
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 0 22px;
-            border-bottom: 1px solid #edf1f2;
+        .brand{
+            padding:25px 22px;
+            border-bottom:1px solid var(--border);
         }
 
-        .brand-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: #087f86;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
+        .brand-top{
+            display:flex;
+            align-items:center;
+            gap:12px;
         }
 
-        .brand-text strong {
-            display: block;
-            font-size: 13px;
-            font-weight: 800;
+        .brand-icon{
+            width:42px;
+            height:42px;
+            border-radius:12px;
+            background:var(--primary);
+            color:#fff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:20px;
+            font-weight:800;
+            box-shadow:0 8px 20px rgba(8,127,134,.22);
         }
 
-        .brand-text span {
-            display: block;
-            font-size: 10px;
-            color: #829297;
-            margin-top: 2px;
+        .brand h1{
+            font-size:16px;
+            line-height:1.2;
+            font-weight:800;
+            color:var(--dark);
         }
 
-        /* ================================
-           NAV
-        ================================= */
-
-        .sidebar-nav {
-            padding: 20px 13px;
-            flex: 1;
+        .brand p{
+            margin-top:4px;
+            font-size:11px;
+            color:var(--muted);
         }
 
-        .nav-label {
-            font-size: 10px;
-            color: #9aa9ad;
-            font-weight: 800;
-            letter-spacing: .08em;
-            padding: 0 10px;
-            margin-bottom: 9px;
+        .nav{
+            padding:18px 13px;
+            flex:1;
+            overflow-y:auto;
         }
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 11px 12px;
-            border-radius: 9px;
-            color: #61757b;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            transition: .2s;
+        .nav-title{
+            padding:8px 12px;
+            margin-bottom:6px;
+            font-size:10px;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:.12em;
+            color:#9aabad;
         }
 
-        .nav-item:hover {
-            background: #eef7f7;
-            color: #087f86;
+        .nav a{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:12px 13px;
+            margin-bottom:5px;
+            border-radius:11px;
+            color:#587177;
+            font-size:13px;
+            font-weight:600;
+            transition:.2s ease;
         }
 
-        .nav-item.active {
-            background: #e8f6f5;
-            color: #087f86;
-            font-weight: 700;
+        .nav a:hover{
+            background:var(--primary-light);
+            color:var(--primary);
         }
 
-        .nav-icon {
-            width: 22px;
-            text-align: center;
-            font-size: 15px;
+        .nav a.active{
+            background:var(--primary-light);
+            color:var(--primary);
         }
 
-        /* ================================
-           SIDEBAR FOOTER
-        ================================= */
-
-        .sidebar-footer {
-            padding: 15px;
-            border-top: 1px solid #edf1f2;
+        .nav-icon{
+            width:20px;
+            text-align:center;
+            font-size:16px;
         }
 
-        .logout-btn {
-            width: 100%;
-            border: none;
-            background: #fff2f2;
-            color: #b94a4a;
-            border-radius: 9px;
-            padding: 11px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
+        .sidebar-bottom{
+            padding:15px;
+            border-top:1px solid var(--border);
         }
 
-        .logout-btn:hover {
-            background: #ffe6e6;
+        .admin-mini{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:10px;
+            border-radius:12px;
+            background:#f7fafb;
         }
 
-        /* ================================
+        .admin-avatar{
+            width:36px;
+            height:36px;
+            border-radius:10px;
+            background:var(--primary);
+            color:#fff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:13px;
+            font-weight:800;
+        }
+
+        .admin-mini strong{
+            display:block;
+            font-size:12px;
+            color:var(--dark);
+        }
+
+        .admin-mini span{
+            display:block;
+            margin-top:2px;
+            font-size:10px;
+            color:var(--muted);
+        }
+
+        /* =========================
            MAIN
-        ================================= */
+        ========================== */
 
-        .main-content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            min-height: 100vh;
+        .main{
+            margin-left:260px;
+            min-height:100vh;
         }
 
-        /* ================================
-           TOPBAR
-        ================================= */
-
-        .topbar {
-            height: 76px;
-            background: #ffffff;
-            border-bottom: 1px solid #e4ebed;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
+        .topbar{
+            height:76px;
+            padding:0 30px;
+            background:rgba(255,255,255,.94);
+            backdrop-filter:blur(12px);
+            border-bottom:1px solid var(--border);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            position:sticky;
+            top:0;
+            z-index:50;
         }
 
-        .topbar-left h1 {
-            font-size: 20px;
-            font-weight: 800;
+        .topbar-left h2{
+            font-size:20px;
+            font-weight:800;
+            letter-spacing:-.02em;
         }
 
-        .topbar-left p {
-            font-size: 12px;
-            color: #839398;
-            margin-top: 4px;
+        .topbar-left p{
+            margin-top:4px;
+            color:var(--muted);
+            font-size:12px;
         }
 
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .top-actions{
+            display:flex;
+            align-items:center;
+            gap:10px;
         }
 
-        .view-site {
-            padding: 9px 14px;
-            background: #eef7f7;
-            color: #087f86;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+        .top-btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:7px;
+            height:38px;
+            padding:0 14px;
+            border-radius:10px;
+            border:1px solid var(--border);
+            background:#fff;
+            color:#4e696f;
+            font-size:12px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.2s ease;
         }
 
-        .mobile-menu-btn {
-            display: none;
-            border: none;
-            background: #eef7f7;
-            color: #087f86;
-            width: 38px;
-            height: 38px;
-            border-radius: 9px;
-            cursor: pointer;
+        .top-btn:hover{
+            border-color:#c7dfe1;
+            color:var(--primary);
+            background:#fbfefe;
         }
 
-        /* ================================
+        /* =========================
            CONTENT
-        ================================= */
+        ========================== */
 
-        .page-content {
-            padding: 30px;
-            max-width: 1450px;
+        .content{
+            padding:30px;
+            max-width:1500px;
         }
 
-        /* ================================
-           CARDS
-        ================================= */
-
-        .card {
-            background: #ffffff;
-            border: 1px solid #e4ebed;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow:
-                0 8px 25px rgba(18, 52, 59, .035);
+        .page-head{
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:20px;
+            margin-bottom:25px;
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        .page-head h1{
+            font-size:26px;
+            font-weight:800;
+            letter-spacing:-.03em;
         }
 
-        .card-header h2 {
-            font-size: 16px;
-            font-weight: 800;
+        .page-head p{
+            margin-top:7px;
+            color:var(--muted);
+            font-size:13px;
         }
 
-        .card-header p {
-            font-size: 11px;
-            color: #859499;
-            margin-top: 4px;
+        .status-pill{
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            padding:8px 12px;
+            border-radius:999px;
+            font-size:11px;
+            font-weight:800;
         }
 
-        /* ================================
+        .status-dot{
+            width:7px;
+            height:7px;
+            border-radius:50%;
+            background:currentColor;
+        }
+
+        .status-online{
+            color:var(--success);
+            background:var(--success-bg);
+        }
+
+        .status-offline{
+            color:var(--danger);
+            background:var(--danger-bg);
+        }
+
+        .status-warning{
+            color:var(--warning);
+            background:var(--warning-bg);
+        }
+
+        /* =========================
            STATS
-        ================================= */
+        ========================== */
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-            gap: 18px;
-            margin-bottom: 22px;
+        .stats-grid{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:16px;
+            margin-bottom:22px;
         }
 
-        .stat-card {
-            background: #ffffff;
-            border: 1px solid #e4ebed;
-            border-radius: 15px;
-            padding: 20px;
-            min-height: 145px;
+        .stat-card{
+            background:#fff;
+            border:1px solid var(--border);
+            border-radius:16px;
+            padding:20px;
+            box-shadow:var(--shadow);
         }
 
-        .stat-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 17px;
+        .stat-top{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
         }
 
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #eef7f7;
-            color: #087f86;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
+        .stat-label{
+            color:var(--muted);
+            font-size:11px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:.06em;
         }
 
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #35a66b;
+        .stat-icon{
+            width:36px;
+            height:36px;
+            border-radius:10px;
+            background:var(--primary-light);
+            color:var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:16px;
         }
 
-        .status-dot.warning {
-            background: #d88a00;
+        .stat-value{
+            margin-top:14px;
+            font-size:22px;
+            font-weight:800;
+            color:var(--dark);
         }
 
-        .status-dot.offline {
-            background: #d75c5c;
+        .stat-description{
+            margin-top:5px;
+            font-size:11px;
+            color:var(--muted);
         }
 
-        .stat-card h3 {
-            font-size: 12px;
-            color: #708187;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .stat-sub {
-            font-size: 10px;
-            color: #91a0a4;
-            margin-top: 5px;
-        }
-
-        /* ================================
+        /* =========================
            MAIN GRID
-        ================================= */
+        ========================== */
 
-        .main-grid {
-            display: grid;
-            grid-template-columns:
-                minmax(0, 1.35fr)
-                minmax(300px, .65fr);
-            gap: 22px;
+        .main-grid{
+            display:grid;
+            grid-template-columns:1.45fr 1fr;
+            gap:20px;
         }
 
-        /* ================================
-           WEBSITE PREVIEW
-        ================================= */
-
-        .website-preview {
-            border: 1px solid #e1eaec;
-            border-radius: 13px;
-            overflow: hidden;
-            background: #f8fafb;
+        .card{
+            background:#fff;
+            border:1px solid var(--border);
+            border-radius:17px;
+            box-shadow:var(--shadow);
+            overflow:hidden;
         }
 
-        .browser-bar {
-            height: 42px;
-            background: #eef3f4;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0 13px;
+        .card-head{
+            padding:18px 20px;
+            border-bottom:1px solid var(--border);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:15px;
         }
 
-        .browser-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #b8c4c7;
+        .card-head h3{
+            font-size:14px;
+            font-weight:800;
         }
 
-        .browser-url {
-            margin-left: 8px;
-            background: #ffffff;
-            border: 1px solid #dde5e7;
-            border-radius: 6px;
-            height: 23px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 0 9px;
-            font-size: 9px;
-            color: #89999e;
+        .card-head p{
+            margin-top:3px;
+            color:var(--muted);
+            font-size:11px;
         }
 
-        .preview-content {
-            background: #ffffff;
-            padding: 25px;
+        .card-body{
+            padding:20px;
         }
 
-        .preview-ad {
-            background: #087f86;
-            color: #ffffff;
-            border-radius: 8px;
-            padding: 10px 13px;
-            margin-bottom: 18px;
-            font-size: 9px;
+        /* =========================
+           BROWSER PREVIEW
+        ========================== */
+
+        .browser{
+            border:1px solid #dce8ea;
+            border-radius:14px;
+            overflow:hidden;
+            background:#fff;
         }
 
-        .preview-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
+        .browser-top{
+            height:40px;
+            padding:0 12px;
+            background:#f3f6f7;
+            display:flex;
+            align-items:center;
+            gap:7px;
         }
 
-        .preview-logo {
-            display: flex;
-            align-items: center;
-            gap: 7px;
+        .browser-dot{
+            width:8px;
+            height:8px;
+            border-radius:50%;
+            background:#c8d3d5;
         }
 
-        .preview-logo-icon {
-            width: 24px;
-            height: 24px;
-            background: #087f86;
-            color: white;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 800;
+        .browser-address{
+            flex:1;
+            margin-left:6px;
+            height:24px;
+            border-radius:7px;
+            background:#fff;
+            border:1px solid #e0e8e9;
+            display:flex;
+            align-items:center;
+            padding:0 9px;
+            font-size:9px;
+            color:#8c9da1;
         }
 
-        .preview-logo strong {
-            font-size: 11px;
+        .browser-body{
+            min-height:360px;
+            background:#f9fcfc;
         }
 
-        .preview-links {
-            display: flex;
-            gap: 12px;
-            font-size: 8px;
-            color: #728186;
+        .preview-nav{
+            height:48px;
+            padding:0 20px;
+            background:#fff;
+            border-bottom:1px solid #edf2f3;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
         }
 
-        .preview-hero {
-            padding: 20px 5px 25px;
+        .preview-brand{
+            display:flex;
+            align-items:center;
+            gap:7px;
+            font-size:10px;
+            font-weight:800;
+            color:var(--dark);
         }
 
-        .preview-badge {
-            display: inline-block;
-            background: #e9f8f7;
-            color: #087f86;
-            padding: 5px 8px;
-            border-radius: 20px;
-            font-size: 8px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .preview-brand-icon{
+            width:22px;
+            height:22px;
+            border-radius:6px;
+            background:var(--primary);
+            color:#fff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:10px;
         }
 
-        .preview-hero h3 {
-            font-size: 24px;
-            line-height: 1.15;
-            max-width: 500px;
-            margin-bottom: 10px;
+        .preview-links{
+            display:flex;
+            gap:12px;
+            font-size:7px;
+            color:#7a8e92;
+            font-weight:600;
         }
 
-        .preview-hero p {
-            font-size: 9px;
-            color: #76858a;
-            max-width: 430px;
-            line-height: 1.6;
+        .preview-hero{
+            padding:36px 25px;
+            text-align:center;
         }
 
-        .preview-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
+        .preview-badge{
+            display:inline-flex;
+            padding:5px 9px;
+            border-radius:999px;
+            background:var(--primary-light);
+            color:var(--primary);
+            font-size:7px;
+            font-weight:800;
         }
 
-        .preview-btn {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 8px;
-            font-weight: 700;
+        .preview-hero h4{
+            max-width:420px;
+            margin:12px auto 7px;
+            font-size:23px;
+            line-height:1.12;
+            color:var(--dark);
+            letter-spacing:-.03em;
         }
 
-        .preview-btn.primary {
-            background: #087f86;
-            color: #ffffff;
+        .preview-hero p{
+            max-width:390px;
+            margin:0 auto;
+            color:#71878c;
+            font-size:8px;
+            line-height:1.6;
         }
 
-        .preview-btn.secondary {
-            border: 1px solid #dbe5e7;
-            color: #466168;
+        .preview-button{
+            display:inline-flex;
+            margin-top:15px;
+            padding:7px 12px;
+            border-radius:7px;
+            background:var(--primary);
+            color:#fff;
+            font-size:7px;
+            font-weight:800;
         }
 
-        /* ================================
+        .preview-cards{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:8px;
+            padding:0 25px 25px;
+        }
+
+        .preview-card{
+            min-height:70px;
+            background:#fff;
+            border:1px solid #e7eff0;
+            border-radius:9px;
+            padding:10px;
+        }
+
+        .preview-card-icon{
+            width:20px;
+            height:20px;
+            border-radius:6px;
+            background:var(--primary-light);
+            color:var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:8px;
+        }
+
+        .preview-card strong{
+            display:block;
+            margin-top:6px;
+            font-size:8px;
+            color:var(--dark);
+        }
+
+        .preview-card span{
+            display:block;
+            margin-top:3px;
+            font-size:6px;
+            color:#87999d;
+        }
+
+        /* =========================
            INFO
-        ================================= */
+        ========================== */
 
-        .info-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .info-list{
+            display:flex;
+            flex-direction:column;
         }
 
-        .info-row {
-            padding: 14px;
-            border: 1px solid #e5ecee;
-            border-radius: 10px;
+        .info-row{
+            min-height:58px;
+            padding:10px 0;
+            border-bottom:1px solid #edf2f3;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:15px;
         }
 
-        .info-row small {
-            display: block;
-            color: #8a999d;
-            font-size: 9px;
-            margin-bottom: 5px;
+        .info-row:last-child{
+            border-bottom:0;
         }
 
-        .info-row strong {
-            display: block;
-            font-size: 12px;
+        .info-left{
+            display:flex;
+            align-items:center;
+            gap:11px;
+            min-width:0;
         }
 
-        .status-badge {
-            display: inline-flex;
-            padding: 5px 9px;
-            border-radius: 20px;
-            background: #e8f7ef;
-            color: #218050;
-            font-size: 9px;
-            font-weight: 800;
+        .info-icon{
+            width:34px;
+            height:34px;
+            flex:0 0 34px;
+            border-radius:9px;
+            background:#f2f8f8;
+            color:var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:14px;
         }
 
-        .status-badge.warning {
-            background: #fff7e5;
-            color: #b97800;
+        .info-text{
+            min-width:0;
         }
 
-        .status-badge.offline {
-            background: #fff0f0;
-            color: #b94a4a;
+        .info-text strong{
+            display:block;
+            font-size:12px;
+            color:var(--dark);
         }
 
-        /* ================================
+        .info-text span{
+            display:block;
+            margin-top:3px;
+            color:var(--muted);
+            font-size:10px;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            max-width:220px;
+        }
+
+        .mini-badge{
+            flex:0 0 auto;
+            padding:6px 9px;
+            border-radius:999px;
+            font-size:9px;
+            font-weight:800;
+        }
+
+        .mini-active{
+            color:var(--success);
+            background:var(--success-bg);
+        }
+
+        .mini-off{
+            color:var(--danger);
+            background:var(--danger-bg);
+        }
+
+        .mini-warning{
+            color:var(--warning);
+            background:var(--warning-bg);
+        }
+
+        /* =========================
            QUICK ACTIONS
-        ================================= */
+        ========================== */
 
-        .quick-actions {
-            margin-top: 22px;
+        .actions-grid{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:10px;
         }
 
-        .action-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-            gap: 12px;
+        .action-btn{
+            min-height:70px;
+            border:1px solid var(--border);
+            background:#fff;
+            border-radius:12px;
+            padding:13px;
+            text-align:left;
+            cursor:pointer;
+            transition:.2s ease;
         }
 
-        .action {
-            border: 1px solid #e3eaec;
-            border-radius: 10px;
-            padding: 15px;
-            transition: .2s;
+        .action-btn:hover{
+            border-color:#c6dfe1;
+            background:#fbfefe;
+            transform:translateY(-1px);
         }
 
-        .action:hover {
-            border-color: #b8dddd;
-            transform: translateY(-2px);
+        .action-icon{
+            width:28px;
+            height:28px;
+            border-radius:8px;
+            background:var(--primary-light);
+            color:var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:12px;
         }
 
-        .action-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: #eef7f7;
-            color: #087f86;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 10px;
+        .action-btn strong{
+            display:block;
+            margin-top:8px;
+            font-size:10px;
+            color:var(--dark);
         }
 
-        .action strong {
-            display: block;
-            font-size: 11px;
-            margin-bottom: 4px;
+        .action-btn span{
+            display:block;
+            margin-top:2px;
+            font-size:8px;
+            color:var(--muted);
         }
 
-        .action span {
-            font-size: 9px;
-            line-height: 1.5;
-            color: #849398;
+        /* =========================
+           NOTICE
+        ========================== */
+
+        .notice{
+            margin-top:20px;
+            padding:15px 17px;
+            border:1px solid #dceced;
+            background:#f2fbfa;
+            border-radius:13px;
+            display:flex;
+            align-items:flex-start;
+            gap:11px;
         }
 
-        /* ================================
-           RESPONSIVE
-        ================================= */
-
-        @media (max-width: 1100px) {
-
-            .stats-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-
+        .notice-icon{
+            width:27px;
+            height:27px;
+            flex:0 0 27px;
+            border-radius:8px;
+            background:var(--primary-light);
+            color:var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:12px;
         }
 
-        @media (max-width: 800px) {
-
-            .sidebar {
-                transform: translateX(-100%);
-                transition: .25s;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .topbar {
-                padding: 0 18px;
-            }
-
-            .page-content {
-                padding: 20px 15px;
-            }
-
-            .view-site {
-                display: none;
-            }
-
-            .action-grid {
-                grid-template-columns: 1fr;
-            }
-
+        .notice strong{
+            display:block;
+            font-size:11px;
+            color:var(--dark);
         }
 
-        @media (max-width: 550px) {
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .preview-links {
-                display: none;
-            }
-
-            .preview-content {
-                padding: 16px;
-            }
-
-            .preview-hero h3 {
-                font-size: 20px;
-            }
-
+        .notice p{
+            margin-top:3px;
+            color:#688086;
+            font-size:10px;
+            line-height:1.6;
         }
 
+        /* =========================
+           MOBILE
+        ========================== */
+
+        .mobile-header{
+            display:none;
+        }
+
+        @media(max-width:1100px){
+            .stats-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+            .main-grid{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media(max-width:800px){
+            .sidebar{
+                display:none;
+            }
+
+            .main{
+                margin-left:0;
+            }
+
+            .mobile-header{
+                height:64px;
+                padding:0 18px;
+                background:#fff;
+                border-bottom:1px solid var(--border);
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                position:sticky;
+                top:0;
+                z-index:100;
+            }
+
+            .mobile-brand{
+                display:flex;
+                align-items:center;
+                gap:9px;
+            }
+
+            .mobile-brand-icon{
+                width:34px;
+                height:34px;
+                border-radius:9px;
+                background:var(--primary);
+                color:#fff;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:14px;
+                font-weight:800;
+            }
+
+            .mobile-brand strong{
+                font-size:13px;
+            }
+
+            .mobile-menu-btn{
+                width:36px;
+                height:36px;
+                border:1px solid var(--border);
+                border-radius:9px;
+                background:#fff;
+                cursor:pointer;
+            }
+
+            .topbar{
+                display:none;
+            }
+
+            .content{
+                padding:20px 16px;
+            }
+
+            .page-head{
+                align-items:flex-start;
+                flex-direction:column;
+            }
+        }
+
+        @media(max-width:560px){
+            .stats-grid{
+                grid-template-columns:1fr;
+            }
+
+            .preview-cards{
+                grid-template-columns:1fr;
+            }
+
+            .preview-hero h4{
+                font-size:18px;
+            }
+
+            .actions-grid{
+                grid-template-columns:1fr;
+            }
+
+            .info-row{
+                align-items:flex-start;
+            }
+
+            .info-row .mini-badge{
+                margin-top:6px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<div class="admin-layout">
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
 
-    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+        <div class="brand">
+            <div class="brand-top">
+                <div class="brand-icon">✦</div>
 
-        <div class="sidebar-brand">
-
-            <div class="brand-icon">
-                ✚
+                <div>
+                    <h1>Doctor Poster Maker</h1>
+                    <p>Admin Panel</p>
+                </div>
             </div>
-
-            <div class="brand-text">
-
-                <strong>
-                    Doctor Poster Maker
-                </strong>
-
-                <span>
-                    Admin Panel
-                </span>
-
-            </div>
-
         </div>
 
+        <nav class="nav">
 
-        <nav class="sidebar-nav">
+            <div class="nav-title">Overview</div>
 
-            <div class="nav-label">
-                MAIN
-            </div>
-
-            <a
-                href="dashboard.html"
-                class="nav-item"
-            >
+            <a href="dashboard.html">
                 <span class="nav-icon">⌂</span>
                 Dashboard
             </a>
 
-
-            <a
-                href="website.html"
-                class="nav-item active"
-            >
+            <a href="website.html" class="active">
                 <span class="nav-icon">◉</span>
                 Website
             </a>
 
+            <div class="nav-title">Management</div>
 
-            <a
-                href="design-manage.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▣</span>
+            <a href="website-edit.html">
+                <span class="nav-icon">✎</span>
+                Website Editor
+            </a>
+
+            <a href="design-manage.html">
+                <span class="nav-icon">▦</span>
                 Design Management
             </a>
 
-
-            <div
-                class="nav-label"
-                style="margin-top:22px;"
-            >
-                MANAGEMENT
-            </div>
-
-
-            <a
-                href="website-edit.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">✎</span>
-                Website Edit
-            </a>
-
-
-            <a
-                href="browser-ui.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▤</span>
+            <a href="browser-ui.html">
+                <span class="nav-icon">▣</span>
                 Browser UI Ad
             </a>
 
-
-            <a
-                href="banner.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▥</span>
+            <a href="banner.html">
+                <span class="nav-icon">▤</span>
                 Banner Management
             </a>
 
+            <div class="nav-title">System</div>
 
-            <a
-                href="system.html"
-                class="nav-item"
-            >
+            <a href="system.html">
                 <span class="nav-icon">⚙</span>
-                System
+                System Settings
             </a>
 
         </nav>
 
+        <div class="sidebar-bottom">
+            <div class="admin-mini">
+                <div class="admin-avatar">A</div>
 
-        <div class="sidebar-footer">
-
-            <button
-                class="logout-btn"
-                id="logoutBtn"
-                type="button"
-            >
-                ↪ Logout
-            </button>
-
+                <div>
+                    <strong>Administrator</strong>
+                    <span>Control Center</span>
+                </div>
+            </div>
         </div>
 
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MOBILE HEADER
+    ========================== -->
 
-    <main class="main-content">
+    <div class="mobile-header">
 
-        <!-- TOPBAR -->
+        <div class="mobile-brand">
+            <div class="mobile-brand-icon">✦</div>
+            <strong>Doctor Poster Maker</strong>
+        </div>
+
+        <button
+            class="mobile-menu-btn"
+            onclick="window.location.href='dashboard.html'"
+        >
+            ☰
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
 
         <header class="topbar">
 
             <div class="topbar-left">
-
-                <h1>
-                    Website Overview
-                </h1>
-
-                <p>
-                    Monitor and manage your public website.
-                </p>
-
+                <h2>Website Overview</h2>
+                <p>Monitor your public website and platform status.</p>
             </div>
 
-
-            <div class="topbar-right">
+            <div class="top-actions">
 
                 <a
                     href="../index.html"
                     target="_blank"
-                    class="view-site"
+                    class="top-btn"
                 >
-                    View Website ↗
+                    ↗ View Website
                 </a>
 
-                <button
-                    class="mobile-menu-btn"
-                    id="mobileMenuBtn"
-                    type="button"
+                <a
+                    href="dashboard.html"
+                    class="top-btn"
                 >
-                    ☰
-                </button>
+                    ← Dashboard
+                </a>
 
             </div>
 
         </header>
 
 
-        <!-- CONTENT -->
+        <section class="content">
 
-        <div class="page-content">
+            <!-- PAGE HEAD -->
 
-            <!-- STATS -->
+            <div class="page-head">
+
+                <div>
+                    <h1>Website Overview</h1>
+
+                    <p>
+                        See the current status of your website,
+                        designs, poster creation and browser advertisement.
+                    </p>
+                </div>
+
+                <div
+                    id="websiteStatusBadge"
+                    class="status-pill status-online"
+                >
+                    <span class="status-dot"></span>
+                    Website Online
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 STATS
+            ========================== -->
 
             <div class="stats-grid">
 
-                <!-- WEBSITE -->
+                <!-- Website -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
+
+                        <div class="stat-label">
+                            Website Status
+                        </div>
 
                         <div class="stat-icon">
                             ◉
                         </div>
 
-                        <span
-                            class="status-dot"
-                            id="websiteDot"
-                        ></span>
-
                     </div>
 
-                    <h3>
-                        Website Status
-                    </h3>
-
                     <div
+                        id="websiteStatusValue"
                         class="stat-value"
-                        id="websiteStatus"
                     >
                         Online
                     </div>
 
                     <div
-                        class="stat-sub"
-                        id="websiteStatusSub"
+                        id="websiteStatusDescription"
+                        class="stat-description"
                     >
-                        Website is active
+                        Website is available
                     </div>
 
                 </div>
 
 
-                <!-- DESIGNS -->
+                <!-- Designs -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <div class="stat-icon">
-                            ▣
+                        <div class="stat-label">
+                            Poster Designs
                         </div>
 
-                        <span
-                            class="status-dot"
-                            id="designDot"
-                        ></span>
+                        <div class="stat-icon">
+                            ▦
+                        </div>
 
                     </div>
 
-                    <h3>
-                        Poster Designs
-                    </h3>
-
                     <div
+                        id="designCountValue"
                         class="stat-value"
-                        id="designCount"
                     >
                         4
                     </div>
 
-                    <div class="stat-sub">
+                    <div
+                        id="designCountDescription"
+                        class="stat-description"
+                    >
                         Active designs
                     </div>
 
                 </div>
 
 
-                <!-- AD -->
+                <!-- Advertisement -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <div class="stat-icon">
-                            ▤
+                        <div class="stat-label">
+                            Browser UI Ad
                         </div>
 
-                        <span
-                            class="status-dot"
-                            id="adDot"
-                        ></span>
+                        <div class="stat-icon">
+                            ▣
+                        </div>
 
                     </div>
 
-                    <h3>
-                        Browser UI Ad
-                    </h3>
-
                     <div
+                        id="adStatusValue"
                         class="stat-value"
-                        id="adStatus"
                     >
-                        ON
+                        Enabled
                     </div>
 
                     <div
-                        class="stat-sub"
-                        id="adStatusSub"
+                        id="adStatusDescription"
+                        class="stat-description"
                     >
-                        Advertisement active
+                        Advertisement system active
                     </div>
 
                 </div>
 
 
-                <!-- PLATFORM -->
+                <!-- Platform -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
+                        <div class="stat-label">
+                            Platform
+                        </div>
+
                         <div class="stat-icon">
                             ⚙
                         </div>
 
-                        <span
-                            class="status-dot"
-                            id="systemDot"
-                        ></span>
-
                     </div>
 
-                    <h3>
-                        Platform
-                    </h3>
-
                     <div
+                        id="platformStatusValue"
                         class="stat-value"
-                        id="systemStatus"
                     >
-                        Healthy
+                        Frontend
                     </div>
 
                     <div
-                        class="stat-sub"
-                        id="systemStatusSub"
+                        id="platformStatusDescription"
+                        class="stat-description"
                     >
-                        All systems operational
+                        Local storage connected
                     </div>
 
                 </div>
@@ -1007,7 +1189,9 @@
             </div>
 
 
-            <!-- MAIN GRID -->
+            <!-- =========================
+                 MAIN GRID
+            ========================== -->
 
             <div class="main-grid">
 
@@ -1015,111 +1199,143 @@
 
                 <div class="card">
 
-                    <div class="card-header">
+                    <div class="card-head">
 
                         <div>
-
-                            <h2>
-                                Website Preview
-                            </h2>
-
-                            <p>
-                                Current public website appearance.
-                            </p>
-
+                            <h3>Live Website Preview</h3>
+                            <p>Quick visual preview of the public website.</p>
                         </div>
+
+                        <a
+                            href="../index.html"
+                            target="_blank"
+                            class="top-btn"
+                        >
+                            Open ↗
+                        </a>
 
                     </div>
 
+                    <div class="card-body">
 
-                    <div class="website-preview">
+                        <div class="browser">
 
-                        <div class="browser-bar">
+                            <div class="browser-top">
 
-                            <span class="browser-dot"></span>
-                            <span class="browser-dot"></span>
-                            <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
 
-                            <div class="browser-url">
-                                doctor-poster-maker
-                            </div>
+                                <div class="browser-address">
+                                    doctor-poster-maker.com
+                                </div>
 
-                        </div>
-
-
-                        <div class="preview-content">
-
-                            <div
-                                class="preview-ad"
-                                id="previewAd"
-                            >
-                                Advertisement — Browser UI only
                             </div>
 
 
-                            <div class="preview-nav">
+                            <div class="browser-body">
 
-                                <div class="preview-logo">
+                                <div class="preview-nav">
 
-                                    <div class="preview-logo-icon">
-                                        ✚
+                                    <div class="preview-brand">
+
+                                        <div class="preview-brand-icon">
+                                            ✦
+                                        </div>
+
+                                        <span id="previewWebsiteName">
+                                            Doctor Poster Maker
+                                        </span>
+
                                     </div>
 
-                                    <strong
-                                        id="previewWebsiteName"
+                                    <div class="preview-links">
+                                        <span>Home</span>
+                                        <span>Designs</span>
+                                        <span>Features</span>
+                                        <span>How It Works</span>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="preview-hero">
+
+                                    <div
+                                        id="previewBadge"
+                                        class="preview-badge"
                                     >
-                                        Doctor Poster Maker
-                                    </strong>
+                                        ✦ Built for Healthcare Professionals
+                                    </div>
 
-                                </div>
+                                    <h4 id="previewHeroTitle">
+                                        Create Beautiful Doctor Posters in Minutes.
+                                    </h4>
 
+                                    <p id="previewHeroDescription">
+                                        Create professional medical posters quickly
+                                        with beautiful ready-made designs built for
+                                        healthcare professionals.
+                                    </p>
 
-                                <div class="preview-links">
-
-                                    <span>
-                                        Designs
-                                    </span>
-
-                                    <span>
-                                        Features
-                                    </span>
-
-                                    <span>
-                                        How It Works
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="preview-hero">
-
-                                <span
-                                    class="preview-badge"
-                                    id="previewBadge"
-                                >
-                                    ✦ Built for Healthcare Professionals
-                                </span>
-
-                                <h3 id="previewTitle">
-                                    Create Beautiful Doctor Posters in Minutes.
-                                </h3>
-
-                                <p id="previewDescription">
-                                    Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.
-                                </p>
-
-
-                                <div class="preview-buttons">
-
-                                    <span class="preview-btn primary">
+                                    <span class="preview-button">
                                         Start Creating →
                                     </span>
 
-                                    <span class="preview-btn secondary">
-                                        Explore Designs
-                                    </span>
+                                </div>
+
+
+                                <div class="preview-cards">
+
+                                    <div class="preview-card">
+
+                                        <div class="preview-card-icon">
+                                            ✦
+                                        </div>
+
+                                        <strong>
+                                            Professional Designs
+                                        </strong>
+
+                                        <span>
+                                            Ready-made medical templates
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="preview-card">
+
+                                        <div class="preview-card-icon">
+                                            ⚡
+                                        </div>
+
+                                        <strong>
+                                            Fast Creation
+                                        </strong>
+
+                                        <span>
+                                            Create posters in minutes
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="preview-card">
+
+                                        <div class="preview-card-icon">
+                                            ✓
+                                        </div>
+
+                                        <strong>
+                                            High Quality
+                                        </strong>
+
+                                        <span>
+                                            Export-ready poster quality
+                                        </span>
+
+                                    </div>
 
                                 </div>
 
@@ -1136,111 +1352,442 @@
 
                 <div class="card">
 
-                    <div class="card-header">
+                    <div class="card-head">
 
                         <div>
+                            <h3>Website Information</h3>
+                            <p>Current configuration overview.</p>
+                        </div>
 
-                            <h2>
-                                Website Information
-                            </h2>
+                    </div>
 
-                            <p>
-                                Current platform configuration.
-                            </p>
+                    <div class="card-body">
+
+                        <div class="info-list">
+
+
+                            <!-- Website Status -->
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ◉
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Website Status
+                                        </strong>
+
+                                        <span id="infoWebsiteDescription">
+                                            Public website availability
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="infoWebsiteStatus"
+                                    class="mini-badge mini-active"
+                                >
+                                    ONLINE
+                                </span>
+
+                            </div>
+
+
+                            <!-- Maintenance -->
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ⚠
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Maintenance Mode
+                                        </strong>
+
+                                        <span>
+                                            Temporary maintenance control
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="infoMaintenanceStatus"
+                                    class="mini-badge mini-active"
+                                >
+                                    OFF
+                                </span>
+
+                            </div>
+
+
+                            <!-- Poster Creation -->
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ✦
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Poster Creation
+                                        </strong>
+
+                                        <span id="infoPosterDescription">
+                                            Poster creation availability
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="infoPosterStatus"
+                                    class="mini-badge mini-active"
+                                >
+                                    ACTIVE
+                                </span>
+
+                            </div>
+
+
+                            <!-- Advertisement -->
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ▣
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Advertisement
+                                        </strong>
+
+                                        <span>
+                                            Browser UI advertisement
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="infoAdStatus"
+                                    class="mini-badge mini-active"
+                                >
+                                    ACTIVE
+                                </span>
+
+                            </div>
+
+
+                            <!-- Designs -->
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ▦
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Active Designs
+                                        </strong>
+
+                                        <span>
+                                            Available poster templates
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="infoDesignStatus"
+                                    class="mini-badge mini-active"
+                                >
+                                    4 / 4
+                                </span>
+
+                            </div>
 
                         </div>
 
                     </div>
 
+                </div>
 
-                    <div class="info-list">
 
-                        <div class="info-row">
+                <!-- QUICK ACTIONS -->
 
-                            <small>
-                                Website Name
-                            </small>
+                <div class="card">
 
-                            <strong id="infoWebsiteName">
-                                Doctor Poster Maker
-                            </strong>
+                    <div class="card-head">
 
+                        <div>
+                            <h3>Quick Actions</h3>
+                            <p>Manage your website from the admin panel.</p>
                         </div>
 
+                    </div>
 
-                        <div class="info-row">
+                    <div class="card-body">
 
-                            <small>
-                                Website Tagline
-                            </small>
+                        <div class="actions-grid">
 
-                            <strong id="infoTagline">
-                                Create professional doctor posters in minutes.
-                            </strong>
-
-                        </div>
-
-
-                        <div class="info-row">
-
-                            <small>
-                                Website Status
-                            </small>
-
-                            <span
-                                class="status-badge"
-                                id="infoWebsiteStatus"
+                            <button
+                                class="action-btn"
+                                onclick="window.location.href='website-edit.html'"
                             >
-                                ONLINE
-                            </span>
+
+                                <div class="action-icon">
+                                    ✎
+                                </div>
+
+                                <strong>
+                                    Edit Website
+                                </strong>
+
+                                <span>
+                                    Change website content
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="action-btn"
+                                onclick="window.location.href='design-manage.html'"
+                            >
+
+                                <div class="action-icon">
+                                    ▦
+                                </div>
+
+                                <strong>
+                                    Manage Designs
+                                </strong>
+
+                                <span>
+                                    Enable or disable designs
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="action-btn"
+                                onclick="window.location.href='browser-ui.html'"
+                            >
+
+                                <div class="action-icon">
+                                    ▣
+                                </div>
+
+                                <strong>
+                                    Browser UI Ad
+                                </strong>
+
+                                <span>
+                                    Manage advertisement
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="action-btn"
+                                onclick="window.location.href='system.html'"
+                            >
+
+                                <div class="action-icon">
+                                    ⚙
+                                </div>
+
+                                <strong>
+                                    System Settings
+                                </strong>
+
+                                <span>
+                                    Platform controls
+                                </span>
+
+                            </button>
 
                         </div>
 
+                    </div>
 
-                        <div class="info-row">
+                </div>
 
-                            <small>
-                                Poster Creation
-                            </small>
 
-                            <span
-                                class="status-badge"
-                                id="infoPosterStatus"
-                            >
-                                ACTIVE
-                            </span>
+                <!-- PLATFORM STATUS -->
 
+                <div class="card">
+
+                    <div class="card-head">
+
+                        <div>
+                            <h3>Platform Status</h3>
+                            <p>Current system configuration.</p>
                         </div>
 
+                    </div>
 
-                        <div class="info-row">
+                    <div class="card-body">
 
-                            <small>
-                                Advertisement
-                            </small>
+                        <div class="info-list">
 
-                            <span
-                                class="status-badge"
-                                id="infoAdStatus"
-                            >
-                                ACTIVE
-                            </span>
+                            <div class="info-row">
 
-                        </div>
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ◉
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Website
+                                        </strong>
+
+                                        <span>
+                                            Public website
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="platformWebsite"
+                                    class="mini-badge mini-active"
+                                >
+                                    ONLINE
+                                </span>
+
+                            </div>
 
 
-                        <div class="info-row">
+                            <div class="info-row">
 
-                            <small>
-                                Maintenance Mode
-                            </small>
+                                <div class="info-left">
 
-                            <span
-                                class="status-badge"
-                                id="infoMaintenanceStatus"
-                            >
-                                OFF
-                            </span>
+                                    <div class="info-icon">
+                                        ✦
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Poster Creation
+                                        </strong>
+
+                                        <span>
+                                            Poster editor availability
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="platformPoster"
+                                    class="mini-badge mini-active"
+                                >
+                                    ON
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ▣
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Advertisement
+                                        </strong>
+
+                                        <span>
+                                            Browser UI advertisement
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="platformAd"
+                                    class="mini-badge mini-active"
+                                >
+                                    ON
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-left">
+
+                                    <div class="info-icon">
+                                        ⚠
+                                    </div>
+
+                                    <div class="info-text">
+
+                                        <strong>
+                                            Maintenance
+                                        </strong>
+
+                                        <span>
+                                            Temporary maintenance mode
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    id="platformMaintenance"
+                                    class="mini-badge mini-active"
+                                >
+                                    OFF
+                                </span>
+
+                            </div>
 
                         </div>
 
@@ -1251,970 +1798,713 @@
             </div>
 
 
-            <!-- QUICK ACTIONS -->
+            <!-- NOTICE -->
 
-            <div class="card quick-actions">
+            <div class="notice">
 
-                <div class="card-header">
-
-                    <div>
-
-                        <h2>
-                            Quick Actions
-                        </h2>
-
-                        <p>
-                            Quickly access website management tools.
-                        </p>
-
-                    </div>
-
+                <div class="notice-icon">
+                    ℹ
                 </div>
 
+                <div>
 
-                <div class="action-grid">
+                    <strong>
+                        Admin Control Information
+                    </strong>
 
-                    <a
-                        href="website-edit.html"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            ✎
-                        </div>
-
-                        <strong>
-                            Edit Website
-                        </strong>
-
-                        <span>
-                            Change website name, hero content,
-                            statistics and footer information.
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="design-manage.html"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            ▣
-                        </div>
-
-                        <strong>
-                            Manage Designs
-                        </strong>
-
-                        <span>
-                            Control which poster designs are
-                            available on the homepage.
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="browser-ui.html"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            ▤
-                        </div>
-
-                        <strong>
-                            Browser UI Advertisement
-                        </strong>
-
-                        <span>
-                            Manage the advertisement shown
-                            above the website navbar.
-                        </span>
-
-                    </a>
+                    <p>
+                        Website Status, Maintenance Mode, Poster Creation,
+                        Advertisement System and Design availability are
+                        controlled from the Admin Panel. These settings are
+                        currently stored in browser localStorage and can later
+                        be connected to the Node.js + MongoDB backend.
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
     </main>
 
-</div>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const WEBSITE_KEY = "doctorPosterWebsiteSettings";
+        const DESIGN_KEY = "doctorPosterDesignStatus";
+        const AD_KEY = "doctorPosterAdvertisement";
+        const SYSTEM_KEY = "doctorPosterSystemSettings";
 
 
-<script>
+        const defaultWebsite = {
 
-    /* =========================================================
-       STORAGE KEYS
-    ========================================================= */
+            websiteName: "Doctor Poster Maker",
 
-    const WEBSITE_KEY =
-        "doctorPosterWebsiteSettings";
+            websiteTagline:
+                "Create professional doctor posters in minutes.",
 
-    const DESIGN_KEY =
-        "doctorPosterDesignStatus";
+            heroBadge:
+                "✦ Built for Healthcare Professionals",
 
-    const AD_KEY =
-        "doctorPosterAdvertisement";
+            heroTitle:
+                "Create Beautiful Doctor Posters in Minutes.",
 
-    const SYSTEM_KEY =
-        "doctorPosterSystemSettings";
+            heroDescription:
+                "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
 
+            websiteEnabled: true
 
-    /* =========================================================
-       DEFAULT DATA
-    ========================================================= */
-
-    const defaultWebsite = {
-
-        websiteName:
-            "Doctor Poster Maker",
-
-        websiteTagline:
-            "Create professional doctor posters in minutes.",
-
-        heroBadge:
-            "✦ Built for Healthcare Professionals",
-
-        heroTitle:
-            "Create Beautiful Doctor Posters in Minutes.",
-
-        heroDescription:
-            "Create professional medical posters quickly with beautiful ready-made designs built for healthcare professionals.",
-
-        primaryButton:
-            "Start Creating →",
-
-        secondaryButton:
-            "Explore Designs",
-
-        websiteEnabled:
-            true
-
-    };
+        };
 
 
-    const defaultDesigns = {
+        const defaultDesigns = {
 
-        design1: true,
-        design2: true,
-        design3: true,
-        design4: true
+            design1: true,
+            design2: true,
+            design3: true,
+            design4: true
 
-    };
-
-
-    const defaultAd = {
-
-        enabled:
-            true,
-
-        label:
-            "Advertisement",
-
-        title:
-            "Promote Your Healthcare Brand",
-
-        description:
-            "Reach doctors, clinics & healthcare professionals",
-
-        buttonText:
-            "Advertise With Us →",
-
-        buttonLink:
-            "#",
-
-        backgroundColor:
-            "#087f86",
-
-        buttonColor:
-            "#ffffff",
-
-        showCloseButton:
-            true,
-
-        image:
-            ""
-
-    };
+        };
 
 
-    const defaultSystem = {
+        const defaultAdvertisement = {
 
-        websiteStatus:
-            true,
+            enabled: true
 
-        maintenanceMode:
-            false,
-
-        posterCreation:
-            true,
-
-        advertisementSystem:
-            true
-
-    };
+        };
 
 
-    /* =========================================================
-       STORAGE READER
-    ========================================================= */
+        const defaultSystem = {
 
-    function readStorage(
-        key,
-        fallback
-    ) {
+            websiteStatus: true,
 
-        try {
+            maintenanceMode: false,
 
-            const saved =
-                localStorage.getItem(key);
+            posterCreation: true,
+
+            advertisementSystem: true
+
+        };
 
 
-            if (!saved) {
+        function readJSON(key, fallback){
 
-                return {
-                    ...fallback
-                };
+            try{
+
+                const saved =
+                    localStorage.getItem(key);
+
+                if(!saved){
+                    return fallback;
+                }
+
+                return JSON.parse(saved);
+
+            }catch(error){
+
+                return fallback;
 
             }
 
-
-            const parsed =
-                JSON.parse(saved);
+        }
 
 
-            if (
-                parsed &&
-                typeof parsed === "object"
-            ) {
+        function loadWebsiteData(){
 
-                return {
-                    ...fallback,
-                    ...parsed
+            const website =
+                {
+                    ...defaultWebsite,
+                    ...readJSON(
+                        WEBSITE_KEY,
+                        {}
+                    )
                 };
 
-            }
 
+            const system =
+                {
+                    ...defaultSystem,
+                    ...readJSON(
+                        SYSTEM_KEY,
+                        {}
+                    )
+                };
 
-            return {
-                ...fallback
-            };
 
-        } catch (error) {
+            const websiteAvailable =
+                website.websiteEnabled !== false &&
+                system.websiteStatus !== false;
 
-            console.warn(
-                "Storage read error:",
-                key,
-                error
-            );
 
+            const maintenance =
+                system.maintenanceMode === true;
 
-            return {
-                ...fallback
-            };
 
-        }
+            const finalOnline =
+                websiteAvailable &&
+                !maintenance;
 
-    }
 
-
-    /* =========================================================
-       WEBSITE DATA
-    ========================================================= */
-
-    function loadWebsiteData() {
-
-        const website =
-            readStorage(
-                WEBSITE_KEY,
-                defaultWebsite
-            );
-
-
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
-
-
-        const websiteEnabled =
-            website.websiteEnabled !== false &&
-            system.websiteStatus !== false;
-
-
-        const maintenance =
-            system.maintenanceMode === true;
-
-
-        /* Preview */
-
-        document.getElementById(
-            "previewWebsiteName"
-        ).textContent =
-            website.websiteName;
-
-
-        document.getElementById(
-            "previewBadge"
-        ).textContent =
-            website.heroBadge;
-
-
-        document.getElementById(
-            "previewTitle"
-        ).textContent =
-            website.heroTitle;
-
-
-        document.getElementById(
-            "previewDescription"
-        ).textContent =
-            website.heroDescription;
-
-
-        /* Information */
-
-        document.getElementById(
-            "infoWebsiteName"
-        ).textContent =
-            website.websiteName;
-
-
-        document.getElementById(
-            "infoTagline"
-        ).textContent =
-            website.websiteTagline;
-
-
-        /* Website status */
-
-        const status =
-            document.getElementById(
-                "websiteStatus"
-            );
-
-
-        const statusSub =
-            document.getElementById(
-                "websiteStatusSub"
-            );
-
-
-        const dot =
-            document.getElementById(
-                "websiteDot"
-            );
-
-
-        const infoStatus =
-            document.getElementById(
-                "infoWebsiteStatus"
-            );
-
-
-        dot.className =
-            "status-dot";
-
-
-        infoStatus.className =
-            "status-badge";
-
-
-        if (!websiteEnabled) {
-
-            status.textContent =
-                "Offline";
-
-
-            statusSub.textContent =
-                "Website is disabled";
-
-
-            dot.classList.add(
-                "offline"
-            );
-
-
-            infoStatus.textContent =
-                "OFFLINE";
-
-
-            infoStatus.classList.add(
-                "offline"
-            );
-
-        } else if (maintenance) {
-
-            status.textContent =
-                "Maintenance";
-
-
-            statusSub.textContent =
-                "Maintenance mode is active";
-
-
-            dot.classList.add(
-                "warning"
-            );
-
-
-            infoStatus.textContent =
-                "MAINTENANCE";
-
-
-            infoStatus.classList.add(
-                "warning"
-            );
-
-        } else {
-
-            status.textContent =
-                "Online";
-
-
-            statusSub.textContent =
-                "Website is active";
-
-
-            infoStatus.textContent =
-                "ONLINE";
-
-        }
-
-
-        /* Maintenance information */
-
-        const maintenanceStatus =
-            document.getElementById(
-                "infoMaintenanceStatus"
-            );
-
-
-        maintenanceStatus.className =
-            "status-badge";
-
-
-        if (maintenance) {
-
-            maintenanceStatus.textContent =
-                "ON";
-
-
-            maintenanceStatus.classList.add(
-                "warning"
-            );
-
-        } else {
-
-            maintenanceStatus.textContent =
-                "OFF";
-
-        }
-
-    }
-
-
-    /* =========================================================
-       DESIGN DATA
-    ========================================================= */
-
-    function loadDesignData() {
-
-        const designs =
-            readStorage(
-                DESIGN_KEY,
-                defaultDesigns
-            );
-
-
-        const designKeys = [
-            "design1",
-            "design2",
-            "design3",
-            "design4"
-        ];
-
-
-        const activeCount =
-            designKeys.filter(
-                design =>
-                    designs[design] !== false
-            ).length;
-
-
-        const designCount =
-            document.getElementById(
-                "designCount"
-            );
-
-
-        const designDot =
-            document.getElementById(
-                "designDot"
-            );
-
-
-        designCount.textContent =
-            activeCount;
-
-
-        designDot.className =
-            "status-dot";
-
-
-        if (activeCount === 0) {
-
-            designDot.classList.add(
-                "offline"
-            );
-
-        } else if (
-            activeCount < designKeys.length
-        ) {
-
-            designDot.classList.add(
-                "warning"
-            );
-
-        }
-
-
-        const posterStatus =
-            document.getElementById(
-                "infoPosterStatus"
-            );
-
-
-        posterStatus.className =
-            "status-badge";
-
-
-        if (activeCount > 0) {
-
-            posterStatus.textContent =
-                "ACTIVE";
-
-        } else {
-
-            posterStatus.textContent =
-                "OFF";
-
-            posterStatus.classList.add(
-                "offline"
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       AD DATA
-    ========================================================= */
-
-    function loadAdData() {
-
-        const ad =
-            readStorage(
-                AD_KEY,
-                defaultAd
-            );
-
-
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
-
-
-        const adEnabled =
-            ad.enabled !== false;
-
-
-        const systemEnabled =
-            system.advertisementSystem !== false;
-
-
-        const active =
-            adEnabled &&
-            systemEnabled;
-
-
-        const status =
-            document.getElementById(
-                "adStatus"
-            );
-
-
-        const statusSub =
-            document.getElementById(
-                "adStatusSub"
-            );
-
-
-        const dot =
-            document.getElementById(
-                "adDot"
-            );
-
-
-        const infoStatus =
-            document.getElementById(
-                "infoAdStatus"
-            );
-
-
-        const previewAd =
-            document.getElementById(
-                "previewAd"
-            );
-
-
-        dot.className =
-            "status-dot";
-
-
-        infoStatus.className =
-            "status-badge";
-
-
-        if (!systemEnabled) {
-
-            status.textContent =
-                "OFF";
-
-
-            statusSub.textContent =
-                "Advertisement system disabled";
-
-
-            dot.classList.add(
-                "offline"
-            );
-
-
-            infoStatus.textContent =
-                "SYSTEM OFF";
-
-
-            infoStatus.classList.add(
-                "offline"
-            );
-
-
-            previewAd.style.display =
-                "none";
-
-        } else if (!adEnabled) {
-
-            status.textContent =
-                "OFF";
-
-
-            statusSub.textContent =
-                "Advertisement disabled";
-
-
-            dot.classList.add(
-                "warning"
-            );
-
-
-            infoStatus.textContent =
-                "OFF";
-
-
-            infoStatus.classList.add(
-                "warning"
-            );
-
-
-            previewAd.style.display =
-                "none";
-
-        } else {
-
-            status.textContent =
-                "ON";
-
-
-            statusSub.textContent =
-                "Advertisement active";
-
-
-            infoStatus.textContent =
-                "ACTIVE";
-
-
-            previewAd.style.display =
-                "block";
-
-
-            previewAd.textContent =
-                ad.label ||
-                "Advertisement";
-
-
-            previewAd.style.background =
-                ad.backgroundColor ||
-                "#087f86";
-
-        }
-
-    }
-
-
-    /* =========================================================
-       SYSTEM STATUS
-    ========================================================= */
-
-    function loadSystemData() {
-
-        const system =
-            readStorage(
-                SYSTEM_KEY,
-                defaultSystem
-            );
-
-
-        const website =
-            readStorage(
-                WEBSITE_KEY,
-                defaultWebsite
-            );
-
-
-        const systemStatus =
-            document.getElementById(
-                "systemStatus"
-            );
-
-
-        const systemSub =
-            document.getElementById(
-                "systemStatusSub"
-            );
-
-
-        const systemDot =
-            document.getElementById(
-                "systemDot"
-            );
-
-
-        systemDot.className =
-            "status-dot";
-
-
-        const websiteOffline =
-            website.websiteEnabled === false ||
-            system.websiteStatus === false;
-
-
-        const maintenance =
-            system.maintenanceMode === true;
-
-
-        const posterDisabled =
-            system.posterCreation === false;
-
-
-        const adDisabled =
-            system.advertisementSystem === false;
-
-
-        if (websiteOffline) {
-
-            systemStatus.textContent =
-                "Offline";
-
-
-            systemSub.textContent =
-                "Website is disabled";
-
-
-            systemDot.classList.add(
-                "offline"
-            );
-
-
-        } else if (maintenance) {
-
-            systemStatus.textContent =
-                "Maintenance";
-
-
-            systemSub.textContent =
-                "Maintenance mode is active";
-
-
-            systemDot.classList.add(
-                "warning"
-            );
-
-
-        } else if (
-            posterDisabled ||
-            adDisabled
-        ) {
-
-            systemStatus.textContent =
-                "Limited";
-
-
-            systemSub.textContent =
-                "Some services are disabled";
-
-
-            systemDot.classList.add(
-                "warning"
-            );
-
-
-        } else {
-
-            systemStatus.textContent =
-                "Healthy";
-
-
-            systemSub.textContent =
-                "All systems operational";
-
-        }
-
-    }
-
-
-    /* =========================================================
-       LOAD ALL DATA
-    ========================================================= */
-
-    function loadPage() {
-
-        loadWebsiteData();
-
-        loadDesignData();
-
-        loadAdData();
-
-        loadSystemData();
-
-    }
-
-
-    /* =========================================================
-       MOBILE MENU
-    ========================================================= */
-
-    const mobileMenuBtn =
-        document.getElementById(
-            "mobileMenuBtn"
-        );
-
-
-    const sidebar =
-        document.getElementById(
-            "sidebar"
-        );
-
-
-    if (
-        mobileMenuBtn &&
-        sidebar
-    ) {
-
-        mobileMenuBtn.addEventListener(
-            "click",
-            function () {
-
-                sidebar.classList.toggle(
-                    "open"
+            const statusValue =
+                document.getElementById(
+                    "websiteStatusValue"
                 );
 
+            const statusDescription =
+                document.getElementById(
+                    "websiteStatusDescription"
+                );
+
+            const statusBadge =
+                document.getElementById(
+                    "websiteStatusBadge"
+                );
+
+            const infoStatus =
+                document.getElementById(
+                    "infoWebsiteStatus"
+                );
+
+            const infoDescription =
+                document.getElementById(
+                    "infoWebsiteDescription"
+                );
+
+            const platformWebsite =
+                document.getElementById(
+                    "platformWebsite"
+                );
+
+
+            if(maintenance){
+
+                statusValue.textContent =
+                    "Maintenance";
+
+                statusDescription.textContent =
+                    "Website is under maintenance";
+
+                statusBadge.className =
+                    "status-pill status-warning";
+
+                statusBadge.innerHTML =
+                    '<span class="status-dot"></span> Website Maintenance';
+
+                infoStatus.textContent =
+                    "MAINTENANCE";
+
+                infoStatus.className =
+                    "mini-badge mini-warning";
+
+                infoDescription.textContent =
+                    "Maintenance mode is active";
+
+                platformWebsite.textContent =
+                    "MAINTENANCE";
+
+                platformWebsite.className =
+                    "mini-badge mini-warning";
+
+            }else if(finalOnline){
+
+                statusValue.textContent =
+                    "Online";
+
+                statusDescription.textContent =
+                    "Website is available";
+
+                statusBadge.className =
+                    "status-pill status-online";
+
+                statusBadge.innerHTML =
+                    '<span class="status-dot"></span> Website Online';
+
+                infoStatus.textContent =
+                    "ONLINE";
+
+                infoStatus.className =
+                    "mini-badge mini-active";
+
+                infoDescription.textContent =
+                    "Public website is available";
+
+                platformWebsite.textContent =
+                    "ONLINE";
+
+                platformWebsite.className =
+                    "mini-badge mini-active";
+
+            }else{
+
+                statusValue.textContent =
+                    "Offline";
+
+                statusDescription.textContent =
+                    "Website is disabled";
+
+                statusBadge.className =
+                    "status-pill status-offline";
+
+                statusBadge.innerHTML =
+                    '<span class="status-dot"></span> Website Offline';
+
+                infoStatus.textContent =
+                    "OFFLINE";
+
+                infoStatus.className =
+                    "mini-badge mini-off";
+
+                infoDescription.textContent =
+                    "Website is currently disabled";
+
+                platformWebsite.textContent =
+                    "OFFLINE";
+
+                platformWebsite.className =
+                    "mini-badge mini-off";
+
             }
-        );
-
-    }
 
 
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    const logoutBtn =
-        document.getElementById(
-            "logoutBtn"
-        );
+            document.getElementById(
+                "previewWebsiteName"
+            ).textContent =
+                website.websiteName;
 
 
-    if (logoutBtn) {
-
-        logoutBtn.addEventListener(
-            "click",
-            function () {
-
-                window.location.href =
-                    "index.html";
-
-            }
-        );
-
-    }
+            document.getElementById(
+                "previewBadge"
+            ).textContent =
+                website.heroBadge;
 
 
-    /* =========================================================
-       STORAGE SYNC
-    ========================================================= */
+            document.getElementById(
+                "previewHeroTitle"
+            ).textContent =
+                website.heroTitle;
 
-    window.addEventListener(
-        "storage",
-        function (event) {
 
-            if (
-                event.key === WEBSITE_KEY ||
-                event.key === DESIGN_KEY ||
-                event.key === AD_KEY ||
-                event.key === SYSTEM_KEY
-            ) {
+            document.getElementById(
+                "previewHeroDescription"
+            ).textContent =
+                website.heroDescription;
 
-                loadPage();
+        }
+
+
+        function loadDesignData(){
+
+            const designs =
+                {
+                    ...defaultDesigns,
+                    ...readJSON(
+                        DESIGN_KEY,
+                        {}
+                    )
+                };
+
+
+            const system =
+                {
+                    ...defaultSystem,
+                    ...readJSON(
+                        SYSTEM_KEY,
+                        {}
+                    )
+                };
+
+
+            let activeCount = 0;
+
+
+            Object.keys(designs).forEach(
+                function(design){
+
+                    if(designs[design] === true){
+                        activeCount++;
+                    }
+
+                }
+            );
+
+
+            const total =
+                Object.keys(designs).length;
+
+
+            document.getElementById(
+                "designCountValue"
+            ).textContent =
+                activeCount;
+
+
+            document.getElementById(
+                "designCountDescription"
+            ).textContent =
+                activeCount === 1
+                    ? "Active design"
+                    : "Active designs";
+
+
+            document.getElementById(
+                "infoDesignStatus"
+            ).textContent =
+                activeCount + " / " + total;
+
+
+            document.getElementById(
+                "infoDesignStatus"
+            ).className =
+                activeCount > 0
+                    ? "mini-badge mini-active"
+                    : "mini-badge mini-off";
+
+
+            /*
+             * POSTER CREATION STATUS
+             *
+             * Poster Creation is now controlled by
+             * the System Settings.
+             *
+             * Conditions:
+             *
+             * 1. Poster Creation OFF
+             *    → OFF
+             *
+             * 2. Poster Creation ON
+             *    + at least one design active
+             *    → ACTIVE
+             *
+             * 3. Poster Creation ON
+             *    + all designs inactive
+             *    → OFF
+             */
+
+            const posterCreationEnabled =
+                system.posterCreation !== false;
+
+
+            const posterAvailable =
+                posterCreationEnabled &&
+                activeCount > 0;
+
+
+            const posterStatus =
+                document.getElementById(
+                    "infoPosterStatus"
+                );
+
+
+            const posterDescription =
+                document.getElementById(
+                    "infoPosterDescription"
+                );
+
+
+            const platformPoster =
+                document.getElementById(
+                    "platformPoster"
+                );
+
+
+            if(!posterCreationEnabled){
+
+                posterStatus.textContent =
+                    "OFF";
+
+                posterStatus.className =
+                    "mini-badge mini-off";
+
+                posterDescription.textContent =
+                    "Disabled from System Settings";
+
+                platformPoster.textContent =
+                    "OFF";
+
+                platformPoster.className =
+                    "mini-badge mini-off";
+
+            }else if(activeCount === 0){
+
+                posterStatus.textContent =
+                    "OFF";
+
+                posterStatus.className =
+                    "mini-badge mini-off";
+
+                posterDescription.textContent =
+                    "No active poster designs";
+
+                platformPoster.textContent =
+                    "OFF";
+
+                platformPoster.className =
+                    "mini-badge mini-off";
+
+            }else{
+
+                posterStatus.textContent =
+                    "ACTIVE";
+
+                posterStatus.className =
+                    "mini-badge mini-active";
+
+                posterDescription.textContent =
+                    activeCount +
+                    " active design" +
+                    (activeCount > 1 ? "s" : "") +
+                    " available";
+
+                platformPoster.textContent =
+                    "ON";
+
+                platformPoster.className =
+                    "mini-badge mini-active";
 
             }
 
         }
-    );
 
 
-    /* =========================================================
-       INITIAL LOAD
-    ========================================================= */
+        function loadAdData(){
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+            const ad =
+                {
+                    ...defaultAdvertisement,
+                    ...readJSON(
+                        AD_KEY,
+                        {}
+                    )
+                };
 
-            loadPage();
+
+            const system =
+                {
+                    ...defaultSystem,
+                    ...readJSON(
+                        SYSTEM_KEY,
+                        {}
+                    )
+                };
+
+
+            const adEnabled =
+                ad.enabled !== false;
+
+
+            const systemEnabled =
+                system.advertisementSystem !== false;
+
+
+            const finalEnabled =
+                adEnabled &&
+                systemEnabled;
+
+
+            const adValue =
+                document.getElementById(
+                    "adStatusValue"
+                );
+
+
+            const adDescription =
+                document.getElementById(
+                    "adStatusDescription"
+                );
+
+
+            const infoAd =
+                document.getElementById(
+                    "infoAdStatus"
+                );
+
+
+            const platformAd =
+                document.getElementById(
+                    "platformAd"
+                );
+
+
+            if(!systemEnabled){
+
+                adValue.textContent =
+                    "Disabled";
+
+                adDescription.textContent =
+                    "Advertisement system is OFF";
+
+                infoAd.textContent =
+                    "OFF";
+
+                infoAd.className =
+                    "mini-badge mini-off";
+
+                platformAd.textContent =
+                    "OFF";
+
+                platformAd.className =
+                    "mini-badge mini-off";
+
+            }else if(!adEnabled){
+
+                adValue.textContent =
+                    "Disabled";
+
+                adDescription.textContent =
+                    "Browser advertisement is OFF";
+
+                infoAd.textContent =
+                    "OFF";
+
+                infoAd.className =
+                    "mini-badge mini-off";
+
+                platformAd.textContent =
+                    "OFF";
+
+                platformAd.className =
+                    "mini-badge mini-off";
+
+            }else{
+
+                adValue.textContent =
+                    "Enabled";
+
+                adDescription.textContent =
+                    "Advertisement system active";
+
+                infoAd.textContent =
+                    "ACTIVE";
+
+                infoAd.className =
+                    "mini-badge mini-active";
+
+                platformAd.textContent =
+                    "ON";
+
+                platformAd.className =
+                    "mini-badge mini-active";
+
+            }
 
         }
-    );
 
 
-    /* =========================================================
-       IMMEDIATE LOAD
-    ========================================================= */
+        function loadMaintenanceData(){
 
-    loadPage();
+            const system =
+                {
+                    ...defaultSystem,
+                    ...readJSON(
+                        SYSTEM_KEY,
+                        {}
+                    )
+                };
 
-</script>
+
+            const maintenance =
+                system.maintenanceMode === true;
+
+
+            const element =
+                document.getElementById(
+                    "infoMaintenanceStatus"
+                );
+
+
+            const platform =
+                document.getElementById(
+                    "platformMaintenance"
+                );
+
+
+            if(maintenance){
+
+                element.textContent =
+                    "ON";
+
+                element.className =
+                    "mini-badge mini-warning";
+
+
+                platform.textContent =
+                    "ON";
+
+                platform.className =
+                    "mini-badge mini-warning";
+
+            }else{
+
+                element.textContent =
+                    "OFF";
+
+                element.className =
+                    "mini-badge mini-active";
+
+
+                platform.textContent =
+                    "OFF";
+
+                platform.className =
+                    "mini-badge mini-active";
+
+            }
+
+        }
+
+
+        function loadAllData(){
+
+            loadWebsiteData();
+
+            loadDesignData();
+
+            loadAdData();
+
+            loadMaintenanceData();
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function(){
+
+                loadAllData();
+
+            }
+        );
+
+
+        window.addEventListener(
+            "storage",
+            function(event){
+
+                if(
+
+                    event.key === WEBSITE_KEY ||
+
+                    event.key === DESIGN_KEY ||
+
+                    event.key === AD_KEY ||
+
+                    event.key === SYSTEM_KEY
+
+                ){
+
+                    loadAllData();
+
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
-```
