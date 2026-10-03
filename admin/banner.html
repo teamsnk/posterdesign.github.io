@@ -256,6 +256,68 @@
         }
 
         /* =========================
+           SYSTEM STATUS BAR
+        ========================= */
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 17px;
+            margin-bottom: 20px;
+            background: white;
+            border: 1px solid #e4ebec;
+            border-radius: 12px;
+        }
+
+        .system-status-left {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .system-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: #e9f8f7;
+            color: #087f86;
+            display: grid;
+            place-items: center;
+            font-size: 14px;
+        }
+
+        .system-status-text strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .system-status-text span {
+            display: block;
+            margin-top: 3px;
+            color: #819195;
+            font-size: 9px;
+        }
+
+        .system-badge {
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .system-badge.active {
+            background: #e7f8ef;
+            color: #16814b;
+        }
+
+        .system-badge.disabled {
+            background: #fff0f0;
+            color: #d64545;
+        }
+
+        /* =========================
            BANNER CARDS
         ========================= */
 
@@ -271,6 +333,15 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(18,52,59,.04);
+            transition: .2s;
+        }
+
+        .banner-card.system-disabled {
+            opacity: .68;
+        }
+
+        .banner-card.banner-disabled {
+            opacity: .68;
         }
 
         .banner-preview {
@@ -377,6 +448,11 @@
             color: #7c8789;
         }
 
+        .status.system-off {
+            background: #fff0f0;
+            color: #d64545;
+        }
+
         .banner-meta {
             display: flex;
             flex-wrap: wrap;
@@ -450,6 +526,10 @@
             transform: translateX(17px);
         }
 
+        .switch input:disabled + .slider {
+            background: #cbd4d6;
+        }
+
         .action-buttons {
             display: flex;
             gap: 7px;
@@ -473,6 +553,11 @@
         .small-btn.delete:hover {
             border-color: #e25b5b;
             color: #e25b5b;
+        }
+
+        .small-btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
         }
 
         /* =========================
@@ -587,6 +672,11 @@
             .content {
                 padding: 23px 18px 40px;
             }
+
+            .system-status {
+                align-items: flex-start;
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 520px) {
@@ -629,38 +719,53 @@
 
     <!-- MOBILE HEADER -->
     <div class="mobile-header">
+
         <div class="mobile-brand">
             <div class="mobile-brand-icon">✚</div>
             <strong>Doctor Poster Maker</strong>
         </div>
 
-        <button class="mobile-menu-btn" onclick="goDashboard()">☰</button>
+        <button
+            class="mobile-menu-btn"
+            onclick="goDashboard()"
+        >
+            ☰
+        </button>
+
     </div>
+
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="brand">
+
             <div class="brand-icon">✚</div>
 
             <div class="brand-text">
                 <strong>Doctor Poster Maker</strong>
                 <span>Admin Panel</span>
             </div>
+
         </div>
+
 
         <div class="menu-title">Overview</div>
 
         <div class="menu">
+
             <a href="dashboard.html">
                 <span class="menu-icon">▦</span>
                 Dashboard
             </a>
+
         </div>
+
 
         <div class="menu-title">Website</div>
 
         <div class="menu">
+
             <a href="website.html">
                 <span class="menu-icon">◉</span>
                 Website Overview
@@ -670,11 +775,14 @@
                 <span class="menu-icon">✎</span>
                 Edit Website
             </a>
+
         </div>
+
 
         <div class="menu-title">Advertisement</div>
 
         <div class="menu">
+
             <a href="browser-ui.html">
                 <span class="menu-icon">▤</span>
                 Browser UI Ad
@@ -684,77 +792,171 @@
                 <span class="menu-icon">▰</span>
                 Banner
             </a>
+
         </div>
+
 
         <div class="menu-title">Designs</div>
 
         <div class="menu">
+
             <a href="design-manage.html">
                 <span class="menu-icon">◇</span>
                 Design Management
             </a>
+
         </div>
+
 
         <div class="menu-title">System</div>
 
         <div class="menu">
+
             <a href="system.html">
                 <span class="menu-icon">⚙</span>
                 System Settings
             </a>
+
         </div>
 
+
         <div class="sidebar-bottom">
-            <a href="../index.html" class="view-site">
+
+            <a
+                href="../index.html"
+                class="view-site"
+            >
                 ↗ View Website
             </a>
 
-            <a href="index.html" class="logout">
+            <a
+                href="index.html"
+                class="logout"
+            >
                 ← Logout
             </a>
+
         </div>
 
     </aside>
+
 
     <!-- MAIN -->
     <main class="main">
 
         <div class="topbar">
+
             <div class="page-title">
-                <h1>Banner Management</h1>
-                <p>Manage promotional banners shown across the website.</p>
+
+                <h1>
+                    Banner Management
+                </h1>
+
+                <p>
+                    Manage promotional banners shown across the website.
+                </p>
+
             </div>
+
 
             <div class="admin-user">
-                <div class="admin-avatar">A</div>
+
+                <div class="admin-avatar">
+                    A
+                </div>
 
                 <div>
-                    <strong>Administrator</strong>
-                    <span>Super Admin</span>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                    <span>
+                        Super Admin
+                    </span>
+
                 </div>
+
             </div>
+
         </div>
 
+
         <div class="content">
+
+            <!-- ACTION BAR -->
 
             <div class="action-bar">
 
                 <div class="section-heading">
-                    <h2>Website Banners</h2>
-                    <p>Create and manage promotional banners independently.</p>
+
+                    <h2>
+                        Website Banners
+                    </h2>
+
+                    <p>
+                        Create and manage promotional banners independently.
+                    </p>
+
                 </div>
 
-                <button class="add-btn" onclick="addBanner()">
+
+                <button
+                    class="add-btn"
+                    onclick="addBanner()"
+                >
                     + Add New Banner
                 </button>
 
             </div>
 
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="system-status">
+
+                <div class="system-status-left">
+
+                    <div class="system-icon">
+                        ▣
+                    </div>
+
+                    <div class="system-status-text">
+
+                        <strong>
+                            Advertisement System
+                        </strong>
+
+                        <span id="systemStatusDescription">
+                            Browser advertisement system is active.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <span
+                    id="systemStatusBadge"
+                    class="system-badge active"
+                >
+                    ENABLED
+                </span>
+
+            </div>
+
+
             <!-- BANNER GRID -->
+
             <div class="banner-grid">
 
+
                 <!-- BANNER 1 -->
-                <div class="banner-card" data-banner="banner1">
+
+                <div
+                    class="banner-card"
+                    data-banner="banner1"
+                >
 
                     <div class="banner-preview">
 
@@ -767,11 +969,19 @@
                                 </div>
 
                                 <div class="preview-text">
-                                    <strong>Healthcare Promotion</strong>
-                                    <span>Promote your healthcare brand with us</span>
+
+                                    <strong>
+                                        Healthcare Promotion
+                                    </strong>
+
+                                    <span>
+                                        Promote your healthcare brand with us
+                                    </span>
+
                                 </div>
 
                             </div>
+
 
                             <div class="preview-button">
                                 Learn More →
@@ -781,11 +991,13 @@
 
                     </div>
 
+
                     <div class="banner-body">
 
                         <div class="banner-top">
 
                             <div>
+
                                 <div class="banner-name">
                                     Healthcare Promotion
                                 </div>
@@ -793,52 +1005,81 @@
                                 <div class="banner-description">
                                     Main promotional banner for healthcare brands.
                                 </div>
+
                             </div>
 
-                            <span class="status active" id="status-banner1">
+
+                            <span
+                                class="status active"
+                                id="status-banner1"
+                            >
                                 ACTIVE
                             </span>
 
                         </div>
 
+
                         <div class="banner-meta">
-                            <span class="meta">Homepage</span>
-                            <span class="meta">Top Section</span>
-                            <span class="meta">Desktop + Mobile</span>
+
+                            <span class="meta">
+                                Homepage
+                            </span>
+
+                            <span class="meta">
+                                Top Section
+                            </span>
+
+                            <span class="meta">
+                                Desktop + Mobile
+                            </span>
+
                         </div>
+
 
                         <div class="banner-actions">
 
                             <label class="toggle-wrap">
-                                <span>Enabled</span>
+
+                                <span>
+                                    Enabled
+                                </span>
 
                                 <span class="switch">
+
                                     <input
                                         type="checkbox"
                                         checked
+                                        data-banner-toggle="banner1"
                                         onchange="toggleBanner('banner1', this)"
                                     >
+
                                     <span class="slider"></span>
+
                                 </span>
+
                             </label>
+
 
                             <div class="action-buttons">
 
                                 <button
                                     class="small-btn"
-                                    onclick="previewBanner('Healthcare Promotion')">
+                                    onclick="previewBanner('Healthcare Promotion')"
+                                >
                                     Preview
                                 </button>
 
                                 <button
                                     class="small-btn"
-                                    onclick="editBanner('Healthcare Promotion')">
+                                    onclick="editBanner('Healthcare Promotion')"
+                                >
                                     Edit
                                 </button>
 
                                 <button
                                     class="small-btn delete"
-                                    onclick="deleteBanner('banner1')">
+                                    onclick="deleteBanner('banner1')"
+                                >
                                     Delete
                                 </button>
 
@@ -852,13 +1093,18 @@
 
 
                 <!-- BANNER 2 -->
-                <div class="banner-card" data-banner="banner2">
+
+                <div
+                    class="banner-card"
+                    data-banner="banner2"
+                >
 
                     <div class="banner-preview">
 
                         <div
                             class="preview-banner"
-                            style="background:#12343b;">
+                            style="background:#12343b;"
+                        >
 
                             <div class="preview-left">
 
@@ -867,15 +1113,24 @@
                                 </div>
 
                                 <div class="preview-text">
-                                    <strong>Premium Doctor Tools</strong>
-                                    <span>Professional tools for healthcare creators</span>
+
+                                    <strong>
+                                        Premium Doctor Tools
+                                    </strong>
+
+                                    <span>
+                                        Professional tools for healthcare creators
+                                    </span>
+
                                 </div>
 
                             </div>
 
+
                             <div
                                 class="preview-button"
-                                style="color:#12343b;">
+                                style="color:#12343b;"
+                            >
                                 Explore →
                             </div>
 
@@ -883,11 +1138,13 @@
 
                     </div>
 
+
                     <div class="banner-body">
 
                         <div class="banner-top">
 
                             <div>
+
                                 <div class="banner-name">
                                     Premium Doctor Tools
                                 </div>
@@ -895,53 +1152,81 @@
                                 <div class="banner-description">
                                     Promotional banner for premium healthcare tools.
                                 </div>
+
                             </div>
 
-                            <span class="status active" id="status-banner2">
+
+                            <span
+                                class="status active"
+                                id="status-banner2"
+                            >
                                 ACTIVE
                             </span>
 
                         </div>
 
+
                         <div class="banner-meta">
-                            <span class="meta">Designs Page</span>
-                            <span class="meta">Middle Section</span>
-                            <span class="meta">Responsive</span>
+
+                            <span class="meta">
+                                Designs Page
+                            </span>
+
+                            <span class="meta">
+                                Middle Section
+                            </span>
+
+                            <span class="meta">
+                                Responsive
+                            </span>
+
                         </div>
+
 
                         <div class="banner-actions">
 
                             <label class="toggle-wrap">
-                                <span>Enabled</span>
+
+                                <span>
+                                    Enabled
+                                </span>
 
                                 <span class="switch">
+
                                     <input
                                         type="checkbox"
                                         checked
+                                        data-banner-toggle="banner2"
                                         onchange="toggleBanner('banner2', this)"
                                     >
 
                                     <span class="slider"></span>
+
                                 </span>
+
                             </label>
+
 
                             <div class="action-buttons">
 
                                 <button
                                     class="small-btn"
-                                    onclick="previewBanner('Premium Doctor Tools')">
+                                    onclick="previewBanner('Premium Doctor Tools')"
+                                >
                                     Preview
                                 </button>
 
                                 <button
                                     class="small-btn"
-                                    onclick="editBanner('Premium Doctor Tools')">
+                                    onclick="editBanner('Premium Doctor Tools')"
+                                >
                                     Edit
                                 </button>
 
                                 <button
                                     class="small-btn delete"
-                                    onclick="deleteBanner('banner2')">
+                                    onclick="deleteBanner('banner2')"
+                                >
                                     Delete
                                 </button>
 
@@ -957,6 +1242,7 @@
 
 
             <!-- INFO -->
+
             <div class="info-box">
 
                 <div class="info-icon">
@@ -964,15 +1250,21 @@
                 </div>
 
                 <div>
-                    <strong>Banner System</strong>
+
+                    <strong>
+                        Banner System
+                    </strong>
 
                     <p>
                         These banners are website UI elements only.
                         They will never appear inside poster designs,
                         downloaded PNG files, or printed posters.
-                        This frontend version stores settings locally.
+                        The Advertisement System controls whether
+                        website advertisements are allowed to display.
+                        Banner settings are currently stored locally.
                         Later, MongoDB will make banner settings available globally.
                     </p>
+
                 </div>
 
             </div>
@@ -984,99 +1276,404 @@
 
     <script>
 
-        const STORAGE_KEY = "doctorPosterBannerStatus";
+        /* =========================
+           STORAGE KEYS
+        ========================== */
+
+        const STORAGE_KEY =
+            "doctorPosterBannerStatus";
+
+        const SYSTEM_KEY =
+            "doctorPosterSystemSettings";
 
 
-        function loadBannerStatus() {
+        /* =========================
+           DEFAULT SETTINGS
+        ========================== */
 
-            const saved =
-                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        const defaultBannerStatus = {
 
-            Object.keys(saved).forEach(id => {
+            banner1: true,
+            banner2: true
 
-                const checkbox =
-                    document.querySelector(
-                        `[data-banner="${id}"] input[type="checkbox"]`
-                    );
-
-                const status =
-                    document.getElementById(`status-${id}`);
-
-                if (!checkbox || !status) return;
-
-                checkbox.checked = saved[id];
-
-                updateStatus(status, saved[id]);
-
-            });
-
-        }
+        };
 
 
-        function toggleBanner(id, checkbox) {
+        const defaultSystemSettings = {
 
-            const saved =
-                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+            websiteStatus: true,
+            maintenanceMode: false,
+            posterCreation: true,
+            advertisementSystem: true
 
-            saved[id] = checkbox.checked;
-
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(saved)
-            );
-
-            const status =
-                document.getElementById(`status-${id}`);
-
-            updateStatus(status, checkbox.checked);
-
-        }
+        };
 
 
-        function updateStatus(status, active) {
+        /* =========================
+           SAFE JSON READER
+        ========================== */
 
-            if (!status) return;
+        function readJSON(key, fallback) {
 
-            if (active) {
+            try {
 
-                status.textContent = "ACTIVE";
+                const saved =
+                    localStorage.getItem(key);
 
-                status.classList.add("active");
-                status.classList.remove("inactive");
+                if (!saved) {
+                    return fallback;
+                }
 
-            } else {
+                return JSON.parse(saved);
 
-                status.textContent = "INACTIVE";
+            } catch (error) {
 
-                status.classList.add("inactive");
-                status.classList.remove("active");
+                return fallback;
 
             }
 
         }
 
 
-        function previewBanner(name) {
+        /* =========================
+           GET BANNER STATUS
+        ========================== */
 
-            alert(
-                "Banner Preview\n\n" +
-                name +
-                "\n\nFull preview screen will be connected later."
+        function getBannerStatus() {
+
+            return {
+                ...defaultBannerStatus,
+                ...readJSON(
+                    STORAGE_KEY,
+                    {}
+                )
+            };
+
+        }
+
+
+        /* =========================
+           GET SYSTEM SETTINGS
+        ========================== */
+
+        function getSystemSettings() {
+
+            return {
+                ...defaultSystemSettings,
+                ...readJSON(
+                    SYSTEM_KEY,
+                    {}
+                )
+            };
+
+        }
+
+
+        /* =========================
+           SAVE BANNER STATUS
+        ========================== */
+
+        function saveBannerStatus(status) {
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(status)
             );
 
         }
 
+
+        /* =========================
+           UPDATE BANNER UI
+        ========================== */
+
+        function updateBannerUI(
+            id,
+            bannerEnabled,
+            systemEnabled
+        ) {
+
+            const card =
+                document.querySelector(
+                    `[data-banner="${id}"]`
+                );
+
+
+            const checkbox =
+                document.querySelector(
+                    `[data-banner-toggle="${id}"]`
+                );
+
+
+            const status =
+                document.getElementById(
+                    `status-${id}`
+                );
+
+
+            if (!card || !checkbox || !status) {
+                return;
+            }
+
+
+            checkbox.checked =
+                bannerEnabled;
+
+
+            /*
+             * System OFF has highest priority.
+             */
+
+            if (!systemEnabled) {
+
+                card.classList.add(
+                    "system-disabled"
+                );
+
+                card.classList.remove(
+                    "banner-disabled"
+                );
+
+
+                status.textContent =
+                    "SYSTEM OFF";
+
+                status.className =
+                    "status system-off";
+
+
+                checkbox.disabled = true;
+
+                return;
+
+            }
+
+
+            checkbox.disabled = false;
+
+            card.classList.remove(
+                "system-disabled"
+            );
+
+
+            if (bannerEnabled) {
+
+                card.classList.remove(
+                    "banner-disabled"
+                );
+
+
+                status.textContent =
+                    "ACTIVE";
+
+                status.className =
+                    "status active";
+
+            } else {
+
+                card.classList.add(
+                    "banner-disabled"
+                );
+
+
+                status.textContent =
+                    "INACTIVE";
+
+                status.className =
+                    "status inactive";
+
+            }
+
+        }
+
+
+        /* =========================
+           LOAD BANNERS
+        ========================== */
+
+        function loadBannerStatus() {
+
+            const banners =
+                getBannerStatus();
+
+
+            const system =
+                getSystemSettings();
+
+
+            const systemEnabled =
+                system.advertisementSystem !== false;
+
+
+            updateBannerUI(
+                "banner1",
+                banners.banner1 === true,
+                systemEnabled
+            );
+
+
+            updateBannerUI(
+                "banner2",
+                banners.banner2 === true,
+                systemEnabled
+            );
+
+
+            updateSystemUI(
+                systemEnabled
+            );
+
+        }
+
+
+        /* =========================
+           UPDATE SYSTEM UI
+        ========================== */
+
+        function updateSystemUI(enabled) {
+
+            const badge =
+                document.getElementById(
+                    "systemStatusBadge"
+                );
+
+
+            const description =
+                document.getElementById(
+                    "systemStatusDescription"
+                );
+
+
+            if (!badge || !description) {
+                return;
+            }
+
+
+            if (enabled) {
+
+                badge.textContent =
+                    "ENABLED";
+
+                badge.className =
+                    "system-badge active";
+
+                description.textContent =
+                    "Browser advertisement system is active.";
+
+            } else {
+
+                badge.textContent =
+                    "DISABLED";
+
+                badge.className =
+                    "system-badge disabled";
+
+                description.textContent =
+                    "Advertisement System is disabled from System Settings.";
+
+            }
+
+        }
+
+
+        /* =========================
+           TOGGLE BANNER
+        ========================== */
+
+        function toggleBanner(
+            id,
+            checkbox
+        ) {
+
+            const system =
+                getSystemSettings();
+
+
+            if (
+                system.advertisementSystem === false
+            ) {
+
+                checkbox.checked = false;
+
+                alert(
+                    "Advertisement System is currently disabled by the administrator."
+                );
+
+                loadBannerStatus();
+
+                return;
+
+            }
+
+
+            const saved =
+                getBannerStatus();
+
+
+            saved[id] =
+                checkbox.checked;
+
+
+            saveBannerStatus(saved);
+
+
+            loadBannerStatus();
+
+        }
+
+
+        /* =========================
+           PREVIEW
+        ========================== */
+
+        function previewBanner(name) {
+
+            const system =
+                getSystemSettings();
+
+
+            if (
+                system.advertisementSystem === false
+            ) {
+
+                alert(
+                    "Advertisement System is currently disabled."
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "Banner Preview\n\n" +
+                name +
+                "\n\n" +
+                "Full preview screen will be connected later."
+            );
+
+        }
+
+
+        /* =========================
+           EDIT
+        ========================== */
 
         function editBanner(name) {
 
             alert(
                 "Edit Banner\n\n" +
                 name +
-                "\n\nBanner editor will be connected later."
+                "\n\n" +
+                "Banner editor will be connected later."
             );
 
         }
 
+
+        /* =========================
+           DELETE
+        ========================== */
 
         function deleteBanner(id) {
 
@@ -1085,29 +1682,38 @@
                     "Are you sure you want to delete this banner?"
                 );
 
-            if (!confirmed) return;
+
+            if (!confirmed) {
+                return;
+            }
+
 
             const card =
                 document.querySelector(
                     `[data-banner="${id}"]`
                 );
 
+
             if (card) {
                 card.remove();
             }
 
+
             const saved =
-                JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+                getBannerStatus();
+
 
             delete saved[id];
 
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(saved)
-            );
+
+            saveBannerStatus(saved);
 
         }
 
+
+        /* =========================
+           ADD BANNER
+        ========================== */
 
         function addBanner() {
 
@@ -1119,14 +1725,51 @@
         }
 
 
+        /* =========================
+           DASHBOARD
+        ========================== */
+
         function goDashboard() {
 
-            window.location.href = "dashboard.html";
+            window.location.href =
+                "dashboard.html";
 
         }
 
 
-        loadBannerStatus();
+        /* =========================
+           STORAGE SYNC
+        ========================== */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key === STORAGE_KEY ||
+                    event.key === SYSTEM_KEY
+                ) {
+
+                    loadBannerStatus();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           INITIAL LOAD
+        ========================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadBannerStatus();
+
+            }
+        );
 
     </script>
 
