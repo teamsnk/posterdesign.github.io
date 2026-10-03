@@ -1,0 +1,1269 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chatter Admin Login</title>
+
+    <meta
+        name="description"
+        content="Secure Chatter System Administration Login"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5848d4;
+            --secondary: #00b894;
+            --danger: #ff4757;
+            --text: #172033;
+            --muted: #7d8799;
+            --border: #e7eaf0;
+            --bg: #f5f7fb;
+            --white: #ffffff;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(108, 92, 231, 0.16),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(0, 184, 148, 0.13),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            color: var(--text);
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1080px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: var(--white);
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 30px 80px rgba(28, 35, 55, 0.12),
+                0 5px 20px rgba(28, 35, 55, 0.06);
+        }
+
+        /* =========================================
+           LEFT SIDE
+        ========================================= */
+
+        .branding {
+            position: relative;
+
+            min-height: 650px;
+
+            padding: 55px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            color: white;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #5142c5,
+                    #6c5ce7 50%,
+                    #00a884
+                );
+        }
+
+        .branding::before {
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            top: -130px;
+            right: -100px;
+        }
+
+        .branding::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            bottom: -120px;
+            left: -90px;
+        }
+
+        .brand-content,
+        .brand-footer {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+            font-weight: 800;
+
+            background: rgba(255, 255, 255, 0.16);
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+
+            backdrop-filter: blur(10px);
+
+            margin-bottom: 30px;
+        }
+
+        .branding h1 {
+            font-size: 42px;
+            line-height: 1.1;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 18px;
+        }
+
+        .branding p {
+            max-width: 410px;
+
+            font-size: 16px;
+            line-height: 1.8;
+
+            color: rgba(255, 255, 255, 0.84);
+        }
+
+        .feature-list {
+            margin-top: 38px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 14px;
+
+            color: rgba(255, 255, 255, 0.94);
+        }
+
+        .feature-icon {
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            font-size: 15px;
+        }
+
+        .brand-footer {
+            font-size: 12px;
+
+            color: rgba(255, 255, 255, 0.62);
+        }
+
+        /* =========================================
+           RIGHT SIDE
+        ========================================= */
+
+        .login-area {
+            padding: 55px;
+
+            display: flex;
+            align-items: center;
+
+            background: #ffffff;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+
+            margin: auto;
+        }
+
+        .mobile-brand {
+            display: none;
+        }
+
+        .login-title {
+            font-size: 30px;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 9px;
+        }
+
+        .login-subtitle {
+            color: var(--muted);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            margin-bottom: 32px;
+        }
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        .field label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            color: #3b4558;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9aa3b2;
+
+            font-size: 16px;
+
+            pointer-events: none;
+        }
+
+        .input {
+            width: 100%;
+
+            height: 52px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            outline: none;
+
+            padding: 0 45px 0 45px;
+
+            font-size: 14px;
+
+            font-family: inherit;
+
+            color: var(--text);
+
+            background: #fbfcfe;
+
+            transition: 0.2s ease;
+        }
+
+        .input:focus {
+            border-color: var(--primary);
+
+            background: #fff;
+
+            box-shadow:
+                0 0 0 4px rgba(108, 92, 231, 0.09);
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #8b94a4;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            padding: 7px;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* =========================================
+           OPTIONS
+        ========================================= */
+
+        .options {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin: 5px 0 24px;
+        }
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 12px;
+
+            color: #697386;
+
+            cursor: pointer;
+        }
+
+        .remember input {
+            width: 15px;
+            height: 15px;
+
+            accent-color: var(--primary);
+
+            cursor: pointer;
+        }
+
+        .system-status {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            font-size: 11px;
+
+            color: #7b8494;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--secondary);
+
+            box-shadow:
+                0 0 0 4px rgba(0, 184, 148, 0.10);
+        }
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================= */
+
+        .login-button {
+            width: 100%;
+
+            height: 53px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(108, 92, 231, 0.22);
+
+            transition: 0.2s ease;
+
+            position: relative;
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 14px 30px rgba(108, 92, 231, 0.28);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button.loading {
+            pointer-events: none;
+
+            opacity: 0.75;
+        }
+
+        .login-button.loading::after {
+            content: "";
+
+            position: absolute;
+
+            width: 17px;
+            height: 17px;
+
+            border: 2px solid rgba(255,255,255,0.4);
+
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            right: 18px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform:
+                    translateY(-50%)
+                    rotate(360deg);
+            }
+        }
+
+        /* =========================================
+           ERROR / SUCCESS
+        ========================================= */
+
+        .message {
+            display: none;
+
+            padding: 12px 14px;
+
+            border-radius: 11px;
+
+            margin-bottom: 18px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+
+            color: #c52e3c;
+
+            background: #fff0f1;
+
+            border: 1px solid #ffd5d9;
+        }
+
+        .message.success {
+            display: block;
+
+            color: #087f69;
+
+            background: #eafaf6;
+
+            border: 1px solid #c9f0e7;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .login-footer {
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 11px;
+
+            color: #a0a7b4;
+
+            line-height: 1.7;
+        }
+
+        .security-note {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 9px;
+
+            color: #8c95a5;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            .page {
+                grid-template-columns: 1fr;
+
+                max-width: 500px;
+            }
+
+            .branding {
+                display: none;
+            }
+
+            .mobile-brand {
+                display: flex;
+
+                align-items: center;
+
+                gap: 12px;
+
+                margin-bottom: 30px;
+            }
+
+            .mobile-logo {
+                width: 44px;
+                height: 44px;
+
+                border-radius: 13px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background:
+                    linear-gradient(
+                        135deg,
+                        var(--primary),
+                        var(--secondary)
+                    );
+
+                color: white;
+
+                font-weight: 800;
+
+                font-size: 20px;
+            }
+
+            .mobile-brand-text strong {
+                display: block;
+
+                font-size: 15px;
+            }
+
+            .mobile-brand-text span {
+                display: block;
+
+                font-size: 10px;
+
+                color: var(--muted);
+
+                margin-top: 2px;
+            }
+
+            .login-area {
+                padding: 38px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 0;
+            }
+
+            .page {
+                min-height: 100vh;
+
+                border-radius: 0;
+
+                box-shadow: none;
+            }
+
+            .login-area {
+                padding: 30px 22px;
+            }
+
+            .login-title {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="page">
+
+        <!-- =========================================
+             BRANDING PANEL
+        ========================================== -->
+
+        <section class="branding">
+
+            <div class="brand-content">
+
+                <div class="logo">
+                    C
+                </div>
+
+                <h1>
+                    Chatter
+                    <br>
+                    Control Center
+                </h1>
+
+                <p>
+                    Manage your communication system,
+                    users, calls, recording and screen
+                    sharing from one secure administration
+                    panel.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature">
+                        <span class="feature-icon">💬</span>
+                        <span>Real-time messaging management</span>
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">🎥</span>
+                        <span>Video call & recording controls</span>
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">🖥️</span>
+                        <span>Screen sharing management</span>
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">⚙️</span>
+                        <span>Complete system configuration</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="brand-footer">
+                Design System • Chatter Administration
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             LOGIN PANEL
+        ========================================== -->
+
+        <section class="login-area">
+
+            <div class="login-box">
+
+                <div class="mobile-brand">
+
+                    <div class="mobile-logo">
+                        C
+                    </div>
+
+                    <div class="mobile-brand-text">
+                        <strong>Chatter Admin</strong>
+                        <span>Control Center</span>
+                    </div>
+
+                </div>
+
+
+                <h2 class="login-title">
+                    Welcome back
+                </h2>
+
+                <p class="login-subtitle">
+                    Sign in to manage your Chatter
+                    communication system.
+                </p>
+
+
+                <div id="message" class="message"></div>
+
+
+                <form id="loginForm" autocomplete="off">
+
+                    <!-- USERNAME -->
+
+                    <div class="field">
+
+                        <label for="email">
+                            Email / Username
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                👤
+                            </span>
+
+                            <input
+                                id="email"
+                                class="input"
+                                type="text"
+                                placeholder="Enter your email"
+                                autocomplete="username"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="field">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔐
+                            </span>
+
+                            <input
+                                id="password"
+                                class="input"
+                                type="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="togglePassword"
+                                aria-label="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTIONS -->
+
+                    <div class="options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                            >
+
+                            Remember me
+
+                        </label>
+
+
+                        <div class="system-status">
+
+                            <span class="status-dot"></span>
+
+                            System Online
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        id="loginButton"
+                    >
+                        Sign In
+                    </button>
+
+                </form>
+
+
+                <div class="login-footer">
+
+                    Authorized personnel only.
+
+                    <div class="security-note">
+                        🔒 Protected administration area
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================================
+           CHATTER LOGIN CONFIGURATION
+           =========================================================
+
+           IMPORTANT:
+           This is only a FRONT-END demo authentication system.
+
+           DO NOT use real production passwords here when the
+           repository is public.
+
+           Replace these temporary passwords during testing only.
+        ========================================================= */
+
+
+        const ACCOUNTS = [
+
+            {
+                email: "admin@designsystem01.com",
+                password: "CHANGE_ADMIN_PASSWORD",
+                role: "admin",
+                name: "System Admin"
+            },
+
+            {
+                email: "superadmin@snk2026.com",
+                password: "CHANGE_SUPERADMIN_PASSWORD",
+                role: "superadmin",
+                name: "Super Admin"
+            }
+
+        ];
+
+
+        /* =========================================================
+           ELEMENTS
+        ========================================================= */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const emailInput =
+            document.getElementById("email");
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+        const rememberMe =
+            document.getElementById("rememberMe");
+
+
+        /* =========================================================
+           SHOW / HIDE PASSWORD
+        ========================================================= */
+
+        togglePassword.addEventListener(
+            "click",
+            function () {
+
+                const isPassword =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    isPassword
+                        ? "text"
+                        : "password";
+
+                togglePassword.textContent =
+                    isPassword
+                        ? "🙈"
+                        : "👁";
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    isPassword
+                        ? "Hide password"
+                        : "Show password"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MESSAGE
+        ========================================================= */
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className =
+                "message " + type;
+
+        }
+
+
+        function clearMessage() {
+
+            message.textContent = "";
+
+            message.className = "message";
+
+        }
+
+
+        /* =========================================================
+           SAVE SESSION
+        ========================================================= */
+
+        function createSession(account) {
+
+            const session = {
+
+                loggedIn: true,
+
+                email: account.email,
+
+                name: account.name,
+
+                role: account.role,
+
+                loginTime:
+                    new Date().toISOString()
+
+            };
+
+
+            if (rememberMe.checked) {
+
+                localStorage.setItem(
+                    "chatterAdminSession",
+                    JSON.stringify(session)
+                );
+
+            } else {
+
+                sessionStorage.setItem(
+                    "chatterAdminSession",
+                    JSON.stringify(session)
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           LOGIN
+        ========================================================= */
+
+        loginForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                clearMessage();
+
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+                const password =
+                    passwordInput.value;
+
+
+                if (!email || !password) {
+
+                    showMessage(
+                        "Please enter your email and password.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                loginButton.classList.add("loading");
+
+                loginButton.textContent =
+                    "Signing in...";
+
+
+                setTimeout(
+                    function () {
+
+                        const account =
+                            ACCOUNTS.find(
+                                function (item) {
+
+                                    return (
+                                        item.email.toLowerCase() === email &&
+                                        item.password === password
+                                    );
+
+                                }
+                            );
+
+
+                        if (!account) {
+
+                            loginButton.classList.remove(
+                                "loading"
+                            );
+
+                            loginButton.textContent =
+                                "Sign In";
+
+                            showMessage(
+                                "Invalid email or password.",
+                                "error"
+                            );
+
+                            passwordInput.value = "";
+
+                            passwordInput.focus();
+
+                            return;
+                        }
+
+
+                        /* =========================================
+                           LOGIN SUCCESS
+                        ========================================== */
+
+                        createSession(account);
+
+
+                        showMessage(
+                            "Login successful. Opening Chatter Control Center...",
+                            "success"
+                        );
+
+
+                        loginButton.textContent =
+                            "Access Granted";
+
+
+                        setTimeout(
+                            function () {
+
+                                /*
+                                 * Both Admin and Super Admin currently
+                                 * enter the Chatter administration page.
+                                 *
+                                 * Permission differences will be
+                                 * handled inside chatter.html.
+                                 */
+
+                                window.location.href =
+                                    "../admin/chatter.html";
+
+                            },
+                            700
+                        );
+
+                    },
+                    450
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           AUTO SESSION CHECK
+        ========================================================= */
+
+        function checkExistingSession() {
+
+            const localSession =
+                localStorage.getItem(
+                    "chatterAdminSession"
+                );
+
+            const temporarySession =
+                sessionStorage.getItem(
+                    "chatterAdminSession"
+                );
+
+
+            const session =
+                localSession ||
+                temporarySession;
+
+
+            if (!session) {
+                return;
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(session);
+
+
+                if (data.loggedIn === true) {
+
+                    /*
+                     * Uncomment this if you want an already
+                     * logged-in admin to automatically skip
+                     * the login page.
+                     */
+
+                    // window.location.href =
+                    //     "../admin/chatter.html";
+
+                }
+
+            } catch (error) {
+
+                localStorage.removeItem(
+                    "chatterAdminSession"
+                );
+
+                sessionStorage.removeItem(
+                    "chatterAdminSession"
+                );
+
+            }
+
+        }
+
+
+        checkExistingSession();
+
+
+        /* =========================================================
+           ENTER KEY FRIENDLY INPUT
+        ========================================================= */
+
+        emailInput.addEventListener(
+            "input",
+            clearMessage
+        );
+
+        passwordInput.addEventListener(
+            "input",
+            clearMessage
+        );
+
+    </script>
+
+</body>
+</html>
+```
