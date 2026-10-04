@@ -1,122 +1,148 @@
 /* =========================================================
-ADMIN / SUPER ADMIN AUTH GUARD
-FILE: admin/auth-guard.js
-========================================================= */
+   ADMIN AUTHENTICATION & ROLE GUARD
+   FILE: admin/auth-guard.js
+   ========================================================= */
 
 (function () {
-"use strict";
 
-```
-/* =========================================================
-   SESSION KEY
-   ========================================================= */
+    "use strict";
 
-const SESSION_KEY = "chatterAdminSession";
+    /* =====================================================
+       STORAGE KEY
+    ===================================================== */
 
-
-/* =========================================================
-   ROLE DEFINITIONS
-   ========================================================= */
-
-const ROLES = {
-    ADMIN: "admin",
-    SUPER_ADMIN: "superadmin"
-};
+    const SESSION_KEY = "chatterAdminSession";
 
 
-/* =========================================================
-   PAGE ACCESS RULES
-   ========================================================= */
+    /* =====================================================
+       ROLE DEFINITIONS
+    ===================================================== */
 
-const PAGE_ACCESS = {
-    "dashboard.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
+    const ROLES = {
 
-    "website.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
+        ADMIN: "admin",
 
-    "website-edit.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
+        SUPER_ADMIN: "superadmin"
 
-    "design-manage.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
-
-    "banner.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
-
-    "browser-ui.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
-
-    "system.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
-
-    "chatter.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ],
-
-    "live-monitor.html": [
-        ROLES.SUPER_ADMIN
-    ],
-
-    "index.html": [
-        ROLES.ADMIN,
-        ROLES.SUPER_ADMIN
-    ]
-};
+    };
 
 
-/* =========================================================
-   GET CURRENT SESSION
-   ========================================================= */
+    /* =====================================================
+       PAGE ACCESS
+    ===================================================== */
 
-function getSession() {
-    try {
-        const raw = localStorage.getItem(SESSION_KEY);
+    const PAGE_ACCESS = {
 
-        if (!raw) {
+        "index.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "dashboard.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "website.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "website-edit.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "design-manage.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "banner.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "browser-ui.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "system.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "chatter.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "link-check.html": [
+            ROLES.ADMIN,
+            ROLES.SUPER_ADMIN
+        ],
+
+        "live-monitor.html": [
+            ROLES.SUPER_ADMIN
+        ]
+
+    };
+
+
+    /* =====================================================
+       GET SESSION
+    ===================================================== */
+
+    function getSession() {
+
+        try {
+
+            const raw =
+                localStorage.getItem(
+                    SESSION_KEY
+                );
+
+            if (!raw) {
+                return null;
+            }
+
+            const session =
+                JSON.parse(raw);
+
+            if (!session) {
+                return null;
+            }
+
+            return session;
+
+        } catch (error) {
+
+            console.error(
+                "Invalid admin session:",
+                error
+            );
+
+            localStorage.removeItem(
+                SESSION_KEY
+            );
+
             return null;
         }
 
-        const session = JSON.parse(raw);
+    }
 
-        if (!session || typeof session !== "object") {
-            return null;
+
+    /* =====================================================
+       SAVE SESSION
+    ===================================================== */
+
+    function saveSession(session) {
+
+        if (!session) {
+            return false;
         }
 
-        return session;
-
-    } catch (error) {
-        console.error("Unable to read admin session:", error);
-        return null;
-    }
-}
-
-
-/* =========================================================
-   SAVE SESSION
-   ========================================================= */
-
-function saveSession(session) {
-    if (!session || typeof session !== "object") {
-        return false;
-    }
-
-    try {
         localStorage.setItem(
             SESSION_KEY,
             JSON.stringify(session)
@@ -124,485 +150,539 @@ function saveSession(session) {
 
         return true;
 
-    } catch (error) {
-        console.error("Unable to save admin session:", error);
-        return false;
-    }
-}
-
-
-/* =========================================================
-   CLEAR SESSION
-   ========================================================= */
-
-function clearSession() {
-    localStorage.removeItem(SESSION_KEY);
-    sessionStorage.removeItem(SESSION_KEY);
-}
-
-
-/* =========================================================
-   NORMALIZE ROLE
-   ========================================================= */
-
-function normalizeRole(role) {
-    if (!role) {
-        return null;
     }
 
-    const normalized = String(role)
-        .trim()
-        .toLowerCase();
 
-    if (normalized === "super admin") {
-        return ROLES.SUPER_ADMIN;
+    /* =====================================================
+       CLEAR SESSION
+    ===================================================== */
+
+    function clearSession() {
+
+        localStorage.removeItem(
+            SESSION_KEY
+        );
+
     }
 
-    if (normalized === "superadmin") {
-        return ROLES.SUPER_ADMIN;
+
+    /* =====================================================
+       IS LOGGED IN
+    ===================================================== */
+
+    function isLoggedIn() {
+
+        const session =
+            getSession();
+
+        return Boolean(
+            session &&
+            session.email &&
+            session.role
+        );
+
     }
 
-    if (normalized === "admin") {
-        return ROLES.ADMIN;
+
+    /* =====================================================
+       GET ROLE
+    ===================================================== */
+
+    function getRole() {
+
+        const session =
+            getSession();
+
+        if (!session) {
+            return null;
+        }
+
+        return session.role || null;
+
     }
 
-    return null;
-}
 
+    /* =====================================================
+       IS ADMIN
+    ===================================================== */
 
-/* =========================================================
-   GET CURRENT ROLE
-   ========================================================= */
+    function isAdmin() {
 
-function getCurrentRole() {
-    const session = getSession();
+        const role =
+            getRole();
 
-    if (!session) {
-        return null;
+        return (
+            role === ROLES.ADMIN ||
+            role === ROLES.SUPER_ADMIN
+        );
+
     }
 
-    return normalizeRole(session.role);
-}
 
+    /* =====================================================
+       IS SUPER ADMIN
+    ===================================================== */
 
-/* =========================================================
-   IS LOGGED IN
-   ========================================================= */
+    function isSuperAdmin() {
 
-function isLoggedIn() {
-    return getSession() !== null;
-}
+        return (
+            getRole() ===
+            ROLES.SUPER_ADMIN
+        );
 
-
-/* =========================================================
-   IS ADMIN
-   ========================================================= */
-
-function isAdmin() {
-    const role = getCurrentRole();
-
-    return (
-        role === ROLES.ADMIN ||
-        role === ROLES.SUPER_ADMIN
-    );
-}
-
-
-/* =========================================================
-   IS SUPER ADMIN
-   ========================================================= */
-
-function isSuperAdmin() {
-    return getCurrentRole() === ROLES.SUPER_ADMIN;
-}
-
-
-/* =========================================================
-   CURRENT PAGE
-   ========================================================= */
-
-function getCurrentPage() {
-    const pathname = window.location.pathname;
-
-    const parts = pathname.split("/");
-
-    return parts[parts.length - 1] || "index.html";
-}
-
-
-/* =========================================================
-   ACCESS CHECK
-   ========================================================= */
-
-function canAccessPage(pageName) {
-
-    const allowedRoles = PAGE_ACCESS[pageName];
-
-    if (!allowedRoles) {
-        return false;
     }
 
-    const currentRole = getCurrentRole();
 
-    if (!currentRole) {
-        return false;
+    /* =====================================================
+       CURRENT PAGE
+    ===================================================== */
+
+    function getCurrentPage() {
+
+        const path =
+            window.location.pathname;
+
+        const parts =
+            path.split("/");
+
+        return (
+            parts[parts.length - 1] ||
+            "index.html"
+        );
+
     }
 
-    return allowedRoles.includes(currentRole);
-}
+
+    /* =====================================================
+       PAGE PERMISSION
+    ===================================================== */
+
+    function canAccessPage(
+        page,
+        role
+    ) {
+
+        const allowedRoles =
+            PAGE_ACCESS[page];
+
+        /*
+         * Unknown pages are allowed here.
+         * This prevents the guard from accidentally
+         * blocking future public/admin utility pages.
+         */
+
+        if (!allowedRoles) {
+            return true;
+        }
+
+        return allowedRoles.includes(
+            role
+        );
+
+    }
 
 
-/* =========================================================
-   REDIRECT TO LOGIN
-   ========================================================= */
+    /* =====================================================
+       ACCESS DENIED
+    ===================================================== */
 
-function redirectToLogin() {
-    window.location.replace("../login/index.html");
-}
+    function showAccessDenied(
+        requiredRole
+    ) {
 
+        document.documentElement.innerHTML = `
 
-/* =========================================================
-   ACCESS DENIED PAGE
-   ========================================================= */
+            <html>
 
-function showAccessDenied() {
+            <head>
 
-    document.documentElement.innerHTML = `
-        <head>
-            <meta charset="UTF-8">
-            <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0"
-            >
-            <title>Access Denied</title>
+                <title>
+                    Access Denied
+                </title>
 
-            <style>
-                * {
-                    box-sizing: border-box;
-                }
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                >
 
-                html,
-                body {
-                    margin: 0;
-                    padding: 0;
-                    width: 100%;
-                    min-height: 100%;
-                    font-family:
-                        Inter,
-                        system-ui,
-                        -apple-system,
-                        BlinkMacSystemFont,
-                        "Segoe UI",
-                        sans-serif;
-                    background: #f5f7fb;
-                }
+                <style>
 
-                body {
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 24px;
-                }
+                    * {
+                        box-sizing: border-box;
+                    }
 
-                .access-card {
-                    width: 100%;
-                    max-width: 480px;
-                    background: #ffffff;
-                    border-radius: 20px;
-                    padding: 40px 30px;
-                    text-align: center;
-                    box-shadow:
-                        0 20px 60px rgba(15, 23, 42, 0.10);
-                    border: 1px solid #e5e7eb;
-                }
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                        background: #f5f7fb;
+                        font-family:
+                            system-ui,
+                            -apple-system,
+                            BlinkMacSystemFont,
+                            "Segoe UI",
+                            sans-serif;
+                    }
 
-                .access-icon {
-                    width: 72px;
-                    height: 72px;
-                    margin: 0 auto 20px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: #fee2e2;
-                    color: #dc2626;
-                    font-size: 34px;
-                }
+                    .box {
+                        width: 100%;
+                        max-width: 460px;
+                        background: #ffffff;
+                        border: 1px solid #e5e7eb;
+                        border-radius: 20px;
+                        padding: 35px;
+                        text-align: center;
+                        box-shadow:
+                            0 20px 50px
+                            rgba(0,0,0,.08);
+                    }
 
-                h1 {
-                    margin: 0 0 12px;
-                    color: #111827;
-                    font-size: 28px;
-                }
+                    .icon {
+                        width: 70px;
+                        height: 70px;
+                        margin: 0 auto 20px;
+                        border-radius: 50%;
+                        background: #fef2f2;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 30px;
+                    }
 
-                p {
-                    margin: 0 auto 26px;
-                    color: #6b7280;
-                    line-height: 1.7;
-                }
+                    h1 {
+                        margin: 0 0 10px;
+                        color: #172033;
+                        font-size: 24px;
+                    }
 
-                button {
-                    border: 0;
-                    border-radius: 10px;
-                    padding: 13px 22px;
-                    background: #635bff;
-                    color: #ffffff;
-                    font-size: 15px;
-                    font-weight: 700;
-                    cursor: pointer;
-                }
+                    p {
+                        margin: 8px 0;
+                        color: #718096;
+                        line-height: 1.6;
+                        font-size: 14px;
+                    }
 
-                button:hover {
-                    opacity: 0.92;
-                }
-            </style>
-        </head>
+                    .buttons {
+                        display: flex;
+                        gap: 10px;
+                        justify-content: center;
+                        flex-wrap: wrap;
+                        margin-top: 25px;
+                    }
 
-        <body>
+                    button {
+                        border: 0;
+                        border-radius: 10px;
+                        padding: 12px 18px;
+                        min-height: 44px;
+                        cursor: pointer;
+                        font-weight: 700;
+                    }
 
-            <div class="access-card">
+                    .primary {
+                        background: #635bff;
+                        color: white;
+                    }
 
-                <div class="access-icon">
-                    🔒
+                    .secondary {
+                        background: #f3f4f6;
+                        color: #172033;
+                    }
+
+                </style>
+
+            </head>
+
+            <body>
+
+                <div class="box">
+
+                    <div class="icon">
+                        🔒
+                    </div>
+
+                    <h1>
+                        Access Denied
+                    </h1>
+
+                    <p>
+                        আপনার এই page access করার
+                        permission নেই।
+                    </p>
+
+                    <p>
+                        Required role:
+                        <strong>
+                            ${requiredRole}
+                        </strong>
+                    </p>
+
+                    <div class="buttons">
+
+                        <button
+                            class="primary"
+                            onclick="location.href='./dashboard.html'"
+                        >
+                            Dashboard
+                        </button>
+
+                        <button
+                            class="secondary"
+                            onclick="history.back()"
+                        >
+                            Go Back
+                        </button>
+
+                    </div>
+
                 </div>
 
-                <h1>
-                    Access Denied
-                </h1>
+            </body>
 
-                <p>
-                    আপনার বর্তমান account-এর এই page
-                    access করার permission নেই।
-                </p>
+            </html>
+        `;
 
-                <button
-                    type="button"
-                    onclick="window.location.href='../login/index.html'"
-                >
-                    Back to Login
-                </button>
-
-            </div>
-
-        </body>
-    `;
-}
-
-
-/* =========================================================
-   PROTECT CURRENT PAGE
-   ========================================================= */
-
-function protectCurrentPage() {
-
-    const session = getSession();
-
-    if (!session) {
-        redirectToLogin();
-        return false;
     }
 
-    const role = normalizeRole(session.role);
 
-    if (!role) {
+    /* =====================================================
+       REQUIRE ADMIN
+    ===================================================== */
+
+    function requireAdmin() {
+
+        const session =
+            getSession();
+
+        if (!session) {
+
+            redirectToLogin();
+
+            return false;
+
+        }
+
+        if (!isAdmin()) {
+
+            showAccessDenied(
+                "Admin"
+            );
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       REQUIRE SUPER ADMIN
+    ===================================================== */
+
+    function requireSuperAdmin() {
+
+        const session =
+            getSession();
+
+        if (!session) {
+
+            redirectToLogin();
+
+            return false;
+
+        }
+
+        if (!isSuperAdmin()) {
+
+            showAccessDenied(
+                "Super Admin"
+            );
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LOGIN REDIRECT
+    ===================================================== */
+
+    function redirectToLogin() {
+
+        const current =
+            window.location.pathname +
+            window.location.search;
+
+        const loginURL =
+            "../login/index.html";
+
+        sessionStorage.setItem(
+            "adminReturnURL",
+            current
+        );
+
+        window.location.href =
+            loginURL;
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logout() {
+
         clearSession();
-        redirectToLogin();
-        return false;
+
+        window.location.href =
+            "../login/index.html";
+
     }
 
-    const currentPage = getCurrentPage();
 
-    if (!canAccessPage(currentPage)) {
+    /* =====================================================
+       SESSION VALIDATION
+    ===================================================== */
 
-        if (currentPage === "live-monitor.html") {
-            showAccessDenied();
+    function validateSession() {
+
+        const session =
+            getSession();
+
+        if (!session) {
             return false;
         }
 
-        showAccessDenied();
-        return false;
+        if (!session.email) {
+            clearSession();
+            return false;
+        }
+
+        if (!session.role) {
+            clearSession();
+            return false;
+        }
+
+        if (
+            session.role !== ROLES.ADMIN &&
+            session.role !== ROLES.SUPER_ADMIN
+        ) {
+
+            clearSession();
+
+            return false;
+
+        }
+
+        return true;
+
     }
 
-    return true;
-}
 
+    /* =====================================================
+       PUBLIC API
+    ===================================================== */
 
-/* =========================================================
-   SUPER ADMIN ONLY
-   ========================================================= */
+    window.AdminAuth = {
 
-function requireSuperAdmin() {
+        ROLES,
 
-    if (!isLoggedIn()) {
-        redirectToLogin();
-        return false;
-    }
+        PAGE_ACCESS,
 
-    if (!isSuperAdmin()) {
-        showAccessDenied();
-        return false;
-    }
+        getSession,
 
-    return true;
-}
+        saveSession,
 
+        clearSession,
 
-/* =========================================================
-   ADMIN OR SUPER ADMIN
-   ========================================================= */
+        isLoggedIn,
 
-function requireAdmin() {
+        getRole,
 
-    if (!isLoggedIn()) {
-        redirectToLogin();
-        return false;
-    }
+        isAdmin,
 
-    if (!isAdmin()) {
-        showAccessDenied();
-        return false;
-    }
+        isSuperAdmin,
 
-    return true;
-}
+        getCurrentPage,
 
+        canAccessPage,
 
-/* =========================================================
-   LOGOUT
-   ========================================================= */
+        requireAdmin,
 
-function logout() {
+        requireSuperAdmin,
 
-    clearSession();
+        logout,
 
-    window.location.replace("../login/index.html");
-}
+        validateSession
 
-
-/* =========================================================
-   SESSION INFORMATION
-   ========================================================= */
-
-function getUserInfo() {
-
-    const session = getSession();
-
-    if (!session) {
-        return null;
-    }
-
-    return {
-        email: session.email || "",
-        name: session.name || "",
-        role: normalizeRole(session.role),
-        loginAt: session.loginAt || null
     };
-}
 
 
-/* =========================================================
-   DISPLAY ROLE
-   ========================================================= */
+    /* =====================================================
+       AUTO PROTECTION
+    ===================================================== */
 
-function getRoleLabel(role) {
+    const currentPage =
+        getCurrentPage();
 
-    const normalizedRole = normalizeRole(role);
-
-    if (normalizedRole === ROLES.SUPER_ADMIN) {
-        return "Super Admin";
-    }
-
-    if (normalizedRole === ROLES.ADMIN) {
-        return "Admin";
-    }
-
-    return "User";
-}
+    const requiredRoles =
+        PAGE_ACCESS[currentPage];
 
 
-/* =========================================================
-   AUTO PROTECTION
-   ========================================================= */
+    /*
+     * Only protect pages explicitly listed
+     * in PAGE_ACCESS.
+     */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    if (requiredRoles) {
 
-        const page = getCurrentPage();
+        const session =
+            getSession();
 
         /*
-         * Do not automatically protect the login page.
+         * No session
          */
 
-        if (
-            page === "login.html" ||
-            page === ""
-        ) {
-            return;
+        if (!session) {
+
+            redirectToLogin();
+
+        } else {
+
+            const role =
+                session.role;
+
+            /*
+             * Invalid role
+             */
+
+            if (
+                !requiredRoles.includes(
+                    role
+                )
+            ) {
+
+                showAccessDenied(
+                    requiredRoles.join(
+                        " / "
+                    )
+                );
+
+            }
+
         }
 
-        /*
-         * Protect only known admin pages.
-         */
-
-        if (
-            Object.prototype.hasOwnProperty.call(
-                PAGE_ACCESS,
-                page
-            )
-        ) {
-            protectCurrentPage();
-        }
     }
-);
 
-
-/* =========================================================
-   PUBLIC API
-   ========================================================= */
-
-window.AdminAuth = {
-
-    ROLES,
-
-    getSession,
-
-    saveSession,
-
-    clearSession,
-
-    getCurrentRole,
-
-    getCurrentPage,
-
-    getUserInfo,
-
-    getRoleLabel,
-
-    isLoggedIn,
-
-    isAdmin,
-
-    isSuperAdmin,
-
-    canAccessPage,
-
-    requireAdmin,
-
-    requireSuperAdmin,
-
-    protectCurrentPage,
-
-    logout
-};
-
-
-/* =========================================================
-   GLOBAL LOGOUT
-   ========================================================= */
-
-window.adminLogout = logout;
-```
 
 })();
