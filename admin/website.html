@@ -1,2621 +1,3447 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Website Management — Design System</title>
+  <title>Website Management | Design System</title>
 
-<link
-    rel="stylesheet"
-    href="../assets/css/responsive.css"
->
-
-<style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
-        --primary: #635bff;
-        --primary-dark: #4f46e5;
-        --bg: #f5f7fb;
-        --card: #ffffff;
-        --text: #172033;
-        --muted: #718096;
-        --border: #e8ebf2;
-        --success: #16a34a;
-        --danger: #dc2626;
-        --warning: #d97706;
-        --info: #0284c7;
-        --sidebar: #111827;
-        --sidebar-hover: #1f2937;
-        --sidebar-text: #cbd5e1;
-        --white: #ffffff;
-        --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+      --sidebar: #0f172a;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
+
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
+
+      --text: #111827;
+      --muted: #64748b;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+
+      --sidebar-width: 260px;
+
+      --shadow:
+        0 12px 35px rgba(15, 23, 42, 0.08);
+
+      --radius: 18px;
     }
 
-    * {
-        box-sizing: border-box;
+    html {
+      scroll-behavior: smooth;
     }
 
-    html,
     body {
-        margin: 0;
-        padding: 0;
-        min-height: 100%;
-    }
+      min-height: 100vh;
 
-    body {
-        background: var(--bg);
-        color: var(--text);
-        font-family:
-            Inter,
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            sans-serif;
+      background: var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      overflow-x: hidden;
     }
 
     a {
-        color: inherit;
-        text-decoration: none;
+      color: inherit;
+      text-decoration: none;
     }
 
     button,
     input,
-    textarea,
     select {
-        font: inherit;
+      font: inherit;
     }
 
     button {
-        border: 0;
-        cursor: pointer;
+      cursor: pointer;
     }
 
-
-    /* =====================================================
-       LAYOUT
-    ===================================================== */
-
-    .admin-layout {
-        min-height: 100vh;
-        display: flex;
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        SIDEBAR
-    ===================================================== */
+    ========================================================= */
 
     .sidebar {
-        width: 260px;
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 1000;
-        padding: 22px 14px;
-        background: var(--sidebar);
-        color: var(--white);
-        overflow-y: auto;
-        transition: transform .25s ease;
+      position: fixed;
+
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: var(--sidebar-width);
+
+      z-index: 1000;
+
+      display: flex;
+      flex-direction: column;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a 0%,
+          #111827 55%,
+          #0b1220 100%
+        );
+
+      border-right:
+        1px solid rgba(255,255,255,0.06);
     }
 
     .brand {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 5px 10px 22px;
-        border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 24px 20px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
     }
 
     .brand-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        box-shadow:
-            0 8px 20px
-            rgba(99,91,255,.25);
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      flex-shrink: 0;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      font-size: 19px;
+      font-weight: 900;
+
+      box-shadow:
+        0 10px 25px
+        rgba(37,99,235,0.35);
     }
 
-    .brand-title {
-        font-size: 16px;
-        font-weight: 800;
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    .brand-subtitle {
-        margin-top: 4px;
-        color: #94a3b8;
-        font-size: 10px;
+    .brand-text p {
+      margin-top: 3px;
+
+      color: var(--sidebar-muted);
+
+      font-size: 10px;
+    }
+
+    .nav {
+      flex: 1;
+
+      overflow-y: auto;
+
+      padding: 18px 12px;
     }
 
     .nav-title {
-        margin: 23px 10px 8px;
-        color: #64748b;
-        font-size: 10px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .1em;
+      padding: 8px 12px;
+
+      margin-bottom: 6px;
+
+      color: #64748b;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
     }
 
     .nav-link {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        min-height: 44px;
-        padding: 10px 12px;
-        margin-bottom: 4px;
-        border-radius: 11px;
-        color: var(--sidebar-text);
-        font-size: 13px;
-        font-weight: 600;
-        transition: .2s ease;
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 11px 13px;
+
+      margin-bottom: 4px;
+
+      border-radius: 12px;
+
+      color: var(--sidebar-text);
+
+      font-size: 13px;
+      font-weight: 600;
+
+      transition: 0.2s ease;
     }
 
     .nav-link:hover {
-        background: var(--sidebar-hover);
-        color: #fff;
-        transform: translateX(2px);
+      background:
+        rgba(255,255,255,0.07);
+
+      color: white;
+
+      transform:
+        translateX(2px);
     }
 
     .nav-link.active {
-        background:
-            linear-gradient(
-                135deg,
-                var(--primary),
-                var(--primary-dark)
-            );
-        color: #fff;
-        box-shadow:
-            0 8px 20px
-            rgba(99,91,255,.22);
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37,99,235,0.95),
+          rgba(79,70,229,0.95)
+        );
+
+      box-shadow:
+        0 8px 20px
+        rgba(37,99,235,0.25);
     }
 
     .nav-icon {
-        width: 22px;
-        text-align: center;
+      width: 22px;
+
+      text-align: center;
+
+      font-size: 15px;
     }
 
-    .nav-badge {
-        margin-left: auto;
-        padding: 3px 6px;
-        min-width: 20px;
-        border-radius: 999px;
-        background: rgba(255,255,255,.12);
-        font-size: 9px;
-        text-align: center;
+    .sidebar-footer {
+      padding: 14px;
+
+      border-top:
+        1px solid rgba(255,255,255,0.08);
     }
 
+    .admin-mini {
+      display: flex;
+      align-items: center;
 
-    /* =====================================================
+      gap: 10px;
+
+      padding: 10px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,0.05);
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .admin-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .admin-info strong {
+      display: block;
+
+      color: white;
+
+      font-size: 12px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    .admin-info span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: #94a3b8;
+
+      font-size: 10px;
+
+      text-transform: capitalize;
+    }
+
+    .logout-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding: 9px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background:
+        rgba(220,38,38,0.12);
+
+      color: #fca5a5;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(220,38,38,0.2);
+
+      color: white;
+    }
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      z-index: 900;
+
+      background:
+        rgba(15,23,42,0.55);
+
+      backdrop-filter: blur(2px);
+    }
+
+    /* =========================================================
        MAIN
-    ===================================================== */
+    ========================================================= */
 
     .main {
-        width: calc(100% - 260px);
-        margin-left: 260px;
-        min-width: 0;
+      min-height: 100vh;
+
+      margin-left: var(--sidebar-width);
     }
 
-
-    /* =====================================================
+    /* =========================================================
        TOPBAR
-    ===================================================== */
+    ========================================================= */
 
     .topbar {
-        min-height: 74px;
-        position: sticky;
-        top: 0;
-        z-index: 900;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 13px 30px;
-        background: rgba(255,255,255,.94);
-        border-bottom: 1px solid var(--border);
-        backdrop-filter: blur(14px);
+      position: sticky;
+
+      top: 0;
+
+      z-index: 500;
+
+      height: 72px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 28px;
+
+      background:
+        rgba(255,255,255,0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .topbar-left {
-        display: flex;
-        align-items: center;
-        gap: 14px;
+      display: flex;
+      align-items: center;
+
+      gap: 14px;
     }
 
     .mobile-menu-btn {
-        display: none;
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        background: #f1f3f8;
-        font-size: 19px;
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      place-items: center;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 19px;
     }
 
-    .page-title {
-        font-size: 21px;
-        font-weight: 850;
+    .page-title h2 {
+      font-size: 19px;
+
+      letter-spacing: -0.4px;
     }
 
-    .page-subtitle {
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 12px;
+    .page-title p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
     }
 
     .topbar-right {
-        display: flex;
-        align-items: center;
-        gap: 13px;
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
     }
 
-    .view-site {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        min-height: 40px;
-        padding: 9px 13px;
-        border-radius: 10px;
-        background: #f1f3f8;
-        font-size: 12px;
-        font-weight: 700;
+    .top-btn {
+      padding: 9px 13px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: white;
+
+      color: var(--text);
+
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .avatar {
-        width: 39px;
-        height: 39px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background:
-            linear-gradient(
-                135deg,
-                var(--primary),
-                #8b5cf6
-            );
-        color: #fff;
-        font-size: 13px;
-        font-weight: 800;
+    .top-btn:hover {
+      color: var(--primary);
+
+      border-color: #bfdbfe;
     }
 
-    .profile-name {
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .profile-role {
-        margin-top: 2px;
-        color: var(--muted);
-        font-size: 10px;
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        CONTENT
-    ===================================================== */
+    ========================================================= */
 
     .content {
-        max-width: 1550px;
-        margin: auto;
-        padding: 30px;
+      max-width: 1500px;
+
+      margin: 0 auto;
+
+      padding: 28px;
     }
 
-    .page-heading {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 22px;
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 29px;
+
+      margin-bottom: 22px;
+
+      border-radius: 23px;
+
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59,130,246,0.23),
+          transparent 31%
+        ),
+        linear-gradient(
+          135deg,
+          #111827,
+          #1e293b
+        );
+
+      box-shadow: var(--shadow);
     }
 
-    .page-heading h1 {
-        margin: 0;
-        font-size: 25px;
-        letter-spacing: -.03em;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 7px 11px;
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,0.08);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
     }
 
-    .page-heading p {
-        margin: 7px 0 0;
-        color: var(--muted);
-        font-size: 13px;
+    .hero h1 {
+      margin-top: 13px;
+
+      font-size:
+        clamp(25px, 3vw, 36px);
+
+      line-height: 1.15;
+
+      letter-spacing: -0.8px;
     }
 
-    .heading-actions {
-        display: flex;
-        gap: 9px;
+    .hero p {
+      max-width: 760px;
+
+      margin-top: 10px;
+
+      color: #cbd5e1;
+
+      font-size: 12px;
+
+      line-height: 1.7;
     }
 
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
 
-    /* =====================================================
-       BUTTONS
-    ===================================================== */
+      gap: 8px;
 
-    .btn {
-        min-height: 40px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        padding: 9px 14px;
-        border-radius: 10px;
-        font-size: 11px;
-        font-weight: 800;
-        transition: .2s ease;
+      margin-top: 18px;
     }
 
-    .btn-primary {
-        background:
-            linear-gradient(
-                135deg,
-                var(--primary),
-                var(--primary-dark)
-            );
-        color: #fff;
-        box-shadow:
-            0 7px 18px
-            rgba(99,91,255,.20);
+    .hero-btn {
+      padding: 10px 14px;
+
+      border-radius: 10px;
+
+      font-size: 10px;
+      font-weight: 800;
     }
 
-    .btn-secondary {
-        background: #fff;
-        border: 1px solid var(--border);
-        color: #475569;
+    .hero-btn.primary {
+      border: 0;
+
+      background: white;
+
+      color: #111827;
     }
 
-    .btn-danger {
-        background: #fff1f2;
-        color: var(--danger);
+    .hero-btn.secondary {
+      border:
+        1px solid rgba(255,255,255,0.15);
+
+      background:
+        rgba(255,255,255,0.08);
+
+      color: white;
     }
 
-    .btn:hover {
-        transform: translateY(-1px);
+    .hero-btn:hover {
+      transform:
+        translateY(-1px);
     }
 
+    /* =========================================================
+       STATS
+    ========================================================= */
 
-    /* =====================================================
-       GRID
-    ===================================================== */
+    .stats-grid {
+      display: grid;
 
-    .settings-grid {
-        display: grid;
-        grid-template-columns:
-            minmax(0, 1.35fr)
-            minmax(300px, .65fr);
-        gap: 20px;
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 15px;
+
+      margin-bottom: 22px;
     }
 
-    .panel {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 17px;
-        box-shadow: var(--shadow);
-        overflow: hidden;
+    .stat-card {
+      padding: 19px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
     }
 
-    .panel-header {
-        min-height: 65px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 17px 20px;
-        border-bottom: 1px solid var(--border);
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .panel-title {
-        font-size: 15px;
-        font-weight: 800;
-    }
+    .stat-icon {
+      width: 42px;
+      height: 42px;
 
-    .panel-description {
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 11px;
-    }
+      display: grid;
+      place-items: center;
 
-    .panel-body {
-        padding: 20px;
-    }
+      border-radius: 12px;
 
+      background: #eff6ff;
 
-    /* =====================================================
-       WEBSITE PREVIEW
-    ===================================================== */
-
-    .preview-box {
-        position: relative;
-        min-height: 330px;
-        overflow: hidden;
-        border-radius: 15px;
-        background:
-            linear-gradient(
-                135deg,
-                #eef2ff,
-                #f8fafc
-            );
-        border: 1px solid var(--border);
-    }
-
-    .preview-top {
-        height: 54px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 18px;
-        background: #fff;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .preview-logo {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 850;
-    }
-
-    .preview-logo-icon {
-        width: 27px;
-        height: 27px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--primary);
-        color: #fff;
-    }
-
-    .preview-nav {
-        display: flex;
-        gap: 15px;
-        color: #64748b;
-        font-size: 9px;
-        font-weight: 700;
-    }
-
-    .preview-hero {
-        padding: 45px 25px;
-        text-align: center;
-    }
-
-    .preview-badge {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 999px;
-        background: #e0e7ff;
-        color: #4f46e5;
-        font-size: 8px;
-        font-weight: 800;
-    }
-
-    .preview-hero h2 {
-        margin: 14px auto 8px;
-        max-width: 500px;
-        font-size: 27px;
-        line-height: 1.15;
-        letter-spacing: -.04em;
-    }
-
-    .preview-hero p {
-        max-width: 470px;
-        margin: auto;
-        color: #64748b;
-        font-size: 10px;
-        line-height: 1.6;
-    }
-
-    .preview-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 18px;
-    }
-
-    .preview-button {
-        padding: 8px 12px;
-        border-radius: 8px;
-        background: var(--primary);
-        color: #fff;
-        font-size: 8px;
-        font-weight: 800;
-    }
-
-    .preview-button.secondary {
-        background: #fff;
-        color: #475569;
-        border: 1px solid var(--border);
-    }
-
-
-    /* =====================================================
-       FORM
-    ===================================================== */
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    .form-group:last-child {
-        margin-bottom: 0;
-    }
-
-    .form-label {
-        display: block;
-        margin-bottom: 7px;
-        font-size: 11px;
-        font-weight: 800;
-    }
-
-    .form-help {
-        margin-top: 5px;
-        color: var(--muted);
-        font-size: 10px;
-        line-height: 1.5;
-    }
-
-    .input,
-    .textarea,
-    .select {
-        width: 100%;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        outline: none;
-        background: #fbfcfe;
-        color: var(--text);
-        transition: .2s ease;
-    }
-
-    .input,
-    .select {
-        height: 43px;
-        padding: 0 12px;
-        font-size: 12px;
-    }
-
-    .textarea {
-        min-height: 100px;
-        padding: 11px 12px;
-        resize: vertical;
-        font-size: 12px;
-    }
-
-    .input:focus,
-    .textarea:focus,
-    .select:focus {
-        border-color: var(--primary);
-        background: #fff;
-        box-shadow:
-            0 0 0 3px
-            rgba(99,91,255,.08);
-    }
-
-    .two-column {
-        display: grid;
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-        gap: 14px;
-    }
-
-
-    /* =====================================================
-       SWITCH
-    ===================================================== */
-
-    .switch-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 14px 0;
-        border-bottom: 1px solid #f0f2f6;
-    }
-
-    .switch-row:first-child {
-        padding-top: 0;
-    }
-
-    .switch-row:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
-    }
-
-    .switch-info strong {
-        display: block;
-        font-size: 11px;
-    }
-
-    .switch-info span {
-        display: block;
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 9px;
-    }
-
-    .switch {
-        width: 42px;
-        height: 23px;
-        position: relative;
-        flex: 0 0 42px;
-    }
-
-    .switch input {
-        display: none;
-    }
-
-    .slider {
-        position: absolute;
-        inset: 0;
-        border-radius: 999px;
-        background: #d8dde7;
-        transition: .2s ease;
-        cursor: pointer;
-    }
-
-    .slider::after {
-        content: "";
-        position: absolute;
-        width: 17px;
-        height: 17px;
-        left: 3px;
-        top: 3px;
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,.15);
-        transition: .2s ease;
-    }
-
-    .switch input:checked + .slider {
-        background: var(--primary);
-    }
-
-    .switch input:checked + .slider::after {
-        transform: translateX(19px);
-    }
-
-
-    /* =====================================================
-       SAVE BAR
-    ===================================================== */
-
-    .save-bar {
-        margin-top: 20px;
-        padding: 15px 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        border: 1px solid #dddafe;
-        border-radius: 14px;
-        background: #f7f6ff;
-    }
-
-    .save-message {
-        color: #5b5f72;
-        font-size: 10px;
-    }
-
-    .save-message strong {
-        display: block;
-        color: var(--text);
-        font-size: 11px;
-        margin-bottom: 3px;
-    }
-
-
-    /* =====================================================
-       STATUS CARD
-    ===================================================== */
-
-    .status-card {
-        padding: 18px;
-        margin-bottom: 15px;
-        border-radius: 13px;
-        background: #f8fafc;
-        border: 1px solid var(--border);
-    }
-
-    .status-card:last-child {
-        margin-bottom: 0;
-    }
-
-    .status-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    .status-title {
-        font-size: 12px;
-        font-weight: 800;
+      font-size: 18px;
     }
 
     .status-pill {
-        padding: 4px 7px;
-        border-radius: 999px;
-        background: #dcfce7;
-        color: #15803d;
-        font-size: 9px;
-        font-weight: 800;
+      padding: 5px 8px;
+
+      border-radius: 999px;
+
+      font-size: 8px;
+      font-weight: 800;
     }
 
-    .status-pill.off {
-        background: #fee2e2;
-        color: #b91c1c;
+    .status-pill.success {
+      background: #f0fdf4;
+      color: #15803d;
     }
 
-    .status-card p {
-        margin: 7px 0 0;
-        color: var(--muted);
-        font-size: 10px;
-        line-height: 1.55;
+    .status-pill.warning {
+      background: #fffbeb;
+      color: #b45309;
     }
 
+    .status-pill.danger {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
 
-    /* =====================================================
-       INFO BOX
-    ===================================================== */
+    .stat-label {
+      margin-top: 13px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 4px;
+
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .stat-description {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       TWO COLUMN
+    ========================================================= */
+
+    .two-column {
+      display: grid;
+
+      grid-template-columns:
+        1.15fr 0.85fr;
+
+      gap: 18px;
+
+      margin-bottom: 18px;
+    }
+
+    .card {
+      padding: 20px;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 17px;
+    }
+
+    .card-header h3 {
+      font-size: 14px;
+    }
+
+    .card-header p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       STATUS ROWS
+    ========================================================= */
+
+    .status-list {
+      display: grid;
+
+      gap: 9px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 12px;
+
+      border:
+        1px solid #eef2f7;
+
+      border-radius: 12px;
+
+      background: #f8fafc;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      min-width: 0;
+    }
+
+    .status-icon {
+      width: 34px;
+      height: 34px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: white;
+
+      box-shadow:
+        0 4px 10px
+        rgba(15,23,42,0.05);
+    }
+
+    .status-name strong {
+      display: block;
+
+      font-size: 10px;
+    }
+
+    .status-name span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    /* =========================================================
+       SWITCH
+    ========================================================= */
+
+    .switch {
+      position: relative;
+
+      width: 42px;
+      height: 23px;
+
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+
+      inset: 0;
+
+      border-radius: 999px;
+
+      background: #cbd5e1;
+
+      transition: 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 17px;
+      height: 17px;
+
+      left: 3px;
+      top: 3px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      box-shadow:
+        0 2px 5px
+        rgba(15,23,42,0.18);
+
+      transition: 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--primary);
+    }
+
+    .switch input:checked + .slider::before {
+      transform:
+        translateX(19px);
+    }
+
+    /* =========================================================
+       QUICK ACTIONS
+    ========================================================= */
+
+    .quick-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 9px;
+    }
+
+    .quick-btn {
+      min-height: 68px;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: flex-start;
+      justify-content: center;
+
+      gap: 5px;
+
+      padding: 12px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background: white;
+
+      text-align: left;
+
+      transition: 0.2s ease;
+    }
+
+    .quick-btn:hover {
+      border-color: #bfdbfe;
+
+      background: #f8fbff;
+
+      transform:
+        translateY(-2px);
+    }
+
+    .quick-btn strong {
+      font-size: 10px;
+    }
+
+    .quick-btn span {
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    /* =========================================================
+       WEBSITE INFO
+    ========================================================= */
+
+    .website-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+    }
 
     .info-box {
-        margin-top: 15px;
-        padding: 14px;
-        border-radius: 12px;
-        background: #eff6ff;
-        border: 1px solid #dbeafe;
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background: #f8fafc;
+
+      border:
+        1px solid #eef2f7;
+    }
+
+    .info-box label {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 8px;
+      font-weight: 700;
     }
 
     .info-box strong {
-        display: block;
-        color: #1d4ed8;
-        font-size: 11px;
+      display: block;
+
+      margin-top: 5px;
+
+      font-size: 11px;
+
+      word-break: break-word;
     }
 
-    .info-box p {
-        margin: 5px 0 0;
-        color: #475569;
-        font-size: 9px;
-        line-height: 1.6;
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    .activity-list {
+      display: grid;
+
+      gap: 9px;
+
+      max-height: 280px;
+
+      overflow-y: auto;
     }
 
+    .activity-item {
+      display: flex;
 
-    /* =====================================================
-       MOBILE
-    ===================================================== */
+      gap: 10px;
 
-    .sidebar-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 950;
-        background: rgba(15,23,42,.48);
+      padding: 10px;
+
+      border-radius: 11px;
+
+      background: #f8fafc;
     }
 
-    .sidebar-overlay.show {
-        display: block;
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+
+      flex-shrink: 0;
+
+      margin-top: 5px;
+
+      border-radius: 50%;
+
+      background: var(--primary);
     }
+
+    .activity-content {
+      min-width: 0;
+    }
+
+    .activity-content strong {
+      display: block;
+
+      font-size: 9px;
+    }
+
+    .activity-content span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      line-height: 1.5;
+    }
+
+    .empty-activity {
+      padding: 25px 10px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    .security {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 12px;
+
+      padding: 17px;
+
+      margin-top: 18px;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eff6ff,
+          #f8fbff
+        );
+    }
+
+    .security-icon {
+      width: 38px;
+      height: 38px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 17px;
+    }
+
+    .security h3 {
+      font-size: 11px;
+    }
+
+    .security p {
+      margin-top: 4px;
+
+      color: #64748b;
+
+      font-size: 9px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      right: 24px;
+      bottom: 24px;
+
+      min-width: 260px;
+      max-width: 370px;
+
+      padding: 13px 15px;
+
+      z-index: 3000;
+
+      border-radius: 13px;
+
+      color: white;
+
+      background: #111827;
+
+      box-shadow:
+        0 15px 40px
+        rgba(15,23,42,0.25);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transform:
+        translateY(120px);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: 0.3s ease;
+    }
+
+    .toast.show {
+      transform:
+        translateY(0);
+
+      opacity: 1;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
     @media (max-width: 1150px) {
 
-        .sidebar {
-            width: 230px;
-        }
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
-        .main {
-            width: calc(100% - 230px);
-            margin-left: 230px;
-        }
+      .two-column {
+        grid-template-columns:
+          1fr;
+      }
 
-        .settings-grid {
-            grid-template-columns: 1fr;
-        }
+      .website-grid {
+        grid-template-columns:
+          repeat(3, 1fr);
+      }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 850px) {
 
-        .sidebar {
-            width: 260px;
-            transform: translateX(-100%);
-        }
+      .sidebar {
+        transform:
+          translateX(-100%);
 
-        .sidebar.open {
-            transform: translateX(0);
-        }
+        transition:
+          transform 0.25s ease;
+      }
 
-        .main {
-            width: 100%;
-            margin-left: 0;
-        }
+      .sidebar.open {
+        transform:
+          translateX(0);
+      }
 
-        .mobile-menu-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .sidebar-overlay.show {
+        display: block;
+      }
 
-        .topbar {
-            padding: 12px 16px;
-        }
+      .main {
+        margin-left: 0;
+      }
 
-        .view-site {
-            display: none;
-        }
+      .mobile-menu-btn {
+        display: grid;
+      }
 
-        .content {
-            padding: 20px 16px;
-        }
+      .topbar {
+        padding: 0 18px;
+      }
 
-        .page-heading {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .heading-actions {
-            width: 100%;
-        }
-
-        .heading-actions .btn {
-            flex: 1;
-        }
+      .content {
+        padding: 20px;
+      }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 650px) {
 
-        .two-column {
-            grid-template-columns: 1fr;
-        }
+      .topbar {
+        height: 64px;
+      }
 
-        .preview-nav {
-            display: none;
-        }
+      .page-title h2 {
+        font-size: 16px;
+      }
 
-        .preview-hero {
-            padding: 35px 17px;
-        }
+      .page-title p {
+        display: none;
+      }
 
-        .preview-hero h2 {
-            font-size: 22px;
-        }
+      .top-btn {
+        display: none;
+      }
 
-        .panel-body {
-            padding: 16px;
-        }
+      .content {
+        padding: 14px;
+      }
 
-        .save-bar {
-            align-items: stretch;
-            flex-direction: column;
-        }
+      .hero {
+        padding: 21px;
 
-        .save-bar .btn {
-            width: 100%;
-        }
+        border-radius: 19px;
+      }
 
-        .profile-name,
-        .profile-role {
-            display: none;
-        }
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .stats-grid {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .website-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .toast {
+        left: 14px;
+        right: 14px;
+
+        min-width: auto;
+
+        bottom: 14px;
+      }
     }
 
-</style>
-```
+    @media (max-width: 380px) {
 
+      .stats-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns:
+          1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline:
+        3px solid
+        rgba(37,99,235,0.2);
+
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="admin-layout">
+  <!-- =========================================================
+       SIDEBAR
+  ========================================================= -->
 
-```
-<!-- =====================================================
-     SIDEBAR
-====================================================== -->
-
-<aside
+  <aside
     class="sidebar"
     id="sidebar"
->
+  >
 
     <div class="brand">
 
-        <div class="brand-icon">
-            ✦
-        </div>
+      <div class="brand-icon">
+        DS
+      </div>
 
-        <div>
+      <div class="brand-text">
 
-            <div class="brand-title">
-                Design System
-            </div>
+        <h1>
+          Design System
+        </h1>
 
-            <div class="brand-subtitle">
-                Administration Panel
-            </div>
+        <p>
+          Admin Control Center
+        </p>
 
-        </div>
+      </div>
 
     </div>
 
 
-    <div class="nav-title">
+    <nav class="nav">
+
+      <div class="nav-title">
         Main
-    </div>
+      </div>
 
-    <a
-        class="nav-link"
+      <a
         href="./dashboard.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">📊</span>
-        Dashboard
-    </a>
+        <span>Dashboard</span>
+      </a>
 
-    <a
-        class="nav-link active"
+      <a
         href="./website.html"
-    >
+        class="nav-link active"
+      >
         <span class="nav-icon">🌐</span>
-        Website
-    </a>
+        <span>Website</span>
+      </a>
 
-    <a
+      <a
+        href="./website-edit.html"
         class="nav-link"
+      >
+        <span class="nav-icon">✏️</span>
+        <span>Website Editor</span>
+      </a>
+
+      <a
         href="./design-manage.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🎨</span>
-        Designs
-    </a>
+        <span>Design Management</span>
+      </a>
 
-    <a
-        class="nav-link"
+      <a
         href="./banner.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🖼️</span>
-        Banner
-    </a>
+        <span>Advertisement</span>
+      </a>
 
 
-    <div class="nav-title">
-        Communication
-    </div>
-
-    <a
-        class="nav-link"
-        href="./chatter.html"
-    >
-        <span class="nav-icon">💬</span>
+      <div class="nav-title">
         Chatter
-    </a>
+      </div>
 
-    <a
+      <a
+        href="./chatter.html"
         class="nav-link"
-        href="./live-monitor.html"
-    >
-        <span class="nav-icon">📡</span>
-        Live Monitor
-        <span class="nav-badge">
-            SA
-        </span>
-    </a>
-
-
-    <div class="nav-title">
-        System
-    </div>
-
-    <a
-        class="nav-link"
-        href="./browser-ui.html"
-    >
-        <span class="nav-icon">🔐</span>
-        Browser UI
-    </a>
-
-    <a
-        class="nav-link"
-        href="./system.html"
-    >
-        <span class="nav-icon">⚙️</span>
-        System Settings
-    </a>
-
-    <a
-        class="nav-link"
-        href="./link-check.html"
-    >
-        <span class="nav-icon">🔗</span>
-        Link Check
-    </a>
-
-
-    <div class="nav-title">
-        Website
-    </div>
-
-    <a
-        class="nav-link"
-        href="../chatter/index.html"
-    >
+      >
         <span class="nav-icon">💬</span>
-        Open Chatter
-    </a>
+        <span>Chatter Settings</span>
+      </a>
 
-    <a
+      <a
+        href="./browser-ui.html"
         class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
+        <span>Browser UI</span>
+      </a>
+
+      <a
+        href="./live-monitor.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📡</span>
+        <span>Live Monitor</span>
+      </a>
+
+
+      <div class="nav-title">
+        System
+      </div>
+
+      <a
+        href="./system.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">⚙️</span>
+        <span>System Settings</span>
+      </a>
+
+      <a
+        href="./link-check.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🔗</span>
+        <span>Link Checker</span>
+      </a>
+
+      <a
         href="../index.html"
-        target="_blank"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🏠</span>
-        View Website
-    </a>
+        <span>View Website</span>
+      </a>
 
-</aside>
+    </nav>
 
 
-<div
+    <div class="sidebar-footer">
+
+      <div class="admin-mini">
+
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
+        >
+          AD
+        </div>
+
+        <div class="admin-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <div
     class="sidebar-overlay"
     id="sidebarOverlay"
-></div>
+  ></div>
 
 
-<!-- =====================================================
-     MAIN
-====================================================== -->
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
 
-<main class="main">
+  <main class="main">
 
-
-    <!-- =================================================
-         TOPBAR
-    ================================================== -->
+    <!-- TOPBAR -->
 
     <header class="topbar">
 
-        <div class="topbar-left">
+      <div class="topbar-left">
 
-            <button
-                class="mobile-menu-btn"
-                id="mobileMenuBtn"
-                type="button"
-            >
-                ☰
-            </button>
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
 
-            <div>
+        <div class="page-title">
 
-                <div class="page-title">
-                    Website Management
-                </div>
+          <h2>
+            Website Management
+          </h2>
 
-                <div class="page-subtitle">
-                    Control your public website appearance
-                    and basic settings
-                </div>
-
-            </div>
+          <p>
+            Control the public website from one place
+          </p>
 
         </div>
 
+      </div>
 
-        <div class="topbar-right">
 
-            <a
-                class="view-site"
-                href="../index.html"
-                target="_blank"
-            >
-                🌐 View Website
-            </a>
+      <div class="topbar-right">
 
-            <div
-                class="avatar"
-                id="userAvatar"
-            >
-                A
-            </div>
+        <a
+          href="../index.html"
+          target="_blank"
+          rel="noopener"
+          class="top-btn"
+        >
+          ↗ Open Website
+        </a>
 
-            <div>
+        <a
+          href="./website-edit.html"
+          class="top-btn"
+        >
+          ✏️ Edit Website
+        </a>
 
-                <div
-                    class="profile-name"
-                    id="userName"
-                >
-                    Admin
-                </div>
-
-                <div
-                    class="profile-role"
-                    id="userRole"
-                >
-                    Administrator
-                </div>
-
-            </div>
-
-        </div>
+      </div>
 
     </header>
 
 
-    <!-- =================================================
+    <!-- =======================================================
          CONTENT
-    ================================================== -->
+    ======================================================= -->
 
     <section class="content">
 
+      <!-- HERO -->
 
-        <div class="page-heading">
+      <div class="hero">
 
-            <div>
+        <div class="hero-badge">
+          🌐 Website Control
+        </div>
 
-                <h1>
-                    Website Control Center
-                </h1>
+        <h1>
+          Manage Your Website
+        </h1>
 
-                <p>
-                    Update the website configuration
-                    without touching the main page code.
-                </p>
+        <p>
+          Control website availability, design gallery visibility,
+          Chatter availability, maintenance mode and other public
+          website settings without touching the homepage code.
+        </p>
 
+        <div class="hero-actions">
+
+          <a
+            href="../index.html"
+            target="_blank"
+            rel="noopener"
+            class="hero-btn primary"
+          >
+            👁 View Live Website
+          </a>
+
+          <a
+            href="./website-edit.html"
+            class="hero-btn secondary"
+          >
+            ✏️ Open Website Editor
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           STATS
+      ===================================================== -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🌐
             </div>
 
+            <span
+              class="status-pill success"
+              id="websiteStatusPill"
+            >
+              Online
+            </span>
 
-            <div class="heading-actions">
+          </div>
 
-                <button
-                    class="btn btn-secondary"
-                    id="resetBtn"
-                    type="button"
-                >
-                    ↻ Reset
-                </button>
+          <div class="stat-label">
+            Website Status
+          </div>
 
-                <button
-                    class="btn btn-primary"
-                    id="saveTopBtn"
-                    type="button"
-                >
-                    ✓ Save Changes
-                </button>
+          <div
+            class="stat-value"
+            id="websiteStatusValue"
+          >
+            Online
+          </div>
 
-            </div>
+          <div class="stat-description">
+            Public website availability
+          </div>
 
         </div>
 
 
-        <div class="settings-grid">
+        <div class="stat-card">
 
+          <div class="stat-top">
 
-            <!-- =================================================
-                 LEFT
-            ================================================== -->
-
-            <div>
-
-
-                <!-- WEBSITE PREVIEW -->
-
-                <div class="panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <div class="panel-title">
-                                Live Preview
-                            </div>
-
-                            <div class="panel-description">
-                                Approximate preview of the public
-                                homepage
-                            </div>
-
-                        </div>
-
-                        <a
-                            class="panel-link"
-                            href="../index.html"
-                            target="_blank"
-                        >
-                            Open →
-                        </a>
-
-                    </div>
-
-
-                    <div class="panel-body">
-
-                        <div class="preview-box">
-
-                            <div class="preview-top">
-
-                                <div class="preview-logo">
-
-                                    <span
-                                        class="preview-logo-icon"
-                                    >
-                                        ✦
-                                    </span>
-
-                                    <span id="previewBrand">
-                                        Design System
-                                    </span>
-
-                                </div>
-
-
-                                <div class="preview-nav">
-
-                                    <span>
-                                        Home
-                                    </span>
-
-                                    <span>
-                                        Designs
-                                    </span>
-
-                                    <span>
-                                        Chatter
-                                    </span>
-
-                                    <span>
-                                        Contact
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="preview-hero">
-
-                                <span class="preview-badge">
-                                    PREMIUM DESIGN PLATFORM
-                                </span>
-
-                                <h2 id="previewTitle">
-                                    Create Beautiful
-                                    Designs Easily
-                                </h2>
-
-                                <p id="previewDescription">
-                                    Explore professional poster
-                                    designs and create your next
-                                    project faster.
-                                </p>
-
-
-                                <div class="preview-buttons">
-
-                                    <span class="preview-button">
-                                        Explore Designs
-                                    </span>
-
-                                    <span
-                                        class="preview-button secondary"
-                                    >
-                                        Open Chatter
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- WEBSITE CONTENT -->
-
-                <div
-                    class="panel"
-                    style="margin-top:20px;"
-                >
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <div class="panel-title">
-                                Website Content
-                            </div>
-
-                            <div class="panel-description">
-                                Basic public-facing website text
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel-body">
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="siteName"
-                            >
-                                Website Name
-                            </label>
-
-                            <input
-                                class="input"
-                                id="siteName"
-                                type="text"
-                                placeholder="Design System"
-                            >
-
-                            <div class="form-help">
-                                This name can be used in the
-                                website header and branding.
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="heroTitle"
-                            >
-                                Hero Title
-                            </label>
-
-                            <input
-                                class="input"
-                                id="heroTitle"
-                                type="text"
-                                placeholder="Create Beautiful Designs Easily"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="heroDescription"
-                            >
-                                Hero Description
-                            </label>
-
-                            <textarea
-                                class="textarea"
-                                id="heroDescription"
-                                placeholder="Write your website hero description..."
-                            ></textarea>
-
-                        </div>
-
-
-                        <div class="two-column">
-
-
-                            <div class="form-group">
-
-                                <label
-                                    class="form-label"
-                                    for="primaryButton"
-                                >
-                                    Primary Button
-                                </label>
-
-                                <input
-                                    class="input"
-                                    id="primaryButton"
-                                    type="text"
-                                    placeholder="Explore Designs"
-                                >
-
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <label
-                                    class="form-label"
-                                    for="secondaryButton"
-                                >
-                                    Secondary Button
-                                </label>
-
-                                <input
-                                    class="input"
-                                    id="secondaryButton"
-                                    type="text"
-                                    placeholder="Open Chatter"
-                                >
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SEO -->
-
-                <div
-                    class="panel"
-                    style="margin-top:20px;"
-                >
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <div class="panel-title">
-                                SEO Settings
-                            </div>
-
-                            <div class="panel-description">
-                                Search engine metadata
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel-body">
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="seoTitle"
-                            >
-                                SEO Title
-                            </label>
-
-                            <input
-                                class="input"
-                                id="seoTitle"
-                                type="text"
-                                placeholder="Design System"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="seoDescription"
-                            >
-                                SEO Description
-                            </label>
-
-                            <textarea
-                                class="textarea"
-                                id="seoDescription"
-                                placeholder="Describe your website for search engines..."
-                            ></textarea>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="language"
-                            >
-                                Default Language
-                            </label>
-
-                            <select
-                                class="select"
-                                id="language"
-                            >
-
-                                <option value="en">
-                                    English
-                                </option>
-
-                                <option value="bn">
-                                    বাংলা
-                                </option>
-
-                                <option value="both">
-                                    English + বাংলা
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <div class="stat-icon">
+              🎨
             </div>
 
-
-            <!-- =================================================
-                 RIGHT
-            ================================================== -->
-
-            <div>
-
-
-                <!-- WEBSITE STATUS -->
-
-                <div class="panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <div class="panel-title">
-                                Website Status
-                            </div>
-
-                            <div class="panel-description">
-                                Public website availability
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel-body">
-
-
-                        <div class="status-card">
-
-                            <div class="status-heading">
-
-                                <div class="status-title">
-                                    Website
-                                </div>
-
-                                <span
-                                    class="status-pill"
-                                    id="websitePill"
-                                >
-                                    ONLINE
-                                </span>
-
-                            </div>
-
-                            <p>
-                                Your public website is currently
-                                available to visitors.
-                            </p>
-
-                        </div>
-
-
-                        <div class="status-card">
-
-                            <div class="status-heading">
-
-                                <div class="status-title">
-                                    Chatter
-                                </div>
-
-                                <span
-                                    class="status-pill"
-                                    id="chatterPill"
-                                >
-                                    ENABLED
-                                </span>
-
-                            </div>
-
-                            <p>
-                                Real-time communication interface
-                                availability is controlled from
-                                Chatter Settings.
-                            </p>
-
-                        </div>
-
-
-                        <div class="status-card">
-
-                            <div class="status-heading">
-
-                                <div class="status-title">
-                                    Design Gallery
-                                </div>
-
-                                <span
-                                    class="status-pill"
-                                >
-                                    READY
-                                </span>
-
-                            </div>
-
-                            <p>
-                                Design pages remain separated
-                                into individual design folders.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- WEBSITE FEATURES -->
-
-                <div
-                    class="panel"
-                    style="margin-top:20px;"
-                >
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <div class="panel-title">
-                                Website Features
-                            </div>
-
-                            <div class="panel-description">
-                                Enable or disable public sections
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel-body">
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-info">
-
-                                <strong>
-                                    Website Enabled
-                                </strong>
-
-                                <span>
-                                    Allow visitors to access
-                                    the public website.
-                                </span>
-
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="websiteEnabled"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-info">
-
-                                <strong>
-                                    Design Gallery
-                                </strong>
-
-                                <span>
-                                    Show available designs
-                                    on the website.
-                                </span>
-
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="galleryEnabled"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-info">
-
-                                <strong>
-                                    Chatter Navigation
-                                </strong>
-
-                                <span>
-                                    Show Chatter navigation
-                                    for users.
-                                </span>
-
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="chatterEnabled"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-info">
-
-                                <strong>
-                                    How It Works
-                                </strong>
-
-                                <span>
-                                    Show the website
-                                    information section.
-                                </span>
-
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="howItWorksEnabled"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="switch-row">
-
-                            <div class="switch-info">
-
-                                <strong>
-                                    Contact / CTA
-                                </strong>
-
-                                <span>
-                                    Show the final call-to-action
-                                    section.
-                                </span>
-
-                            </div>
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="ctaEnabled"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- INFO -->
-
-                <div class="info-box">
-
-                    <strong>
-                        💡 Important
-                    </strong>
-
-                    <p>
-                        These settings are currently stored
-                        locally in this browser. Firebase
-                        integration will be connected later,
-                        after the complete website UI is finished.
-                    </p>
-
-                </div>
-
-            </div>
+            <span
+              class="status-pill success"
+              id="designStatusPill"
+            >
+              Visible
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Design Gallery
+          </div>
+
+          <div
+            class="stat-value"
+            id="designStatusValue"
+          >
+            Visible
+          </div>
+
+          <div class="stat-description">
+            Public design gallery status
+          </div>
 
         </div>
 
 
-        <!-- SAVE BAR -->
+        <div class="stat-card">
 
-        <div class="save-bar">
+          <div class="stat-top">
 
-            <div class="save-message">
+            <div class="stat-icon">
+              💬
+            </div>
 
-                <strong id="saveStatus">
-                    Ready to save
-                </strong>
+            <span
+              class="status-pill success"
+              id="chatterStatusPill"
+            >
+              Enabled
+            </span>
 
-                Changes will be stored in the current
-                browser for now.
+          </div>
+
+          <div class="stat-label">
+            Chatter
+          </div>
+
+          <div
+            class="stat-value"
+            id="chatterStatusValue"
+          >
+            Enabled
+          </div>
+
+          <div class="stat-description">
+            Website communication feature
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🔧
+            </div>
+
+            <span
+              class="status-pill success"
+              id="maintenanceStatusPill"
+            >
+              Normal
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Maintenance
+          </div>
+
+          <div
+            class="stat-value"
+            id="maintenanceStatusValue"
+          >
+            Normal
+          </div>
+
+          <div class="stat-description">
+            Public maintenance mode
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           TWO COLUMN
+      ===================================================== -->
+
+      <div class="two-column">
+
+        <!-- WEBSITE SETTINGS -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <h3>
+                Website Controls
+              </h3>
+
+              <p>
+                Changes are saved locally in this prototype.
+              </p>
 
             </div>
+
+          </div>
+
+
+          <div class="status-list">
+
+            <!-- WEBSITE -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🌐
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Website Enabled
+                  </strong>
+
+                  <span>
+                    Allow visitors to access the website
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="websiteEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- DESIGNS -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🎨
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Design Gallery
+                  </strong>
+
+                  <span>
+                    Show design gallery on homepage
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="showDesigns"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- CHATTER -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  💬
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Chatter
+                  </strong>
+
+                  <span>
+                    Show Chatter navigation and feature
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="chatterEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- MAINTENANCE -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🔧
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Maintenance Mode
+                  </strong>
+
+                  <span>
+                    Display maintenance screen to visitors
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="maintenanceMode"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🔔
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    System Notifications
+                  </strong>
+
+                  <span>
+                    Allow website notification UI
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="notificationsEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <h3>
+                Quick Actions
+              </h3>
+
+              <p>
+                Frequently used website controls.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-grid">
 
             <button
-                class="btn btn-primary"
-                id="saveBtn"
-                type="button"
+              class="quick-btn"
+              id="saveBtn"
             >
-                ✓ Save Website Settings
+
+              <strong>
+                💾 Save Settings
+              </strong>
+
+              <span>
+                Save current website state
+              </span>
+
             </button>
+
+
+            <button
+              class="quick-btn"
+              id="enableAllBtn"
+            >
+
+              <strong>
+                ✅ Enable All
+              </strong>
+
+              <span>
+                Turn on public features
+              </span>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="disableAllBtn"
+            >
+
+              <strong>
+                ⛔ Disable All
+              </strong>
+
+              <span>
+                Turn off public features
+              </span>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="resetBtn"
+            >
+
+              <strong>
+                ↺ Reset Defaults
+              </strong>
+
+              <span>
+                Restore normal website state
+              </span>
+
+            </button>
+
+
+            <a
+              href="./website-edit.html"
+              class="quick-btn"
+            >
+
+              <strong>
+                ✏️ Website Editor
+              </strong>
+
+              <span>
+                Edit homepage content
+              </span>
+
+            </a>
+
+
+            <a
+              href="./banner.html"
+              class="quick-btn"
+            >
+
+              <strong>
+                🖼️ Advertisement
+              </strong>
+
+              <span>
+                Manage website ads
+              </span>
+
+            </a>
+
+          </div>
 
         </div>
 
+      </div>
+
+
+      <!-- =====================================================
+           WEBSITE INFORMATION
+      ===================================================== -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Website Information
+            </h3>
+
+            <p>
+              Current project and routing information.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="website-grid">
+
+          <div class="info-box">
+
+            <label>
+              Homepage
+            </label>
+
+            <strong>
+              ../index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Login
+            </label>
+
+            <strong>
+              ../login/index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Chatter
+            </label>
+
+            <strong>
+              ../chatter/index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Design Folder
+            </label>
+
+            <strong>
+              ../design/
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Advertisement
+            </label>
+
+            <strong>
+              websiteBannerData
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Settings Storage
+            </label>
+
+            <strong>
+              websiteSettings
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ACTIVITY
+      ===================================================== -->
+
+      <div class="card" style="margin-top:18px;">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Recent Website Activity
+            </h3>
+
+            <p>
+              Changes made from the Website Management panel.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="activity-list"
+          id="activityList"
+        ></div>
+
+      </div>
+
+
+      <!-- =====================================================
+           SECURITY
+      ===================================================== -->
+
+      <div class="security">
+
+        <div class="security-icon">
+          🔐
+        </div>
+
+        <div>
+
+          <h3>
+            Prototype Security Notice
+          </h3>
+
+          <p>
+            These settings currently use browser LocalStorage.
+            They are suitable for UI testing only. Firebase/backend
+            authentication and database rules should be added later
+            for real production access control. This page does not
+            secretly access camera, microphone or screen and contains
+            no recording system.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
-</main>
-```
+  </main>
 
-</div>
 
-<!-- =========================================================
-     AUTH GUARD
-========================================================= -->
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
 
-<script src="./auth-guard.js"></script>
+  <div
+    class="toast"
+    id="toast"
+  ></div>
 
-<script>
 
-/* =========================================================
-   FILE: admin/website.html
-   WEBSITE MANAGEMENT
-========================================================= */
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================= -->
 
+  <script src="./auth-guard.js"></script>
 
-/* =========================================================
-   STORAGE
-========================================================= */
 
-const WEBSITE_SETTINGS_KEY =
-    "websiteSettings";
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
 
-const CHATTER_SETTINGS_KEY =
-    "chatterSystemSettings";
+  <script>
 
-const SESSION_KEY =
-    "chatterAdminSession";
+    /* =========================================================
+       STORAGE KEYS
+    ========================================================= */
 
+    const WEBSITE_KEY =
+      "websiteSettings";
 
-/* =========================================================
-   DEFAULT SETTINGS
-========================================================= */
+    const ACTIVITY_KEY =
+      "websiteManagementActivity";
 
-const DEFAULT_SETTINGS = {
+    const SESSION_KEY =
+      "chatterAdminSession";
 
-    siteName:
-        "Design System",
+    const BANNER_KEY =
+      "websiteBannerData";
 
-    heroTitle:
-        "Create Beautiful Designs Easily",
+    const BANNER_SETTINGS_KEY =
+      "websiteBannerSettings";
 
-    heroDescription:
-        "Explore professional poster designs and create your next project faster.",
 
-    primaryButton:
-        "Explore Designs",
+    /* =========================================================
+       DEFAULT SETTINGS
+    ========================================================= */
 
-    secondaryButton:
-        "Open Chatter",
+    const DEFAULT_SETTINGS = {
 
-    seoTitle:
-        "Design System",
+      websiteEnabled: true,
 
-    seoDescription:
-        "Professional design platform for creating and exploring beautiful poster designs.",
+      showDesigns: true,
 
-    language:
-        "en",
+      chatterEnabled: true,
 
-    websiteEnabled:
-        true,
+      maintenanceMode: false,
 
-    galleryEnabled:
-        true,
-
-    chatterEnabled:
-        true,
-
-    howItWorksEnabled:
-        true,
-
-    ctaEnabled:
-        true
-
-};
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const siteName =
-    document.getElementById(
-        "siteName"
-    );
-
-const heroTitle =
-    document.getElementById(
-        "heroTitle"
-    );
-
-const heroDescription =
-    document.getElementById(
-        "heroDescription"
-    );
-
-const primaryButton =
-    document.getElementById(
-        "primaryButton"
-    );
-
-const secondaryButton =
-    document.getElementById(
-        "secondaryButton"
-    );
-
-const seoTitle =
-    document.getElementById(
-        "seoTitle"
-    );
-
-const seoDescription =
-    document.getElementById(
-        "seoDescription"
-    );
-
-const language =
-    document.getElementById(
-        "language"
-    );
-
-
-/* =========================================================
-   GET SETTINGS
-========================================================= */
-
-function getWebsiteSettings() {
-
-    try {
-
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    WEBSITE_SETTINGS_KEY
-                ) || "null"
-            );
-
-        return {
-            ...DEFAULT_SETTINGS,
-            ...(saved || {})
-        };
-
-    } catch {
-
-        return {
-            ...DEFAULT_SETTINGS
-        };
-
-    }
-
-}
-
-
-/* =========================================================
-   LOAD SETTINGS
-========================================================= */
-
-function loadSettings() {
-
-    const settings =
-        getWebsiteSettings();
-
-
-    siteName.value =
-        settings.siteName;
-
-    heroTitle.value =
-        settings.heroTitle;
-
-    heroDescription.value =
-        settings.heroDescription;
-
-    primaryButton.value =
-        settings.primaryButton;
-
-    secondaryButton.value =
-        settings.secondaryButton;
-
-    seoTitle.value =
-        settings.seoTitle;
-
-    seoDescription.value =
-        settings.seoDescription;
-
-    language.value =
-        settings.language;
-
-
-    document.getElementById(
-        "websiteEnabled"
-    ).checked =
-        settings.websiteEnabled !== false;
-
-
-    document.getElementById(
-        "galleryEnabled"
-    ).checked =
-        settings.galleryEnabled !== false;
-
-
-    document.getElementById(
-        "chatterEnabled"
-    ).checked =
-        settings.chatterEnabled !== false;
-
-
-    document.getElementById(
-        "howItWorksEnabled"
-    ).checked =
-        settings.howItWorksEnabled !== false;
-
-
-    document.getElementById(
-        "ctaEnabled"
-    ).checked =
-        settings.ctaEnabled !== false;
-
-
-    updatePreview();
-
-    updateStatus();
-
-}
-
-
-/* =========================================================
-   COLLECT SETTINGS
-========================================================= */
-
-function collectSettings() {
-
-    return {
-
-        siteName:
-            siteName.value.trim() ||
-            DEFAULT_SETTINGS.siteName,
-
-        heroTitle:
-            heroTitle.value.trim() ||
-            DEFAULT_SETTINGS.heroTitle,
-
-        heroDescription:
-            heroDescription.value.trim() ||
-            DEFAULT_SETTINGS.heroDescription,
-
-        primaryButton:
-            primaryButton.value.trim() ||
-            DEFAULT_SETTINGS.primaryButton,
-
-        secondaryButton:
-            secondaryButton.value.trim() ||
-            DEFAULT_SETTINGS.secondaryButton,
-
-        seoTitle:
-            seoTitle.value.trim() ||
-            DEFAULT_SETTINGS.seoTitle,
-
-        seoDescription:
-            seoDescription.value.trim() ||
-            DEFAULT_SETTINGS.seoDescription,
-
-        language:
-            language.value,
-
-        websiteEnabled:
-            document.getElementById(
-                "websiteEnabled"
-            ).checked,
-
-        galleryEnabled:
-            document.getElementById(
-                "galleryEnabled"
-            ).checked,
-
-        chatterEnabled:
-            document.getElementById(
-                "chatterEnabled"
-            ).checked,
-
-        howItWorksEnabled:
-            document.getElementById(
-                "howItWorksEnabled"
-            ).checked,
-
-        ctaEnabled:
-            document.getElementById(
-                "ctaEnabled"
-            ).checked
+      notificationsEnabled: true
 
     };
 
-}
+
+    /* =========================================================
+       GET SETTINGS
+    ========================================================= */
+
+    function getSettings() {
+
+      try {
+
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              WEBSITE_KEY
+            )
+          );
 
 
-/* =========================================================
-   SAVE
-========================================================= */
+        return {
 
-function saveSettings() {
+          ...DEFAULT_SETTINGS,
 
-    const settings =
-        collectSettings();
+          ...(saved || {})
 
+        };
 
-    localStorage.setItem(
-        WEBSITE_SETTINGS_KEY,
-        JSON.stringify(settings)
-    );
+      } catch (error) {
 
+        return {
+          ...DEFAULT_SETTINGS
+        };
 
-    updatePreview();
-
-    updateStatus();
-
-
-    const saveStatus =
-        document.getElementById(
-            "saveStatus"
-        );
-
-
-    saveStatus.textContent =
-        "✓ Changes saved successfully";
-
-    saveStatus.style.color =
-        "var(--success)";
-
-
-    setTimeout(() => {
-
-        saveStatus.textContent =
-            "Ready to save";
-
-        saveStatus.style.color =
-            "";
-
-    }, 2500);
-
-}
-
-
-/* =========================================================
-   PREVIEW
-========================================================= */
-
-function updatePreview() {
-
-    const settings =
-        collectSettings();
-
-
-    document.getElementById(
-        "previewBrand"
-    ).textContent =
-        settings.siteName;
-
-
-    document.getElementById(
-        "previewTitle"
-    ).textContent =
-        settings.heroTitle;
-
-
-    document.getElementById(
-        "previewDescription"
-    ).textContent =
-        settings.heroDescription;
-
-
-    document.querySelector(
-        ".preview-button:not(.secondary)"
-    ).textContent =
-        settings.primaryButton;
-
-
-    document.querySelector(
-        ".preview-button.secondary"
-    ).textContent =
-        settings.secondaryButton;
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function updateStatus() {
-
-    const settings =
-        collectSettings();
-
-
-    const websitePill =
-        document.getElementById(
-            "websitePill"
-        );
-
-
-    if (
-        settings.websiteEnabled
-    ) {
-
-        websitePill.textContent =
-            "ONLINE";
-
-        websitePill.className =
-            "status-pill";
-
-    } else {
-
-        websitePill.textContent =
-            "OFFLINE";
-
-        websitePill.className =
-            "status-pill off";
+      }
 
     }
 
 
-    const chatterPill =
-        document.getElementById(
-            "chatterPill"
+    /* =========================================================
+       SAVE SETTINGS
+    ========================================================= */
+
+    function saveSettings(
+      showToastMessage = true
+    ) {
+
+      const settings = {
+
+        websiteEnabled:
+          document.getElementById(
+            "websiteEnabled"
+          ).checked,
+
+        showDesigns:
+          document.getElementById(
+            "showDesigns"
+          ).checked,
+
+        chatterEnabled:
+          document.getElementById(
+            "chatterEnabled"
+          ).checked,
+
+        maintenanceMode:
+          document.getElementById(
+            "maintenanceMode"
+          ).checked,
+
+        notificationsEnabled:
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked
+
+      };
+
+
+      localStorage.setItem(
+        WEBSITE_KEY,
+        JSON.stringify(settings)
+      );
+
+
+      addActivity(
+        "Website settings updated."
+      );
+
+
+      updateDashboard();
+
+
+      if (showToastMessage) {
+
+        showToast(
+          "Website settings saved successfully."
         );
 
+      }
 
-    let chatterEnabled =
+    }
+
+
+    /* =========================================================
+       LOAD SETTINGS
+    ========================================================= */
+
+    function loadSettings() {
+
+      const settings =
+        getSettings();
+
+
+      document.getElementById(
+        "websiteEnabled"
+      ).checked =
+        settings.websiteEnabled;
+
+
+      document.getElementById(
+        "showDesigns"
+      ).checked =
+        settings.showDesigns;
+
+
+      document.getElementById(
+        "chatterEnabled"
+      ).checked =
         settings.chatterEnabled;
 
 
-    try {
-
-        const chatter =
-            JSON.parse(
-                localStorage.getItem(
-                    CHATTER_SETTINGS_KEY
-                ) || "null"
-            );
-
-        if (
-            chatter &&
-            chatter.chatterEnabled === false
-        ) {
-
-            chatterEnabled =
-                false;
-
-        }
-
-    } catch {}
+      document.getElementById(
+        "maintenanceMode"
+      ).checked =
+        settings.maintenanceMode;
 
 
-    if (chatterEnabled) {
+      document.getElementById(
+        "notificationsEnabled"
+      ).checked =
+        settings.notificationsEnabled;
 
-        chatterPill.textContent =
-            "ENABLED";
 
-        chatterPill.className =
-            "status-pill";
-
-    } else {
-
-        chatterPill.textContent =
-            "DISABLED";
-
-        chatterPill.className =
-            "status-pill off";
+      updateDashboard();
 
     }
 
-}
+
+    /* =========================================================
+       UPDATE DASHBOARD
+    ========================================================= */
+
+    function updateDashboard() {
+
+      const settings =
+        getSettings();
 
 
-/* =========================================================
-   INPUT LIVE PREVIEW
-========================================================= */
+      /* WEBSITE */
 
-[
-    siteName,
-    heroTitle,
-    heroDescription,
-    primaryButton,
-    secondaryButton
-].forEach(input => {
+      const websiteValue =
+        document.getElementById(
+          "websiteStatusValue"
+        );
 
-    input.addEventListener(
-        "input",
-        updatePreview
-    );
-
-});
+      const websitePill =
+        document.getElementById(
+          "websiteStatusPill"
+        );
 
 
-/* =========================================================
-   SWITCH LIVE STATUS
-========================================================= */
+      if (
+        settings.websiteEnabled
+      ) {
 
-[
-    "websiteEnabled",
-    "chatterEnabled"
-].forEach(id => {
+        websiteValue.textContent =
+          "Online";
+
+        setPill(
+          websitePill,
+          "Online",
+          "success"
+        );
+
+      } else {
+
+        websiteValue.textContent =
+          "Offline";
+
+        setPill(
+          websitePill,
+          "Offline",
+          "danger"
+        );
+
+      }
+
+
+      /* DESIGN */
+
+      const designValue =
+        document.getElementById(
+          "designStatusValue"
+        );
+
+      const designPill =
+        document.getElementById(
+          "designStatusPill"
+        );
+
+
+      if (
+        settings.showDesigns
+      ) {
+
+        designValue.textContent =
+          "Visible";
+
+        setPill(
+          designPill,
+          "Visible",
+          "success"
+        );
+
+      } else {
+
+        designValue.textContent =
+          "Hidden";
+
+        setPill(
+          designPill,
+          "Hidden",
+          "warning"
+        );
+
+      }
+
+
+      /* CHATTER */
+
+      const chatterValue =
+        document.getElementById(
+          "chatterStatusValue"
+        );
+
+      const chatterPill =
+        document.getElementById(
+          "chatterStatusPill"
+        );
+
+
+      if (
+        settings.chatterEnabled
+      ) {
+
+        chatterValue.textContent =
+          "Enabled";
+
+        setPill(
+          chatterPill,
+          "Enabled",
+          "success"
+        );
+
+      } else {
+
+        chatterValue.textContent =
+          "Disabled";
+
+        setPill(
+          chatterPill,
+          "Disabled",
+          "warning"
+        );
+
+      }
+
+
+      /* MAINTENANCE */
+
+      const maintenanceValue =
+        document.getElementById(
+          "maintenanceStatusValue"
+        );
+
+      const maintenancePill =
+        document.getElementById(
+          "maintenanceStatusPill"
+        );
+
+
+      if (
+        settings.maintenanceMode
+      ) {
+
+        maintenanceValue.textContent =
+          "Active";
+
+        setPill(
+          maintenancePill,
+          "Active",
+          "danger"
+        );
+
+      } else {
+
+        maintenanceValue.textContent =
+          "Normal";
+
+        setPill(
+          maintenancePill,
+          "Normal",
+          "success"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PILL
+    ========================================================= */
+
+    function setPill(
+      element,
+      text,
+      type
+    ) {
+
+      element.textContent =
+        text;
+
+      element.className =
+        `status-pill ${type}`;
+
+    }
+
+
+    /* =========================================================
+       AUTO SAVE CHANGE
+    ========================================================= */
 
     document
-        .getElementById(id)
-        .addEventListener(
+      .querySelectorAll(
+        '.status-row input[type="checkbox"]'
+      )
+      .forEach(
+        checkbox => {
+
+          checkbox.addEventListener(
             "change",
-            updateStatus
-        );
+            () => {
 
-});
+              saveSettings(
+                false
+              );
 
+              showToast(
+                "Website setting updated."
+              );
 
-/* =========================================================
-   SAVE BUTTONS
-========================================================= */
-
-document
-    .getElementById("saveBtn")
-    .addEventListener(
-        "click",
-        saveSettings
-    );
-
-document
-    .getElementById("saveTopBtn")
-    .addEventListener(
-        "click",
-        saveSettings
-    );
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-document
-    .getElementById("resetBtn")
-    .addEventListener(
-        "click",
-        () => {
-
-            const confirmed =
-                confirm(
-                    "Reset website settings to default?"
-                );
-
-            if (!confirmed) {
-                return;
             }
-
-
-            localStorage.removeItem(
-                WEBSITE_SETTINGS_KEY
-            );
-
-
-            loadSettings();
-
-
-            document.getElementById(
-                "saveStatus"
-            ).textContent =
-                "Settings reset to default";
+          );
 
         }
-    );
+      );
 
 
-/* =========================================================
-   ADMIN SESSION
-========================================================= */
+    /* =========================================================
+       SAVE BUTTON
+    ========================================================= */
 
-function loadAdminSession() {
-
-    try {
-
-        const session =
-            JSON.parse(
-                localStorage.getItem(
-                    SESSION_KEY
-                ) || "null"
-            );
-
-
-        if (!session) {
-            return;
-        }
-
-
-        const name =
-            session.name ||
-            session.email ||
-            "Admin";
-
-
-        const role =
-            session.role ||
-            "admin";
-
-
-        document.getElementById(
-            "userName"
-        ).textContent =
-            name;
-
-
-        document.getElementById(
-            "userRole"
-        ).textContent =
-            role === "superadmin"
-                ? "Super Admin"
-                : "Administrator";
-
-
-        document.getElementById(
-            "userAvatar"
-        ).textContent =
-            name
-                .trim()
-                .charAt(0)
-                .toUpperCase();
-
-    } catch {}
-
-}
-
-
-/* =========================================================
-   MOBILE SIDEBAR
-========================================================= */
-
-const sidebar =
-    document.getElementById(
-        "sidebar"
-    );
-
-const overlay =
-    document.getElementById(
-        "sidebarOverlay"
-    );
-
-document
-    .getElementById("mobileMenuBtn")
-    .addEventListener(
+    document
+      .getElementById(
+        "saveBtn"
+      )
+      .addEventListener(
         "click",
         () => {
 
-            sidebar.classList.add(
-                "open"
-            );
-
-            overlay.classList.add(
-                "show"
-            );
+          saveSettings();
 
         }
+      );
+
+
+    /* =========================================================
+       ENABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById(
+        "enableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "websiteEnabled"
+          ).checked = true;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked = true;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked = true;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked = false;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked = true;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "All public website features enabled."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       DISABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById(
+        "disableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "websiteEnabled"
+          ).checked = false;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked = false;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked = false;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked = true;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked = false;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "Website switched to restricted mode."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    document
+      .getElementById(
+        "resetBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "websiteEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.websiteEnabled;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked =
+            DEFAULT_SETTINGS.showDesigns;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.chatterEnabled;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked =
+            DEFAULT_SETTINGS.maintenanceMode;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.notificationsEnabled;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "Website settings restored to defaults."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function getActivities() {
+
+      try {
+
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              ACTIVITY_KEY
+            )
+          );
+
+
+        if (
+          Array.isArray(saved)
+        ) {
+
+          return saved;
+
+        }
+
+      } catch (error) {}
+
+
+      return [];
+
+    }
+
+
+    function addActivity(
+      message
+    ) {
+
+      const activities =
+        getActivities();
+
+
+      activities.unshift({
+
+        message,
+
+        time:
+          new Date().toISOString()
+
+      });
+
+
+      localStorage.setItem(
+        ACTIVITY_KEY,
+        JSON.stringify(
+          activities.slice(0,30)
+        )
+      );
+
+
+      renderActivities();
+
+    }
+
+
+    function renderActivities() {
+
+      const container =
+        document.getElementById(
+          "activityList"
+        );
+
+
+      const activities =
+        getActivities();
+
+
+      if (
+        !activities.length
+      ) {
+
+        container.innerHTML = `
+          <div class="empty-activity">
+            No website activity yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        activities
+          .slice(0,12)
+          .map(
+            item => `
+
+              <div class="activity-item">
+
+                <div class="activity-dot"></div>
+
+                <div class="activity-content">
+
+                  <strong>
+                    ${escapeHtml(
+                      item.message
+                    )}
+                  </strong>
+
+                  <span>
+                    ${formatTime(
+                      item.time
+                    )}
+                  </span>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+    /* =========================================================
+       FORMAT TIME
+    ========================================================= */
+
+    function formatTime(
+      value
+    ) {
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Unknown time";
+
+      }
+
+
+      return date.toLocaleString(
+        undefined,
+        {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function loadProfile() {
+
+      let session = null;
+
+
+      try {
+
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            )
+          );
+
+      } catch (error) {
+
+        session = null;
+
+      }
+
+
+      if (!session) {
+        return;
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+
+      const role =
+        session.role ||
+        "admin";
+
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      const avatar =
+        document.getElementById(
+          "adminAvatar"
+        );
+
+
+      if (
+        session.avatar
+      ) {
+
+        avatar.innerHTML = `
+          <img
+            src="${escapeHtml(
+              session.avatar
+            )}"
+            alt="Admin"
+          >
+        `;
+
+      } else {
+
+        avatar.textContent =
+          name
+            .split(" ")
+            .map(
+              word =>
+                word.charAt(0)
+            )
+            .join("")
+            .slice(0,2)
+            .toUpperCase() ||
+          "AD";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       BANNER SUMMARY
+    ========================================================= */
+
+    function getBannerSummary() {
+
+      let banners = [];
+
+      let settings = {};
+
+
+      try {
+
+        banners =
+          JSON.parse(
+            localStorage.getItem(
+              BANNER_KEY
+            )
+          ) || [];
+
+      } catch (error) {
+
+        banners = [];
+
+      }
+
+
+      try {
+
+        settings =
+          JSON.parse(
+            localStorage.getItem(
+              BANNER_SETTINGS_KEY
+            )
+          ) || {};
+
+      } catch (error) {
+
+        settings = {};
+
+      }
+
+
+      return {
+
+        total:
+          Array.isArray(banners)
+            ? banners.length
+            : 0,
+
+        enabled:
+          settings.enabled !== false
+
+      };
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(
+      message
+    ) {
+
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toast.textContent =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2500
+        );
+
+    }
+
+
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const overlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
+
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
+
+
+    function openSidebar() {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      overlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      overlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
     );
 
 
-overlay.addEventListener(
-    "click",
-    () => {
-
-        sidebar.classList.remove(
-            "open"
-        );
-
-        overlay.classList.remove(
-            "show"
-        );
-
-    }
-);
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
 
 
-/* =========================================================
-   STORAGE SYNC
-========================================================= */
+    document
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        link => {
 
-window.addEventListener(
-    "storage",
-    event => {
+          link.addEventListener(
+            "click",
+            () => {
 
-        if (
-            event.key ===
-            WEBSITE_SETTINGS_KEY
-        ) {
+              if (
+                window.innerWidth <= 850
+              ) {
 
-            loadSettings();
+                closeSidebar();
+
+              }
+
+            }
+          );
 
         }
+      );
 
 
-        if (
-            event.key ===
-            CHATTER_SETTINGS_KEY
-        ) {
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
 
-            updateStatus();
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
 
-        }
+          if (
+            window.AdminAuth &&
+            typeof
+              window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+
+          }
 
 
-        if (
-            event.key ===
+          localStorage.removeItem(
             SESSION_KEY
+          );
+
+
+          window.location.href =
+            "../login/index.html";
+
+        }
+      );
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key ===
+          WEBSITE_KEY
         ) {
 
-            loadAdminSession();
+          loadSettings();
 
         }
 
-    }
-);
+
+        if (
+          event.key ===
+          ACTIVITY_KEY
+        ) {
+
+          renderActivities();
+
+        }
 
 
-/* =========================================================
-   INIT
-========================================================= */
+        if (
+          event.key ===
+          SESSION_KEY
+        ) {
 
-loadAdminSession();
+          loadProfile();
 
-loadSettings();
+        }
 
-</script>
+      }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    loadProfile();
+
+    loadSettings();
+
+    renderActivities();
+
+    getBannerSummary();
+
+  </script>
 
 </body>
 </html>
