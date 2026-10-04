@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
 
-  <title>System Settings | Design System Admin</title>
+  <title>System Settings | Design System</title>
 
   <style>
     /* =========================================================
-       SYSTEM SETTINGS
-       ADMIN PANEL
+       RESET
     ========================================================= */
 
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --sidebar: #0b1220;
-      --sidebar-2: #111b2e;
-      --text: #172033;
-      --muted: #718096;
-      --border: #e5eaf1;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --warning: #d97706;
-      --shadow: 0 12px 35px rgba(15, 23, 42, 0.07);
-      --radius: 18px;
-      --sidebar-width: 260px;
-    }
-
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --sidebar: #111827;
+      --sidebar-soft: #1f2937;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
+
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
+
+      --text: #111827;
+      --muted: #64748b;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+
+      --shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+
+      --radius: 18px;
+      --sidebar-width: 260px;
     }
 
     html {
@@ -43,20 +53,22 @@
     body {
       font-family:
         Inter,
-        ui-sans-serif,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
+
       background: var(--bg);
       color: var(--text);
+
       min-height: 100vh;
       overflow-x: hidden;
     }
 
     button,
     input,
+    textarea,
     select {
       font: inherit;
     }
@@ -79,189 +91,274 @@
       left: 0;
       top: 0;
       bottom: 0;
+
       width: var(--sidebar-width);
+
       background:
         linear-gradient(
           180deg,
-          #09111f 0%,
-          #0d1728 100%
+          #0f172a 0%,
+          #111827 55%,
+          #0b1220 100%
         );
-      color: #fff;
+
+      color: white;
+
       z-index: 1000;
+
       display: flex;
       flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      transition: transform .28s ease;
+
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .brand {
-      height: 76px;
-      padding: 0 22px;
+      padding: 24px 20px;
+
       display: flex;
       align-items: center;
       gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      flex-shrink: 0;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 13px;
+
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      box-shadow: 0 8px 20px rgba(37,99,235,.3);
-      font-size: 18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      font-size: 20px;
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 16px;
       font-weight: 800;
     }
 
-    .brand-text strong {
-      display: block;
-      font-size: 15px;
-      line-height: 1.2;
-    }
-
-    .brand-text span {
-      display: block;
-      color: #8c98ac;
-      font-size: 11px;
+    .brand-text p {
       margin-top: 3px;
+
+      color: var(--sidebar-muted);
+
+      font-size: 11px;
     }
 
-    .sidebar-scroll {
+    .nav {
       flex: 1;
+
       overflow-y: auto;
+
       padding: 18px 12px;
     }
 
-    .nav-label {
-      color: #66748c;
-      text-transform: uppercase;
-      letter-spacing: .09em;
+    .nav-title {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+
       font-size: 10px;
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      color: #64748b;
+
       font-weight: 800;
-      padding: 8px 11px;
-      margin-top: 5px;
     }
 
-    .nav-item {
+    .nav-link {
       display: flex;
       align-items: center;
-      gap: 11px;
-      min-height: 44px;
-      padding: 10px 12px;
-      margin: 3px 0;
-      border-radius: 11px;
-      color: #aeb9ca;
+      gap: 12px;
+
+      padding: 11px 13px;
+
+      margin-bottom: 4px;
+
+      border-radius: 12px;
+
+      color: var(--sidebar-text);
+
       font-size: 13px;
       font-weight: 600;
-      transition: .2s ease;
+
+      transition: 0.2s ease;
     }
 
-    .nav-item:hover {
-      color: #fff;
-      background: rgba(255,255,255,.06);
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.07);
+
+      color: white;
+
       transform: translateX(2px);
     }
 
-    .nav-item.active {
-      color: #fff;
+    .nav-link.active {
       background:
         linear-gradient(
-          90deg,
-          rgba(37,99,235,.9),
-          rgba(79,70,229,.85)
+          135deg,
+          rgba(37, 99, 235, 0.95),
+          rgba(79, 70, 229, 0.95)
         );
-      box-shadow: 0 8px 22px rgba(37,99,235,.2);
+
+      color: white;
+
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
     }
 
     .nav-icon {
       width: 22px;
+
       text-align: center;
+
       font-size: 15px;
-      flex-shrink: 0;
     }
 
-    .sidebar-bottom {
-      padding: 13px;
-      border-top: 1px solid rgba(255,255,255,.06);
+    .sidebar-footer {
+      padding: 14px;
+
+      border-top:
+        1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .sidebar-user {
+    .admin-mini {
       display: flex;
       align-items: center;
+
       gap: 10px;
-      padding: 9px;
+
+      padding: 10px;
+
       border-radius: 13px;
-      background: rgba(255,255,255,.04);
+
+      background:
+        rgba(255, 255, 255, 0.05);
     }
 
-    .avatar {
-      width: 38px;
-      height: 38px;
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+
       border-radius: 50%;
+
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg,#2563eb,#7c3aed);
-      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
+
       font-size: 13px;
       font-weight: 800;
+
       overflow: hidden;
+
       flex-shrink: 0;
     }
 
-    .avatar img {
+    .admin-avatar img {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
     }
 
-    .user-info {
+    .admin-info {
       min-width: 0;
+
       flex: 1;
     }
 
-    .user-info strong {
+    .admin-info strong {
       display: block;
-      color: #fff;
+
+      color: white;
+
       font-size: 12px;
+
       white-space: nowrap;
+
       overflow: hidden;
+
       text-overflow: ellipsis;
     }
 
-    .user-info span {
+    .admin-info span {
       display: block;
-      color: #8290a6;
-      font-size: 10px;
+
       margin-top: 2px;
+
+      color: #94a3b8;
+
+      font-size: 10px;
+
+      text-transform: capitalize;
     }
 
     .logout-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
       border: 0;
-      background: transparent;
-      color: #8996aa;
-      font-size: 16px;
-      padding: 7px;
-      border-radius: 8px;
+
+      border-radius: 10px;
+
+      padding: 9px;
+
+      background:
+        rgba(220, 38, 38, 0.12);
+
+      color: #fca5a5;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      transition: 0.2s ease;
     }
 
     .logout-btn:hover {
-      color: #fff;
-      background: rgba(255,255,255,.07);
+      background:
+        rgba(220, 38, 38, 0.2);
+
+      color: white;
     }
 
     /* =========================================================
-       OVERLAY
+       SIDEBAR OVERLAY
     ========================================================= */
 
     .sidebar-overlay {
       display: none;
+
       position: fixed;
+
       inset: 0;
-      background: rgba(2, 6, 23, .55);
+
+      background:
+        rgba(15, 23, 42, 0.55);
+
       z-index: 900;
+
       backdrop-filter: blur(2px);
     }
 
@@ -271,333 +368,419 @@
 
     .main {
       margin-left: var(--sidebar-width);
+
       min-height: 100vh;
     }
 
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+
     .topbar {
-      height: 76px;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
       position: sticky;
+
       top: 0;
-      z-index: 500;
+
+      height: 72px;
+
+      background:
+        rgba(255, 255, 255, 0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid var(--border);
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       padding: 0 28px;
+
+      z-index: 500;
     }
 
     .topbar-left {
       display: flex;
+
       align-items: center;
+
       gap: 14px;
     }
 
-    .mobile-menu {
+    .mobile-menu-btn {
       display: none;
+
       width: 40px;
       height: 40px;
-      border: 1px solid var(--border);
-      background: #fff;
+
+      border:
+        1px solid var(--border);
+
+      background: white;
+
       border-radius: 11px;
-      font-size: 18px;
+
+      font-size: 19px;
     }
 
-    .page-heading h1 {
-      font-size: 20px;
-      line-height: 1.2;
-      letter-spacing: -.02em;
+    .page-title h2 {
+      font-size: 19px;
+
+      letter-spacing: -0.4px;
     }
 
-    .page-heading p {
+    .page-title p {
+      margin-top: 3px;
+
+      font-size: 11px;
+
       color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
     }
 
     .topbar-right {
       display: flex;
+
       align-items: center;
+
       gap: 10px;
     }
 
-    .status-pill {
-      display: inline-flex;
+    .system-status {
+      display: flex;
+
       align-items: center;
+
       gap: 7px;
-      border: 1px solid #dcefe2;
-      background: #f2fbf5;
-      color: #15803d;
+
       padding: 8px 11px;
+
+      border:
+        1px solid #dcfce7;
+
+      background:
+        #f0fdf4;
+
       border-radius: 999px;
+
       font-size: 11px;
-      font-weight: 800;
+
+      color: #15803d;
+
+      font-weight: 700;
     }
 
     .status-dot {
       width: 7px;
       height: 7px;
+
       border-radius: 50%;
+
       background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34,197,94,.12);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(34, 197, 94, 0.12);
     }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
 
     .content {
       padding: 28px;
+
       max-width: 1500px;
-      margin: auto;
+
+      margin: 0 auto;
     }
 
     /* =========================================================
        HERO
     ========================================================= */
 
-    .system-hero {
+    .hero {
       position: relative;
+
       overflow: hidden;
-      border-radius: 22px;
-      padding: 27px;
-      color: #fff;
+
+      border-radius: 24px;
+
+      padding: 30px;
+
       background:
-        radial-gradient(circle at 90% 10%, rgba(124,58,237,.38), transparent 32%),
-        radial-gradient(circle at 20% 80%, rgba(37,99,235,.25), transparent 30%),
-        linear-gradient(135deg,#0f172a,#172554);
-      box-shadow: 0 18px 45px rgba(15,23,42,.15);
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59, 130, 246, 0.22),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #111827,
+          #1e293b
+        );
+
+      color: white;
+
+      box-shadow: var(--shadow);
+
       margin-bottom: 24px;
     }
 
-    .system-hero::after {
-      content: "";
-      position: absolute;
-      right: -80px;
-      bottom: -100px;
-      width: 260px;
-      height: 260px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 50%;
-    }
-
     .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 750px;
+      max-width: 760px;
     }
 
-    .hero-tag {
+    .hero-badge {
       display: inline-flex;
+
       align-items: center;
+
       gap: 7px;
-      padding: 6px 10px;
+
+      padding: 7px 11px;
+
       border-radius: 999px;
-      background: rgba(255,255,255,.09);
-      border: 1px solid rgba(255,255,255,.08);
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.1);
+
       font-size: 10px;
+
       font-weight: 800;
+
       text-transform: uppercase;
-      letter-spacing: .07em;
-      margin-bottom: 13px;
+
+      letter-spacing: 0.8px;
     }
 
-    .system-hero h2 {
-      font-size: clamp(24px, 3vw, 34px);
-      line-height: 1.15;
-      letter-spacing: -.03em;
+    .hero h1 {
+      margin-top: 14px;
+
+      font-size:
+        clamp(25px, 3vw, 38px);
+
+      line-height: 1.12;
+
+      letter-spacing: -1px;
     }
 
-    .system-hero p {
-      color: #b9c5d8;
-      max-width: 680px;
+    .hero p {
+      margin-top: 12px;
+
+      max-width: 700px;
+
+      color: #cbd5e1;
+
       font-size: 13px;
+
       line-height: 1.7;
-      margin-top: 10px;
     }
 
     /* =========================================================
-       GRID / CARDS
+       GRID
     ========================================================= */
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
+
+      grid-template-columns:
+        1.2fr 0.8fr;
+
+      gap: 22px;
     }
 
     .card {
       background: var(--card);
-      border: 1px solid var(--border);
+
+      border:
+        1px solid var(--border);
+
       border-radius: var(--radius);
+
       box-shadow: var(--shadow);
+
       overflow: hidden;
     }
 
-    .span-8 {
-      grid-column: span 8;
-    }
-
-    .span-4 {
-      grid-column: span 4;
-    }
-
     .card-header {
-      padding: 19px 21px;
-      border-bottom: 1px solid var(--border);
+      padding: 20px 22px;
+
+      border-bottom:
+        1px solid var(--border);
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      gap: 12px;
+
+      gap: 15px;
     }
 
-    .card-title {
-      display: flex;
-      align-items: center;
-      gap: 11px;
+    .card-header h3 {
+      font-size: 15px;
+
+      letter-spacing: -0.2px;
     }
 
-    .card-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      background: #eff6ff;
-      color: #2563eb;
-      font-size: 17px;
-    }
+    .card-header p {
+      margin-top: 4px;
 
-    .card-title h3 {
-      font-size: 14px;
-    }
-
-    .card-title p {
       color: var(--muted);
+
       font-size: 11px;
-      margin-top: 3px;
+
+      line-height: 1.5;
     }
 
     .card-body {
-      padding: 20px;
+      padding: 22px;
     }
 
     /* =========================================================
-       MASTER CONTROL
+       SETTINGS LIST
     ========================================================= */
 
-    .master-box {
-      border: 1px solid #dbe5f4;
-      background: #f8fbff;
-      border-radius: 15px;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .master-text strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .master-text p {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    /* =========================================================
-       SETTINGS ROW
-    ========================================================= */
-
-    .setting-list {
+    .settings-list {
       display: grid;
-      gap: 9px;
+
+      gap: 12px;
     }
 
-    .setting-row {
+    .setting-item {
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       gap: 15px;
-      padding: 14px;
-      border: 1px solid #edf0f5;
-      border-radius: 13px;
-      transition: .2s ease;
+
+      padding: 16px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 15px;
+
+      background: #fafbfc;
+
+      transition: 0.2s ease;
     }
 
-    .setting-row:hover {
-      border-color: #d9e1ee;
-      background: #fbfcfe;
+    .setting-item:hover {
+      border-color: #cbd5e1;
+
+      transform: translateY(-1px);
+    }
+
+    .setting-left {
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+
+      min-width: 0;
+    }
+
+    .setting-icon {
+      width: 43px;
+      height: 43px;
+
+      flex-shrink: 0;
+
+      border-radius: 13px;
+
+      display: grid;
+
+      place-items: center;
+
+      background: #eff6ff;
+
+      font-size: 19px;
     }
 
     .setting-info {
       min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .setting-symbol {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: #f5f7fb;
-      color: #475569;
-      flex-shrink: 0;
     }
 
     .setting-info strong {
       display: block;
-      font-size: 12px;
+
+      font-size: 13px;
     }
 
-    .setting-info p {
+    .setting-info span {
+      display: block;
+
+      margin-top: 4px;
+
       color: var(--muted);
+
       font-size: 10px;
-      line-height: 1.5;
-      margin-top: 3px;
+
+      line-height: 1.45;
     }
 
     /* =========================================================
-       TOGGLE
+       SWITCH
     ========================================================= */
 
     .switch {
       position: relative;
-      width: 46px;
-      height: 26px;
+
+      width: 48px;
+      height: 27px;
+
       flex-shrink: 0;
     }
 
     .switch input {
       opacity: 0;
+
       width: 0;
       height: 0;
     }
 
     .slider {
       position: absolute;
+
       inset: 0;
-      background: #d8dee8;
+
+      background: #cbd5e1;
+
       border-radius: 999px;
-      transition: .2s ease;
+
+      transition: 0.25s ease;
     }
 
     .slider::before {
       content: "";
+
       position: absolute;
-      width: 20px;
-      height: 20px;
+
+      width: 21px;
+      height: 21px;
+
       left: 3px;
       top: 3px;
+
       border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,.18);
-      transition: .2s ease;
+
+      background: white;
+
+      box-shadow:
+        0 2px 5px
+        rgba(0, 0, 0, 0.18);
+
+      transition: 0.25s ease;
     }
 
     .switch input:checked + .slider {
@@ -605,297 +788,419 @@
     }
 
     .switch input:checked + .slider::before {
-      transform: translateX(20px);
+      transform:
+        translateX(21px);
     }
 
     /* =========================================================
-       MAINTENANCE
+       INPUTS
     ========================================================= */
 
-    .maintenance-box {
-      border: 1px solid #fde7b2;
-      background: #fffbeb;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 16px;
+    .form-group {
+      margin-bottom: 17px;
     }
 
-    .maintenance-box h4 {
-      color: #92400e;
-      font-size: 12px;
+    .form-group:last-child {
+      margin-bottom: 0;
     }
 
-    .maintenance-box p {
-      color: #a16207;
-      font-size: 10px;
-      line-height: 1.6;
-      margin-top: 5px;
-    }
-
-    /* =========================================================
-       INFO BOX
-    ========================================================= */
-
-    .info-box {
-      display: flex;
-      gap: 11px;
-      padding: 14px;
-      border-radius: 13px;
-      background: #f8fafc;
-      border: 1px solid #e7ebf1;
-      margin-top: 16px;
-    }
-
-    .info-box .info-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 9px;
-      background: #e0f2fe;
-      color: #0369a1;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-
-    .info-box strong {
-      font-size: 11px;
+    .form-label {
       display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      color: var(--text);
     }
 
-    .info-box p {
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+
+      border:
+        1px solid var(--border);
+
+      background: white;
+
+      color: var(--text);
+
+      border-radius: 11px;
+
+      padding: 11px 12px;
+
+      font-size: 12px;
+
+      outline: none;
+
+      transition: 0.2s ease;
+    }
+
+    .form-textarea {
+      min-height: 100px;
+
+      resize: vertical;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.1);
+    }
+
+    .form-help {
+      margin-top: 5px;
+
       color: var(--muted);
-      font-size: 10px;
-      line-height: 1.6;
-      margin-top: 3px;
+
+      font-size: 9px;
+
+      line-height: 1.5;
     }
 
     /* =========================================================
-       QUICK ACTIONS
+       ACTIONS
     ========================================================= */
 
     .actions {
       display: grid;
-      gap: 9px;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 10px;
     }
 
     .btn {
       min-height: 42px;
+
+      border:
+        1px solid var(--border);
+
       border-radius: 11px;
-      padding: 9px 13px;
-      border: 1px solid var(--border);
-      background: #fff;
+
+      background: white;
+
       color: var(--text);
-      font-size: 12px;
+
+      padding: 9px 13px;
+
+      font-size: 11px;
+
       font-weight: 800;
-      transition: .2s ease;
+
+      transition: 0.2s ease;
     }
 
     .btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 7px 18px rgba(15,23,42,.08);
+
+      box-shadow:
+        0 7px 18px
+        rgba(15, 23, 42, 0.08);
     }
 
     .btn-primary {
-      color: #fff;
-      border-color: var(--primary);
       background: var(--primary);
+
+      border-color: var(--primary);
+
+      color: white;
     }
 
     .btn-primary:hover {
       background: var(--primary-dark);
     }
 
-    .btn-success {
-      color: #166534;
-      border-color: #ccebd5;
-      background: #f0fdf4;
-    }
-
     .btn-danger {
-      color: #991b1b;
-      border-color: #fee0e0;
-      background: #fff5f5;
+      color: var(--danger);
+
+      border-color: #fecaca;
+
+      background: #fffafa;
     }
 
-    .btn-warning {
-      color: #92400e;
-      border-color: #fde7b2;
-      background: #fffbeb;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
+    .btn-full {
+      grid-column: 1 / -1;
     }
 
     /* =========================================================
-       SYSTEM STATUS
+       STATUS
     ========================================================= */
 
-    .status-list {
+    .status-panel {
+      padding: 17px;
+
+      border-radius: 15px;
+
+      border:
+        1px solid #dbeafe;
+
+      background: #eff6ff;
+
+      margin-bottom: 18px;
+    }
+
+    .status-panel-top {
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+    }
+
+    .status-panel-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 12px;
+
       display: grid;
-      gap: 9px;
+
+      place-items: center;
+
+      background: white;
+
+      font-size: 18px;
     }
 
-    .status-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 13px;
-      border-radius: 11px;
-      background: #fafbfc;
-      border: 1px solid #edf0f4;
+    .status-panel strong {
+      display: block;
+
+      font-size: 13px;
     }
 
-    .status-name {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 11px;
-      font-weight: 700;
-    }
+    .status-panel span {
+      display: block;
 
-    .mini-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #cbd5e1;
-    }
+      margin-top: 4px;
 
-    .mini-dot.active {
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34,197,94,.1);
-    }
-
-    .status-value {
       font-size: 10px;
-      font-weight: 800;
+
+      color: #64748b;
+
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       INFO LIST
+    ========================================================= */
+
+    .info-list {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .info-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 12px 0;
+
+      border-bottom:
+        1px dashed var(--border);
+
+      font-size: 11px;
+    }
+
+    .info-row:last-child {
+      border-bottom: 0;
+    }
+
+    .info-label {
       color: var(--muted);
     }
 
-    .status-value.active {
-      color: #15803d;
+    .info-value {
+      font-weight: 800;
+
+      text-align: right;
     }
 
-    .status-value.off {
-      color: #b91c1c;
+    .success {
+      color: var(--success);
+    }
+
+    .warning {
+      color: var(--warning);
+    }
+
+    .danger {
+      color: var(--danger);
+    }
+
+    /* =========================================================
+       SECURITY NOTICE
+    ========================================================= */
+
+    .notice {
+      margin-top: 22px;
+
+      padding: 18px;
+
+      border-radius: 15px;
+
+      border:
+        1px solid #fde68a;
+
+      background: #fffbeb;
+
+      display: flex;
+
+      gap: 12px;
+    }
+
+    .notice-icon {
+      font-size: 18px;
+
+      flex-shrink: 0;
+    }
+
+    .notice strong {
+      display: block;
+
+      font-size: 12px;
+
+      color: #92400e;
+    }
+
+    .notice p {
+      margin-top: 5px;
+
+      font-size: 10px;
+
+      color: #92400e;
+
+      line-height: 1.6;
     }
 
     /* =========================================================
        ACTIVITY
     ========================================================= */
 
+    .activity {
+      margin-top: 22px;
+    }
+
     .activity-list {
       display: grid;
-      gap: 11px;
+
+      gap: 8px;
     }
 
     .activity-item {
       display: flex;
+
+      align-items: flex-start;
+
       gap: 10px;
-      padding-bottom: 11px;
-      border-bottom: 1px solid #edf0f4;
+
+      padding: 10px 0;
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .activity-item:last-child {
       border-bottom: 0;
-      padding-bottom: 0;
     }
 
-    .activity-icon {
-      width: 29px;
-      height: 29px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      background: #eff6ff;
-      color: #2563eb;
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+
+      margin-top: 5px;
+
+      border-radius: 50%;
+
+      background: var(--primary);
+
       flex-shrink: 0;
-      font-size: 12px;
     }
 
-    .activity-content {
-      min-width: 0;
-    }
-
-    .activity-content strong {
-      display: block;
-      font-size: 10px;
-      line-height: 1.4;
-    }
-
-    .activity-content span {
-      display: block;
-      color: var(--muted);
-      font-size: 9px;
-      margin-top: 3px;
-    }
-
-    .empty-activity {
-      text-align: center;
-      color: var(--muted);
+    .activity-text {
       font-size: 11px;
-      padding: 12px 0;
+
+      line-height: 1.5;
     }
 
-    /* =========================================================
-       FOOTER
-    ========================================================= */
+    .activity-time {
+      display: block;
 
-    .page-footer {
-      text-align: center;
-      padding: 26px 10px 10px;
-      color: #94a0b2;
-      font-size: 10px;
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 9px;
     }
 
     /* =========================================================
        TOAST
     ========================================================= */
 
-    .toast-container {
+    .toast {
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+
+      right: 24px;
+
+      bottom: 24px;
+
+      min-width: 260px;
+
+      max-width: 360px;
+
+      padding: 13px 15px;
+
+      border-radius: 13px;
+
+      background: #111827;
+
+      color: white;
+
+      box-shadow:
+        0 15px 40px
+        rgba(15, 23, 42, 0.25);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      transform:
+        translateY(120px);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: 0.3s ease;
+
       z-index: 3000;
-      display: grid;
-      gap: 9px;
-      max-width: min(360px, calc(100vw - 30px));
     }
 
-    .toast {
-      background: #111827;
-      color: #fff;
-      border-radius: 12px;
-      padding: 12px 14px;
-      box-shadow: 0 14px 30px rgba(15,23,42,.2);
-      font-size: 11px;
-      animation: toastIn .25s ease;
+    .toast.show {
+      transform:
+        translateY(0);
+
+      opacity: 1;
     }
 
     .toast.success {
-      border-left: 4px solid #22c55e;
+      background: #166534;
     }
 
     .toast.error {
-      border-left: 4px solid #ef4444;
-    }
-
-    .toast.warning {
-      border-left: 4px solid #f59e0b;
-    }
-
-    @keyframes toastIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      background: #991b1b;
     }
 
     /* =========================================================
@@ -903,30 +1208,26 @@
     ========================================================= */
 
     @media (max-width: 1100px) {
-      .span-8,
-      .span-4 {
-        grid-column: span 12;
-      }
-
       .grid {
-        gap: 16px;
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 800px) {
-      :root {
-        --sidebar-width: 260px;
-      }
-
+    @media (max-width: 850px) {
       .sidebar {
-        transform: translateX(-100%);
+        transform:
+          translateX(-100%);
+
+        transition:
+          transform 0.25s ease;
       }
 
       .sidebar.open {
-        transform: translateX(0);
+        transform:
+          translateX(0);
       }
 
-      .sidebar-overlay.open {
+      .sidebar-overlay.show {
         display: block;
       }
 
@@ -934,85 +1235,128 @@
         margin-left: 0;
       }
 
-      .mobile-menu {
+      .mobile-menu-btn {
         display: grid;
+
         place-items: center;
       }
 
       .topbar {
-        height: 68px;
-        padding: 0 15px;
+        padding: 0 18px;
       }
 
-      .topbar-right .status-pill {
+      .content {
+        padding: 20px;
+      }
+
+      .system-status {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        height: 64px;
+      }
+
+      .page-title h2 {
+        font-size: 16px;
+      }
+
+      .page-title p {
         display: none;
       }
 
       .content {
-        padding: 18px 15px;
+        padding: 14px;
       }
 
-      .system-hero {
+      .hero {
         padding: 22px;
-        border-radius: 18px;
+
+        border-radius: 19px;
       }
 
-      .card-header {
-        padding: 16px;
+      .hero h1 {
+        font-size: 25px;
       }
 
-      .card-body {
-        padding: 16px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .page-heading h1 {
-        font-size: 17px;
-      }
-
-      .page-heading p {
-        display: none;
-      }
-
-      .system-hero h2 {
-        font-size: 23px;
-      }
-
-      .system-hero p {
+      .hero p {
         font-size: 11px;
       }
 
-      .master-box {
+      .card-header,
+      .card-body {
+        padding: 16px;
+      }
+
+      .setting-item {
+        padding: 13px;
+      }
+
+      .setting-icon {
+        width: 38px;
+        height: 38px;
+
+        font-size: 16px;
+      }
+
+      .setting-info strong {
+        font-size: 12px;
+      }
+
+      .setting-info span {
+        font-size: 9px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-full {
+        grid-column: auto;
+      }
+
+      .toast {
+        left: 14px;
+        right: 14px;
+
+        bottom: 14px;
+
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .setting-item {
         align-items: flex-start;
       }
 
-      .setting-row {
-        padding: 12px;
-      }
-
-      .setting-info {
+      .setting-left {
         gap: 9px;
       }
 
-      .setting-symbol {
-        width: 32px;
-        height: 32px;
-      }
+      .switch {
+        transform: scale(0.9);
 
-      .button-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        transform-origin: right center;
       }
+    }
 
-      .button-row .btn {
-        width: 100%;
-      }
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
 
-      .toast-container {
-        right: 15px;
-        bottom: 15px;
-      }
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline:
+        3px solid
+        rgba(37, 99, 235, 0.22);
+
+      outline-offset: 2px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1020,8 +1364,8 @@
       *::before,
       *::after {
         scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+
+        transition: none !important;
       }
     }
   </style>
@@ -1029,111 +1373,167 @@
 
 <body>
 
-  <!-- =======================================================
+  <!-- =========================================================
        SIDEBAR
-  ======================================================== -->
+  ========================================================= -->
 
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-      <div class="brand-logo">DS</div>
+
+      <div class="brand-icon">
+        DS
+      </div>
 
       <div class="brand-text">
-        <strong>Design System</strong>
-        <span>Admin Control Panel</span>
+
+        <h1>
+          Design System
+        </h1>
+
+        <p>
+          Admin Control Center
+        </p>
+
       </div>
+
     </div>
 
-    <div class="sidebar-scroll">
+    <nav class="nav">
 
-      <div class="nav-label">Main</div>
+      <div class="nav-title">
+        Main
+      </div>
 
-      <a class="nav-item" href="./dashboard.html">
-        <span class="nav-icon">⌂</span>
+      <a
+        href="./dashboard.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📊</span>
         <span>Dashboard</span>
       </a>
 
-      <a class="nav-item" href="./website.html">
-        <span class="nav-icon">◫</span>
+      <a
+        href="./website.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
         <span>Website</span>
       </a>
 
-      <a class="nav-item" href="./website-edit.html">
-        <span class="nav-icon">✎</span>
+      <a
+        href="./website-edit.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">✏️</span>
         <span>Website Editor</span>
       </a>
 
-      <div class="nav-label">Management</div>
-
-      <a class="nav-item" href="./design-manage.html">
-        <span class="nav-icon">▦</span>
-        <span>Design Manager</span>
+      <a
+        href="./design-manage.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🎨</span>
+        <span>Design Management</span>
       </a>
 
-      <a class="nav-item" href="./banner.html">
-        <span class="nav-icon">▣</span>
+      <a
+        href="./banner.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🖼️</span>
         <span>Advertisement</span>
       </a>
 
-      <a class="nav-item" href="./browser-ui.html">
-        <span class="nav-icon">◉</span>
+      <div class="nav-title">
+        Chatter
+      </div>
+
+      <a
+        href="./chatter.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">💬</span>
+        <span>Chatter Settings</span>
+      </a>
+
+      <a
+        href="./browser-ui.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
         <span>Browser UI</span>
       </a>
 
-      <a class="nav-item" href="./chatter.html">
-        <span class="nav-icon">☵</span>
-        <span>Chatter</span>
-      </a>
-
-      <a class="nav-item" href="./live-monitor.html">
-        <span class="nav-icon">◉</span>
+      <a
+        href="./live-monitor.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📡</span>
         <span>Live Monitor</span>
       </a>
 
-      <div class="nav-label">System</div>
+      <div class="nav-title">
+        System
+      </div>
 
-      <a class="nav-item active" href="./system.html">
-        <span class="nav-icon">⚙</span>
+      <a
+        href="./system.html"
+        class="nav-link active"
+      >
+        <span class="nav-icon">⚙️</span>
         <span>System Settings</span>
       </a>
 
-      <a class="nav-item" href="./link-check.html">
-        <span class="nav-icon">✓</span>
+      <a
+        href="./link-check.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🔗</span>
         <span>Link Checker</span>
       </a>
 
-      <div class="nav-label">Website</div>
-
-      <a class="nav-item" href="../index.html" target="_blank">
-        <span class="nav-icon">↗</span>
+      <a
+        href="../index.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🏠</span>
         <span>View Website</span>
       </a>
 
-    </div>
+    </nav>
 
-    <div class="sidebar-bottom">
+    <div class="sidebar-footer">
 
-      <div class="sidebar-user">
+      <div class="admin-mini">
 
-        <div class="avatar" id="sidebarAvatar">
-          SA
-        </div>
-
-        <div class="user-info">
-          <strong id="sidebarName">System Admin</strong>
-          <span id="sidebarRole">Administrator</span>
-        </div>
-
-        <button
-          class="logout-btn"
-          type="button"
-          onclick="handleLogout()"
-          title="Logout"
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
         >
-          ⎋
-        </button>
+          AD
+        </div>
+
+        <div class="admin-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
 
       </div>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Logout
+      </button>
 
     </div>
 
@@ -1142,13 +1542,12 @@
   <div
     class="sidebar-overlay"
     id="sidebarOverlay"
-    onclick="closeSidebar()"
   ></div>
 
 
-  <!-- =======================================================
+  <!-- =========================================================
        MAIN
-  ======================================================== -->
+  ========================================================= -->
 
   <main class="main">
 
@@ -1159,26 +1558,35 @@
       <div class="topbar-left">
 
         <button
-          class="mobile-menu"
-          type="button"
-          onclick="toggleSidebar()"
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
           aria-label="Open menu"
         >
           ☰
         </button>
 
-        <div class="page-heading">
-          <h1>System Settings</h1>
-          <p>Control global website and Chatter availability</p>
+        <div class="page-title">
+
+          <h2>
+            System Settings
+          </h2>
+
+          <p>
+            Manage core website and system preferences
+          </p>
+
         </div>
 
       </div>
 
       <div class="topbar-right">
 
-        <div class="status-pill">
+        <div class="system-status">
+
           <span class="status-dot"></span>
+
           System Online
+
         </div>
 
       </div>
@@ -1186,25 +1594,30 @@
     </header>
 
 
-    <!-- CONTENT -->
+    <!-- =======================================================
+         CONTENT
+    ======================================================= -->
 
     <section class="content">
 
       <!-- HERO -->
 
-      <div class="system-hero">
+      <div class="hero">
 
         <div class="hero-content">
 
-          <div class="hero-tag">
-            ⚙ Global Configuration
+          <div class="hero-badge">
+            ⚙️ System Control
           </div>
 
-          <h2>System Control Center</h2>
+          <h1>
+            Central System Settings
+          </h1>
 
           <p>
-            Manage website availability, Chatter features, communication
-            tools and general system behavior from one central place.
+            Configure the main behavior of the Design System website,
+            Chatter availability, maintenance mode and administrative
+            preferences from one place.
           </p>
 
         </div>
@@ -1212,213 +1625,27 @@
       </div>
 
 
-      <!-- GRID -->
+      <!-- MAIN GRID -->
 
       <div class="grid">
 
-        <!-- =================================================
-             GLOBAL SYSTEM
-        ================================================== -->
+        <!-- ===================================================
+             LEFT COLUMN
+        =================================================== -->
 
-        <section class="card span-8">
+        <div class="card">
 
           <div class="card-header">
 
-            <div class="card-title">
+            <div>
 
-              <div class="card-icon">
-                ⚙
-              </div>
-
-              <div>
-                <h3>Global System Controls</h3>
-                <p>Basic availability settings for the platform</p>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="card-body">
-
-            <div class="master-box">
-
-              <div class="master-text">
-                <strong>Website Availability</strong>
-
-                <p>
-                  Turn the public website on or temporarily place it
-                  into maintenance mode.
-                </p>
-              </div>
-
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  id="websiteEnabled"
-                >
-                <span class="slider"></span>
-              </label>
-
-            </div>
-
-
-            <div
-              class="maintenance-box"
-              id="maintenanceNotice"
-            >
-              <h4>⚠ Maintenance Mode</h4>
+              <h3>
+                Core System Controls
+              </h3>
 
               <p>
-                Maintenance mode is currently enabled. Your homepage
-                can use this setting to show a maintenance message
-                instead of normal website content.
+                Enable or disable major system features.
               </p>
-            </div>
-
-
-            <div class="setting-list">
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    ◫
-                  </div>
-
-                  <div>
-                    <strong>Design Gallery</strong>
-
-                    <p>
-                      Allow visitors to browse available designs.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="designGallery"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    🔎
-                  </div>
-
-                  <div>
-                    <strong>Design Search</strong>
-
-                    <p>
-                      Enable search and filtering in the design area.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="designSearch"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    ☵
-                  </div>
-
-                  <div>
-                    <strong>Chatter</strong>
-
-                    <p>
-                      Make the real-time communication area available.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="chatterEnabled"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    🔔
-                  </div>
-
-                  <div>
-                    <strong>Notifications</strong>
-
-                    <p>
-                      Enable notification-related UI features.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="notifications"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =================================================
-             QUICK ACTIONS
-        ================================================== -->
-
-        <section class="card span-4">
-
-          <div class="card-header">
-
-            <div class="card-title">
-
-              <div class="card-icon">
-                ⚡
-              </div>
-
-              <div>
-                <h3>Quick Actions</h3>
-                <p>Apply common configuration changes</p>
-              </div>
 
             </div>
 
@@ -1426,470 +1653,592 @@
 
           <div class="card-body">
 
-            <div class="actions">
+            <div class="settings-list">
 
-              <button
-                class="btn btn-primary"
-                type="button"
-                onclick="saveSettings()"
-              >
-                ✓ Save System Settings
-              </button>
+              <!-- WEBSITE -->
 
-              <button
-                class="btn btn-success"
-                type="button"
-                onclick="enableAll()"
-              >
-                ⚡ Enable All Features
-              </button>
+              <div class="setting-item">
 
-              <button
-                class="btn btn-danger"
-                type="button"
-                onclick="disableAll()"
-              >
-                ⛔ Disable All Features
-              </button>
+                <div class="setting-left">
 
-              <button
-                class="btn btn-warning"
-                type="button"
-                onclick="resetSettings()"
-              >
-                ↻ Reset Defaults
-              </button>
+                  <div class="setting-icon">
+                    🌐
+                  </div>
 
-              <button
-                class="btn"
-                type="button"
-                onclick="openChatter()"
-              >
-                ☵ Open Chatter
-              </button>
+                  <div class="setting-info">
 
-              <button
-                class="btn"
-                type="button"
-                onclick="clearActivity()"
-              >
-                🗑 Clear Activity Log
-              </button>
+                    <strong>
+                      Website
+                    </strong>
 
-            </div>
+                    <span>
+                      Keep the public website available to visitors.
+                    </span>
 
-          </div>
+                  </div>
 
-        </section>
+                </div>
 
+                <label class="switch">
 
-        <!-- =================================================
-             CHATTER FEATURES
-        ================================================== -->
+                  <input
+                    type="checkbox"
+                    id="websiteEnabled"
+                  />
 
-        <section class="card span-8">
+                  <span class="slider"></span>
 
-          <div class="card-header">
+                </label>
 
-            <div class="card-title">
-
-              <div class="card-icon">
-                ☵
               </div>
 
-              <div>
-                <h3>Chatter Communication</h3>
-                <p>Control communication features available to users</p>
+
+              <!-- DESIGNS -->
+
+              <div class="setting-item">
+
+                <div class="setting-left">
+
+                  <div class="setting-icon">
+                    🎨
+                  </div>
+
+                  <div class="setting-info">
+
+                    <strong>
+                      Design Gallery
+                    </strong>
+
+                    <span>
+                      Show the design gallery and available designs.
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="showDesigns"
+                  />
+
+                  <span class="slider"></span>
+
+                </label>
+
               </div>
 
-            </div>
 
-          </div>
+              <!-- CHATTER -->
 
-          <div class="card-body">
+              <div class="setting-item">
 
-            <div class="setting-list">
+                <div class="setting-left">
 
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
+                  <div class="setting-icon">
                     💬
                   </div>
 
-                  <div>
-                    <strong>Messaging</strong>
+                  <div class="setting-info">
 
-                    <p>
-                      Allow users to send and receive chat messages.
-                    </p>
+                    <strong>
+                      Chatter
+                    </strong>
+
+                    <span>
+                      Make the Chatter communication system available.
+                    </span>
+
                   </div>
 
                 </div>
 
                 <label class="switch">
+
                   <input
                     type="checkbox"
-                    id="messaging"
-                  >
+                    id="chatterEnabled"
+                  />
+
                   <span class="slider"></span>
+
                 </label>
 
               </div>
 
 
-              <div class="setting-row">
+              <!-- MAINTENANCE -->
 
-                <div class="setting-info">
+              <div class="setting-item">
 
-                  <div class="setting-symbol">
-                    ☎
+                <div class="setting-left">
+
+                  <div class="setting-icon">
+                    🛠️
                   </div>
 
-                  <div>
-                    <strong>Voice Calls</strong>
+                  <div class="setting-info">
 
-                    <p>
-                      Allow live voice communication through WebRTC.
-                    </p>
+                    <strong>
+                      Maintenance Mode
+                    </strong>
+
+                    <span>
+                      Temporarily show a maintenance screen to visitors.
+                    </span>
+
                   </div>
 
                 </div>
 
                 <label class="switch">
+
                   <input
                     type="checkbox"
-                    id="voiceCalls"
-                  >
+                    id="maintenanceMode"
+                  />
+
                   <span class="slider"></span>
+
                 </label>
 
               </div>
 
 
-              <div class="setting-row">
+              <!-- NOTIFICATIONS -->
 
-                <div class="setting-info">
+              <div class="setting-item">
 
-                  <div class="setting-symbol">
-                    ◉
+                <div class="setting-left">
+
+                  <div class="setting-icon">
+                    🔔
                   </div>
 
-                  <div>
-                    <strong>Video Calls</strong>
+                  <div class="setting-info">
 
-                    <p>
-                      Allow live video communication through WebRTC.
-                    </p>
-                  </div>
+                    <strong>
+                      System Notifications
+                    </strong>
 
-                </div>
+                    <span>
+                      Allow system notification UI to be displayed.
+                    </span>
 
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="videoCalls"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    📷
-                  </div>
-
-                  <div>
-                    <strong>Camera</strong>
-
-                    <p>
-                      Make camera functionality available when requested
-                      by the user.
-                    </p>
                   </div>
 
                 </div>
 
                 <label class="switch">
+
                   <input
                     type="checkbox"
-                    id="camera"
-                  >
+                    id="notificationsEnabled"
+                  />
+
                   <span class="slider"></span>
-                </label>
 
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    🎙
-                  </div>
-
-                  <div>
-                    <strong>Microphone</strong>
-
-                    <p>
-                      Make microphone functionality available for live
-                      communication.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="microphone"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    🖥
-                  </div>
-
-                  <div>
-                    <strong>Screen Share</strong>
-
-                    <p>
-                      Allow users to start browser-controlled screen sharing.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="screenShare"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    📎
-                  </div>
-
-                  <div>
-                    <strong>File Sharing</strong>
-
-                    <p>
-                      Allow users to attach files in Chatter.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="fileSharing"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    🖼
-                  </div>
-
-                  <div>
-                    <strong>Image Sharing</strong>
-
-                    <p>
-                      Allow users to send image files in Chatter.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="imageSharing"
-                  >
-                  <span class="slider"></span>
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-info">
-
-                  <div class="setting-symbol">
-                    …
-                  </div>
-
-                  <div>
-                    <strong>Typing Indicator</strong>
-
-                    <p>
-                      Show when another participant is typing.
-                    </p>
-                  </div>
-
-                </div>
-
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="typingIndicator"
-                  >
-                  <span class="slider"></span>
                 </label>
 
               </div>
 
             </div>
 
+          </div>
 
-            <div class="info-box">
+        </div>
 
-              <div class="info-icon">
-                i
-              </div>
+
+        <!-- ===================================================
+             RIGHT COLUMN
+        =================================================== -->
+
+        <div>
+
+          <!-- STATUS -->
+
+          <div class="card">
+
+            <div class="card-header">
 
               <div>
-                <strong>Browser permission is always required</strong>
+
+                <h3>
+                  System Status
+                </h3>
 
                 <p>
-                  These settings only control whether a feature is
-                  available. Camera, microphone and screen sharing
-                  still require the user's explicit browser permission.
-                  This panel never bypasses browser security.
+                  Current configuration overview.
                 </p>
+
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="status-panel">
+
+                <div class="status-panel-top">
+
+                  <div class="status-panel-icon">
+                    ⚙️
+                  </div>
+
+                  <div>
+
+                    <strong
+                      id="statusTitle"
+                    >
+                      System is operational
+                    </strong>
+
+                    <span
+                      id="statusDescription"
+                    >
+                      The website is ready for normal operation.
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="info-list">
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Website
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="websiteStatus"
+                  >
+                    Enabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Design Gallery
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="designStatus"
+                  >
+                    Enabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Chatter
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="chatterStatus"
+                  >
+                    Enabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Maintenance
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="maintenanceStatus"
+                  >
+                    Off
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Notifications
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="notificationStatus"
+                  >
+                    Enabled
+                  </span>
+
+                </div>
+
               </div>
 
             </div>
 
           </div>
 
-        </section>
 
+          <!-- QUICK ACTIONS -->
 
-        <!-- =================================================
-             SYSTEM STATUS
-        ================================================== -->
+          <div
+            class="card"
+            style="margin-top:22px;"
+          >
 
-        <section class="card span-4">
-
-          <div class="card-header">
-
-            <div class="card-title">
-
-              <div class="card-icon">
-                ◉
-              </div>
+            <div class="card-header">
 
               <div>
-                <h3>Current Status</h3>
-                <p>Live local configuration overview</p>
-              </div>
 
-            </div>
-
-          </div>
-
-          <div class="card-body">
-
-            <div
-              class="status-list"
-              id="statusList"
-            ></div>
-
-            <div class="info-box">
-
-              <div class="info-icon">
-                ✓
-              </div>
-
-              <div>
-                <strong>No recording system</strong>
+                <h3>
+                  Quick Actions
+                </h3>
 
                 <p>
-                  This system does not record or store video,
-                  microphone or screen sessions.
+                  Apply common system configurations.
                 </p>
+
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="actions">
+
+                <button
+                  class="btn btn-primary"
+                  id="saveBtn"
+                >
+                  💾 Save Settings
+                </button>
+
+                <button
+                  class="btn"
+                  id="enableAllBtn"
+                >
+                  ✓ Enable All
+                </button>
+
+                <button
+                  class="btn"
+                  id="disableAllBtn"
+                >
+                  Disable All
+                </button>
+
+                <button
+                  class="btn"
+                  id="resetBtn"
+                >
+                  ↺ Reset Defaults
+                </button>
+
+                <button
+                  class="btn btn-full btn-danger"
+                  id="clearBtn"
+                >
+                  🗑️ Clear System Settings
+                </button>
+
               </div>
 
             </div>
 
           </div>
 
-        </section>
 
+          <!-- SYSTEM INFORMATION -->
 
-        <!-- =================================================
-             ACTIVITY LOG
-        ================================================== -->
+          <div
+            class="card"
+            style="margin-top:22px;"
+          >
 
-        <section class="card span-12">
-
-          <div class="card-header">
-
-            <div class="card-title">
-
-              <div class="card-icon">
-                ◷
-              </div>
+            <div class="card-header">
 
               <div>
-                <h3>System Activity</h3>
-                <p>Recent configuration actions performed in this browser</p>
+
+                <h3>
+                  System Information
+                </h3>
+
+                <p>
+                  Basic environment information.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="info-list">
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Application
+                  </span>
+
+                  <span class="info-value">
+                    Design System
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    UI Version
+                  </span>
+
+                  <span class="info-value">
+                    1.0
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Storage
+                  </span>
+
+                  <span class="info-value">
+                    LocalStorage
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Backend
+                  </span>
+
+                  <span class="info-value warning">
+                    Not Connected
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Firebase
+                  </span>
+
+                  <span class="info-value warning">
+                    Pending
+                  </span>
+
+                </div>
+
               </div>
 
             </div>
 
           </div>
 
-          <div class="card-body">
-
-            <div
-              class="activity-list"
-              id="activityList"
-            ></div>
-
-          </div>
-
-        </section>
+        </div>
 
       </div>
 
 
-      <div class="page-footer">
-        Design System Admin Panel • System Settings
+      <!-- =====================================================
+           SECURITY NOTICE
+      ===================================================== -->
+
+      <div class="notice">
+
+        <div class="notice-icon">
+          🔐
+        </div>
+
+        <div>
+
+          <strong>
+            Security & Architecture Notice
+          </strong>
+
+          <p>
+            This page currently stores configuration in browser
+            LocalStorage for UI development. These client-side
+            settings are not a secure authorization mechanism.
+            Firebase/backend security rules will be added later
+            to enforce real administrator permissions. No hidden
+            camera, microphone, screen access or recording is
+            performed by this page.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ACTIVITY
+      ===================================================== -->
+
+      <div class="activity card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Recent Activity
+            </h3>
+
+            <p>
+              System configuration changes made from this panel.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="card-body">
+
+          <div
+            class="activity-list"
+            id="activityList"
+          >
+
+            <div class="activity-item">
+
+              <span class="activity-dot"></span>
+
+              <div class="activity-text">
+
+                System settings manager loaded.
+
+                <span class="activity-time">
+                  Waiting for activity...
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
     </section>
@@ -1897,36 +2246,41 @@
   </main>
 
 
-  <!-- =======================================================
-       TOAST CONTAINER
-  ======================================================== -->
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
 
   <div
-    class="toast-container"
-    id="toastContainer"
+    class="toast"
+    id="toast"
   ></div>
 
 
-  <!-- =======================================================
+  <!-- =========================================================
        AUTH GUARD
-  ======================================================== -->
+  ========================================================= -->
 
   <script src="./auth-guard.js"></script>
 
 
-  <!-- =======================================================
-       SYSTEM JAVASCRIPT
-  ======================================================== -->
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
 
   <script>
+
     /* =========================================================
-       STORAGE
+       STORAGE KEYS
     ========================================================= */
 
-    const SYSTEM_KEY = "systemSettings";
-    const CHATTER_KEY = "chatterSystemSettings";
-    const SESSION_KEY = "chatterAdminSession";
-    const ACTIVITY_KEY = "systemAdminActivity";
+    const SETTINGS_KEY =
+      "websiteSettings";
+
+    const ACTIVITY_KEY =
+      "systemSettingsActivity";
+
+    const SESSION_KEY =
+      "chatterAdminSession";
 
 
     /* =========================================================
@@ -1937,164 +2291,74 @@
 
       websiteEnabled: true,
 
-      designGallery: true,
-
-      designSearch: true,
+      showDesigns: true,
 
       chatterEnabled: true,
 
-      messaging: true,
+      maintenanceMode: false,
 
-      voiceCalls: true,
-
-      videoCalls: true,
-
-      camera: true,
-
-      microphone: true,
-
-      screenShare: true,
-
-      fileSharing: true,
-
-      imageSharing: true,
-
-      typingIndicator: true,
-
-      notifications: true
+      notificationsEnabled: true
 
     };
 
 
     /* =========================================================
-       HELPERS
+       ELEMENTS
     ========================================================= */
 
-    function getStoredObject(key, fallback = {}) {
-
-      try {
-
-        const raw = localStorage.getItem(key);
-
-        if (!raw) {
-          return fallback;
-        }
-
-        const parsed = JSON.parse(raw);
-
-        return parsed && typeof parsed === "object"
-          ? parsed
-          : fallback;
-
-      } catch (error) {
-
-        console.warn(
-          "Storage read failed:",
-          key,
-          error
-        );
-
-        return fallback;
-      }
-    }
-
-
-    function saveObject(key, value) {
-
-      localStorage.setItem(
-        key,
-        JSON.stringify(value)
+    const websiteEnabled =
+      document.getElementById(
+        "websiteEnabled"
       );
 
-    }
-
-
-    function getSession() {
-
-      return getStoredObject(
-        SESSION_KEY,
-        {}
+    const showDesigns =
+      document.getElementById(
+        "showDesigns"
       );
 
-    }
+    const chatterEnabled =
+      document.getElementById(
+        "chatterEnabled"
+      );
 
+    const maintenanceMode =
+      document.getElementById(
+        "maintenanceMode"
+      );
 
-    function getCurrentSettings() {
-
-      const systemSettings =
-        getStoredObject(
-          SYSTEM_KEY,
-          {}
-        );
-
-      const chatterSettings =
-        getStoredObject(
-          CHATTER_KEY,
-          {}
-        );
-
-      return {
-        ...DEFAULT_SETTINGS,
-        ...systemSettings,
-        ...chatterSettings
-      };
-
-    }
+    const notificationsEnabled =
+      document.getElementById(
+        "notificationsEnabled"
+      );
 
 
     /* =========================================================
        LOAD SETTINGS
     ========================================================= */
 
-    function loadSettings() {
+    function getSettings() {
 
-      const settings =
-        getCurrentSettings();
+      try {
 
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              SETTINGS_KEY
+            )
+          );
 
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
+        return {
+          ...DEFAULT_SETTINGS,
+          ...(saved || {})
+        };
 
-          const input =
-            document.getElementById(key);
+      } catch (error) {
 
-          if (input) {
-            input.checked =
-              Boolean(settings[key]);
-          }
+        return {
+          ...DEFAULT_SETTINGS
+        };
 
-        });
-
-
-      updateMaintenanceNotice();
-
-      updateStatus();
-
-    }
-
-
-    /* =========================================================
-       COLLECT SETTINGS
-    ========================================================= */
-
-    function collectSettings() {
-
-      const settings = {};
-
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
-
-          const input =
-            document.getElementById(key);
-
-          if (input) {
-            settings[key] =
-              input.checked;
-          }
-
-        });
-
-      return settings;
+      }
 
     }
 
@@ -2104,385 +2368,201 @@
     ========================================================= */
 
     function saveSettings(
-      showMessage = true
+      settings
     ) {
 
+      localStorage.setItem(
+        SETTINGS_KEY,
+        JSON.stringify(settings)
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD UI
+    ========================================================= */
+
+    function loadUI() {
+
       const settings =
-        collectSettings();
+        getSettings();
 
+      websiteEnabled.checked =
+        !!settings.websiteEnabled;
 
-      /*
-       * Save global settings.
-       */
-      saveObject(
-        SYSTEM_KEY,
-        {
-          websiteEnabled:
-            settings.websiteEnabled,
+      showDesigns.checked =
+        !!settings.showDesigns;
 
-          designGallery:
-            settings.designGallery,
+      chatterEnabled.checked =
+        !!settings.chatterEnabled;
 
-          designSearch:
-            settings.designSearch,
+      maintenanceMode.checked =
+        !!settings.maintenanceMode;
 
-          chatterEnabled:
-            settings.chatterEnabled,
-
-          notifications:
-            settings.notifications
-        }
-      );
-
-
-      /*
-       * Keep Chatter compatible
-       * with admin/chatter.html and
-       * chatter/chat.js.
-       */
-      saveObject(
-        CHATTER_KEY,
-        {
-          enabled:
-            settings.chatterEnabled,
-
-          messaging:
-            settings.messaging,
-
-          voiceCalls:
-            settings.voiceCalls,
-
-          videoCalls:
-            settings.videoCalls,
-
-          voiceMessages: false,
-
-          camera:
-            settings.camera,
-
-          microphone:
-            settings.microphone,
-
-          screenShare:
-            settings.screenShare,
-
-          fileSharing:
-            settings.fileSharing,
-
-          imageSharing:
-            settings.imageSharing,
-
-          typingIndicator:
-            settings.typingIndicator,
-
-          notifications:
-            settings.notifications
-        }
-      );
-
-
-      /*
-       * Keep homepage-compatible
-       * website settings.
-       */
-      const websiteSettings =
-        getStoredObject(
-          "websiteSettings",
-          {}
-        );
-
-      websiteSettings.enabled =
-        settings.websiteEnabled;
-
-      websiteSettings.websiteEnabled =
-        settings.websiteEnabled;
-
-      websiteSettings.designGallery =
-        settings.designGallery;
-
-      websiteSettings.designSearch =
-        settings.designSearch;
-
-      websiteSettings.chatterEnabled =
-        settings.chatterEnabled;
-
-      websiteSettings.notifications =
-        settings.notifications;
-
-
-      saveObject(
-        "websiteSettings",
-        websiteSettings
-      );
-
-
-      addActivity(
-        "System settings saved",
-        "Global configuration was updated."
-      );
-
-
-      updateMaintenanceNotice();
+      notificationsEnabled.checked =
+        !!settings.notificationsEnabled;
 
       updateStatus();
 
-
-      if (showMessage) {
-
-        showToast(
-          "System settings saved successfully.",
-          "success"
-        );
-
-      }
+      renderActivity();
 
     }
 
 
     /* =========================================================
-       ENABLE ALL
+       GET FORM SETTINGS
     ========================================================= */
 
-    function enableAll() {
+    function getFormSettings() {
 
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
+      return {
 
-          const input =
-            document.getElementById(key);
+        websiteEnabled:
+          websiteEnabled.checked,
 
-          if (input) {
-            input.checked = true;
-          }
+        showDesigns:
+          showDesigns.checked,
 
-        });
+        chatterEnabled:
+          chatterEnabled.checked,
 
+        maintenanceMode:
+          maintenanceMode.checked,
 
-      saveSettings(false);
+        notificationsEnabled:
+          notificationsEnabled.checked
 
-
-      addActivity(
-        "All features enabled",
-        "All available system features were enabled."
-      );
-
-
-      showToast(
-        "All available features are now enabled.",
-        "success"
-      );
+      };
 
     }
 
 
     /* =========================================================
-       DISABLE ALL
-    ========================================================= */
-
-    function disableAll() {
-
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
-
-          const input =
-            document.getElementById(key);
-
-          if (input) {
-            input.checked = false;
-          }
-
-        });
-
-
-      saveSettings(false);
-
-
-      addActivity(
-        "All features disabled",
-        "All available system features were disabled."
-      );
-
-
-      showToast(
-        "All available features are now disabled.",
-        "warning"
-      );
-
-    }
-
-
-    /* =========================================================
-       RESET DEFAULTS
-    ========================================================= */
-
-    function resetSettings() {
-
-      const confirmed =
-        window.confirm(
-          "Reset all system settings to the default configuration?"
-        );
-
-
-      if (!confirmed) {
-        return;
-      }
-
-
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
-
-          const input =
-            document.getElementById(key);
-
-          if (input) {
-            input.checked =
-              DEFAULT_SETTINGS[key];
-          }
-
-        });
-
-
-      saveSettings(false);
-
-
-      addActivity(
-        "Settings reset",
-        "System settings were restored to defaults."
-      );
-
-
-      showToast(
-        "System settings restored to defaults.",
-        "success"
-      );
-
-    }
-
-
-    /* =========================================================
-       MAINTENANCE NOTICE
-    ========================================================= */
-
-    function updateMaintenanceNotice() {
-
-      const input =
-        document.getElementById(
-          "websiteEnabled"
-        );
-
-      const notice =
-        document.getElementById(
-          "maintenanceNotice"
-        );
-
-
-      if (!input || !notice) {
-        return;
-      }
-
-
-      notice.style.display =
-        input.checked
-          ? "none"
-          : "block";
-
-    }
-
-
-    /* =========================================================
-       STATUS
+       UPDATE STATUS
     ========================================================= */
 
     function updateStatus() {
 
-      const settings =
-        collectSettings();
+      updateValue(
+        "websiteStatus",
+        websiteEnabled.checked,
+        "Enabled",
+        "Disabled"
+      );
 
-      const statusList =
+      updateValue(
+        "designStatus",
+        showDesigns.checked,
+        "Enabled",
+        "Disabled"
+      );
+
+      updateValue(
+        "chatterStatus",
+        chatterEnabled.checked,
+        "Enabled",
+        "Disabled"
+      );
+
+      updateValue(
+        "maintenanceStatus",
+        maintenanceMode.checked,
+        "On",
+        "Off"
+      );
+
+      updateValue(
+        "notificationStatus",
+        notificationsEnabled.checked,
+        "Enabled",
+        "Disabled"
+      );
+
+
+      const title =
         document.getElementById(
-          "statusList"
+          "statusTitle"
+        );
+
+      const description =
+        document.getElementById(
+          "statusDescription"
         );
 
 
-      if (!statusList) {
-        return;
+      if (
+        maintenanceMode.checked
+      ) {
+
+        title.textContent =
+          "Maintenance mode is active";
+
+        description.textContent =
+          "Visitors should see the maintenance state on the website.";
+
+      } else if (
+        !websiteEnabled.checked
+      ) {
+
+        title.textContent =
+          "Website is disabled";
+
+        description.textContent =
+          "The public website has been disabled from system settings.";
+
+      } else {
+
+        title.textContent =
+          "System is operational";
+
+        description.textContent =
+          "The website is ready for normal operation.";
+
       }
 
-
-      const items = [
-
-        {
-          name: "Website",
-          key: "websiteEnabled"
-        },
-
-        {
-          name: "Design Gallery",
-          key: "designGallery"
-        },
-
-        {
-          name: "Chatter",
-          key: "chatterEnabled"
-        },
-
-        {
-          name: "Messaging",
-          key: "messaging"
-        },
-
-        {
-          name: "Voice Calls",
-          key: "voiceCalls"
-        },
-
-        {
-          name: "Video Calls",
-          key: "videoCalls"
-        },
-
-        {
-          name: "Screen Share",
-          key: "screenShare"
-        },
-
-        {
-          name: "Notifications",
-          key: "notifications"
-        }
-
-      ];
+    }
 
 
-      statusList.innerHTML =
-        items.map(item => {
+    /* =========================================================
+       UPDATE VALUE
+    ========================================================= */
 
-          const active =
-            Boolean(settings[item.key]);
+    function updateValue(
+      id,
+      enabled,
+      onText,
+      offText
+    ) {
 
-          return `
-            <div class="status-item">
+      const element =
+        document.getElementById(id);
 
-              <div class="status-name">
+      element.textContent =
+        enabled
+          ? onText
+          : offText;
 
-                <span
-                  class="mini-dot ${active ? "active" : ""}"
-                ></span>
+      element.classList.remove(
+        "success",
+        "warning",
+        "danger"
+      );
 
-                ${escapeHtml(item.name)}
 
-              </div>
+      if (enabled) {
 
-              <span
-                class="status-value ${active ? "active" : "off"}"
-              >
-                ${active ? "Enabled" : "Disabled"}
-              </span>
+        element.classList.add(
+          "success"
+        );
 
-            </div>
-          `;
+      } else {
 
-        }).join("");
+        element.classList.add(
+          "warning"
+        );
+
+      }
 
     }
 
@@ -2493,63 +2573,45 @@
 
     function getActivity() {
 
-      const activity =
-        getStoredObject(
-          ACTIVITY_KEY,
-          []
-        );
+      try {
 
+        return JSON.parse(
+          localStorage.getItem(
+            ACTIVITY_KEY
+          )
+        ) || [];
 
-      return Array.isArray(activity)
-        ? activity
-        : [];
+      } catch (error) {
+
+        return [];
+
+      }
 
     }
 
 
     function addActivity(
-      title,
-      description
+      message
     ) {
 
-      const session =
-        getSession();
-
-
-      const activity =
+      const activities =
         getActivity();
 
+      activities.unshift({
 
-      activity.unshift({
-
-        title,
-
-        description,
-
-        admin:
-          session.name ||
-          session.email ||
-          "System Admin",
-
-        role:
-          session.role ||
-          "admin",
+        message,
 
         time:
-          new Date().toISOString()
+          new Date().toLocaleString()
 
       });
 
-
-      const limited =
-        activity.slice(0, 30);
-
-
-      saveObject(
+      localStorage.setItem(
         ACTIVITY_KEY,
-        limited
+        JSON.stringify(
+          activities.slice(0, 15)
+        )
       );
-
 
       renderActivity();
 
@@ -2558,57 +2620,59 @@
 
     function renderActivity() {
 
-      const container =
+      const list =
         document.getElementById(
           "activityList"
         );
 
-
-      if (!container) {
-        return;
-      }
-
-
-      const activity =
+      const activities =
         getActivity();
 
 
-      if (!activity.length) {
+      if (!activities.length) {
 
-        container.innerHTML = `
-          <div class="empty-activity">
-            No system activity yet.
+        list.innerHTML = `
+          <div class="activity-item">
+
+            <span class="activity-dot"></span>
+
+            <div class="activity-text">
+
+              No activity yet.
+
+              <span class="activity-time">
+                Waiting for changes...
+              </span>
+
+            </div>
+
           </div>
         `;
 
         return;
+
       }
 
 
-      container.innerHTML =
-        activity
-          .slice(0, 12)
+      list.innerHTML =
+        activities
           .map(item => {
 
             return `
               <div class="activity-item">
 
-                <div class="activity-icon">
-                  ✓
-                </div>
+                <span class="activity-dot"></span>
 
-                <div class="activity-content">
+                <div class="activity-text">
 
-                  <strong>
-                    ${escapeHtml(item.title)}
-                  </strong>
+                  ${escapeHtml(
+                    item.message
+                  )}
 
-                  <span>
-                    ${escapeHtml(item.description)}
-                    •
-                    ${escapeHtml(item.admin)}
-                    •
-                    ${formatDate(item.time)}
+                  <span class="activity-time">
+                    ${escapeHtml(
+                      item.time
+                    )}
                   </span>
 
                 </div>
@@ -2622,313 +2686,8 @@
     }
 
 
-    function clearActivity() {
-
-      const confirmed =
-        window.confirm(
-          "Clear the system activity log?"
-        );
-
-
-      if (!confirmed) {
-        return;
-      }
-
-
-      localStorage.removeItem(
-        ACTIVITY_KEY
-      );
-
-
-      renderActivity();
-
-
-      showToast(
-        "System activity log cleared.",
-        "success"
-      );
-
-    }
-
-
     /* =========================================================
-       DATE FORMAT
-    ========================================================= */
-
-    function formatDate(
-      iso
-    ) {
-
-      if (!iso) {
-        return "Unknown time";
-      }
-
-
-      const date =
-        new Date(iso);
-
-
-      if (Number.isNaN(
-        date.getTime()
-      )) {
-        return "Unknown time";
-      }
-
-
-      return date.toLocaleString(
-        undefined,
-        {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       OPEN CHATTER
-    ========================================================= */
-
-    function openChatter() {
-
-      window.open(
-        "../chatter/index.html",
-        "_blank"
-      );
-
-    }
-
-
-    /* =========================================================
-       SIDEBAR
-    ========================================================= */
-
-    function toggleSidebar() {
-
-      const sidebar =
-        document.getElementById(
-          "sidebar"
-        );
-
-      const overlay =
-        document.getElementById(
-          "sidebarOverlay"
-        );
-
-
-      sidebar.classList.toggle("open");
-
-      overlay.classList.toggle("open");
-
-    }
-
-
-    function closeSidebar() {
-
-      const sidebar =
-        document.getElementById(
-          "sidebar"
-        );
-
-      const overlay =
-        document.getElementById(
-          "sidebarOverlay"
-        );
-
-
-      sidebar.classList.remove("open");
-
-      overlay.classList.remove("open");
-
-    }
-
-
-    /* =========================================================
-       PROFILE
-    ========================================================= */
-
-    function loadProfile() {
-
-      const session =
-        getSession();
-
-
-      const name =
-        session.name ||
-        session.email ||
-        "System Admin";
-
-
-      const role =
-        session.role === "superadmin"
-          ? "Super Administrator"
-          : "Administrator";
-
-
-      const nameElement =
-        document.getElementById(
-          "sidebarName"
-        );
-
-
-      const roleElement =
-        document.getElementById(
-          "sidebarRole"
-        );
-
-
-      const avatar =
-        document.getElementById(
-          "sidebarAvatar"
-        );
-
-
-      if (nameElement) {
-        nameElement.textContent =
-          name;
-      }
-
-
-      if (roleElement) {
-        roleElement.textContent =
-          role;
-      }
-
-
-      if (avatar) {
-
-        if (session.avatar) {
-
-          avatar.innerHTML = `
-            <img
-              src="${escapeAttribute(session.avatar)}"
-              alt="Admin"
-            >
-          `;
-
-        } else {
-
-          avatar.textContent =
-            getInitials(name);
-
-        }
-
-      }
-
-    }
-
-
-    function getInitials(
-      name
-    ) {
-
-      const words =
-        String(name)
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean);
-
-
-      if (!words.length) {
-        return "SA";
-      }
-
-
-      return words
-        .slice(0, 2)
-        .map(
-          word =>
-            word.charAt(0).toUpperCase()
-        )
-        .join("");
-
-    }
-
-
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    function handleLogout() {
-
-      if (
-        window.AdminAuth &&
-        typeof window.AdminAuth.logout === "function"
-      ) {
-
-        window.AdminAuth.logout();
-
-        return;
-
-      }
-
-
-      localStorage.removeItem(
-        SESSION_KEY
-      );
-
-
-      window.location.href =
-        "../login/index.html";
-
-    }
-
-
-    /* =========================================================
-       TOAST
-    ========================================================= */
-
-    function showToast(
-      message,
-      type = "success"
-    ) {
-
-      const container =
-        document.getElementById(
-          "toastContainer"
-        );
-
-
-      const toast =
-        document.createElement(
-          "div"
-        );
-
-
-      toast.className =
-        `toast ${type}`;
-
-
-      toast.textContent =
-        message;
-
-
-      container.appendChild(
-        toast
-      );
-
-
-      setTimeout(() => {
-
-        toast.style.opacity = "0";
-
-        toast.style.transform =
-          "translateY(8px)";
-
-        setTimeout(() => {
-
-          toast.remove();
-
-        }, 220);
-
-      }, 2800);
-
-    }
-
-
-    /* =========================================================
-       HTML ESCAPE
+       ESCAPE HTML
     ========================================================= */
 
     function escapeHtml(
@@ -2936,56 +2695,524 @@
     ) {
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    function escapeAttribute(
-      value
-    ) {
-
-      return escapeHtml(value);
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
 
     /* =========================================================
-       INPUT CHANGE
+       SAVE
     ========================================================= */
 
-    function setupLiveUpdates() {
+    document
+      .getElementById(
+        "saveBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
 
-      Object.keys(DEFAULT_SETTINGS)
-        .forEach(key => {
+          const settings =
+            getFormSettings();
 
-          const input =
-            document.getElementById(key);
+          saveSettings(
+            settings
+          );
+
+          addActivity(
+            "System settings saved."
+          );
+
+          updateStatus();
+
+          showToast(
+            "System settings saved successfully.",
+            "success"
+          );
+
+        }
+      );
 
 
-          if (!input) {
+    /* =========================================================
+       ENABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById(
+        "enableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          websiteEnabled.checked =
+            true;
+
+          showDesigns.checked =
+            true;
+
+          chatterEnabled.checked =
+            true;
+
+          maintenanceMode.checked =
+            false;
+
+          notificationsEnabled.checked =
+            true;
+
+          updateStatus();
+
+          showToast(
+            "All available system features enabled. Click Save to apply.",
+            "success"
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       DISABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById(
+        "disableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          websiteEnabled.checked =
+            false;
+
+          showDesigns.checked =
+            false;
+
+          chatterEnabled.checked =
+            false;
+
+          maintenanceMode.checked =
+            false;
+
+          notificationsEnabled.checked =
+            false;
+
+          updateStatus();
+
+          showToast(
+            "System features disabled. Click Save to apply.",
+            "success"
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    document
+      .getElementById(
+        "resetBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          websiteEnabled.checked =
+            DEFAULT_SETTINGS.websiteEnabled;
+
+          showDesigns.checked =
+            DEFAULT_SETTINGS.showDesigns;
+
+          chatterEnabled.checked =
+            DEFAULT_SETTINGS.chatterEnabled;
+
+          maintenanceMode.checked =
+            DEFAULT_SETTINGS.maintenanceMode;
+
+          notificationsEnabled.checked =
+            DEFAULT_SETTINGS.notificationsEnabled;
+
+          updateStatus();
+
+          showToast(
+            "Default settings restored. Click Save to apply."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       CLEAR
+    ========================================================= */
+
+    document
+      .getElementById(
+        "clearBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          const confirmed =
+            confirm(
+              "Clear all system settings?"
+            );
+
+          if (!confirmed) {
             return;
           }
 
 
-          input.addEventListener(
-            "change",
+          localStorage.removeItem(
+            SETTINGS_KEY
+          );
+
+
+          websiteEnabled.checked =
+            DEFAULT_SETTINGS.websiteEnabled;
+
+          showDesigns.checked =
+            DEFAULT_SETTINGS.showDesigns;
+
+          chatterEnabled.checked =
+            DEFAULT_SETTINGS.chatterEnabled;
+
+          maintenanceMode.checked =
+            DEFAULT_SETTINGS.maintenanceMode;
+
+          notificationsEnabled.checked =
+            DEFAULT_SETTINGS.notificationsEnabled;
+
+
+          updateStatus();
+
+
+          addActivity(
+            "System settings were cleared and restored to defaults."
+          );
+
+
+          showToast(
+            "System settings cleared.",
+            "success"
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       LIVE UPDATE
+    ========================================================= */
+
+    [
+      websiteEnabled,
+      showDesigns,
+      chatterEnabled,
+      maintenanceMode,
+      notificationsEnabled
+
+    ].forEach(
+      input => {
+
+        input.addEventListener(
+          "change",
+          updateStatus
+        );
+
+      }
+    );
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(
+      message,
+      type = ""
+    ) {
+
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
+      clearTimeout(
+        toastTimer
+      );
+
+      toast.textContent =
+        message;
+
+      toast.className =
+        "toast show";
+
+
+      if (type) {
+
+        toast.classList.add(
+          type
+        );
+
+      }
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2800
+        );
+
+    }
+
+
+    /* =========================================================
+       ADMIN PROFILE
+    ========================================================= */
+
+    function loadAdminProfile() {
+
+      let session = null;
+
+      try {
+
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            )
+          );
+
+      } catch (error) {
+
+        session = null;
+
+      }
+
+
+      if (!session) {
+        return;
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+      const role =
+        session.role ||
+        "admin";
+
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      const avatar =
+        document.getElementById(
+          "adminAvatar"
+        );
+
+
+      if (session.avatar) {
+
+        avatar.innerHTML = `
+          <img
+            src="${escapeHtml(
+              session.avatar
+            )}"
+            alt="Admin"
+          />
+        `;
+
+      } else {
+
+        const initials =
+          name
+            .split(" ")
+            .map(
+              word =>
+                word.charAt(0)
+            )
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+
+
+        avatar.textContent =
+          initials || "AD";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const sidebarOverlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
+
+    const mobileMenuBtn =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
+
+
+    function openSidebar() {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      sidebarOverlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      sidebarOverlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    mobileMenuBtn.addEventListener(
+      "click",
+      openSidebar
+    );
+
+
+    sidebarOverlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+
+    document
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
             () => {
 
-              updateMaintenanceNotice();
+              if (
+                window.innerWidth <= 850
+              ) {
 
-              updateStatus();
+                closeSidebar();
+
+              }
 
             }
           );
 
-        });
+        }
+      );
 
-    }
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          if (
+            window.AdminAuth &&
+            typeof
+              window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+
+          }
+
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+
+          window.location.href =
+            "../login/index.html";
+
+        }
+      );
 
 
     /* =========================================================
@@ -2997,17 +3224,15 @@
       event => {
 
         if (
-          event.key === SYSTEM_KEY ||
-          event.key === CHATTER_KEY ||
-          event.key === SESSION_KEY ||
-          event.key === ACTIVITY_KEY
+          event.key ===
+            SETTINGS_KEY ||
+          event.key ===
+            SESSION_KEY
         ) {
 
-          loadSettings();
+          loadUI();
 
-          loadProfile();
-
-          renderActivity();
+          loadAdminProfile();
 
         }
 
@@ -3019,20 +3244,9 @@
        INITIALIZE
     ========================================================= */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
+    loadAdminProfile();
 
-        loadProfile();
-
-        loadSettings();
-
-        renderActivity();
-
-        setupLiveUpdates();
-
-      }
-    );
+    loadUI();
 
   </script>
 
