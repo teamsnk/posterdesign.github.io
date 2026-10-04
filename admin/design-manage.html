@@ -4,37 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Design Management | Admin</title>
+  <title>Design Management | Design System</title>
 
   <style>
-    /* =========================================================
-       DESIGN MANAGEMENT
-       ADMIN PANEL
-    ========================================================= */
-
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --sidebar: #111827;
-      --sidebar-hover: #1f2937;
-      --sidebar-active: #2563eb;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --success: #16a34a;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
-      --radius: 18px;
-      --sidebar-width: 270px;
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    :root {
+      --sidebar: #111827;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
+
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
+
+      --text: #111827;
+      --muted: #64748b;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+
+      --sidebar-width: 260px;
+
+      --shadow:
+        0 12px 35px rgba(15, 23, 42, 0.08);
+
+      --radius: 18px;
     }
 
     html {
@@ -44,29 +47,33 @@
     body {
       font-family:
         Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
         "Segoe UI",
-        Roboto,
-        Arial,
         sans-serif;
+
       background: var(--bg);
       color: var(--text);
+
       min-height: 100vh;
       overflow-x: hidden;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     button,
     input,
-    select {
+    select,
+    textarea {
       font: inherit;
     }
 
     button {
       cursor: pointer;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
     }
 
     /* =========================================================
@@ -75,156 +82,283 @@
 
     .sidebar {
       position: fixed;
-      left: 0;
+
       top: 0;
+      left: 0;
       bottom: 0;
+
       width: var(--sidebar-width);
-      background: var(--sidebar);
-      color: #fff;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a,
+          #111827 55%,
+          #0b1220
+        );
+
+      color: white;
+
       z-index: 1000;
+
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease;
+
+      border-right:
+        1px solid rgba(255,255,255,0.06);
     }
 
     .brand {
-      min-height: 82px;
-      padding: 20px 22px;
+      padding: 24px 20px;
+
       display: flex;
       align-items: center;
-      gap: 13px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+
+      gap: 12px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
     }
 
-    .brand-logo {
+    .brand-icon {
       width: 42px;
       height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      font-size: 20px;
       font-weight: 800;
-      font-size: 18px;
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+
+      box-shadow:
+        0 10px 25px
+        rgba(37,99,235,0.35);
     }
 
-    .brand-text h2 {
+    .brand-text h1 {
       font-size: 16px;
-      line-height: 1.2;
+      font-weight: 800;
     }
 
-    .brand-text span {
-      display: block;
-      color: #9ca3af;
+    .brand-text p {
+      margin-top: 3px;
+
+      color: var(--sidebar-muted);
+
       font-size: 11px;
-      margin-top: 4px;
     }
 
-    .sidebar-menu {
+    .nav {
       flex: 1;
-      padding: 18px 12px;
+
       overflow-y: auto;
+
+      padding: 18px 12px;
     }
 
-    .menu-title {
-      color: #6b7280;
+    .nav-title {
+      padding: 8px 12px;
+
+      margin-bottom: 6px;
+
+      color: #64748b;
+
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-weight: 800;
+
       text-transform: uppercase;
-      padding: 10px 12px;
+
+      letter-spacing: 1px;
     }
 
-    .menu-item {
+    .nav-link {
       display: flex;
+
       align-items: center;
+
       gap: 12px;
-      min-height: 46px;
-      padding: 0 13px;
-      margin: 4px 0;
+
+      padding: 11px 13px;
+
+      margin-bottom: 4px;
+
       border-radius: 12px;
-      color: #cbd5e1;
+
+      color: var(--sidebar-text);
+
       font-size: 13px;
+      font-weight: 600;
+
       transition: 0.2s ease;
     }
 
-    .menu-item:hover {
-      background: var(--sidebar-hover);
-      color: #fff;
+    .nav-link:hover {
+      background:
+        rgba(255,255,255,0.07);
+
+      color: white;
+
+      transform:
+        translateX(2px);
     }
 
-    .menu-item.active {
-      background: var(--sidebar-active);
-      color: #fff;
-      box-shadow: 0 7px 18px rgba(37, 99, 235, 0.25);
+    .nav-link.active {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37,99,235,0.95),
+          rgba(79,70,229,0.95)
+        );
+
+      color: white;
+
+      box-shadow:
+        0 8px 20px
+        rgba(37,99,235,0.25);
     }
 
-    .menu-icon {
-      width: 21px;
+    .nav-icon {
+      width: 22px;
+
       text-align: center;
-      font-size: 16px;
-      flex-shrink: 0;
+
+      font-size: 15px;
     }
 
-    .sidebar-bottom {
+    .sidebar-footer {
       padding: 14px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+
+      border-top:
+        1px solid rgba(255,255,255,0.08);
     }
 
-    .admin-profile {
+    .admin-mini {
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       padding: 10px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,0.05);
     }
 
-    .avatar {
+    .admin-avatar {
       width: 36px;
       height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 800;
+
       flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
+
+      font-size: 12px;
+      font-weight: 800;
+
+      overflow: hidden;
     }
 
-    .profile-info {
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .admin-info {
       min-width: 0;
       flex: 1;
     }
 
-    .profile-name {
+    .admin-info strong {
+      display: block;
+
+      color: white;
+
       font-size: 12px;
-      font-weight: 700;
+
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .profile-role {
-      color: #9ca3af;
-      font-size: 10px;
+    .admin-info span {
+      display: block;
+
       margin-top: 2px;
+
+      color: #94a3b8;
+
+      font-size: 10px;
+
+      text-transform: capitalize;
     }
 
     .logout-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding: 9px;
+
       border: 0;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 16px;
-      padding: 6px;
-      border-radius: 8px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(220,38,38,0.12);
+
+      color: #fca5a5;
+
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .logout-btn:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.08);
+      background:
+        rgba(220,38,38,0.2);
+
+      color: white;
+    }
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background:
+        rgba(15,23,42,0.55);
+
+      z-index: 900;
+
+      backdrop-filter: blur(2px);
     }
 
     /* =========================================================
@@ -233,70 +367,104 @@
 
     .main {
       margin-left: var(--sidebar-width);
+
       min-height: 100vh;
     }
 
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+
     .topbar {
-      height: 76px;
-      background: rgba(255,255,255,0.95);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30px;
       position: sticky;
       top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
+
+      height: 72px;
+
+      background:
+        rgba(255,255,255,0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 28px;
+
+      z-index: 500;
     }
 
     .topbar-left {
       display: flex;
+
       align-items: center;
+
       gap: 14px;
     }
 
     .mobile-menu-btn {
       display: none;
+
       width: 40px;
       height: 40px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-      font-size: 18px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 19px;
     }
 
-    .page-title h1 {
-      font-size: 21px;
-      font-weight: 800;
+    .page-title h2 {
+      font-size: 19px;
+
+      letter-spacing: -0.4px;
     }
 
     .page-title p {
       margin-top: 3px;
+
       color: var(--muted);
-      font-size: 12px;
+
+      font-size: 11px;
     }
 
-    .topbar-actions {
+    .topbar-right {
       display: flex;
+
       align-items: center;
+
       gap: 10px;
     }
 
-    .icon-btn {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 11px;
-      color: #4b5563;
-      transition: 0.2s ease;
+    .view-site {
+      padding: 9px 13px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: white;
+
+      color: var(--text);
+
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .icon-btn:hover {
+    .view-site:hover {
       border-color: #bfdbfe;
       color: var(--primary);
-      background: #eff6ff;
     }
 
     /* =========================================================
@@ -304,9 +472,92 @@
     ========================================================= */
 
     .content {
-      padding: 28px 30px 40px;
-      max-width: 1600px;
-      margin: auto;
+      padding: 28px;
+
+      max-width: 1500px;
+
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 28px;
+
+      margin-bottom: 22px;
+
+      border-radius: 23px;
+
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59,130,246,0.2),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #111827,
+          #1e293b
+        );
+
+      color: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 7px 11px;
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,0.08);
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+    }
+
+    .hero h1 {
+      margin-top: 13px;
+
+      font-size:
+        clamp(25px,3vw,36px);
+
+      line-height: 1.15;
+
+      letter-spacing: -0.8px;
+    }
+
+    .hero p {
+      max-width: 750px;
+
+      margin-top: 10px;
+
+      color: #cbd5e1;
+
+      font-size: 12px;
+
+      line-height: 1.7;
     }
 
     /* =========================================================
@@ -315,452 +566,721 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-bottom: 24px;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap: 15px;
+
+      margin-bottom: 22px;
     }
 
     .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
+      padding: 19px;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
       box-shadow: var(--shadow);
+    }
+
+    .stat-top {
       display: flex;
-      align-items: center;
+
       justify-content: space-between;
-      min-height: 110px;
-    }
 
-    .stat-info span {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .stat-info strong {
-      display: block;
-      font-size: 27px;
-      margin-top: 7px;
-      line-height: 1;
+      align-items: center;
     }
 
     .stat-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 12px;
+
       background: #eff6ff;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+
+      font-size: 18px;
     }
 
-    .stat-icon.green {
+    .stat-label {
+      margin-top: 13px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 4px;
+
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .stat-description {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .status-pill {
+      padding: 5px 8px;
+
+      border-radius: 999px;
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .status-pill.success {
       background: #f0fdf4;
-      color: var(--success);
+      color: #15803d;
     }
 
-    .stat-icon.orange {
-      background: #fff7ed;
-      color: var(--warning);
+    .status-pill.warning {
+      background: #fffbeb;
+      color: #b45309;
     }
 
-    .stat-icon.red {
+    .status-pill.danger {
       background: #fef2f2;
-      color: var(--danger);
+      color: #b91c1c;
     }
 
     /* =========================================================
        TOOLBAR
     ========================================================= */
 
-    .panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
     .toolbar {
-      padding: 18px;
-      border-bottom: 1px solid var(--border);
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       gap: 15px;
-      flex-wrap: wrap;
+
+      padding: 15px;
+
+      margin-bottom: 18px;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
+      box-shadow: var(--shadow);
     }
 
     .toolbar-left {
       display: flex;
-      gap: 10px;
+
+      align-items: center;
+
+      gap: 9px;
+
       flex: 1;
-      min-width: 280px;
     }
 
-    .search-box {
+    .search {
+      width: 100%;
+      max-width: 340px;
+
       position: relative;
-      flex: 1;
-      max-width: 430px;
     }
 
-    .search-box span {
+    .search input {
+      width: 100%;
+
+      padding: 11px 13px 11px 37px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #f8fafc;
+
+      color: var(--text);
+
+      outline: none;
+
+      font-size: 11px;
+    }
+
+    .search input:focus {
+      border-color: #93c5fd;
+
+      background: white;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,0.08);
+    }
+
+    .search-icon {
       position: absolute;
-      left: 14px;
+
+      left: 13px;
       top: 50%;
-      transform: translateY(-50%);
-      color: #9ca3af;
+
+      transform:
+        translateY(-50%);
+
+      color: var(--muted);
+
       font-size: 14px;
     }
 
-    .search-box input {
-      width: 100%;
-      height: 43px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      outline: none;
-      padding: 0 14px 0 40px;
+    .filter {
+      padding: 11px 12px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #f8fafc;
+
       color: var(--text);
-      background: #fff;
-      transition: 0.2s ease;
-    }
 
-    .search-box input:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
-    }
+      font-size: 11px;
 
-    .filter-select {
-      height: 43px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: #fff;
-      padding: 0 13px;
       outline: none;
-      color: #374151;
-      min-width: 150px;
     }
 
-    .filter-select:focus {
-      border-color: #93c5fd;
-    }
-
-    .toolbar-right {
+    .toolbar-actions {
       display: flex;
+
       align-items: center;
-      gap: 9px;
+
+      gap: 8px;
     }
 
     .btn {
-      min-height: 42px;
       border: 0;
+
       border-radius: 10px;
-      padding: 0 15px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      font-size: 12px;
-      font-weight: 700;
+
+      padding: 10px 14px;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
       transition: 0.2s ease;
-      white-space: nowrap;
     }
 
     .btn-primary {
-      color: #fff;
       background: var(--primary);
+
+      color: white;
+
+      box-shadow:
+        0 7px 18px
+        rgba(37,99,235,0.22);
     }
 
     .btn-primary:hover {
       background: var(--primary-dark);
-      transform: translateY(-1px);
+
+      transform:
+        translateY(-1px);
     }
 
-    .btn-light {
-      color: #374151;
-      background: #f8fafc;
-      border: 1px solid var(--border);
+    .btn-secondary {
+      background: white;
+
+      color: var(--text);
+
+      border:
+        1px solid var(--border);
     }
 
-    .btn-light:hover {
-      background: #f1f5f9;
+    .btn-secondary:hover {
+      border-color: #bfdbfe;
+
+      color: var(--primary);
     }
 
     /* =========================================================
-       TABLE
+       DESIGN GRID
     ========================================================= */
 
-    .table-wrap {
-      overflow-x: auto;
+    .design-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 18px;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
+    .design-card {
+      overflow: hidden;
 
-    thead {
-      background: #f8fafc;
-    }
+      background: white;
 
-    th {
-      text-align: left;
-      padding: 14px 18px;
-      font-size: 10px;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 800;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
+      border:
+        1px solid var(--border);
 
-    td {
-      padding: 15px 18px;
-      border-bottom: 1px solid #eef2f7;
-      vertical-align: middle;
-      font-size: 12px;
-    }
+      border-radius: 17px;
 
-    tbody tr {
-      transition: 0.15s ease;
-    }
+      box-shadow: var(--shadow);
 
-    tbody tr:hover {
-      background: #fafcff;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .design-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 230px;
-    }
-
-    .design-thumb {
-      width: 55px;
-      height: 55px;
-      border-radius: 11px;
-      object-fit: cover;
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .design-thumb-placeholder {
-      width: 55px;
-      height: 55px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #eff6ff, #f5f3ff);
-      border: 1px solid #dbeafe;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-      font-size: 19px;
-      flex-shrink: 0;
-    }
-
-    .design-name {
-      font-weight: 800;
-      color: #111827;
-    }
-
-    .design-id {
-      color: #94a3b8;
-      font-size: 10px;
-      margin-top: 4px;
-    }
-
-    .path {
-      color: #64748b;
-      font-family: Consolas, monospace;
-      font-size: 10px;
-      background: #f8fafc;
-      padding: 5px 8px;
-      border-radius: 6px;
-      display: inline-block;
-    }
-
-    .category {
-      display: inline-flex;
-      padding: 5px 9px;
-      border-radius: 20px;
-      background: #f1f5f9;
-      color: #475569;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-
-    .status.active {
-      background: #f0fdf4;
-      color: #15803d;
-    }
-
-    .status.active::before {
-      background: #22c55e;
-    }
-
-    .status.inactive {
-      background: #fef2f2;
-      color: #b91c1c;
-    }
-
-    .status.inactive::before {
-      background: #ef4444;
-    }
-
-    .action-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .action-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       transition: 0.2s ease;
     }
 
-    .action-btn:hover {
-      color: var(--primary);
-      border-color: #bfdbfe;
-      background: #eff6ff;
+    .design-card:hover {
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 18px 40px
+        rgba(15,23,42,0.11);
     }
 
-    .action-btn.danger:hover {
-      color: var(--danger);
-      border-color: #fecaca;
-      background: #fef2f2;
+    .design-preview {
+      position: relative;
+
+      aspect-ratio: 16 / 10;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e2e8f0,
+          #f8fafc
+        );
+
+      overflow: hidden;
+    }
+
+    .design-preview img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+    }
+
+    .preview-placeholder {
+      width: 100%;
+      height: 100%;
+
+      display: grid;
+      place-items: center;
+
+      padding: 20px;
+
+      text-align: center;
+
+      color: #64748b;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f8fafc,
+          #e2e8f0
+        );
+    }
+
+    .placeholder-inner {
+      max-width: 180px;
+    }
+
+    .placeholder-icon {
+      width: 50px;
+      height: 50px;
+
+      margin: 0 auto 9px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: white;
+
+      box-shadow:
+        0 8px 20px
+        rgba(15,23,42,0.08);
+
+      font-size: 21px;
+    }
+
+    .placeholder-inner strong {
+      display: block;
+
+      color: #334155;
+
+      font-size: 12px;
+    }
+
+    .placeholder-inner span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #64748b;
+
+      font-size: 9px;
+
+      line-height: 1.5;
+    }
+
+    .design-badge {
+      position: absolute;
+
+      top: 11px;
+      left: 11px;
+
+      padding: 5px 8px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,0.92);
+
+      backdrop-filter: blur(8px);
+
+      color: #111827;
+
+      font-size: 8px;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 5px 15px
+        rgba(15,23,42,0.1);
+    }
+
+    .design-body {
+      padding: 15px;
+    }
+
+    .design-title {
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .design-title h3 {
+      font-size: 13px;
+
+      line-height: 1.4;
+    }
+
+    .design-number {
+      color: var(--muted);
+
+      font-size: 9px;
+
+      font-weight: 700;
+    }
+
+    .design-description {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+
+      line-height: 1.5;
+    }
+
+    .design-path {
+      margin-top: 10px;
+
+      padding: 8px 9px;
+
+      border-radius: 8px;
+
+      background: #f8fafc;
+
+      color: #64748b;
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size: 8px;
+
+      word-break: break-all;
+    }
+
+    .design-actions {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 7px;
+
+      margin-top: 12px;
+    }
+
+    .design-actions button,
+    .design-actions a {
+      padding: 9px 7px;
+
+      border-radius: 9px;
+
+      text-align: center;
+
+      font-size: 9px;
+
+      font-weight: 800;
+    }
+
+    .action-view {
+      background: #eff6ff;
+
+      color: #1d4ed8;
+
+      border: 1px solid #dbeafe;
+    }
+
+    .action-edit {
+      background: white;
+
+      color: #475569;
+
+      border:
+        1px solid var(--border);
+    }
+
+    .action-view:hover {
+      background: #dbeafe;
+    }
+
+    .action-edit:hover {
+      border-color: #cbd5e1;
+
+      color: #111827;
     }
 
     /* =========================================================
-       EMPTY
+       EMPTY STATE
     ========================================================= */
 
     .empty-state {
       display: none;
-      padding: 65px 20px;
+
+      padding: 55px 20px;
+
       text-align: center;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      box-shadow: var(--shadow);
     }
 
     .empty-icon {
-      width: 64px;
-      height: 64px;
+      width: 62px;
+      height: 62px;
+
+      margin: 0 auto 13px;
+
+      display: grid;
+      place-items: center;
+
       border-radius: 18px;
-      background: #f1f5f9;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 15px;
+
+      background: #eff6ff;
+
       font-size: 25px;
     }
 
     .empty-state h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
+      font-size: 15px;
     }
 
     .empty-state p {
+      max-width: 450px;
+
+      margin: 7px auto 0;
+
       color: var(--muted);
-      font-size: 12px;
+
+      font-size: 10px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       INFO
+    ========================================================= */
+
+    .info-card {
+      margin-top: 22px;
+
+      padding: 20px;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .info-card h3 {
+      font-size: 13px;
+    }
+
+    .info-card p {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.7;
+    }
+
+    .info-points {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 10px;
+
+      margin-top: 14px;
+    }
+
+    .info-point {
+      padding: 12px;
+
+      border-radius: 11px;
+
+      background: #f8fafc;
+
+      border:
+        1px solid #eef2f7;
+    }
+
+    .info-point strong {
+      display: block;
+
+      font-size: 10px;
+    }
+
+    .info-point span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      line-height: 1.5;
     }
 
     /* =========================================================
        MODAL
     ========================================================= */
 
-    .modal-overlay {
+    .modal {
       position: fixed;
+
       inset: 0;
-      background: rgba(15,23,42,0.55);
+
       display: none;
+
       align-items: center;
       justify-content: center;
+
       padding: 20px;
-      z-index: 3000;
-      backdrop-filter: blur(4px);
+
+      background:
+        rgba(15,23,42,0.65);
+
+      backdrop-filter: blur(5px);
+
+      z-index: 2500;
     }
 
-    .modal-overlay.show {
+    .modal.show {
       display: flex;
     }
 
-    .modal {
+    .modal-box {
       width: 100%;
-      max-width: 520px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 25px 70px rgba(15,23,42,0.25);
-      overflow: hidden;
-      animation: modalIn 0.2s ease;
-    }
+      max-width: 500px;
 
-    @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-      }
+      max-height:
+        calc(100vh - 40px);
 
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      overflow-y: auto;
+
+      background: white;
+
+      border-radius: 19px;
+
+      box-shadow:
+        0 30px 80px
+        rgba(15,23,42,0.25);
     }
 
     .modal-header {
-      padding: 19px 20px;
-      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+
       display: flex;
-      justify-content: space-between;
+
       align-items: center;
+
+      justify-content: space-between;
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .modal-header h3 {
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .modal-close {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
+
       border: 0;
-      background: #f8fafc;
+
       border-radius: 9px;
-      color: #64748b;
-      font-size: 17px;
+
+      background: #f1f5f9;
+
+      font-size: 16px;
     }
 
     .modal-body {
@@ -768,45 +1288,69 @@
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 14px;
     }
 
-    .form-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .form-label {
+    .form-group label {
       display: block;
-      font-size: 11px;
+
+      margin-bottom: 6px;
+
+      color: #334155;
+
+      font-size: 10px;
+
       font-weight: 800;
-      color: #374151;
-      margin-bottom: 7px;
     }
 
-    .form-input,
-    .form-select {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
       width: 100%;
-      height: 43px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+
+      padding: 10px 11px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 9px;
+
       outline: none;
-      padding: 0 12px;
-      background: #fff;
-      color: var(--text);
+
+      background: #f8fafc;
+
+      font-size: 11px;
     }
 
-    .form-input:focus,
-    .form-select:focus {
+    .form-group textarea {
+      min-height: 85px;
+
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
       border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+
+      background: white;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,0.08);
     }
 
     .modal-footer {
       padding: 15px 20px;
-      border-top: 1px solid var(--border);
+
       display: flex;
+
       justify-content: flex-end;
+
       gap: 8px;
+
+      border-top:
+        1px solid var(--border);
     }
 
     /* =========================================================
@@ -815,66 +1359,86 @@
 
     .toast {
       position: fixed;
-      right: 25px;
-      bottom: 25px;
+
+      right: 24px;
+      bottom: 24px;
+
       min-width: 260px;
       max-width: 360px;
-      padding: 13px 16px;
-      border-radius: 12px;
-      color: #fff;
+
+      padding: 13px 15px;
+
+      border-radius: 13px;
+
       background: #111827;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
-      font-size: 12px;
-      font-weight: 600;
-      z-index: 5000;
-      transform: translateY(20px);
+
+      color: white;
+
+      box-shadow:
+        0 15px 40px
+        rgba(15,23,42,0.25);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transform:
+        translateY(120px);
+
       opacity: 0;
+
       pointer-events: none;
-      transition: 0.25s ease;
+
+      transition: 0.3s ease;
+
+      z-index: 3000;
     }
 
     .toast.show {
-      transform: translateY(0);
+      transform:
+        translateY(0);
+
       opacity: 1;
-    }
-
-    /* =========================================================
-       MOBILE OVERLAY
-    ========================================================= */
-
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.45);
-      z-index: 900;
-      display: none;
-    }
-
-    .sidebar-overlay.show {
-      display: block;
     }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1150px) {
+
       .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .design-grid {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .info-points {
+        grid-template-columns:
+          1fr 1fr;
       }
     }
 
-    @media (max-width: 900px) {
-      :root {
-        --sidebar-width: 260px;
-      }
+    @media (max-width: 850px) {
 
       .sidebar {
-        transform: translateX(-100%);
+        transform:
+          translateX(-100%);
+
+        transition:
+          transform 0.25s ease;
       }
 
       .sidebar.open {
-        transform: translateX(0);
+        transform:
+          translateX(0);
+      }
+
+      .sidebar-overlay.show {
+        display: block;
       }
 
       .main {
@@ -882,9 +1446,9 @@
       }
 
       .mobile-menu-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        display: grid;
+
+        place-items: center;
       }
 
       .topbar {
@@ -892,229 +1456,320 @@
       }
 
       .content {
-        padding: 22px 18px 35px;
+        padding: 20px;
       }
     }
 
     @media (max-width: 650px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
+
+      .topbar {
+        height: 64px;
       }
 
-      .stat-card {
-        min-height: 95px;
-      }
-
-      .toolbar {
-        align-items: stretch;
-      }
-
-      .toolbar-left,
-      .toolbar-right {
-        width: 100%;
-      }
-
-      .toolbar-left {
-        flex-direction: column;
-      }
-
-      .search-box {
-        max-width: none;
-      }
-
-      .filter-select {
-        width: 100%;
-      }
-
-      .toolbar-right {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .toolbar-right .btn {
-        width: 100%;
-      }
-
-      .page-title h1 {
-        font-size: 18px;
+      .page-title h2 {
+        font-size: 16px;
       }
 
       .page-title p {
         display: none;
       }
 
-      .topbar-actions .icon-btn:first-child {
+      .view-site {
         display: none;
       }
 
       .content {
-        padding: 18px 12px 30px;
+        padding: 14px;
       }
 
-      .panel {
-        border-radius: 14px;
+      .hero {
+        padding: 21px;
+
+        border-radius: 19px;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .stats-grid {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .toolbar-left {
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .search {
+        max-width: none;
+      }
+
+      .toolbar-actions {
+        width: 100%;
+      }
+
+      .toolbar-actions .btn {
+        flex: 1;
+      }
+
+      .design-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .info-points {
+        grid-template-columns:
+          1fr;
       }
 
       .toast {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
+        left: 14px;
+        right: 14px;
+
         min-width: auto;
+
+        bottom: 14px;
       }
     }
 
-    @media (max-width: 420px) {
-      .toolbar-right {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 380px) {
 
-      .stat-info strong {
-        font-size: 24px;
+      .stats-grid {
+        grid-template-columns:
+          1fr;
       }
     }
-
-    /* =========================================================
-       REDUCED MOTION
-    ========================================================= */
 
     @media (prefers-reduced-motion: reduce) {
+
       *,
       *::before,
       *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+        transition: none !important;
         scroll-behavior: auto !important;
       }
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline:
+        3px solid
+        rgba(37,99,235,0.2);
+
+      outline-offset: 2px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =======================================================
+  <!-- =========================================================
        SIDEBAR
-  ======================================================== -->
+  ========================================================= -->
 
-  <aside class="sidebar" id="sidebar">
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
 
     <div class="brand">
-      <div class="brand-logo">DS</div>
+
+      <div class="brand-icon">
+        DS
+      </div>
 
       <div class="brand-text">
-        <h2>Design System</h2>
-        <span>Admin Control Panel</span>
+
+        <h1>
+          Design System
+        </h1>
+
+        <p>
+          Admin Control Center
+        </p>
+
       </div>
+
     </div>
 
-    <nav class="sidebar-menu">
 
-      <div class="menu-title">Main</div>
+    <nav class="nav">
 
-      <a class="menu-item" href="./dashboard.html">
-        <span class="menu-icon">▦</span>
+      <div class="nav-title">
+        Main
+      </div>
+
+      <a
+        href="./dashboard.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📊</span>
         <span>Dashboard</span>
       </a>
 
-      <a class="menu-item" href="./website.html">
-        <span class="menu-icon">🌐</span>
+      <a
+        href="./website.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
         <span>Website</span>
       </a>
 
-      <a class="menu-item" href="./website-edit.html">
-        <span class="menu-icon">✎</span>
+      <a
+        href="./website-edit.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">✏️</span>
         <span>Website Editor</span>
       </a>
 
-      <div class="menu-title">Management</div>
-
-      <a class="menu-item active" href="./design-manage.html">
-        <span class="menu-icon">▧</span>
+      <a
+        href="./design-manage.html"
+        class="nav-link active"
+      >
+        <span class="nav-icon">🎨</span>
         <span>Design Management</span>
       </a>
 
-      <a class="menu-item" href="./banner.html">
-        <span class="menu-icon">▤</span>
-        <span>Banner Manager</span>
+      <a
+        href="./banner.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🖼️</span>
+        <span>Advertisement</span>
       </a>
 
-      <a class="menu-item" href="./browser-ui.html">
-        <span class="menu-icon">◉</span>
+
+      <div class="nav-title">
+        Chatter
+      </div>
+
+      <a
+        href="./chatter.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">💬</span>
+        <span>Chatter Settings</span>
+      </a>
+
+      <a
+        href="./browser-ui.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
         <span>Browser UI</span>
       </a>
 
-      <div class="menu-title">System</div>
-
-      <a class="menu-item" href="./chatter.html">
-        <span class="menu-icon">💬</span>
-        <span>Chatter</span>
-      </a>
-
-      <a class="menu-item" href="./live-monitor.html">
-        <span class="menu-icon">◉</span>
+      <a
+        href="./live-monitor.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📡</span>
         <span>Live Monitor</span>
       </a>
 
-      <a class="menu-item" href="./system.html">
-        <span class="menu-icon">⚙</span>
+
+      <div class="nav-title">
+        System
+      </div>
+
+      <a
+        href="./system.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">⚙️</span>
         <span>System Settings</span>
       </a>
 
-      <a class="menu-item" href="./link-check.html">
-        <span class="menu-icon">🔗</span>
+      <a
+        href="./link-check.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🔗</span>
         <span>Link Checker</span>
       </a>
 
-      <div class="menu-title">Website</div>
-
-      <a class="menu-item" href="../index.html" target="_blank">
-        <span class="menu-icon">↗</span>
+      <a
+        href="../index.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🏠</span>
         <span>View Website</span>
       </a>
 
     </nav>
 
-    <div class="sidebar-bottom">
 
-      <div class="admin-profile">
+    <div class="sidebar-footer">
 
-        <div class="avatar" id="profileAvatar">
-          A
-        </div>
+      <div class="admin-mini">
 
-        <div class="profile-info">
-          <div class="profile-name" id="profileName">
-            Admin
-          </div>
-
-          <div class="profile-role" id="profileRole">
-            Administrator
-          </div>
-        </div>
-
-        <button
-          class="logout-btn"
-          id="logoutBtn"
-          title="Logout"
-          type="button"
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
         >
-          ⎋
-        </button>
+          AD
+        </div>
+
+        <div class="admin-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
 
       </div>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Logout
+      </button>
 
     </div>
 
   </aside>
+
 
   <div
     class="sidebar-overlay"
     id="sidebarOverlay"
   ></div>
 
-  <!-- =======================================================
+
+  <!-- =========================================================
        MAIN
-  ======================================================== -->
+  ========================================================= -->
 
   <main class="main">
 
@@ -1127,208 +1782,371 @@
         <button
           class="mobile-menu-btn"
           id="mobileMenuBtn"
-          type="button"
           aria-label="Open menu"
         >
           ☰
         </button>
 
         <div class="page-title">
-          <h1>Design Management</h1>
-          <p>Manage all website poster designs from one place.</p>
+
+          <h2>
+            Design Management
+          </h2>
+
+          <p>
+            Manage your independent design pages
+          </p>
+
         </div>
 
       </div>
 
-      <div class="topbar-actions">
 
-        <button
-          class="icon-btn"
-          type="button"
-          title="Refresh"
-          id="refreshBtn"
-        >
-          ↻
-        </button>
+      <div class="topbar-right">
 
-        <button
-          class="icon-btn"
-          type="button"
-          title="View Website"
-          onclick="window.open('../index.html', '_blank')"
+        <a
+          href="../index.html"
+          class="view-site"
         >
-          ↗
-        </button>
+          ↗ View Website
+        </a>
 
       </div>
 
     </header>
 
-    <!-- CONTENT -->
+
+    <!-- =======================================================
+         CONTENT
+    ======================================================= -->
 
     <section class="content">
 
-      <!-- STATS -->
+      <!-- HERO -->
+
+      <div class="hero">
+
+        <div class="hero-badge">
+          🎨 Design Control
+        </div>
+
+        <h1>
+          Design Management
+        </h1>
+
+        <p>
+          Manage each design independently. Every design can have
+          its own folder and its own index.html page, allowing you
+          to keep every design style separate and organized.
+        </p>
+
+      </div>
+
+
+      <!-- =====================================================
+           STATS
+      ===================================================== -->
 
       <div class="stats-grid">
 
         <div class="stat-card">
 
-          <div class="stat-info">
-            <span>Total Designs</span>
-            <strong id="totalDesigns">0</strong>
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🎨
+            </div>
+
+            <span class="status-pill success">
+              Ready
+            </span>
+
           </div>
 
-          <div class="stat-icon">
-            ▧
+          <div class="stat-label">
+            Total Designs
           </div>
 
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-info">
-            <span>Active Designs</span>
-            <strong id="activeDesigns">0</strong>
+          <div
+            class="stat-value"
+            id="totalDesigns"
+          >
+            6
           </div>
 
-          <div class="stat-icon green">
-            ✓
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-info">
-            <span>Inactive Designs</span>
-            <strong id="inactiveDesigns">0</strong>
-          </div>
-
-          <div class="stat-icon red">
-            ◌
+          <div class="stat-description">
+            Registered design pages
           </div>
 
         </div>
 
+
         <div class="stat-card">
 
-          <div class="stat-info">
-            <span>Categories</span>
-            <strong id="categoryCount">0</strong>
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              👁️
+            </div>
+
+            <span class="status-pill success">
+              Active
+            </span>
+
           </div>
 
-          <div class="stat-icon orange">
-            ◫
+          <div
+            class="stat-label"
+          >
+            Published
+          </div>
+
+          <div
+            class="stat-value"
+            id="publishedDesigns"
+          >
+            6
+          </div>
+
+          <div class="stat-description">
+            Designs available to visitors
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              📁
+            </div>
+
+            <span class="status-pill success">
+              Separate
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Independent Pages
+          </div>
+
+          <div
+            class="stat-value"
+            id="independentDesigns"
+          >
+            6
+          </div>
+
+          <div class="stat-description">
+            One folder per design
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🔗
+            </div>
+
+            <span class="status-pill success">
+              Ready
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Design Links
+          </div>
+
+          <div
+            class="stat-value"
+            id="validDesignLinks"
+          >
+            6
+          </div>
+
+          <div class="stat-description">
+            Configured website routes
           </div>
 
         </div>
 
       </div>
 
-      <!-- DESIGN PANEL -->
 
-      <div class="panel">
+      <!-- =====================================================
+           TOOLBAR
+      ===================================================== -->
 
-        <!-- TOOLBAR -->
+      <div class="toolbar">
 
-        <div class="toolbar">
+        <div class="toolbar-left">
 
-          <div class="toolbar-left">
+          <div class="search">
 
-            <div class="search-box">
+            <span class="search-icon">
+              🔍
+            </span>
 
-              <span>⌕</span>
-
-              <input
-                type="search"
-                id="searchInput"
-                placeholder="Search design name, ID or category..."
-                autocomplete="off"
-              >
-
-            </div>
-
-            <select
-              class="filter-select"
-              id="categoryFilter"
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search designs..."
+              autocomplete="off"
             >
-              <option value="all">All Categories</option>
-            </select>
-
-            <select
-              class="filter-select"
-              id="statusFilter"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
 
           </div>
 
-          <div class="toolbar-right">
 
-            <button
-              class="btn btn-light"
-              type="button"
-              id="resetFilterBtn"
-            >
-              ↺ Reset
-            </button>
+          <select
+            class="filter"
+            id="categoryFilter"
+          >
 
-            <button
-              class="btn btn-primary"
-              type="button"
-              id="addDesignBtn"
-            >
-              ＋ Add Design
-            </button>
+            <option value="all">
+              All Categories
+            </option>
 
-          </div>
+            <option value="medical">
+              Medical
+            </option>
+
+            <option value="education">
+              Education
+            </option>
+
+            <option value="business">
+              Business
+            </option>
+
+            <option value="social">
+              Social Media
+            </option>
+
+          </select>
 
         </div>
 
-        <!-- TABLE -->
 
-        <div class="table-wrap">
+        <div class="toolbar-actions">
 
-          <table>
+          <button
+            class="btn btn-secondary"
+            id="refreshBtn"
+          >
+            ↻ Refresh
+          </button>
 
-            <thead>
-              <tr>
-                <th>Design</th>
-                <th>Path</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Updated</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody id="designTableBody">
-            </tbody>
-
-          </table>
+          <button
+            class="btn btn-primary"
+            id="addDesignBtn"
+          >
+            + Add Design
+          </button>
 
         </div>
 
-        <!-- EMPTY -->
+      </div>
 
-        <div
-          class="empty-state"
-          id="emptyState"
-        >
 
-          <div class="empty-icon">
-            ▧
+      <!-- =====================================================
+           DESIGN GRID
+      ===================================================== -->
+
+      <div
+        class="design-grid"
+        id="designGrid"
+      ></div>
+
+
+      <!-- EMPTY -->
+
+      <div
+        class="empty-state"
+        id="emptyState"
+      >
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>
+          No designs found
+        </h3>
+
+        <p>
+          Try another search term or category.
+        </p>
+
+      </div>
+
+
+      <!-- =====================================================
+           INFORMATION
+      ===================================================== -->
+
+      <div class="info-card">
+
+        <h3>
+          Design Structure
+        </h3>
+
+        <p>
+          Each design is kept independent. This means Design 1
+          does not depend on Design 2, and each design can have
+          its own HTML, CSS, JavaScript and assets.
+        </p>
+
+
+        <div class="info-points">
+
+          <div class="info-point">
+
+            <strong>
+              📁 Separate Folder
+            </strong>
+
+            <span>
+              Example:
+              design/design1/
+            </span>
+
           </div>
 
-          <h3>No designs found</h3>
 
-          <p>
-            Try changing your search or filter.
-          </p>
+          <div class="info-point">
+
+            <strong>
+              📄 Independent Page
+            </strong>
+
+            <span>
+              Example:
+              design/design1/index.html
+            </span>
+
+          </div>
+
+
+          <div class="info-point">
+
+            <strong>
+              🎨 Independent Style
+            </strong>
+
+            <span>
+              Each design can use its own CSS,
+              JS and image assets.
+            </span>
+
+          </div>
 
         </div>
 
@@ -1338,124 +2156,131 @@
 
   </main>
 
-  <!-- =======================================================
-       ADD / EDIT MODAL
-  ======================================================== -->
+
+  <!-- =========================================================
+       ADD DESIGN MODAL
+  ========================================================= -->
 
   <div
-    class="modal-overlay"
+    class="modal"
     id="designModal"
   >
 
-    <div class="modal">
+    <div class="modal-box">
 
       <div class="modal-header">
 
-        <h3 id="modalTitle">
+        <h3>
           Add Design
         </h3>
 
         <button
           class="modal-close"
-          id="modalCloseBtn"
-          type="button"
+          id="modalClose"
         >
           ×
         </button>
 
       </div>
 
+
       <div class="modal-body">
 
         <div class="form-group">
 
-          <label class="form-label">
+          <label for="designName">
             Design Name
           </label>
 
           <input
-            class="form-input"
-            id="designNameInput"
+            id="designName"
             type="text"
             placeholder="Example: Doctor Poster"
           >
 
         </div>
 
+
         <div class="form-group">
 
-          <label class="form-label">
-            Design ID
+          <label for="designFolder">
+            Folder Name
           </label>
 
           <input
-            class="form-input"
-            id="designIdInput"
+            id="designFolder"
             type="text"
-            placeholder="Example: design1"
+            placeholder="design7"
           >
 
         </div>
 
-        <div class="form-group">
-
-          <label class="form-label">
-            Design Path
-          </label>
-
-          <input
-            class="form-input"
-            id="designPathInput"
-            type="text"
-            placeholder="design/design1/index.html"
-          >
-
-        </div>
 
         <div class="form-group">
 
-          <label class="form-label">
+          <label for="designCategory">
             Category
           </label>
 
-          <select
-            class="form-select"
-            id="designCategoryInput"
-          >
-            <option value="Medical">Medical</option>
-            <option value="Education">Education</option>
-            <option value="Business">Business</option>
-            <option value="Social Media">Social Media</option>
-            <option value="Event">Event</option>
-            <option value="General">General</option>
+          <select id="designCategory">
+
+            <option value="medical">
+              Medical
+            </option>
+
+            <option value="education">
+              Education
+            </option>
+
+            <option value="business">
+              Business
+            </option>
+
+            <option value="social">
+              Social Media
+            </option>
+
           </select>
 
         </div>
 
+
         <div class="form-group">
 
-          <label class="form-label">
-            Status
+          <label for="designDescription">
+            Description
           </label>
 
-          <select
-            class="form-select"
-            id="designStatusInput"
+          <textarea
+            id="designDescription"
+            placeholder="Short description..."
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="designPath">
+            Page Path
+          </label>
+
+          <input
+            id="designPath"
+            type="text"
+            placeholder="design/design7/index.html"
           >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
 
         </div>
 
       </div>
 
+
       <div class="modal-footer">
 
         <button
-          class="btn btn-light"
-          id="cancelModalBtn"
-          type="button"
+          class="btn btn-secondary"
+          id="cancelModal"
         >
           Cancel
         </button>
@@ -1463,7 +2288,6 @@
         <button
           class="btn btn-primary"
           id="saveDesignBtn"
-          type="button"
         >
           Save Design
         </button>
@@ -1474,18 +2298,27 @@
 
   </div>
 
-  <!-- =======================================================
+
+  <!-- =========================================================
        TOAST
-  ======================================================== -->
+  ========================================================= -->
 
   <div
     class="toast"
     id="toast"
   ></div>
 
-  <!-- =======================================================
+
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================= -->
+
+  <script src="./auth-guard.js"></script>
+
+
+  <!-- =========================================================
        JAVASCRIPT
-  ======================================================== -->
+  ========================================================= -->
 
   <script>
 
@@ -1493,8 +2326,11 @@
        STORAGE
     ========================================================= */
 
-    const DESIGN_STORAGE_KEY = "designManagementData";
-    const SESSION_KEY = "chatterAdminSession";
+    const DESIGN_KEY =
+      "designManagementData";
+
+    const SESSION_KEY =
+      "chatterAdminSession";
 
 
     /* =========================================================
@@ -1505,193 +2341,165 @@
 
       {
         id: "design1",
-        name: "Doctor Poster",
-        path: "../design/design1/index.html",
-        category: "Medical",
-        status: "active",
-        updated: "Today"
+
+        number: 1,
+
+        name: "Design Style 01",
+
+        category: "medical",
+
+        description:
+          "Independent design page for the first poster style.",
+
+        path:
+          "../design/design1/index.html",
+
+        status: "published",
+
+        image: ""
       },
+
 
       {
         id: "design2",
-        name: "Education Poster",
-        path: "../design/design2/index.html",
-        category: "Education",
-        status: "active",
-        updated: "Today"
+
+        number: 2,
+
+        name: "Design Style 02",
+
+        category: "medical",
+
+        description:
+          "Independent design page for the second poster style.",
+
+        path:
+          "../design/design2/index.html",
+
+        status: "published",
+
+        image: ""
       },
+
 
       {
         id: "design3",
-        name: "Business Poster",
-        path: "../design/design3/index.html",
-        category: "Business",
-        status: "active",
-        updated: "Today"
+
+        number: 3,
+
+        name: "Design Style 03",
+
+        category: "education",
+
+        description:
+          "Independent design page for the third poster style.",
+
+        path:
+          "../design/design3/index.html",
+
+        status: "published",
+
+        image: ""
       },
+
 
       {
         id: "design4",
-        name: "Social Media Poster",
-        path: "../design/design4/index.html",
-        category: "Social Media",
-        status: "inactive",
-        updated: "Recently"
+
+        number: 4,
+
+        name: "Design Style 04",
+
+        category: "business",
+
+        description:
+          "Independent design page for the fourth poster style.",
+
+        path:
+          "../design/design4/index.html",
+
+        status: "published",
+
+        image: ""
+      },
+
+
+      {
+        id: "design5",
+
+        number: 5,
+
+        name: "Design Style 05",
+
+        category: "social",
+
+        description:
+          "Independent design page for the fifth poster style.",
+
+        path:
+          "../design/design5/index.html",
+
+        status: "published",
+
+        image: ""
+      },
+
+
+      {
+        id: "design6",
+
+        number: 6,
+
+        name: "Design Style 06",
+
+        category: "medical",
+
+        description:
+          "Independent design page for the sixth poster style.",
+
+        path:
+          "../design/design6/index.html",
+
+        status: "published",
+
+        image: ""
       }
 
     ];
 
 
     /* =========================================================
-       STATE
+       GET DESIGNS
     ========================================================= */
 
-    let designs = [];
-    let editingDesignId = null;
-
-
-    /* =========================================================
-       DOM
-    ========================================================= */
-
-    const sidebar =
-      document.getElementById("sidebar");
-
-    const sidebarOverlay =
-      document.getElementById("sidebarOverlay");
-
-    const mobileMenuBtn =
-      document.getElementById("mobileMenuBtn");
-
-    const searchInput =
-      document.getElementById("searchInput");
-
-    const categoryFilter =
-      document.getElementById("categoryFilter");
-
-    const statusFilter =
-      document.getElementById("statusFilter");
-
-    const resetFilterBtn =
-      document.getElementById("resetFilterBtn");
-
-    const refreshBtn =
-      document.getElementById("refreshBtn");
-
-    const addDesignBtn =
-      document.getElementById("addDesignBtn");
-
-    const designTableBody =
-      document.getElementById("designTableBody");
-
-    const emptyState =
-      document.getElementById("emptyState");
-
-    const totalDesigns =
-      document.getElementById("totalDesigns");
-
-    const activeDesigns =
-      document.getElementById("activeDesigns");
-
-    const inactiveDesigns =
-      document.getElementById("inactiveDesigns");
-
-    const categoryCount =
-      document.getElementById("categoryCount");
-
-    const designModal =
-      document.getElementById("designModal");
-
-    const modalTitle =
-      document.getElementById("modalTitle");
-
-    const modalCloseBtn =
-      document.getElementById("modalCloseBtn");
-
-    const cancelModalBtn =
-      document.getElementById("cancelModalBtn");
-
-    const saveDesignBtn =
-      document.getElementById("saveDesignBtn");
-
-    const designNameInput =
-      document.getElementById("designNameInput");
-
-    const designIdInput =
-      document.getElementById("designIdInput");
-
-    const designPathInput =
-      document.getElementById("designPathInput");
-
-    const designCategoryInput =
-      document.getElementById("designCategoryInput");
-
-    const designStatusInput =
-      document.getElementById("designStatusInput");
-
-    const toast =
-      document.getElementById("toast");
-
-
-    /* =========================================================
-       INIT
-    ========================================================= */
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-      loadDesigns();
-
-      loadAdminProfile();
-
-      populateCategories();
-
-      renderDesigns();
-
-      bindEvents();
-
-    });
-
-
-    /* =========================================================
-       LOAD DESIGNS
-    ========================================================= */
-
-    function loadDesigns() {
+    function getDesigns() {
 
       try {
 
         const saved =
-          localStorage.getItem(DESIGN_STORAGE_KEY);
+          JSON.parse(
+            localStorage.getItem(
+              DESIGN_KEY
+            )
+          );
 
-        if (saved) {
 
-          const parsed =
-            JSON.parse(saved);
+        if (
+          Array.isArray(saved) &&
+          saved.length
+        ) {
 
-          if (Array.isArray(parsed)) {
-
-            designs = parsed;
-
-            return;
-
-          }
+          return saved;
 
         }
 
-      } catch (error) {
+      } catch (error) {}
 
-        console.warn(
-          "Could not load design data.",
-          error
-        );
 
-      }
-
-      designs = DEFAULT_DESIGNS.map(
-        design => ({ ...design })
+      return DEFAULT_DESIGNS.map(
+        design => ({
+          ...design
+        })
       );
-
-      saveDesigns();
 
     }
 
@@ -1700,189 +2508,14 @@
        SAVE DESIGNS
     ========================================================= */
 
-    function saveDesigns() {
+    function saveDesigns(
+      designs
+    ) {
 
       localStorage.setItem(
-        DESIGN_STORAGE_KEY,
+        DESIGN_KEY,
         JSON.stringify(designs)
       );
-
-    }
-
-
-    /* =========================================================
-       ADMIN PROFILE
-    ========================================================= */
-
-    function loadAdminProfile() {
-
-      try {
-
-        const sessionRaw =
-          localStorage.getItem(SESSION_KEY);
-
-        if (!sessionRaw) {
-          return;
-        }
-
-        const session =
-          JSON.parse(sessionRaw);
-
-        const name =
-          session.name ||
-          session.email ||
-          "Admin";
-
-        const role =
-          session.role === "superadmin"
-            ? "Super Administrator"
-            : "Administrator";
-
-        document.getElementById(
-          "profileName"
-        ).textContent = name;
-
-        document.getElementById(
-          "profileRole"
-        ).textContent = role;
-
-        document.getElementById(
-          "profileAvatar"
-        ).textContent =
-          getInitials(name);
-
-      } catch (error) {
-
-        console.warn(
-          "Could not load admin profile.",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       INITIALS
-    ========================================================= */
-
-    function getInitials(name) {
-
-      const words =
-        String(name)
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean);
-
-      if (!words.length) {
-        return "A";
-      }
-
-      if (words.length === 1) {
-        return words[0]
-          .substring(0, 2)
-          .toUpperCase();
-      }
-
-      return (
-        words[0][0] +
-        words[words.length - 1][0]
-      ).toUpperCase();
-
-    }
-
-
-    /* =========================================================
-       CATEGORIES
-    ========================================================= */
-
-    function populateCategories() {
-
-      const currentValue =
-        categoryFilter.value;
-
-      const categories =
-        [...new Set(
-          designs
-            .map(design => design.category)
-            .filter(Boolean)
-        )]
-        .sort();
-
-      categoryFilter.innerHTML =
-        `<option value="all">All Categories</option>`;
-
-      categories.forEach(category => {
-
-        const option =
-          document.createElement("option");
-
-        option.value = category;
-        option.textContent = category;
-
-        categoryFilter.appendChild(option);
-
-      });
-
-      if (
-        categories.includes(currentValue)
-      ) {
-
-        categoryFilter.value =
-          currentValue;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       FILTER
-    ========================================================= */
-
-    function getFilteredDesigns() {
-
-      const search =
-        searchInput.value
-          .trim()
-          .toLowerCase();
-
-      const category =
-        categoryFilter.value;
-
-      const status =
-        statusFilter.value;
-
-      return designs.filter(design => {
-
-        const matchesSearch =
-          !search ||
-          String(design.name)
-            .toLowerCase()
-            .includes(search) ||
-          String(design.id)
-            .toLowerCase()
-            .includes(search) ||
-          String(design.category)
-            .toLowerCase()
-            .includes(search);
-
-        const matchesCategory =
-          category === "all" ||
-          design.category === category;
-
-        const matchesStatus =
-          status === "all" ||
-          design.status === status;
-
-        return (
-          matchesSearch &&
-          matchesCategory &&
-          matchesStatus
-        );
-
-      });
 
     }
 
@@ -1893,149 +2526,294 @@
 
     function renderDesigns() {
 
+      const grid =
+        document.getElementById(
+          "designGrid"
+        );
+
+      const empty =
+        document.getElementById(
+          "emptyState"
+        );
+
+      const search =
+        document.getElementById(
+          "searchInput"
+        )
+          .value
+          .trim()
+          .toLowerCase();
+
+
+      const category =
+        document.getElementById(
+          "categoryFilter"
+        ).value;
+
+
+      const designs =
+        getDesigns();
+
+
       const filtered =
-        getFilteredDesigns();
+        designs.filter(
+          design => {
 
-      updateStats();
+            const matchesSearch =
+              !search ||
+              design.name
+                .toLowerCase()
+                .includes(search) ||
+              design.description
+                .toLowerCase()
+                .includes(search) ||
+              design.path
+                .toLowerCase()
+                .includes(search);
 
-      designTableBody.innerHTML = "";
+
+            const matchesCategory =
+              category === "all" ||
+              design.category === category;
+
+
+            return (
+              matchesSearch &&
+              matchesCategory
+            );
+
+          }
+        );
+
 
       if (!filtered.length) {
 
-        emptyState.style.display =
+        grid.innerHTML = "";
+
+        empty.style.display =
           "block";
+
+        updateStats(
+          designs
+        );
 
         return;
 
       }
 
-      emptyState.style.display =
+
+      empty.style.display =
         "none";
 
-      filtered.forEach(design => {
 
-        const row =
-          document.createElement("tr");
+      grid.innerHTML =
+        filtered
+          .map(
+            design =>
+              createDesignCard(
+                design
+              )
+          )
+          .join("");
 
-        const statusClass =
-          design.status === "active"
-            ? "active"
-            : "inactive";
 
-        const statusText =
-          design.status === "active"
-            ? "Active"
-            : "Inactive";
+      updateStats(
+        designs
+      );
 
-        row.innerHTML = `
+    }
 
-          <td>
 
-            <div class="design-info">
+    /* =========================================================
+       CREATE CARD
+    ========================================================= */
 
-              <div class="design-thumb-placeholder">
-                ▧
-              </div>
+    function createDesignCard(
+      design
+    ) {
 
-              <div>
+      const published =
+        design.status ===
+        "published";
 
-                <div class="design-name">
-                  ${escapeHtml(design.name)}
+
+      const categoryName =
+        formatCategory(
+          design.category
+        );
+
+
+      const preview =
+        design.image
+          ? `
+            <img
+              src="${escapeHtml(
+                design.image
+              )}"
+              alt="${escapeHtml(
+                design.name
+              )}"
+              loading="lazy"
+            >
+          `
+          : `
+            <div class="preview-placeholder">
+
+              <div class="placeholder-inner">
+
+                <div class="placeholder-icon">
+                  🎨
                 </div>
 
-                <div class="design-id">
-                  ID: ${escapeHtml(design.id)}
-                </div>
+                <strong>
+                  ${escapeHtml(
+                    design.name
+                  )}
+                </strong>
+
+                <span>
+                  Independent design preview
+                </span>
 
               </div>
 
             </div>
+          `;
 
-          </td>
 
-          <td>
-            <span class="path">
-              ${escapeHtml(design.path)}
+      return `
+        <article
+          class="design-card"
+          data-id="${escapeHtml(
+            design.id
+          )}"
+        >
+
+          <div class="design-preview">
+
+            ${preview}
+
+            <span class="design-badge">
+              ${escapeHtml(
+                categoryName
+              )}
             </span>
-          </td>
 
-          <td>
-            <span class="category">
-              ${escapeHtml(design.category)}
-            </span>
-          </td>
+          </div>
 
-          <td>
-            <span class="status ${statusClass}">
-              ${statusText}
-            </span>
-          </td>
 
-          <td>
-            ${escapeHtml(design.updated || "—")}
-          </td>
+          <div class="design-body">
 
-          <td>
+            <div class="design-title">
 
-            <div class="action-group">
+              <h3>
+                ${escapeHtml(
+                  design.name
+                )}
+              </h3>
+
+              <span class="design-number">
+                #${escapeHtml(
+                  design.number
+                )}
+              </span>
+
+            </div>
+
+
+            <p class="design-description">
+              ${escapeHtml(
+                design.description
+              )}
+            </p>
+
+
+            <div class="design-path">
+              ${escapeHtml(
+                design.path
+              )}
+            </div>
+
+
+            <div class="design-actions">
+
+              ${
+                published
+                  ? `
+                    <a
+                      class="action-view"
+                      href="${escapeHtml(
+                        design.path
+                      )}"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      👁 View
+                    </a>
+                  `
+                  : `
+                    <button
+                      class="action-view"
+                      type="button"
+                      onclick="toggleDesignStatus('${escapeJs(
+                        design.id
+                      )}')"
+                    >
+                      🚫 Disabled
+                    </button>
+                  `
+              }
+
 
               <button
-                class="action-btn"
+                class="action-edit"
                 type="button"
-                title="Open Design"
-                data-action="open"
-                data-id="${escapeAttr(design.id)}"
+                onclick="editDesign('${escapeJs(
+                  design.id
+                )}')"
               >
-                ↗
-              </button>
-
-              <button
-                class="action-btn"
-                type="button"
-                title="Edit"
-                data-action="edit"
-                data-id="${escapeAttr(design.id)}"
-              >
-                ✎
-              </button>
-
-              <button
-                class="action-btn"
-                type="button"
-                title="${
-                  design.status === "active"
-                    ? "Deactivate"
-                    : "Activate"
-                }"
-                data-action="toggle"
-                data-id="${escapeAttr(design.id)}"
-              >
-                ${
-                  design.status === "active"
-                    ? "◉"
-                    : "○"
-                }
-              </button>
-
-              <button
-                class="action-btn danger"
-                type="button"
-                title="Delete"
-                data-action="delete"
-                data-id="${escapeAttr(design.id)}"
-              >
-                ×
+                ✏️ Edit
               </button>
 
             </div>
 
-          </td>
+          </div>
 
-        `;
+        </article>
+      `;
 
-        designTableBody.appendChild(row);
+    }
 
-      });
+
+    /* =========================================================
+       CATEGORY
+    ========================================================= */
+
+    function formatCategory(
+      category
+    ) {
+
+      const names = {
+
+        medical:
+          "Medical",
+
+        education:
+          "Education",
+
+        business:
+          "Business",
+
+        social:
+          "Social Media"
+
+      };
+
+
+      return (
+        names[category] ||
+        "Other"
+      );
 
     }
 
@@ -2044,76 +2822,528 @@
        STATS
     ========================================================= */
 
-    function updateStats() {
+    function updateStats(
+      designs
+    ) {
 
       const total =
         designs.length;
 
-      const active =
+
+      const published =
         designs.filter(
-          design => design.status === "active"
+          design =>
+            design.status ===
+            "published"
         ).length;
 
-      const inactive =
-        designs.filter(
-          design => design.status !== "active"
-        ).length;
 
-      const categories =
-        new Set(
-          designs
-            .map(design => design.category)
-            .filter(Boolean)
-        );
-
-      totalDesigns.textContent =
+      document.getElementById(
+        "totalDesigns"
+      ).textContent =
         total;
 
-      activeDesigns.textContent =
-        active;
 
-      inactiveDesigns.textContent =
-        inactive;
+      document.getElementById(
+        "publishedDesigns"
+      ).textContent =
+        published;
 
-      categoryCount.textContent =
-        categories.size;
+
+      document.getElementById(
+        "independentDesigns"
+      ).textContent =
+        total;
+
+
+      document.getElementById(
+        "validDesignLinks"
+      ).textContent =
+        total;
 
     }
 
 
     /* =========================================================
-       EVENTS
+       ADD DESIGN
     ========================================================= */
 
-    function bindEvents() {
+    const modal =
+      document.getElementById(
+        "designModal"
+      );
 
-      searchInput.addEventListener(
+
+    function openModal() {
+
+      modal.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeModal() {
+
+      modal.classList.remove(
+        "show"
+      );
+
+      clearForm();
+
+    }
+
+
+    document
+      .getElementById(
+        "addDesignBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.querySelector(
+            ".modal-header h3"
+          ).textContent =
+            "Add Design";
+
+          openModal();
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "modalClose"
+      )
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+
+    document
+      .getElementById(
+        "cancelModal"
+      )
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target === modal
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       SAVE DESIGN
+    ========================================================= */
+
+    let editingDesignId = null;
+
+
+    document
+      .getElementById(
+        "saveDesignBtn"
+      )
+      .addEventListener(
+        "click",
+        saveDesign
+      );
+
+
+    function saveDesign() {
+
+      const name =
+        document.getElementById(
+          "designName"
+        ).value.trim();
+
+
+      const folder =
+        document.getElementById(
+          "designFolder"
+        ).value.trim();
+
+
+      const category =
+        document.getElementById(
+          "designCategory"
+        ).value;
+
+
+      const description =
+        document.getElementById(
+          "designDescription"
+        ).value.trim();
+
+
+      const path =
+        document.getElementById(
+          "designPath"
+        ).value.trim();
+
+
+      if (!name) {
+
+        showToast(
+          "Please enter design name."
+        );
+
+        return;
+
+      }
+
+
+      if (!folder) {
+
+        showToast(
+          "Please enter folder name."
+        );
+
+        return;
+
+      }
+
+
+      if (!path) {
+
+        showToast(
+          "Please enter page path."
+        );
+
+        return;
+
+      }
+
+
+      const designs =
+        getDesigns();
+
+
+      if (editingDesignId) {
+
+        const index =
+          designs.findIndex(
+            design =>
+              design.id ===
+              editingDesignId
+          );
+
+
+        if (index !== -1) {
+
+          designs[index] = {
+
+            ...designs[index],
+
+            name,
+
+            category,
+
+            description,
+
+            path
+
+          };
+
+        }
+
+      } else {
+
+        const highestNumber =
+          designs.reduce(
+            (
+              max,
+              design
+            ) =>
+              Math.max(
+                max,
+                Number(
+                  design.number
+                ) || 0
+              ),
+            0
+          );
+
+
+        const newId =
+          folder
+            .toLowerCase()
+            .replace(
+              /[^a-z0-9_-]/g,
+              ""
+            );
+
+
+        designs.push({
+
+          id:
+            newId ||
+            `design${highestNumber + 1}`,
+
+          number:
+            highestNumber + 1,
+
+          name,
+
+          category,
+
+          description:
+            description ||
+            "Independent design page.",
+
+          path,
+
+          status:
+            "published",
+
+          image:
+            ""
+
+        });
+
+      }
+
+
+      saveDesigns(
+        designs
+      );
+
+
+      closeModal();
+
+      renderDesigns();
+
+      showToast(
+        editingDesignId
+          ? "Design updated successfully."
+          : "Design added successfully."
+      );
+
+
+      editingDesignId =
+        null;
+
+    }
+
+
+    /* =========================================================
+       EDIT DESIGN
+    ========================================================= */
+
+    function editDesign(
+      id
+    ) {
+
+      const designs =
+        getDesigns();
+
+
+      const design =
+        designs.find(
+          item =>
+            item.id === id
+        );
+
+
+      if (!design) {
+
+        showToast(
+          "Design not found."
+        );
+
+        return;
+
+      }
+
+
+      editingDesignId =
+        design.id;
+
+
+      document.querySelector(
+        ".modal-header h3"
+      ).textContent =
+        "Edit Design";
+
+
+      document.getElementById(
+        "designName"
+      ).value =
+        design.name || "";
+
+
+      document.getElementById(
+        "designFolder"
+      ).value =
+        design.id || "";
+
+
+      document.getElementById(
+        "designCategory"
+      ).value =
+        design.category ||
+        "medical";
+
+
+      document.getElementById(
+        "designDescription"
+      ).value =
+        design.description || "";
+
+
+      document.getElementById(
+        "designPath"
+      ).value =
+        design.path || "";
+
+
+      openModal();
+
+    }
+
+
+    /* =========================================================
+       TOGGLE DESIGN
+    ========================================================= */
+
+    function toggleDesignStatus(
+      id
+    ) {
+
+      const designs =
+        getDesigns();
+
+
+      const design =
+        designs.find(
+          item =>
+            item.id === id
+        );
+
+
+      if (!design) {
+        return;
+      }
+
+
+      design.status =
+        design.status ===
+        "published"
+          ? "inactive"
+          : "published";
+
+
+      saveDesigns(
+        designs
+      );
+
+
+      renderDesigns();
+
+
+      showToast(
+        design.status ===
+          "published"
+          ? "Design published."
+          : "Design disabled."
+      );
+
+    }
+
+
+    /* =========================================================
+       CLEAR FORM
+    ========================================================= */
+
+    function clearForm() {
+
+      editingDesignId =
+        null;
+
+
+      document.getElementById(
+        "designName"
+      ).value =
+        "";
+
+
+      document.getElementById(
+        "designFolder"
+      ).value =
+        "";
+
+
+      document.getElementById(
+        "designCategory"
+      ).value =
+        "medical";
+
+
+      document.getElementById(
+        "designDescription"
+      ).value =
+        "";
+
+
+      document.getElementById(
+        "designPath"
+      ).value =
+        "";
+
+    }
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .addEventListener(
         "input",
         renderDesigns
       );
 
-      categoryFilter.addEventListener(
+
+    document
+      .getElementById(
+        "categoryFilter"
+      )
+      .addEventListener(
         "change",
         renderDesigns
       );
 
-      statusFilter.addEventListener(
-        "change",
-        renderDesigns
-      );
 
-      resetFilterBtn.addEventListener(
-        "click",
-        resetFilters
-      );
+    /* =========================================================
+       REFRESH
+    ========================================================= */
 
-      refreshBtn.addEventListener(
+    document
+      .getElementById(
+        "refreshBtn"
+      )
+      .addEventListener(
         "click",
         () => {
-
-          loadDesigns();
-
-          populateCategories();
 
           renderDesigns();
 
@@ -2124,503 +3354,26 @@
         }
       );
 
-      addDesignBtn.addEventListener(
-        "click",
-        () => openAddModal()
-      );
 
-      modalCloseBtn.addEventListener(
-        "click",
-        closeModal
-      );
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
 
-      cancelModalBtn.addEventListener(
-        "click",
-        closeModal
-      );
-
-      saveDesignBtn.addEventListener(
-        "click",
-        saveDesignFromModal
-      );
-
-      designTableBody.addEventListener(
-        "click",
-        handleTableAction
-      );
-
-      mobileMenuBtn.addEventListener(
-        "click",
-        openSidebar
-      );
-
-      sidebarOverlay.addEventListener(
-        "click",
-        closeSidebar
-      );
-
+    const sidebar =
       document.getElementById(
-        "logoutBtn"
-      ).addEventListener(
-        "click",
-        handleLogout
+        "sidebar"
       );
 
-      designModal.addEventListener(
-        "click",
-        event => {
-
-          if (
-            event.target === designModal
-          ) {
-
-            closeModal();
-
-          }
-
-        }
+    const overlay =
+      document.getElementById(
+        "sidebarOverlay"
       );
 
-      document.addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Escape"
-          ) {
-
-            closeModal();
-
-            closeSidebar();
-
-          }
-
-        }
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenuBtn"
       );
 
-      window.addEventListener(
-        "storage",
-        event => {
-
-          if (
-            event.key === DESIGN_STORAGE_KEY
-          ) {
-
-            loadDesigns();
-
-            populateCategories();
-
-            renderDesigns();
-
-          }
-
-          if (
-            event.key === SESSION_KEY
-          ) {
-
-            loadAdminProfile();
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       TABLE ACTION
-    ========================================================= */
-
-    function handleTableAction(event) {
-
-      const button =
-        event.target.closest(
-          "button[data-action]"
-        );
-
-      if (!button) {
-        return;
-      }
-
-      const action =
-        button.dataset.action;
-
-      const id =
-        button.dataset.id;
-
-      const design =
-        designs.find(
-          item => item.id === id
-        );
-
-      if (!design) {
-        return;
-      }
-
-      if (action === "open") {
-
-        openDesign(design);
-
-      }
-
-      if (action === "edit") {
-
-        openEditModal(design);
-
-      }
-
-      if (action === "toggle") {
-
-        toggleDesign(design);
-
-      }
-
-      if (action === "delete") {
-
-        deleteDesign(design);
-
-      }
-
-    }
-
-
-    /* =========================================================
-       OPEN DESIGN
-    ========================================================= */
-
-    function openDesign(design) {
-
-      const path =
-        design.path ||
-        `../design/${design.id}/index.html`;
-
-      window.open(
-        path,
-        "_blank"
-      );
-
-    }
-
-
-    /* =========================================================
-       TOGGLE DESIGN
-    ========================================================= */
-
-    function toggleDesign(design) {
-
-      design.status =
-        design.status === "active"
-          ? "inactive"
-          : "active";
-
-      design.updated =
-        "Just now";
-
-      saveDesigns();
-
-      renderDesigns();
-
-      showToast(
-        `${design.name} is now ${
-          design.status === "active"
-            ? "active"
-            : "inactive"
-        }.`
-      );
-
-    }
-
-
-    /* =========================================================
-       DELETE DESIGN
-    ========================================================= */
-
-    function deleteDesign(design) {
-
-      const confirmed =
-        window.confirm(
-          `Delete "${design.name}" from the design manager?`
-        );
-
-      if (!confirmed) {
-        return;
-      }
-
-      designs =
-        designs.filter(
-          item => item.id !== design.id
-        );
-
-      saveDesigns();
-
-      populateCategories();
-
-      renderDesigns();
-
-      showToast(
-        `${design.name} removed from management.`
-      );
-
-    }
-
-
-    /* =========================================================
-       ADD MODAL
-    ========================================================= */
-
-    function openAddModal() {
-
-      editingDesignId = null;
-
-      modalTitle.textContent =
-        "Add Design";
-
-      designNameInput.value =
-        "";
-
-      designIdInput.value =
-        "";
-
-      designPathInput.value =
-        "";
-
-      designCategoryInput.value =
-        "Medical";
-
-      designStatusInput.value =
-        "active";
-
-      designIdInput.disabled =
-        false;
-
-      designModal.classList.add(
-        "show"
-      );
-
-      setTimeout(() => {
-
-        designNameInput.focus();
-
-      }, 50);
-
-    }
-
-
-    /* =========================================================
-       EDIT MODAL
-    ========================================================= */
-
-    function openEditModal(design) {
-
-      editingDesignId =
-        design.id;
-
-      modalTitle.textContent =
-        "Edit Design";
-
-      designNameInput.value =
-        design.name;
-
-      designIdInput.value =
-        design.id;
-
-      designPathInput.value =
-        design.path;
-
-      designCategoryInput.value =
-        design.category || "General";
-
-      designStatusInput.value =
-        design.status || "active";
-
-      designIdInput.disabled =
-        true;
-
-      designModal.classList.add(
-        "show"
-      );
-
-      setTimeout(() => {
-
-        designNameInput.focus();
-
-      }, 50);
-
-    }
-
-
-    /* =========================================================
-       CLOSE MODAL
-    ========================================================= */
-
-    function closeModal() {
-
-      designModal.classList.remove(
-        "show"
-      );
-
-      editingDesignId = null;
-
-    }
-
-
-    /* =========================================================
-       SAVE MODAL
-    ========================================================= */
-
-    function saveDesignFromModal() {
-
-      const name =
-        designNameInput.value.trim();
-
-      const id =
-        designIdInput.value.trim();
-
-      const path =
-        designPathInput.value.trim();
-
-      const category =
-        designCategoryInput.value;
-
-      const status =
-        designStatusInput.value;
-
-      if (!name) {
-
-        showToast(
-          "Please enter design name."
-        );
-
-        designNameInput.focus();
-
-        return;
-
-      }
-
-      if (!id) {
-
-        showToast(
-          "Please enter design ID."
-        );
-
-        designIdInput.focus();
-
-        return;
-
-      }
-
-      if (!path) {
-
-        showToast(
-          "Please enter design path."
-        );
-
-        designPathInput.focus();
-
-        return;
-
-      }
-
-      if (editingDesignId) {
-
-        const design =
-          designs.find(
-            item =>
-              item.id === editingDesignId
-          );
-
-        if (!design) {
-          return;
-        }
-
-        design.name =
-          name;
-
-        design.path =
-          path;
-
-        design.category =
-          category;
-
-        design.status =
-          status;
-
-        design.updated =
-          "Just now";
-
-        showToast(
-          "Design updated successfully."
-        );
-
-      } else {
-
-        const exists =
-          designs.some(
-            item => item.id === id
-          );
-
-        if (exists) {
-
-          showToast(
-            "This Design ID already exists."
-          );
-
-          return;
-
-        }
-
-        designs.push({
-
-          id,
-          name,
-          path,
-          category,
-          status,
-          updated: "Just now"
-
-        });
-
-        showToast(
-          "New design added successfully."
-        );
-
-      }
-
-      saveDesigns();
-
-      populateCategories();
-
-      renderDesigns();
-
-      closeModal();
-
-    }
-
-
-    /* =========================================================
-       RESET FILTERS
-    ========================================================= */
-
-    function resetFilters() {
-
-      searchInput.value =
-        "";
-
-      categoryFilter.value =
-        "all";
-
-      statusFilter.value =
-        "all";
-
-      renderDesigns();
-
-    }
-
-
-    /* =========================================================
-       SIDEBAR
-    ========================================================= */
 
     function openSidebar() {
 
@@ -2628,7 +3381,7 @@
         "open"
       );
 
-      sidebarOverlay.classList.add(
+      overlay.classList.add(
         "show"
       );
 
@@ -2641,106 +3394,314 @@
         "open"
       );
 
-      sidebarOverlay.classList.remove(
+      overlay.classList.remove(
         "show"
       );
 
     }
+
+
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
+    );
+
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+
+    document
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              if (
+                window.innerWidth <= 850
+              ) {
+
+                closeSidebar();
+
+              }
+
+            }
+          );
+
+        }
+      );
 
 
     /* =========================================================
        LOGOUT
     ========================================================= */
 
-    function handleLogout() {
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
 
-      const confirmed =
-        window.confirm(
-          "Do you want to logout?"
-        );
+          if (
+            window.AdminAuth &&
+            typeof
+              window.AdminAuth.logout ===
+              "function"
+          ) {
 
-      if (!confirmed) {
-        return;
-      }
+            window.AdminAuth.logout();
 
-      try {
+            return;
 
-        localStorage.removeItem(
-          SESSION_KEY
-        );
+          }
 
-      } catch (error) {
 
-        console.warn(error);
+          localStorage.removeItem(
+            SESSION_KEY
+          );
 
-      }
 
-      window.location.href =
-        "../login/index.html";
+          window.location.href =
+            "../login/index.html";
 
-    }
+        }
+      );
 
 
     /* =========================================================
        TOAST
     ========================================================= */
 
-    let toastTimer = null;
+    let toastTimer =
+      null;
 
-    function showToast(message) {
 
-      toast.textContent =
-        message;
+    function showToast(
+      message
+    ) {
 
-      toast.classList.add(
-        "show"
-      );
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
 
       clearTimeout(
         toastTimer
       );
 
+
+      toast.textContent =
+        message;
+
+
+      toast.className =
+        "toast show";
+
+
       toastTimer =
-        setTimeout(() => {
+        setTimeout(
+          () => {
 
-          toast.classList.remove(
-            "show"
-          );
+            toast.classList.remove(
+              "show"
+            );
 
-        }, 2600);
+          },
+          2500
+        );
 
     }
 
 
     /* =========================================================
-       HTML ESCAPE
+       ESCAPE HTML
     ========================================================= */
 
-    function escapeHtml(value) {
+    function escapeHtml(
+      value
+    ) {
 
       return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
 
-    function escapeAttr(value) {
+    function escapeJs(
+      value
+    ) {
 
-      return escapeHtml(value);
+      return String(value)
+        .replace(
+          /\\/g,
+          "\\\\"
+        )
+        .replace(
+          /'/g,
+          "\\'"
+        )
+        .replace(
+          /"/g,
+          '\\"'
+        );
 
     }
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key === DESIGN_KEY ||
+          event.key === SESSION_KEY
+        ) {
+
+          renderDesigns();
+
+          loadProfile();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function loadProfile() {
+
+      let session =
+        null;
+
+
+      try {
+
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            )
+          );
+
+      } catch (error) {
+
+        session =
+          null;
+
+      }
+
+
+      if (!session) {
+        return;
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+
+      const role =
+        session.role ||
+        "admin";
+
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      const avatar =
+        document.getElementById(
+          "adminAvatar"
+        );
+
+
+      if (session.avatar) {
+
+        avatar.innerHTML = `
+          <img
+            src="${escapeHtml(
+              session.avatar
+            )}"
+            alt="Admin"
+          >
+        `;
+
+      } else {
+
+        avatar.textContent =
+          name
+            .split(" ")
+            .map(
+              word =>
+                word.charAt(0)
+            )
+            .join("")
+            .slice(0,2)
+            .toUpperCase() ||
+          "AD";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    loadProfile();
+
+    renderDesigns();
 
   </script>
-
-  <!-- =======================================================
-       ADMIN AUTH GUARD
-  ======================================================== -->
-
-  <script src="./auth-guard.js"></script>
 
 </body>
 </html>
