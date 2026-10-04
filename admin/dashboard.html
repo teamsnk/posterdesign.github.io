@@ -1,2285 +1,3299 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Admin Dashboard — Design System</title>
+  <title>Admin Dashboard | Design System</title>
 
-<link rel="stylesheet" href="../assets/css/responsive.css">
-
-<style>
-    :root {
-        --primary: #635bff;
-        --primary-dark: #4f46e5;
-        --bg: #f5f7fb;
-        --card: #ffffff;
-        --text: #172033;
-        --muted: #718096;
-        --border: #e8ebf2;
-        --success: #16a34a;
-        --danger: #dc2626;
-        --warning: #d97706;
-        --info: #0284c7;
-        --sidebar: #111827;
-        --sidebar-hover: #1f2937;
-        --sidebar-text: #cbd5e1;
-        --white: #ffffff;
-        --shadow: 0 10px 30px rgba(15, 23, 42, .06);
-    }
-
+  <style>
     * {
-        box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        min-height: 100%;
+    :root {
+      --sidebar: #111827;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
+
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
+
+      --text: #111827;
+      --muted: #64748b;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+
+      --sidebar-width: 260px;
+
+      --shadow:
+        0 12px 35px rgba(15, 23, 42, 0.08);
+
+      --radius: 18px;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-        background: var(--bg);
-        color: var(--text);
-        font-family:
-            Inter,
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            sans-serif;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
+
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     button,
     input {
-        font: inherit;
+      font: inherit;
     }
 
     button {
-        border: 0;
+      cursor: pointer;
     }
 
     a {
-        text-decoration: none;
-        color: inherit;
+      text-decoration: none;
+      color: inherit;
     }
 
-    /* =====================================================
-       LAYOUT
-    ===================================================== */
-
-    .admin-layout {
-        min-height: 100vh;
-        display: flex;
-    }
-
-    /* =====================================================
+    /* =========================================================
        SIDEBAR
-    ===================================================== */
+    ========================================================= */
 
     .sidebar {
-        width: 260px;
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 1000;
-        padding: 22px 14px;
-        background: var(--sidebar);
-        color: var(--white);
-        overflow-y: auto;
-        transition: transform .25s ease;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      width: var(--sidebar-width);
+
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a 0%,
+          #111827 55%,
+          #0b1220 100%
+        );
+
+      color: white;
+
+      z-index: 1000;
+
+      display: flex;
+      flex-direction: column;
+
+      border-right:
+        1px solid rgba(255, 255, 255, 0.06);
     }
 
     .brand {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 5px 10px 22px;
-        border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 24px 20px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
     }
 
     .brand-icon {
-        width: 40px;
-        height: 40px;
-        flex: 0 0 40px;
-        border-radius: 12px;
-        background: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        box-shadow: 0 8px 20px rgba(99,91,255,.25);
+      width: 42px;
+      height: 42px;
+
+      border-radius: 13px;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      font-size: 20px;
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 25px
+        rgba(37, 99, 235, 0.35);
     }
 
-    .brand-title {
-        font-size: 16px;
-        font-weight: 800;
-        line-height: 1.2;
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    .brand-subtitle {
-        color: #94a3b8;
-        font-size: 10px;
-        margin-top: 4px;
+    .brand-text p {
+      margin-top: 3px;
+
+      color: var(--sidebar-muted);
+
+      font-size: 11px;
+    }
+
+    .nav {
+      flex: 1;
+
+      overflow-y: auto;
+
+      padding: 18px 12px;
     }
 
     .nav-title {
-        margin: 23px 10px 8px;
-        color: #64748b;
-        font-size: 10px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .1em;
+      padding: 8px 12px;
+
+      margin-bottom: 6px;
+
+      color: #64748b;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
     }
 
     .nav-link {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        min-height: 44px;
-        padding: 10px 12px;
-        margin-bottom: 4px;
-        border-radius: 11px;
-        color: var(--sidebar-text);
-        font-size: 13px;
-        font-weight: 600;
-        transition:
-            background .2s ease,
-            color .2s ease,
-            transform .2s ease;
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 11px 13px;
+
+      margin-bottom: 4px;
+
+      border-radius: 12px;
+
+      color: var(--sidebar-text);
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      transition: 0.2s ease;
     }
 
     .nav-link:hover {
-        background: var(--sidebar-hover);
-        color: #fff;
-        transform: translateX(2px);
+      background:
+        rgba(255, 255, 255, 0.07);
+
+      color: white;
+
+      transform:
+        translateX(2px);
     }
 
     .nav-link.active {
-        background: linear-gradient(
-            135deg,
-            var(--primary),
-            var(--primary-dark)
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37, 99, 235, 0.95),
+          rgba(79, 70, 229, 0.95)
         );
-        color: #fff;
-        box-shadow:
-            0 8px 20px
-            rgba(99,91,255,.22);
+
+      color: white;
+
+      box-shadow:
+        0 8px 20px
+        rgba(37, 99, 235, 0.25);
     }
 
     .nav-icon {
-        width: 22px;
-        text-align: center;
-        font-size: 16px;
+      width: 22px;
+
+      text-align: center;
+
+      font-size: 15px;
     }
 
-    .nav-badge {
-        margin-left: auto;
-        min-width: 20px;
-        padding: 3px 6px;
-        border-radius: 999px;
-        background: rgba(255,255,255,.12);
-        font-size: 10px;
-        text-align: center;
+    .sidebar-footer {
+      padding: 14px;
+
+      border-top:
+        1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* =====================================================
+    .admin-mini {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 10px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255, 255, 255, 0.05);
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
+
+      font-size: 13px;
+      font-weight: 800;
+
+      overflow: hidden;
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .admin-info {
+      min-width: 0;
+
+      flex: 1;
+    }
+
+    .admin-info strong {
+      display: block;
+
+      color: white;
+
+      font-size: 12px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    .admin-info span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: #94a3b8;
+
+      font-size: 10px;
+
+      text-transform: capitalize;
+    }
+
+    .logout-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding: 9px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background:
+        rgba(220, 38, 38, 0.12);
+
+      color: #fca5a5;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      transition: 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(220, 38, 38, 0.2);
+
+      color: white;
+    }
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(15, 23, 42, 0.55);
+
+      z-index: 900;
+
+      backdrop-filter: blur(2px);
+    }
+
+    /* =========================================================
        MAIN
-    ===================================================== */
+    ========================================================= */
 
     .main {
-        width: calc(100% - 260px);
-        margin-left: 260px;
-        min-width: 0;
+      margin-left: var(--sidebar-width);
+
+      min-height: 100vh;
     }
 
-    /* =====================================================
+    /* =========================================================
        TOPBAR
-    ===================================================== */
+    ========================================================= */
 
     .topbar {
-        min-height: 74px;
-        position: sticky;
-        top: 0;
-        z-index: 900;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 13px 30px;
-        background: rgba(255,255,255,.94);
-        border-bottom: 1px solid var(--border);
-        backdrop-filter: blur(14px);
+      position: sticky;
+
+      top: 0;
+
+      height: 72px;
+
+      background:
+        rgba(255, 255, 255, 0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 28px;
+
+      z-index: 500;
     }
 
     .topbar-left {
-        display: flex;
-        align-items: center;
-        gap: 14px;
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
     }
 
     .mobile-menu-btn {
-        display: none;
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        background: #f1f3f8;
-        color: var(--text);
-        cursor: pointer;
-        font-size: 19px;
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 19px;
     }
 
-    .page-title {
-        font-size: 21px;
-        font-weight: 850;
-        letter-spacing: -.02em;
+    .page-title h2 {
+      font-size: 19px;
+
+      letter-spacing: -0.4px;
     }
 
-    .page-subtitle {
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 12px;
+    .page-title p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
     }
 
     .topbar-right {
-        display: flex;
-        align-items: center;
-        gap: 14px;
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
     }
 
-    .site-view-btn {
-        min-height: 40px;
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 9px 13px;
-        border-radius: 10px;
-        background: #f1f3f8;
-        color: #374151;
-        font-size: 12px;
-        font-weight: 700;
-    }
+    .system-status {
+      display: flex;
 
-    .site-view-btn:hover {
-        background: #e8eaf0;
-    }
+      align-items: center;
 
-    .admin-profile {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-    }
+      gap: 7px;
 
-    .avatar {
-        width: 39px;
-        height: 39px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(
-            135deg,
-            var(--primary),
-            #8b5cf6
-        );
-        color: #fff;
-        font-size: 13px;
-        font-weight: 800;
-    }
+      padding: 8px 11px;
 
-    .profile-name {
-        font-size: 12px;
-        font-weight: 800;
-    }
+      border:
+        1px solid #dcfce7;
 
-    .profile-role {
-        margin-top: 2px;
-        color: var(--muted);
-        font-size: 10px;
-    }
+      border-radius: 999px;
 
-    /* =====================================================
-       CONTENT
-    ===================================================== */
+      background: #f0fdf4;
 
-    .content {
-        padding: 30px;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
+      color: #15803d;
 
-    .welcome {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 23px;
-    }
+      font-size: 11px;
 
-    .welcome h1 {
-        margin: 0;
-        font-size: 25px;
-        letter-spacing: -.03em;
-    }
-
-    .welcome p {
-        margin: 7px 0 0;
-        color: var(--muted);
-        font-size: 13px;
-    }
-
-    .current-time {
-        color: var(--muted);
-        font-size: 12px;
-        text-align: right;
-    }
-
-    /* =====================================================
-       STATS
-    ===================================================== */
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr));
-        gap: 16px;
-        margin-bottom: 22px;
-    }
-
-    .stat-card {
-        position: relative;
-        overflow: hidden;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 17px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-    }
-
-    .stat-card::after {
-        content: "";
-        position: absolute;
-        width: 90px;
-        height: 90px;
-        right: -32px;
-        bottom: -35px;
-        border-radius: 50%;
-        background: rgba(99,91,255,.05);
-    }
-
-    .stat-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    .stat-icon {
-        width: 43px;
-        height: 43px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 19px;
-        background: #f0efff;
-    }
-
-    .stat-status {
-        font-size: 10px;
-        font-weight: 800;
-        color: var(--success);
-    }
-
-    .stat-value {
-        margin-top: 18px;
-        font-size: 29px;
-        font-weight: 850;
-        letter-spacing: -.03em;
-    }
-
-    .stat-label {
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-    /* =====================================================
-       GRID
-    ===================================================== */
-
-    .dashboard-grid {
-        display: grid;
-        grid-template-columns:
-            minmax(0, 1.45fr)
-            minmax(300px, .75fr);
-        gap: 20px;
-    }
-
-    .panel {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 17px;
-        box-shadow: var(--shadow);
-        overflow: hidden;
-    }
-
-    .panel-header {
-        min-height: 64px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 17px 20px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .panel-title {
-        font-size: 15px;
-        font-weight: 800;
-    }
-
-    .panel-description {
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 11px;
-    }
-
-    .panel-link {
-        color: var(--primary);
-        font-size: 11px;
-        font-weight: 800;
-    }
-
-    /* =====================================================
-       QUICK ACTIONS
-    ===================================================== */
-
-    .quick-actions {
-        display: grid;
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-        gap: 11px;
-        padding: 20px;
-    }
-
-    .quick-action {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        min-height: 62px;
-        padding: 12px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #fbfcfe;
-        transition: .2s ease;
-    }
-
-    .quick-action:hover {
-        transform: translateY(-2px);
-        border-color: #d8d5ff;
-        box-shadow: 0 7px 18px rgba(15,23,42,.06);
-    }
-
-    .quick-icon {
-        width: 38px;
-        height: 38px;
-        flex: 0 0 38px;
-        border-radius: 10px;
-        background: #efefff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .quick-text strong {
-        display: block;
-        font-size: 12px;
-    }
-
-    .quick-text span {
-        display: block;
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 10px;
-    }
-
-    /* =====================================================
-       SYSTEM STATUS
-    ===================================================== */
-
-    .status-list {
-        padding: 7px 20px 17px;
-    }
-
-    .status-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        min-height: 51px;
-        border-bottom: 1px solid #f0f2f6;
-    }
-
-    .status-item:last-child {
-        border-bottom: 0;
-    }
-
-    .status-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      font-weight: 700;
     }
 
     .status-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: #22c55e;
+
+      box-shadow:
+        0 0 0 4px
+        rgba(34, 197, 94, 0.12);
     }
 
-    .status-dot.online {
-        background: var(--success);
-        box-shadow:
-            0 0 0 4px
-            rgba(22,163,74,.09);
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      padding: 28px;
+
+      max-width: 1500px;
+
+      margin: 0 auto;
     }
 
-    .status-dot.offline {
-        background: var(--danger);
+    /* =========================================================
+       WELCOME
+    ========================================================= */
+
+    .welcome {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 30px;
+
+      margin-bottom: 24px;
+
+      border-radius: 24px;
+
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59, 130, 246, 0.22),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #111827,
+          #1e293b
+        );
+
+      color: white;
+
+      box-shadow: var(--shadow);
     }
 
-    .status-name {
-        font-size: 12px;
-        font-weight: 700;
+    .welcome-badge {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 7px 11px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
     }
 
-    .status-value {
-        font-size: 10px;
-        font-weight: 800;
-        color: var(--success);
+    .welcome h1 {
+      margin-top: 14px;
+
+      font-size:
+        clamp(25px, 3vw, 38px);
+
+      line-height: 1.12;
+
+      letter-spacing: -1px;
     }
 
-    /* =====================================================
+    .welcome p {
+      margin-top: 11px;
+
+      max-width: 700px;
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 16px;
+
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+
+      transition: 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 16px 38px
+        rgba(15, 23, 42, 0.1);
+    }
+
+    .stat-top {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+    }
+
+    .stat-icon {
+      width: 43px;
+      height: 43px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 13px;
+
+      background: #eff6ff;
+
+      font-size: 19px;
+    }
+
+    .stat-label {
+      margin-top: 15px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 5px;
+
+      font-size: 25px;
+
+      font-weight: 800;
+
+      letter-spacing: -0.6px;
+    }
+
+    .stat-description {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       GRID
+    ========================================================= */
+
+    .dashboard-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.2fr 0.8fr;
+
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 22px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+    }
+
+    .card-header p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    /* =========================================================
+       QUICK ACTIONS
+    ========================================================= */
+
+    .quick-actions {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 11px;
+    }
+
+    .quick-action {
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 14px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 13px;
+
+      background: white;
+
+      transition: 0.2s ease;
+    }
+
+    .quick-action:hover {
+      border-color: #bfdbfe;
+
+      background: #f8fbff;
+
+      transform:
+        translateY(-1px);
+    }
+
+    .quick-action-icon {
+      width: 39px;
+      height: 39px;
+
+      flex-shrink: 0;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 11px;
+
+      background: #eff6ff;
+
+      font-size: 17px;
+    }
+
+    .quick-action strong {
+      display: block;
+
+      font-size: 12px;
+    }
+
+    .quick-action span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       SYSTEM OVERVIEW
+    ========================================================= */
+
+    .system-list {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .system-row {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 13px 0;
+
+      border-bottom:
+        1px dashed var(--border);
+    }
+
+    .system-row:last-child {
+      border-bottom: 0;
+    }
+
+    .system-left {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .system-mini-icon {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: #f8fafc;
+
+      font-size: 15px;
+    }
+
+    .system-name strong {
+      display: block;
+
+      font-size: 11px;
+    }
+
+    .system-name span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .status-pill {
+      padding: 5px 9px;
+
+      border-radius: 999px;
+
+      font-size: 9px;
+
+      font-weight: 800;
+    }
+
+    .status-pill.success {
+      background: #f0fdf4;
+
+      color: #15803d;
+    }
+
+    .status-pill.warning {
+      background: #fffbeb;
+
+      color: #b45309;
+    }
+
+    .status-pill.danger {
+      background: #fef2f2;
+
+      color: #b91c1c;
+    }
+
+    /* =========================================================
+       ADMIN INFO
+    ========================================================= */
+
+    .profile-box {
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      padding: 16px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 15px;
+
+      background: #fafbfc;
+    }
+
+    .profile-avatar {
+      width: 52px;
+      height: 52px;
+
+      flex-shrink: 0;
+
+      border-radius: 15px;
+
+      display: grid;
+
+      place-items: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
+
+      color: white;
+
+      font-weight: 800;
+
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .profile-info {
+      min-width: 0;
+    }
+
+    .profile-info strong {
+      display: block;
+
+      font-size: 14px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    .profile-info span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .profile-role {
+      display: inline-block;
+
+      margin-top: 6px;
+
+      padding: 4px 8px;
+
+      border-radius: 999px;
+
+      background: #eff6ff;
+
+      color: var(--primary);
+
+      font-size: 8px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
        ACTIVITY
-    ===================================================== */
+    ========================================================= */
+
+    .activity {
+      margin-top: 22px;
+    }
 
     .activity-list {
-        padding: 7px 20px 15px;
+      display: grid;
+
+      gap: 0;
     }
 
     .activity-item {
-        display: flex;
-        gap: 11px;
-        padding: 13px 0;
-        border-bottom: 1px solid #f0f2f6;
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 11px;
+
+      padding: 13px 0;
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .activity-item:last-child {
-        border-bottom: 0;
+      border-bottom: 0;
     }
 
-    .activity-icon {
-        width: 32px;
-        height: 32px;
-        flex: 0 0 32px;
-        border-radius: 9px;
-        background: #f1f2ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+
+      margin-top: 5px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--primary);
     }
 
     .activity-text {
-        min-width: 0;
+      font-size: 11px;
+
+      line-height: 1.5;
     }
 
-    .activity-text strong {
-        display: block;
-        font-size: 11px;
+    .activity-time {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
     }
 
-    .activity-text span {
-        display: block;
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 10px;
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    .view-all {
+      padding: 7px 10px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 9px;
+
+      background: white;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      color: var(--muted);
+
+      transition: 0.2s ease;
     }
 
-    /* =====================================================
-       FOOTER
-    ===================================================== */
+    .view-all:hover {
+      border-color: #bfdbfe;
 
-    .dashboard-footer {
-        margin-top: 22px;
-        padding: 17px 0 5px;
-        color: var(--muted);
-        font-size: 10px;
-        text-align: center;
+      color: var(--primary);
     }
 
-    /* =====================================================
-       MOBILE OVERLAY
-    ===================================================== */
+    /* =========================================================
+       TOAST
+    ========================================================= */
 
-    .sidebar-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 950;
-        background: rgba(15,23,42,.48);
-        backdrop-filter: blur(2px);
+    .toast {
+      position: fixed;
+
+      right: 24px;
+
+      bottom: 24px;
+
+      min-width: 260px;
+
+      max-width: 360px;
+
+      padding: 13px 15px;
+
+      border-radius: 13px;
+
+      background: #111827;
+
+      color: white;
+
+      box-shadow:
+        0 15px 40px
+        rgba(15, 23, 42, 0.25);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      transform:
+        translateY(120px);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: 0.3s ease;
+
+      z-index: 3000;
     }
 
-    .sidebar-overlay.show {
-        display: block;
+    .toast.show {
+      transform:
+        translateY(0);
+
+      opacity: 1;
     }
 
-    /* =====================================================
+    /* =========================================================
        RESPONSIVE
-    ===================================================== */
+    ========================================================= */
 
     @media (max-width: 1150px) {
 
-        .sidebar {
-            width: 230px;
-        }
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
-        .main {
-            width: calc(100% - 230px);
-            margin-left: 230px;
-        }
-
-        .stats-grid {
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-        }
-
-        .dashboard-grid {
-            grid-template-columns: 1fr;
-        }
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 850px) {
 
-        .sidebar {
-            transform: translateX(-100%);
-            width: 260px;
-        }
+      .sidebar {
+        transform:
+          translateX(-100%);
 
-        .sidebar.open {
-            transform: translateX(0);
-        }
+        transition:
+          transform 0.25s ease;
+      }
 
-        .main {
-            width: 100%;
-            margin-left: 0;
-        }
+      .sidebar.open {
+        transform:
+          translateX(0);
+      }
 
-        .mobile-menu-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .sidebar-overlay.show {
+        display: block;
+      }
 
-        .topbar {
-            padding: 12px 16px;
-        }
+      .main {
+        margin-left: 0;
+      }
 
-        .site-view-btn {
-            display: none;
-        }
+      .mobile-menu-btn {
+        display: grid;
 
-        .content {
-            padding: 20px 16px;
-        }
+        place-items: center;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .system-status {
+        display: none;
+      }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 600px) {
 
-        .stats-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+      .topbar {
+        height: 64px;
+      }
 
-        .stat-card {
-            padding: 15px;
-        }
+      .page-title h2 {
+        font-size: 16px;
+      }
 
-        .stat-value {
-            font-size: 24px;
-        }
+      .page-title p {
+        display: none;
+      }
 
-        .stat-icon {
-            width: 37px;
-            height: 37px;
-        }
+      .content {
+        padding: 14px;
+      }
 
-        .welcome {
-            align-items: flex-start;
-            flex-direction: column;
-        }
+      .welcome {
+        padding: 22px;
 
-        .current-time {
-            text-align: left;
-        }
+        border-radius: 19px;
+      }
 
-        .quick-actions {
-            grid-template-columns: 1fr;
-        }
+      .welcome h1 {
+        font-size: 25px;
+      }
 
-        .profile-name,
-        .profile-role {
-            display: none;
-        }
+      .welcome p {
+        font-size: 11px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-icon {
+        width: 36px;
+        height: 36px;
+
+        font-size: 16px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .card-header,
+      .card-body {
+        padding: 16px;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .toast {
+        left: 14px;
+        right: 14px;
+
+        bottom: 14px;
+
+        min-width: auto;
+      }
     }
 
-    @media (max-width: 390px) {
+    @media (max-width: 380px) {
 
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
 
-        .page-title {
-            font-size: 18px;
-        }
-
-        .welcome h1 {
-            font-size: 21px;
-        }
+      .profile-box {
+        align-items: flex-start;
+      }
     }
-</style>
-```
 
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
+
+    button:focus-visible,
+    a:focus-visible {
+      outline:
+        3px solid
+        rgba(37, 99, 235, 0.22);
+
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="admin-layout">
+  <!-- =========================================================
+       SIDEBAR
+  ========================================================= -->
 
-```
-<!-- =====================================================
-     SIDEBAR
-====================================================== -->
-
-<aside class="sidebar" id="sidebar">
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
 
     <div class="brand">
 
-        <div class="brand-icon">
-            ✦
-        </div>
+      <div class="brand-icon">
+        DS
+      </div>
 
-        <div>
-            <div class="brand-title">
-                Design System
-            </div>
+      <div class="brand-text">
 
-            <div class="brand-subtitle">
-                Administration Panel
-            </div>
-        </div>
+        <h1>
+          Design System
+        </h1>
+
+        <p>
+          Admin Control Center
+        </p>
+
+      </div>
 
     </div>
 
 
-    <div class="nav-title">
+    <nav class="nav">
+
+      <div class="nav-title">
         Main
-    </div>
+      </div>
 
-    <a
-        class="nav-link active"
+      <a
         href="./dashboard.html"
-    >
+        class="nav-link active"
+      >
         <span class="nav-icon">📊</span>
-        Dashboard
-    </a>
+        <span>Dashboard</span>
+      </a>
 
-    <a
-        class="nav-link"
+      <a
         href="./website.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🌐</span>
-        Website
-    </a>
+        <span>Website</span>
+      </a>
 
-    <a
+      <a
+        href="./website-edit.html"
         class="nav-link"
+      >
+        <span class="nav-icon">✏️</span>
+        <span>Website Editor</span>
+      </a>
+
+      <a
         href="./design-manage.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🎨</span>
-        Designs
-    </a>
+        <span>Design Management</span>
+      </a>
 
-    <a
-        class="nav-link"
+      <a
         href="./banner.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🖼️</span>
-        Banner
-    </a>
+        <span>Advertisement</span>
+      </a>
 
 
-    <div class="nav-title">
-        Communication
-    </div>
-
-    <a
-        class="nav-link"
-        href="./chatter.html"
-    >
-        <span class="nav-icon">💬</span>
+      <div class="nav-title">
         Chatter
-    </a>
+      </div>
 
-    <a
+      <a
+        href="./chatter.html"
         class="nav-link"
-        href="./live-monitor.html"
-    >
-        <span class="nav-icon">📡</span>
-        Live Monitor
-        <span class="nav-badge">
-            SA
-        </span>
-    </a>
-
-
-    <div class="nav-title">
-        System
-    </div>
-
-    <a
-        class="nav-link"
-        href="./browser-ui.html"
-    >
-        <span class="nav-icon">🔐</span>
-        Browser UI
-    </a>
-
-    <a
-        class="nav-link"
-        href="./system.html"
-    >
-        <span class="nav-icon">⚙️</span>
-        System Settings
-    </a>
-
-    <a
-        class="nav-link"
-        href="./link-check.html"
-    >
-        <span class="nav-icon">🔗</span>
-        Link Check
-    </a>
-
-
-    <div class="nav-title">
-        Website
-    </div>
-
-    <a
-        class="nav-link"
-        href="../chatter/index.html"
-    >
+      >
         <span class="nav-icon">💬</span>
-        Open Chatter
-    </a>
+        <span>Chatter Settings</span>
+      </a>
 
-    <a
+      <a
+        href="./browser-ui.html"
         class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
+        <span>Browser UI</span>
+      </a>
+
+      <a
+        href="./live-monitor.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📡</span>
+        <span>Live Monitor</span>
+      </a>
+
+
+      <div class="nav-title">
+        System
+      </div>
+
+      <a
+        href="./system.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">⚙️</span>
+        <span>System Settings</span>
+      </a>
+
+      <a
+        href="./link-check.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🔗</span>
+        <span>Link Checker</span>
+      </a>
+
+      <a
         href="../index.html"
-    >
+        class="nav-link"
+      >
         <span class="nav-icon">🏠</span>
-        View Website
-    </a>
+        <span>View Website</span>
+      </a>
 
-</aside>
+    </nav>
 
 
-<div
+    <div class="sidebar-footer">
+
+      <div class="admin-mini">
+
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
+        >
+          AD
+        </div>
+
+        <div class="admin-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <div
     class="sidebar-overlay"
     id="sidebarOverlay"
-></div>
+  ></div>
 
 
-<!-- =====================================================
-     MAIN
-====================================================== -->
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
 
-<main class="main">
+  <main class="main">
 
     <!-- TOPBAR -->
 
     <header class="topbar">
 
-        <div class="topbar-left">
+      <div class="topbar-left">
 
-            <button
-                class="mobile-menu-btn"
-                id="mobileMenuBtn"
-                type="button"
-                aria-label="Open menu"
-            >
-                ☰
-            </button>
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
 
-            <div>
+        <div class="page-title">
 
-                <div class="page-title">
-                    Admin Dashboard
-                </div>
+          <h2>
+            Admin Dashboard
+          </h2>
 
-                <div class="page-subtitle">
-                    Manage and monitor your design platform
-                </div>
-
-            </div>
+          <p>
+            Overview of your Design System
+          </p>
 
         </div>
 
-
-        <div class="topbar-right">
-
-            <a
-                class="site-view-btn"
-                href="../index.html"
-                target="_blank"
-            >
-                🌐 View Website
-            </a>
+      </div>
 
 
-            <div class="admin-profile">
+      <div class="topbar-right">
 
-                <div
-                    class="avatar"
-                    id="userAvatar"
-                >
-                    A
-                </div>
+        <div class="system-status">
 
-                <div>
+          <span class="status-dot"></span>
 
-                    <div
-                        class="profile-name"
-                        id="userName"
-                    >
-                        Admin
-                    </div>
-
-                    <div
-                        class="profile-role"
-                        id="userRole"
-                    >
-                        Administrator
-                    </div>
-
-                </div>
-
-            </div>
+          System Online
 
         </div>
+
+      </div>
 
     </header>
 
 
-    <!-- CONTENT -->
+    <!-- =======================================================
+         CONTENT
+    ======================================================= -->
 
     <section class="content">
 
-        <!-- WELCOME -->
+      <!-- WELCOME -->
 
-        <div class="welcome">
+      <div class="welcome">
+
+        <div class="welcome-badge">
+          📊 Admin Overview
+        </div>
+
+        <h1 id="welcomeTitle">
+          Welcome back, Admin
+        </h1>
+
+        <p>
+          Manage your website, designs, Chatter, browser controls
+          and system settings from this central control panel.
+        </p>
+
+      </div>
+
+
+      <!-- =====================================================
+           STATS
+      ===================================================== -->
+
+      <div class="stats-grid">
+
+        <!-- WEBSITE -->
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🌐
+            </div>
+
+            <span
+              class="status-pill success"
+              id="websiteStatStatus"
+            >
+              Active
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Website
+          </div>
+
+          <div
+            class="stat-value"
+            id="websiteStat"
+          >
+            ON
+          </div>
+
+          <div class="stat-description">
+            Public website status
+          </div>
+
+        </div>
+
+
+        <!-- DESIGNS -->
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🎨
+            </div>
+
+            <span
+              class="status-pill success"
+              id="designStatStatus"
+            >
+              Active
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Design Gallery
+          </div>
+
+          <div
+            class="stat-value"
+            id="designStat"
+          >
+            ON
+          </div>
+
+          <div class="stat-description">
+            Design browsing availability
+          </div>
+
+        </div>
+
+
+        <!-- CHATTER -->
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              💬
+            </div>
+
+            <span
+              class="status-pill success"
+              id="chatterStatStatus"
+            >
+              Active
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Chatter
+          </div>
+
+          <div
+            class="stat-value"
+            id="chatterStat"
+          >
+            ON
+          </div>
+
+          <div class="stat-description">
+            Communication system
+          </div>
+
+        </div>
+
+
+        <!-- MAINTENANCE -->
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🛠️
+            </div>
+
+            <span
+              class="status-pill success"
+              id="maintenanceStatStatus"
+            >
+              Normal
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Maintenance
+          </div>
+
+          <div
+            class="stat-value"
+            id="maintenanceStat"
+          >
+            OFF
+          </div>
+
+          <div class="stat-description">
+            Website maintenance state
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           DASHBOARD GRID
+      ===================================================== -->
+
+      <div class="dashboard-grid">
+
+        <!-- ===================================================
+             QUICK ACTIONS
+        =================================================== -->
+
+        <div class="card">
+
+          <div class="card-header">
 
             <div>
 
-                <h1 id="welcomeTitle">
-                    Welcome back 👋
-                </h1>
+              <h3>
+                Quick Actions
+              </h3>
 
-                <p>
-                    Here is what's happening
-                    with your website today.
-                </p>
+              <p>
+                Jump directly to frequently used management areas.
+              </p>
 
             </div>
+
+          </div>
+
+          <div class="card-body">
+
+            <div class="quick-actions">
+
+              <a
+                href="./website-edit.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  ✏️
+                </div>
+
+                <div>
+
+                  <strong>
+                    Edit Website
+                  </strong>
+
+                  <span>
+                    Manage homepage sections
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./design-manage.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  🎨
+                </div>
+
+                <div>
+
+                  <strong>
+                    Manage Designs
+                  </strong>
+
+                  <span>
+                    Manage design gallery
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./banner.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  🖼️
+                </div>
+
+                <div>
+
+                  <strong>
+                    Advertisements
+                  </strong>
+
+                  <span>
+                    Manage website banners
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./chatter.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  💬
+                </div>
+
+                <div>
+
+                  <strong>
+                    Chatter Settings
+                  </strong>
+
+                  <span>
+                    Communication controls
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./browser-ui.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  🌐
+                </div>
+
+                <div>
+
+                  <strong>
+                    Browser UI
+                  </strong>
+
+                  <span>
+                    Permission feature controls
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./system.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  ⚙️
+                </div>
+
+                <div>
+
+                  <strong>
+                    System Settings
+                  </strong>
+
+                  <span>
+                    Core system configuration
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./live-monitor.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  📡
+                </div>
+
+                <div>
+
+                  <strong>
+                    Live Monitor
+                  </strong>
+
+                  <span>
+                    View active sessions
+                  </span>
+
+                </div>
+
+              </a>
+
+
+              <a
+                href="./link-check.html"
+                class="quick-action"
+              >
+
+                <div class="quick-action-icon">
+                  🔗
+                </div>
+
+                <div>
+
+                  <strong>
+                    Link Checker
+                  </strong>
+
+                  <span>
+                    Check website navigation
+                  </span>
+
+                </div>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================
+             SYSTEM OVERVIEW
+        =================================================== -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <h3>
+                System Overview
+              </h3>
+
+              <p>
+                Current platform configuration.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="card-body">
+
+            <div class="system-list">
+
+              <!-- WEBSITE -->
+
+              <div class="system-row">
+
+                <div class="system-left">
+
+                  <div class="system-mini-icon">
+                    🌐
+                  </div>
+
+                  <div class="system-name">
+
+                    <strong>
+                      Website
+                    </strong>
+
+                    <span>
+                      Public availability
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="status-pill success"
+                  id="overviewWebsite"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+
+              <!-- DESIGNS -->
+
+              <div class="system-row">
+
+                <div class="system-left">
+
+                  <div class="system-mini-icon">
+                    🎨
+                  </div>
+
+                  <div class="system-name">
+
+                    <strong>
+                      Design Gallery
+                    </strong>
+
+                    <span>
+                      Design browsing
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="status-pill success"
+                  id="overviewDesigns"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+
+              <!-- CHATTER -->
+
+              <div class="system-row">
+
+                <div class="system-left">
+
+                  <div class="system-mini-icon">
+                    💬
+                  </div>
+
+                  <div class="system-name">
+
+                    <strong>
+                      Chatter
+                    </strong>
+
+                    <span>
+                      Communication
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="status-pill success"
+                  id="overviewChatter"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+
+              <!-- BANNER -->
+
+              <div class="system-row">
+
+                <div class="system-left">
+
+                  <div class="system-mini-icon">
+                    🖼️
+                  </div>
+
+                  <div class="system-name">
+
+                    <strong>
+                      Advertisement
+                    </strong>
+
+                    <span>
+                      Website banner system
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="status-pill success"
+                  id="overviewBanner"
+                >
+                  Active
+                </span>
+
+              </div>
+
+
+              <!-- FIREBASE -->
+
+              <div class="system-row">
+
+                <div class="system-left">
+
+                  <div class="system-mini-icon">
+                    🔥
+                  </div>
+
+                  <div class="system-name">
+
+                    <strong>
+                      Backend
+                    </strong>
+
+                    <span>
+                      Firebase integration
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="status-pill warning"
+                >
+                  Pending
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ADMIN PROFILE
+      ===================================================== -->
+
+      <div
+        class="card"
+        style="margin-top:22px;"
+      >
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Administrator
+            </h3>
+
+            <p>
+              Current authenticated administrator.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="card-body">
+
+          <div class="profile-box">
 
             <div
-                class="current-time"
-                id="currentTime"
+              class="profile-avatar"
+              id="profileAvatar"
             >
-                Loading time...
+              AD
             </div>
+
+            <div class="profile-info">
+
+              <strong
+                id="profileName"
+              >
+                System Admin
+              </strong>
+
+              <span
+                id="profileEmail"
+              >
+                admin@designsystem01.com
+              </span>
+
+              <span
+                class="profile-role"
+                id="profileRole"
+              >
+                Admin
+              </span>
+
+            </div>
+
+          </div>
 
         </div>
 
-
-        <!-- =================================================
-             STATS
-        ================================================== -->
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-icon">
-                        👥
-                    </div>
-
-                    <div class="stat-status">
-                        ● LIVE
-                    </div>
-
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="onlineUsers"
-                >
-                    0
-                </div>
-
-                <div class="stat-label">
-                    Online Users
-                </div>
-
-            </div>
+      </div>
 
 
-            <div class="stat-card">
+      <!-- =====================================================
+           ACTIVITY
+      ===================================================== -->
 
-                <div class="stat-top">
+      <div class="activity card">
 
-                    <div class="stat-icon">
-                        🎨
-                    </div>
+        <div class="card-header">
 
-                    <div class="stat-status">
-                        ● ACTIVE
-                    </div>
+          <div>
 
-                </div>
+            <h3>
+              Recent Admin Activity
+            </h3>
 
-                <div
-                    class="stat-value"
-                    id="designCount"
-                >
-                    0
-                </div>
+            <p>
+              Recent actions stored by the admin interface.
+            </p>
 
-                <div class="stat-label">
-                    Available Designs
-                </div>
+          </div>
 
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-icon">
-                        💬
-                    </div>
-
-                    <div
-                        class="stat-status"
-                        id="chatterStatus"
-                    >
-                        ● ON
-                    </div>
-
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="activeChats"
-                >
-                    0
-                </div>
-
-                <div class="stat-label">
-                    Active Chats
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-icon">
-                        📡
-                    </div>
-
-                    <div class="stat-status">
-                        ● READY
-                    </div>
-
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="liveSessions"
-                >
-                    0
-                </div>
-
-                <div class="stat-label">
-                    Live Sessions
-                </div>
-
-            </div>
+          <button
+            class="view-all"
+            id="clearActivityBtn"
+          >
+            Clear
+          </button>
 
         </div>
 
+        <div class="card-body">
 
-        <!-- =================================================
-             MAIN GRID
-        ================================================== -->
+          <div
+            class="activity-list"
+            id="activityList"
+          >
 
-        <div class="dashboard-grid">
+            <div class="activity-item">
 
+              <span class="activity-dot"></span>
 
-            <!-- QUICK ACTIONS -->
+              <div class="activity-text">
 
-            <div class="panel">
+                Dashboard loaded successfully.
 
-                <div class="panel-header">
+                <span class="activity-time">
+                  Waiting for activity...
+                </span>
 
-                    <div>
-
-                        <div class="panel-title">
-                            Quick Actions
-                        </div>
-
-                        <div class="panel-description">
-                            Frequently used management tools
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="quick-actions">
-
-                    <a
-                        class="quick-action"
-                        href="./website.html"
-                    >
-
-                        <div class="quick-icon">
-                            🌐
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Manage Website
-                            </strong>
-
-                            <span>
-                                Website content & settings
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./design-manage.html"
-                    >
-
-                        <div class="quick-icon">
-                            🎨
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Manage Designs
-                            </strong>
-
-                            <span>
-                                Add and organize designs
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./banner.html"
-                    >
-
-                        <div class="quick-icon">
-                            🖼️
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Manage Banner
-                            </strong>
-
-                            <span>
-                                Control website banners
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./chatter.html"
-                    >
-
-                        <div class="quick-icon">
-                            💬
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Chatter Settings
-                            </strong>
-
-                            <span>
-                                Messaging & call controls
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./browser-ui.html"
-                    >
-
-                        <div class="quick-icon">
-                            🔐
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Browser UI
-                            </strong>
-
-                            <span>
-                                Permission guidance
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./system.html"
-                    >
-
-                        <div class="quick-icon">
-                            ⚙️
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                System Settings
-                            </strong>
-
-                            <span>
-                                Global platform controls
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="./link-check.html"
-                    >
-
-                        <div class="quick-icon">
-                            🔗
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Link Check
-                            </strong>
-
-                            <span>
-                                Test website navigation
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        class="quick-action"
-                        href="../chatter/index.html"
-                    >
-
-                        <div class="quick-icon">
-                            🚀
-                        </div>
-
-                        <div class="quick-text">
-
-                            <strong>
-                                Open Chatter
-                            </strong>
-
-                            <span>
-                                Open user communication
-                            </span>
-
-                        </div>
-
-                    </a>
-
-                </div>
+              </div>
 
             </div>
 
-
-            <!-- SYSTEM STATUS -->
-
-            <div class="panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <div class="panel-title">
-                            System Status
-                        </div>
-
-                        <div class="panel-description">
-                            Current platform status
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="status-list">
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                                id="websiteDot"
-                            ></span>
-
-                            <span class="status-name">
-                                Website
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="websiteStatus"
-                        >
-                            Online
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                                id="chatterDot"
-                            ></span>
-
-                            <span class="status-name">
-                                Chatter
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="chatterSystemStatus"
-                        >
-                            Enabled
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                                id="designDot"
-                            ></span>
-
-                            <span class="status-name">
-                                Design System
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="designStatus"
-                        >
-                            Ready
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                                id="securityDot"
-                            ></span>
-
-                            <span class="status-name">
-                                Admin Security
-                            </span>
-
-                        </div>
-
-                        <span class="status-value">
-                            Protected
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- RECENT ACTIVITY -->
-
-            <div class="panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <div class="panel-title">
-                            Recent Activity
-                        </div>
-
-                        <div class="panel-description">
-                            Latest dashboard events
-                        </div>
-
-                    </div>
-
-                    <a
-                        href="./system.html"
-                        class="panel-link"
-                    >
-                        System →
-                    </a>
-
-                </div>
-
-
-                <div
-                    class="activity-list"
-                    id="activityList"
-                >
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">
-                            🔐
-                        </div>
-
-                        <div class="activity-text">
-
-                            <strong>
-                                Admin panel protected
-                            </strong>
-
-                            <span>
-                                Security guard is active
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">
-                            📱
-                        </div>
-
-                        <div class="activity-text">
-
-                            <strong>
-                                Responsive system enabled
-                            </strong>
-
-                            <span>
-                                Desktop, tablet and mobile ready
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">
-                            💬
-                        </div>
-
-                        <div class="activity-text">
-
-                            <strong>
-                                Chatter system configured
-                            </strong>
-
-                            <span>
-                                Live communication controls available
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- LIVE MONITOR -->
-
-            <div class="panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <div class="panel-title">
-                            Live Monitor
-                        </div>
-
-                        <div class="panel-description">
-                            Consent-based live sessions only
-                        </div>
-
-                    </div>
-
-                    <a
-                        href="./live-monitor.html"
-                        class="panel-link"
-                    >
-                        Open →
-                    </a>
-
-                </div>
-
-
-                <div class="status-list">
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                            ></span>
-
-                            <span class="status-name">
-                                Video Calls
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="videoCallCount"
-                        >
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                            ></span>
-
-                            <span class="status-name">
-                                Voice Calls
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="voiceCallCount"
-                        >
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-item">
-
-                        <div class="status-left">
-
-                            <span
-                                class="status-dot online"
-                            ></span>
-
-                            <span class="status-name">
-                                Screen Share
-                            </span>
-
-                        </div>
-
-                        <span
-                            class="status-value"
-                            id="screenShareCount"
-                        >
-                            0
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
+          </div>
 
         </div>
 
-
-        <div class="dashboard-footer">
-            Design System Admin Panel •
-            Secure management interface
-        </div>
+      </div>
 
     </section>
 
-</main>
-```
-
-</div>
-
-<!-- =========================================================
-     AUTH GUARD
-========================================================= -->
-
-<script src="./auth-guard.js"></script>
-
-<script>
-/* =========================================================
-   ADMIN DASHBOARD
-   FILE: admin/dashboard.html
-   ========================================================= */
+  </main>
 
 
-/* =========================================================
-   STORAGE KEYS
-========================================================= */
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
 
-const SESSION_KEY =
-    "chatterAdminSession";
-
-const CHATTER_SETTINGS_KEY =
-    "chatterSystemSettings";
-
-const LIVE_SESSION_KEY =
-    "chatterLiveSessions";
+  <div
+    class="toast"
+    id="toast"
+  ></div>
 
 
-/* =========================================================
-   DOM
-========================================================= */
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================= -->
 
-const sidebar =
-    document.getElementById("sidebar");
-
-const sidebarOverlay =
-    document.getElementById("sidebarOverlay");
-
-const mobileMenuBtn =
-    document.getElementById("mobileMenuBtn");
-
-const userName =
-    document.getElementById("userName");
-
-const userRole =
-    document.getElementById("userRole");
-
-const userAvatar =
-    document.getElementById("userAvatar");
-
-const welcomeTitle =
-    document.getElementById("welcomeTitle");
-
-const currentTime =
-    document.getElementById("currentTime");
+  <script src="./auth-guard.js"></script>
 
 
-/* =========================================================
-   LOAD ADMIN SESSION
-========================================================= */
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
 
-function loadAdminSession() {
+  <script>
 
-    try {
+    /* =========================================================
+       STORAGE
+    ========================================================= */
 
-        const raw =
-            localStorage.getItem(
-                SESSION_KEY
-            );
+    const SETTINGS_KEY =
+      "websiteSettings";
 
-        if (!raw) {
-            return;
-        }
+    const BANNER_KEY =
+      "websiteBannerData";
 
-        const session =
-            JSON.parse(raw);
+    const BANNER_SETTINGS_KEY =
+      "websiteBannerSettings";
 
-        const name =
-            session.name ||
-            session.email ||
-            "Admin";
+    const SESSION_KEY =
+      "chatterAdminSession";
 
-        const role =
-            session.role ||
-            "admin";
+    const SYSTEM_ACTIVITY_KEY =
+      "systemSettingsActivity";
 
-        userName.textContent =
-            name;
-
-        userRole.textContent =
-            role === "superadmin"
-                ? "Super Admin"
-                : "Administrator";
-
-        userAvatar.textContent =
-            name
-                .trim()
-                .charAt(0)
-                .toUpperCase();
-
-        welcomeTitle.textContent =
-            `Welcome back, ${name} 👋`;
-
-    } catch (error) {
-
-        console.warn(
-            "Session read failed:",
-            error
-        );
-
-    }
-
-}
+    const CHATTER_ACTIVITY_KEY =
+      "chatterAdminActivity";
 
 
-/* =========================================================
-   LOAD CHATTER SETTINGS
-========================================================= */
+    /* =========================================================
+       DEFAULT SETTINGS
+    ========================================================= */
 
-function loadChatterSettings() {
+    const DEFAULT_SETTINGS = {
 
-    const defaults = {
+      websiteEnabled: true,
 
-        chatterEnabled: true,
+      showDesigns: true,
 
-        messaging: true,
+      chatterEnabled: true,
 
-        voiceCall: true,
+      maintenanceMode: false,
 
-        videoCall: true,
-
-        voiceMessages: false,
-
-        camera: true,
-
-        microphone: true,
-
-        screenShare: true,
-
-        fileSharing: true,
-
-        imageSharing: true,
-
-        typingIndicator: true,
-
-        notifications: true
+      notificationsEnabled: true
 
     };
 
 
-    try {
+    /* =========================================================
+       GET WEBSITE SETTINGS
+    ========================================================= */
+
+    function getWebsiteSettings() {
+
+      try {
 
         const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    CHATTER_SETTINGS_KEY
-                ) || "null"
-            );
+          JSON.parse(
+            localStorage.getItem(
+              SETTINGS_KEY
+            )
+          );
 
         return {
-            ...defaults,
-            ...(saved || {})
+          ...DEFAULT_SETTINGS,
+          ...(saved || {})
         };
 
-    } catch (error) {
+      } catch (error) {
 
-        return defaults;
+        return {
+          ...DEFAULT_SETTINGS
+        };
 
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE CHATTER STATUS
-========================================================= */
-
-function updateChatterStatus() {
-
-    const settings =
-        loadChatterSettings();
-
-    const enabled =
-        settings.chatterEnabled !== false;
-
-
-    const status =
-        document.getElementById(
-            "chatterStatus"
-        );
-
-    const systemStatus =
-        document.getElementById(
-            "chatterSystemStatus"
-        );
-
-    const dot =
-        document.getElementById(
-            "chatterDot"
-        );
-
-
-    if (enabled) {
-
-        status.textContent =
-            "● ON";
-
-        systemStatus.textContent =
-            "Enabled";
-
-        systemStatus.style.color =
-            "var(--success)";
-
-        dot.className =
-            "status-dot online";
-
-    } else {
-
-        status.textContent =
-            "● OFF";
-
-        status.style.color =
-            "var(--danger)";
-
-        systemStatus.textContent =
-            "Disabled";
-
-        systemStatus.style.color =
-            "var(--danger)";
-
-        dot.className =
-            "status-dot offline";
+      }
 
     }
 
-}
+
+    /* =========================================================
+       GET BANNERS
+    ========================================================= */
+
+    function getBanners() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            BANNER_KEY
+          )
+        ) || [];
+
+      } catch (error) {
+
+        return [];
+
+      }
+
+    }
 
 
-/* =========================================================
-   LOAD LIVE SESSIONS
-========================================================= */
+    /* =========================================================
+       GET BANNER SETTINGS
+    ========================================================= */
 
-function loadLiveSessions() {
+    function getBannerSettings() {
 
-    try {
+      try {
 
-        const sessions =
-            JSON.parse(
-                localStorage.getItem(
-                    LIVE_SESSION_KEY
-                ) || "[]"
-            );
+        return JSON.parse(
+          localStorage.getItem(
+            BANNER_SETTINGS_KEY
+          )
+        ) || {};
 
-        const list =
-            Array.isArray(sessions)
-                ? sessions
-                : [];
+      } catch (error) {
 
+        return {};
 
-        let video = 0;
-        let voice = 0;
-        let screen = 0;
+      }
+
+    }
 
 
-        list.forEach(session => {
+    /* =========================================================
+       UPDATE DASHBOARD
+    ========================================================= */
 
-            const type =
-                session.type ||
-                "";
+    function updateDashboard() {
 
-            if (type === "video") {
-                video++;
-            }
-
-            if (type === "voice") {
-                voice++;
-            }
-
-            if (type === "screen") {
-                screen++;
-            }
-
-        });
+      const settings =
+        getWebsiteSettings();
 
 
+      /* WEBSITE */
+
+      updateStat(
+        "websiteStat",
+        "websiteStatStatus",
+        settings.websiteEnabled,
+        "ON",
+        "OFF"
+      );
+
+      updateOverview(
+        "overviewWebsite",
+        settings.websiteEnabled
+      );
+
+
+      /* DESIGNS */
+
+      updateStat(
+        "designStat",
+        "designStatStatus",
+        settings.showDesigns,
+        "ON",
+        "OFF"
+      );
+
+      updateOverview(
+        "overviewDesigns",
+        settings.showDesigns
+      );
+
+
+      /* CHATTER */
+
+      updateStat(
+        "chatterStat",
+        "chatterStatStatus",
+        settings.chatterEnabled,
+        "ON",
+        "OFF"
+      );
+
+      updateOverview(
+        "overviewChatter",
+        settings.chatterEnabled
+      );
+
+
+      /* MAINTENANCE */
+
+      const maintenanceValue =
         document.getElementById(
-            "liveSessions"
-        ).textContent =
-            list.length;
+          "maintenanceStat"
+        );
 
-
+      const maintenanceStatus =
         document.getElementById(
-            "videoCallCount"
-        ).textContent =
-            video;
+          "maintenanceStatStatus"
+        );
 
 
+      maintenanceValue.textContent =
+        settings.maintenanceMode
+          ? "ON"
+          : "OFF";
+
+
+      maintenanceStatus.textContent =
+        settings.maintenanceMode
+          ? "Maintenance"
+          : "Normal";
+
+
+      setStatusClass(
+        maintenanceStatus,
+        settings.maintenanceMode
+          ? "warning"
+          : "success"
+      );
+
+
+      /* BANNER */
+
+      updateBannerOverview();
+
+
+      /* WELCOME */
+
+      updateWelcome();
+
+    }
+
+
+    /* =========================================================
+       UPDATE STAT
+    ========================================================= */
+
+    function updateStat(
+      valueId,
+      statusId,
+      enabled,
+      onText,
+      offText
+    ) {
+
+      const value =
         document.getElementById(
-            "voiceCallCount"
-        ).textContent =
-            voice;
+          valueId
+        );
 
-
+      const status =
         document.getElementById(
-            "screenShareCount"
-        ).textContent =
-            screen;
+          statusId
+        );
 
 
+      value.textContent =
+        enabled
+          ? onText
+          : offText;
+
+
+      status.textContent =
+        enabled
+          ? "Active"
+          : "Disabled";
+
+
+      setStatusClass(
+        status,
+        enabled
+          ? "success"
+          : "danger"
+      );
+
+    }
+
+
+    /* =========================================================
+       UPDATE OVERVIEW
+    ========================================================= */
+
+    function updateOverview(
+      id,
+      enabled
+    ) {
+
+      const element =
+        document.getElementById(id);
+
+
+      element.textContent =
+        enabled
+          ? "Enabled"
+          : "Disabled";
+
+
+      setStatusClass(
+        element,
+        enabled
+          ? "success"
+          : "danger"
+      );
+
+    }
+
+
+    /* =========================================================
+       STATUS CLASS
+    ========================================================= */
+
+    function setStatusClass(
+      element,
+      type
+    ) {
+
+      element.classList.remove(
+        "success",
+        "warning",
+        "danger"
+      );
+
+      element.classList.add(
+        type
+      );
+
+    }
+
+
+    /* =========================================================
+       BANNER OVERVIEW
+    ========================================================= */
+
+    function updateBannerOverview() {
+
+      const banners =
+        getBanners();
+
+      const bannerSettings =
+        getBannerSettings();
+
+
+      const activeBanners =
+        banners.filter(
+          banner =>
+            banner.status !== "inactive"
+        );
+
+
+      const enabled =
+        bannerSettings.enabled !== false &&
+        activeBanners.length > 0;
+
+
+      const element =
         document.getElementById(
-            "activeChats"
-        ).textContent =
-            list.length;
+          "overviewBanner"
+        );
 
-    } catch (error) {
 
-        console.warn(
-            "Live session data unavailable."
+      if (enabled) {
+
+        element.textContent =
+          `${activeBanners.length} Active`;
+
+        setStatusClass(
+          element,
+          "success"
+        );
+
+      } else {
+
+        element.textContent =
+          "Inactive";
+
+        setStatusClass(
+          element,
+          "warning"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       WELCOME
+    ========================================================= */
+
+    function updateWelcome() {
+
+      const session =
+        getSession();
+
+
+      const title =
+        document.getElementById(
+          "welcomeTitle"
+        );
+
+
+      if (!session) {
+
+        title.textContent =
+          "Welcome back, Admin";
+
+        return;
+
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "Admin";
+
+
+      title.textContent =
+        `Welcome back, ${name}`;
+
+    }
+
+
+    /* =========================================================
+       SESSION
+    ========================================================= */
+
+    function getSession() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            SESSION_KEY
+          )
+        );
+
+      } catch (error) {
+
+        return null;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function loadProfile() {
+
+      const session =
+        getSession();
+
+
+      if (!session) {
+        return;
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+
+      const email =
+        session.email ||
+        "admin@designsystem01.com";
+
+
+      const role =
+        session.role ||
+        "admin";
+
+
+      document.getElementById(
+        "profileName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "profileEmail"
+      ).textContent =
+        email;
+
+
+      document.getElementById(
+        "profileRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      setAvatar(
+        "adminAvatar",
+        session,
+        name
+      );
+
+
+      setAvatar(
+        "profileAvatar",
+        session,
+        name
+      );
+
+    }
+
+
+    /* =========================================================
+       AVATAR
+    ========================================================= */
+
+    function setAvatar(
+      elementId,
+      session,
+      name
+    ) {
+
+      const element =
+        document.getElementById(
+          elementId
+        );
+
+
+      if (session.avatar) {
+
+        element.innerHTML = `
+          <img
+            src="${escapeHtml(
+              session.avatar
+            )}"
+            alt="Admin"
+          >
+        `;
+
+        return;
+
+      }
+
+
+      const initials =
+        name
+          .split(" ")
+          .map(
+            word =>
+              word.charAt(0)
+          )
+          .join("")
+          .slice(0, 2)
+          .toUpperCase();
+
+
+      element.textContent =
+        initials || "AD";
+
+    }
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function getActivities() {
+
+      const activities = [];
+
+
+      try {
+
+        const system =
+          JSON.parse(
+            localStorage.getItem(
+              SYSTEM_ACTIVITY_KEY
+            )
+          ) || [];
+
+
+        system.forEach(
+          item => {
+
+            activities.push({
+              message:
+                item.message ||
+                "System activity",
+              time:
+                item.time ||
+                "",
+              source:
+                "system"
+            });
+
+          }
+        );
+
+      } catch (error) {}
+
+
+      try {
+
+        const chatter =
+          JSON.parse(
+            localStorage.getItem(
+              CHATTER_ACTIVITY_KEY
+            )
+          ) || [];
+
+
+        chatter.forEach(
+          item => {
+
+            activities.push({
+              message:
+                item.message ||
+                "Chatter activity",
+              time:
+                item.time ||
+                "",
+              source:
+                "chatter"
+            });
+
+          }
+        );
+
+      } catch (error) {}
+
+
+      return activities
+        .sort(
+          (a, b) =>
+            new Date(b.time) -
+            new Date(a.time)
+        )
+        .slice(0, 8);
+
+    }
+
+
+    /* =========================================================
+       RENDER ACTIVITY
+    ========================================================= */
+
+    function renderActivity() {
+
+      const list =
+        document.getElementById(
+          "activityList"
+        );
+
+
+      const activities =
+        getActivities();
+
+
+      if (!activities.length) {
+
+        list.innerHTML = `
+          <div class="activity-item">
+
+            <span class="activity-dot"></span>
+
+            <div class="activity-text">
+
+              Dashboard loaded successfully.
+
+              <span class="activity-time">
+                No additional activity yet.
+              </span>
+
+            </div>
+
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      list.innerHTML =
+        activities
+          .map(
+            item => `
+              <div class="activity-item">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-text">
+
+                  ${escapeHtml(
+                    item.message
+                  )}
+
+                  <span class="activity-time">
+                    ${escapeHtml(
+                      item.time
+                    )}
+                  </span>
+
+                </div>
+
+              </div>
+            `
+          )
+          .join("");
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
         );
 
     }
 
-}
+
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const overlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
+
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
 
 
-/* =========================================================
-   DESIGN COUNT
-========================================================= */
+    function openSidebar() {
 
-function loadDesignCount() {
-
-    /*
-     * Static prototype count.
-     *
-     * Later Firebase/database will provide
-     * the real design count.
-     */
-
-    const knownDesigns = [
-
-        "../design/design1/index.html",
-
-        "../design/design2/index.html",
-
-        "../design/design3/index.html",
-
-        "../design/design4/index.html"
-
-    ];
-
-
-    document.getElementById(
-        "designCount"
-    ).textContent =
-        knownDesigns.length;
-
-}
-
-
-/* =========================================================
-   WEBSITE STATUS
-========================================================= */
-
-function updateWebsiteStatus() {
-
-    const websiteDot =
-        document.getElementById(
-            "websiteDot"
-        );
-
-    const websiteStatus =
-        document.getElementById(
-            "websiteStatus"
-        );
-
-
-    websiteDot.className =
-        "status-dot online";
-
-    websiteStatus.textContent =
-        "Online";
-
-    websiteStatus.style.color =
-        "var(--success)";
-
-}
-
-
-/* =========================================================
-   UPDATE CLOCK
-========================================================= */
-
-function updateClock() {
-
-    const now =
-        new Date();
-
-    const date =
-        now.toLocaleDateString(
-            "en-BD",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
-
-    const time =
-        now.toLocaleTimeString(
-            "en-BD",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        );
-
-    currentTime.textContent =
-        `${date} • ${time}`;
-
-}
-
-
-/* =========================================================
-   MOBILE SIDEBAR
-========================================================= */
-
-function openSidebar() {
-
-    sidebar.classList.add(
+      sidebar.classList.add(
         "open"
-    );
+      );
 
-    sidebarOverlay.classList.add(
+      overlay.classList.add(
         "show"
-    );
+      );
 
-}
+    }
 
 
-function closeSidebar() {
+    function closeSidebar() {
 
-    sidebar.classList.remove(
+      sidebar.classList.remove(
         "open"
-    );
+      );
 
-    sidebarOverlay.classList.remove(
+      overlay.classList.remove(
         "show"
+      );
+
+    }
+
+
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
     );
 
-}
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
 
 
-mobileMenuBtn.addEventListener(
-    "click",
-    openSidebar
-);
+    document
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        link => {
 
-sidebarOverlay.addEventListener(
-    "click",
-    closeSidebar
-);
-
-
-/* =========================================================
-   CLOSE SIDEBAR AFTER LINK CLICK
-========================================================= */
-
-document
-    .querySelectorAll(".nav-link")
-    .forEach(link => {
-
-        link.addEventListener(
+          link.addEventListener(
             "click",
             () => {
 
-                if (
-                    window.innerWidth <= 800
-                ) {
+              if (
+                window.innerWidth <= 850
+              ) {
 
-                    closeSidebar();
+                closeSidebar();
 
-                }
+              }
 
             }
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          if (
+            window.AdminAuth &&
+            typeof
+              window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+
+          }
+
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+
+          window.location.href =
+            "../login/index.html";
+
+        }
+      );
+
+
+    /* =========================================================
+       CLEAR ACTIVITY
+    ========================================================= */
+
+    document
+      .getElementById(
+        "clearActivityBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          localStorage.removeItem(
+            SYSTEM_ACTIVITY_KEY
+          );
+
+          localStorage.removeItem(
+            CHATTER_ACTIVITY_KEY
+          );
+
+          renderActivity();
+
+          showToast(
+            "Dashboard activity cleared."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(
+      message
+    ) {
+
+      const toast =
+        document.getElementById(
+          "toast"
         );
 
-    });
+
+      clearTimeout(
+        toastTimer
+      );
 
 
-/* =========================================================
-   STORAGE EVENT
-========================================================= */
+      toast.textContent =
+        message;
 
-window.addEventListener(
-    "storage",
-    event => {
 
-        if (
-            event.key ===
-            CHATTER_SETTINGS_KEY
-        ) {
+      toast.className =
+        "toast show";
 
-            updateChatterStatus();
 
-        }
+      toastTimer =
+        setTimeout(
+          () => {
 
-        if (
-            event.key ===
-            LIVE_SESSION_KEY
-        ) {
+            toast.classList.remove(
+              "show"
+            );
 
-            loadLiveSessions();
-
-        }
-
-        if (
-            event.key ===
-            SESSION_KEY
-        ) {
-
-            loadAdminSession();
-
-        }
+          },
+          2500
+        );
 
     }
-);
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
 
-loadAdminSession();
+    window.addEventListener(
+      "storage",
+      event => {
 
-loadChatterSettings();
+        if (
+          event.key === SETTINGS_KEY ||
+          event.key === BANNER_KEY ||
+          event.key === BANNER_SETTINGS_KEY ||
+          event.key === SESSION_KEY ||
+          event.key === SYSTEM_ACTIVITY_KEY ||
+          event.key === CHATTER_ACTIVITY_KEY
+        ) {
 
-updateChatterStatus();
+          updateDashboard();
 
-loadLiveSessions();
+          loadProfile();
 
-loadDesignCount();
+          renderActivity();
 
-updateWebsiteStatus();
+        }
 
-updateClock();
-
-
-/* =========================================================
-   CLOCK INTERVAL
-========================================================= */
-
-setInterval(
-    updateClock,
-    1000
-);
+      }
+    );
 
 
-/* =========================================================
-   REFRESH LIVE DATA
-========================================================= */
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
 
-setInterval(
-    loadLiveSessions,
-    3000
-);
+    loadProfile();
 
-</script>
+    updateDashboard();
+
+    renderActivity();
+
+  </script>
 
 </body>
 </html>
