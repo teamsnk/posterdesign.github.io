@@ -1,1 +1,2847 @@
-#
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Link Checker | Design System</title>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #718096;
+      --border: #e5eaf1;
+
+      --sidebar: #101827;
+      --sidebar-soft: #182235;
+      --sidebar-text: #aeb9ca;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --success-bg: #ecfdf3;
+
+      --warning: #d97706;
+      --warning-bg: #fff7ed;
+
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+
+      --info: #0891b2;
+      --info-bg: #ecfeff;
+
+      --sidebar-width: 260px;
+
+      --shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--sidebar);
+      color: var(--sidebar-text);
+      z-index: 1000;
+
+      display: flex;
+      flex-direction: column;
+
+      transition: transform 0.25s ease;
+    }
+
+    .brand {
+      height: 76px;
+      padding: 0 22px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.07);
+
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .brand-text strong {
+      display: block;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-text span {
+      display: block;
+      color: #7f8ca1;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 12px;
+    }
+
+    .nav-title {
+      padding: 8px 11px;
+
+      color: #647187;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+
+    .nav-link {
+      min-height: 44px;
+      padding: 0 12px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      border-radius: 11px;
+
+      color: var(--sidebar-text);
+
+      font-size: 13px;
+      font-weight: 600;
+
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--sidebar-soft);
+      color: #fff;
+      transform: translateX(2px);
+    }
+
+    .nav-link.active {
+      background: #1d4ed8;
+      color: #fff;
+
+      box-shadow:
+        0 8px 18px rgba(29,78,216,0.22);
+    }
+
+    .nav-icon {
+      width: 25px;
+      text-align: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-bottom {
+      padding: 14px 12px;
+
+      border-top:
+        1px solid rgba(255,255,255,0.07);
+    }
+
+    .admin-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 9px;
+
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      color: #fff;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .admin-mini-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .admin-mini-info strong {
+      display: block;
+
+      color: #fff;
+      font-size: 12px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-mini-info span {
+      display: block;
+
+      color: #77849a;
+      font-size: 10px;
+
+      margin-top: 2px;
+    }
+
+    .logout-btn {
+      width: 30px;
+      height: 30px;
+
+      border: 0;
+      border-radius: 8px;
+
+      background: transparent;
+      color: #7f8ca1;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.07);
+      color: #fff;
+    }
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+
+      background:
+        rgba(2, 6, 23, 0.52);
+
+      z-index: 900;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: 0.2s ease;
+    }
+
+    .sidebar-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+
+    .topbar {
+      height: 76px;
+
+      background:
+        rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(12px);
+
+      border-bottom:
+        1px solid var(--border);
+
+      position: sticky;
+      top: 0;
+      z-index: 500;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 30px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mobile-menu {
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: #fff;
+      font-size: 19px;
+    }
+
+    .page-title h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .page-title p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .top-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      border: 1px solid var(--border);
+      background: #fff;
+
+      border-radius: 999px;
+
+      padding: 8px 12px;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      color: #536174;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--success);
+
+      box-shadow:
+        0 0 0 4px rgba(22,163,74,0.1);
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      padding: 30px;
+
+      margin-bottom: 22px;
+
+      border-radius: 22px;
+
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #172554 0%,
+          #1e3a8a 48%,
+          #312e81 100%
+        );
+
+      box-shadow:
+        0 18px 40px rgba(30,58,138,0.18);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 280px;
+      height: 280px;
+
+      right: -90px;
+      top: -130px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255,255,255,0.06);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 7px 10px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,0.1);
+
+      border:
+        1px solid rgba(255,255,255,0.12);
+
+      color: #dbeafe;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+
+      margin-bottom: 13px;
+    }
+
+    .hero h2 {
+      font-size: 28px;
+      line-height: 1.15;
+
+      letter-spacing: -0.03em;
+
+      margin-bottom: 9px;
+    }
+
+    .hero p {
+      max-width: 680px;
+
+      color: #bfdbfe;
+
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 9px;
+
+      position: relative;
+      z-index: 2;
+
+      flex-shrink: 0;
+    }
+
+    .hero-btn {
+      padding: 11px 15px;
+
+      border-radius: 10px;
+
+      border:
+        1px solid rgba(255,255,255,0.18);
+
+      background:
+        rgba(255,255,255,0.1);
+
+      color: #fff;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition: 0.2s ease;
+    }
+
+    .hero-btn:hover {
+      background:
+        rgba(255,255,255,0.17);
+
+      transform: translateY(-1px);
+    }
+
+    .hero-btn.primary {
+      background: #fff;
+      color: #1d4ed8;
+      border-color: #fff;
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+      gap: 18px;
+
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--card);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 20px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 12px;
+
+      background: #eff6ff;
+      color: var(--primary);
+
+      font-size: 17px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 10px;
+
+      font-size: 26px;
+      font-weight: 850;
+
+      letter-spacing: -0.04em;
+    }
+
+    .stat-note {
+      margin-top: 3px;
+
+      color: #8a96a8;
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       TOOLBAR
+    ========================================================= */
+
+    .toolbar {
+      background: #fff;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
+      padding: 15px;
+
+      box-shadow: var(--shadow);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 18px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .toolbar-title strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .toolbar-title span {
+      display: block;
+      margin-top: 3px;
+
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      min-height: 40px;
+
+      padding: 0 13px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #fff;
+
+      color: #435064;
+
+      font-size: 11px;
+      font-weight: 750;
+
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: #bfd0ef;
+      background: #f8fbff;
+      color: var(--primary);
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn.primary:hover {
+      background: var(--primary-dark);
+      color: #fff;
+    }
+
+    /* =========================================================
+       CHECK CARD
+    ========================================================= */
+
+    .card {
+      background: #fff;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 18px 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      border-bottom:
+        1px solid #eef1f5;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .card-header p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .check-summary {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .summary-pill {
+      padding: 6px 9px;
+
+      border-radius: 999px;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .summary-pill.total {
+      color: #475569;
+      background: #f1f5f9;
+    }
+
+    .summary-pill.ok {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .summary-pill.warning {
+      color: var(--warning);
+      background: var(--warning-bg);
+    }
+
+    .summary-pill.error {
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    /* =========================================================
+       TABLE
+    ========================================================= */
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      min-width: 760px;
+    }
+
+    th,
+    td {
+      text-align: left;
+
+      padding: 13px 18px;
+
+      border-bottom:
+        1px solid #eef1f5;
+    }
+
+    th {
+      background: #fafbfd;
+
+      color: #6b7789;
+
+      font-size: 9px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      font-size: 11px;
+      color: #435064;
+    }
+
+    tbody tr {
+      transition: 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: #fbfdff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .page-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-icon {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      background: #eff6ff;
+      color: var(--primary);
+
+      font-size: 13px;
+
+      flex-shrink: 0;
+    }
+
+    .page-name strong {
+      display: block;
+
+      color: #1f2937;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .page-name span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 9px;
+
+      margin-top: 2px;
+    }
+
+    .path {
+      color: #64748b;
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size: 10px;
+
+      word-break: break-all;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      padding: 6px 9px;
+
+      border-radius: 999px;
+
+      font-size: 9px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: currentColor;
+    }
+
+    .status.pending {
+      color: #64748b;
+      background: #f1f5f9;
+    }
+
+    .status.checking {
+      color: var(--info);
+      background: var(--info-bg);
+    }
+
+    .status.success {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .status.warning {
+      color: var(--warning);
+      background: var(--warning-bg);
+    }
+
+    .status.error {
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .http-code {
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .duration {
+      color: #64748b;
+      font-size: 10px;
+    }
+
+    .row-action {
+      border: 0;
+
+      background: transparent;
+
+      color: var(--primary);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      padding: 5px;
+    }
+
+    .row-action:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       EMPTY / NOTE
+    ========================================================= */
+
+    .empty-state {
+      padding: 45px 20px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .empty-icon {
+      width: 48px;
+      height: 48px;
+
+      margin: 0 auto 12px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: #eff6ff;
+      color: var(--primary);
+
+      font-size: 20px;
+    }
+
+    .note {
+      margin-top: 18px;
+
+      padding: 15px;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: 14px;
+
+      background: #eff6ff;
+
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+    }
+
+    .note-icon {
+      width: 32px;
+      height: 32px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      background: #dbeafe;
+      color: #1d4ed8;
+
+      flex-shrink: 0;
+    }
+
+    .note strong {
+      display: block;
+
+      color: #1e3a8a;
+
+      font-size: 11px;
+    }
+
+    .note p {
+      margin-top: 4px;
+
+      color: #365783;
+
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      right: 22px;
+      bottom: 22px;
+
+      min-width: 240px;
+      max-width: calc(100vw - 44px);
+
+      padding: 13px 15px;
+
+      border-radius: 12px;
+
+      background: #111827;
+      color: #fff;
+
+      box-shadow:
+        0 18px 35px rgba(15,23,42,0.2);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transform: translateY(20px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: 0.25s ease;
+
+      z-index: 3000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .toast.success {
+      background: #166534;
+    }
+
+    .toast.error {
+      background: #991b1b;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1200px) {
+      .stats {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-actions {
+        width: 100%;
+      }
+
+      .hero-btn {
+        flex: 1;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 620px) {
+
+      .top-status {
+        display: none;
+      }
+
+      .page-title h1 {
+        font-size: 16px;
+      }
+
+      .page-title p {
+        display: none;
+      }
+
+      .content {
+        padding: 14px;
+      }
+
+      .hero {
+        padding: 22px;
+        border-radius: 18px;
+      }
+
+      .hero h2 {
+        font-size: 23px;
+      }
+
+      .hero p {
+        font-size: 11px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .toolbar-actions .btn {
+        width: 100%;
+      }
+
+      .card-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .check-summary {
+        width: 100%;
+      }
+
+      .note {
+        padding: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       SIDEBAR OVERLAY
+  ======================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="closeSidebar()"
+  ></div>
+
+  <!-- =======================================================
+       SIDEBAR
+  ======================================================== -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        DS
+      </div>
+
+      <div class="brand-text">
+        <strong>Design System</strong>
+        <span>Admin Control Center</span>
+      </div>
+
+    </div>
+
+    <div class="sidebar-scroll">
+
+      <div class="nav-title">
+        Main
+      </div>
+
+      <nav class="nav">
+
+        <a
+          href="./dashboard.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a
+          href="./website.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">◉</span>
+          <span>Website</span>
+        </a>
+
+        <a
+          href="./website-edit.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">✎</span>
+          <span>Website Editor</span>
+        </a>
+
+        <a
+          href="./design-manage.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">▦</span>
+          <span>Design Management</span>
+        </a>
+
+        <a
+          href="./banner.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">▣</span>
+          <span>Advertisement</span>
+        </a>
+
+        <a
+          href="./chatter.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">◌</span>
+          <span>Chatter</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-title">
+        System
+      </div>
+
+      <nav class="nav">
+
+        <a
+          href="./browser-ui.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">◫</span>
+          <span>Browser UI</span>
+        </a>
+
+        <a
+          href="./live-monitor.html"
+          class="nav-link"
+          id="liveMonitorLink"
+        >
+          <span class="nav-icon">◉</span>
+          <span>Live Monitor</span>
+        </a>
+
+        <a
+          href="./system.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">⚙</span>
+          <span>System Settings</span>
+        </a>
+
+        <a
+          href="./link-check.html"
+          class="nav-link active"
+        >
+          <span class="nav-icon">↗</span>
+          <span>Link Checker</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-title">
+        Public
+      </div>
+
+      <nav class="nav">
+
+        <a
+          href="../index.html"
+          target="_blank"
+          class="nav-link"
+        >
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
+
+        <a
+          href="../chatter/index.html"
+          target="_blank"
+          class="nav-link"
+        >
+          <span class="nav-icon">☏</span>
+          <span>Open Chatter</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="admin-mini">
+
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
+        >
+          SA
+        </div>
+
+        <div class="admin-mini-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Administrator
+          </span>
+
+        </div>
+
+        <button
+          class="logout-btn"
+          onclick="handleLogout()"
+          title="Logout"
+        >
+          ↪
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="mobile-menu"
+          onclick="toggleSidebar()"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <div class="page-title">
+
+          <h1>
+            Link Checker
+          </h1>
+
+          <p>
+            Check website and admin navigation links
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="topbar-right">
+
+        <div class="top-status">
+
+          <span class="status-dot"></span>
+
+          <span>
+            Admin System Online
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+      <!-- =====================================================
+           HERO
+      ====================================================== -->
+
+      <section class="hero">
+
+        <div class="hero-content">
+
+          <div class="hero-badge">
+            <span>●</span>
+            Navigation Health
+          </div>
+
+          <h2>
+            Check every important link.
+          </h2>
+
+          <p>
+            Run a quick health check across the public website,
+            Chatter, browser permission page and Admin Control
+            Center pages. Broken or unavailable pages will be
+            clearly marked.
+          </p>
+
+        </div>
+
+        <div class="hero-actions">
+
+          <button
+            class="hero-btn primary"
+            onclick="runChecks()"
+          >
+            ✓ Run Full Check
+          </button>
+
+          <button
+            class="hero-btn"
+            onclick="openWebsite()"
+          >
+            ↗ Website
+          </button>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           STATS
+      ====================================================== -->
+
+      <section class="stats">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-label">
+              Total Links
+            </div>
+
+            <div class="stat-icon">
+              ↗
+            </div>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="totalCount"
+          >
+            0
+          </div>
+
+          <div class="stat-note">
+            Pages included in check
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-label">
+              Working
+            </div>
+
+            <div class="stat-icon">
+              ✓
+            </div>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="successCount"
+          >
+            0
+          </div>
+
+          <div class="stat-note">
+            Successfully loaded pages
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-label">
+              Warnings
+            </div>
+
+            <div class="stat-icon">
+              !
+            </div>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="warningCount"
+          >
+            0
+          </div>
+
+          <div class="stat-note">
+            Could not fully verify
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-label">
+              Broken
+            </div>
+
+            <div class="stat-icon">
+              ×
+            </div>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="errorCount"
+          >
+            0
+          </div>
+
+          <div class="stat-note">
+            Failed page requests
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           TOOLBAR
+      ====================================================== -->
+
+      <section class="toolbar">
+
+        <div class="toolbar-left">
+
+          <div class="toolbar-title">
+
+            <strong>
+              Navigation Scanner
+            </strong>
+
+            <span id="lastCheck">
+              No check has been run yet.
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="toolbar-actions">
+
+          <button
+            class="btn"
+            onclick="clearResults()"
+          >
+            Clear
+          </button>
+
+          <button
+            class="btn primary"
+            onclick="runChecks()"
+          >
+            Run Check
+          </button>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           TABLE
+      ====================================================== -->
+
+      <section class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Page Status
+            </h3>
+
+            <p>
+              Current result of each configured page
+            </p>
+
+          </div>
+
+          <div class="check-summary">
+
+            <span
+              class="summary-pill total"
+              id="summaryTotal"
+            >
+              Total: 0
+            </span>
+
+            <span
+              class="summary-pill ok"
+              id="summarySuccess"
+            >
+              Working: 0
+            </span>
+
+            <span
+              class="summary-pill warning"
+              id="summaryWarning"
+            >
+              Warning: 0
+            </span>
+
+            <span
+              class="summary-pill error"
+              id="summaryError"
+            >
+              Broken: 0
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Page
+                </th>
+
+                <th>
+                  Path
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  HTTP
+                </th>
+
+                <th>
+                  Response
+                </th>
+
+                <th>
+                  Action
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="resultsBody">
+
+              <tr>
+
+                <td colspan="6">
+
+                  <div class="empty-state">
+
+                    <div class="empty-icon">
+                      ↗
+                    </div>
+
+                    Run the checker to verify your
+                    website navigation.
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           NOTE
+      ====================================================== -->
+
+      <section class="note">
+
+        <div class="note-icon">
+          ℹ
+        </div>
+
+        <div>
+
+          <strong>
+            Important: Static GitHub Pages limitation
+          </strong>
+
+          <p>
+            This checker tests pages using browser requests.
+            Depending on GitHub Pages, browser caching, local
+            file access, redirects or security restrictions,
+            some valid pages may appear as warnings. A warning
+            does not always mean the page is actually broken.
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- =======================================================
+       TOAST
+  ======================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+  <!-- =======================================================
+       AUTH GUARD
+  ======================================================== -->
+
+  <script src="./auth-guard.js"></script>
+
+  <script>
+
+    /* =========================================================
+       CONFIGURATION
+    ========================================================= */
+
+    const SESSION_KEY =
+      "chatterAdminSession";
+
+    const ACTIVITY_KEY =
+      "websiteAdminActivity";
+
+    /*
+     * IMPORTANT:
+     * Keep paths relative to admin/link-check.html.
+     */
+
+    const PAGES = [
+
+      {
+        name: "Homepage",
+        description: "Public website homepage",
+        path: "../index.html",
+        icon: "⌂"
+      },
+
+      {
+        name: "Login",
+        description: "Admin login page",
+        path: "../login/index.html",
+        icon: "→"
+      },
+
+      {
+        name: "Chatter",
+        description: "Public Chatter interface",
+        path: "../chatter/index.html",
+        icon: "◌"
+      },
+
+      {
+        name: "Browser Permission",
+        description: "Camera, microphone and screen permissions",
+        path: "../browser-permission.html",
+        icon: "◫"
+      },
+
+      {
+        name: "Admin Dashboard",
+        description: "Main admin dashboard",
+        path: "./dashboard.html",
+        icon: "⌂"
+      },
+
+      {
+        name: "Website Management",
+        description: "Website configuration",
+        path: "./website.html",
+        icon: "◉"
+      },
+
+      {
+        name: "Website Editor",
+        description: "Homepage content editor",
+        path: "./website-edit.html",
+        icon: "✎"
+      },
+
+      {
+        name: "Design Management",
+        description: "Design listing management",
+        path: "./design-manage.html",
+        icon: "▦"
+      },
+
+      {
+        name: "Advertisement",
+        description: "Website advertisement banners",
+        path: "./banner.html",
+        icon: "▣"
+      },
+
+      {
+        name: "Chatter Settings",
+        description: "Chatter feature controls",
+        path: "./chatter.html",
+        icon: "◌"
+      },
+
+      {
+        name: "Browser UI",
+        description: "Browser feature availability",
+        path: "./browser-ui.html",
+        icon: "◫"
+      },
+
+      {
+        name: "Live Monitor",
+        description: "Super Admin live monitoring",
+        path: "./live-monitor.html",
+        icon: "◉"
+      },
+
+      {
+        name: "System Settings",
+        description: "Central system controls",
+        path: "./system.html",
+        icon: "⚙"
+      },
+
+      {
+        name: "Link Checker",
+        description: "Navigation health checker",
+        path: "./link-check.html",
+        icon: "↗"
+      },
+
+      {
+        name: "Admin Index",
+        description: "Admin entry page",
+        path: "./index.html",
+        icon: "▣"
+      }
+
+    ];
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    let results = [];
+
+    let isChecking = false;
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const resultsBody =
+      document.getElementById(
+        "resultsBody"
+      );
+
+    const toast =
+      document.getElementById(
+        "toast"
+      );
+
+    /* =========================================================
+       INITIAL RENDER
+    ========================================================= */
+
+    function renderPending() {
+
+      results =
+        PAGES.map(page => ({
+          ...page,
+          status: "pending",
+          http: "—",
+          duration: "—"
+        }));
+
+      renderResults();
+
+      updateStats();
+    }
+
+    /* =========================================================
+       RUN CHECKS
+    ========================================================= */
+
+    async function runChecks() {
+
+      if (isChecking) {
+        return;
+      }
+
+      isChecking = true;
+
+      results =
+        PAGES.map(page => ({
+          ...page,
+          status: "pending",
+          http: "—",
+          duration: "—"
+        }));
+
+      renderResults();
+
+      updateStats();
+
+      document.getElementById(
+        "lastCheck"
+      ).textContent =
+        "Checking pages...";
+
+      showToast(
+        "Link check started.",
+        "success"
+      );
+
+      for (
+        let index = 0;
+        index < results.length;
+        index++
+      ) {
+
+        results[index].status =
+          "checking";
+
+        renderResults();
+
+        await checkPage(
+          results[index]
+        );
+
+        updateStats();
+      }
+
+      isChecking = false;
+
+      const now =
+        new Date();
+
+      document.getElementById(
+        "lastCheck"
+      ).textContent =
+        "Last checked: " +
+        now.toLocaleString();
+
+      addActivity();
+
+      showToast(
+        "Link check completed.",
+        "success"
+      );
+    }
+
+    /* =========================================================
+       CHECK PAGE
+    ========================================================= */
+
+    async function checkPage(page) {
+
+      const started =
+        performance.now();
+
+      try {
+
+        /*
+         * First attempt:
+         * HEAD request.
+         */
+
+        let response;
+
+        try {
+
+          response =
+            await fetch(
+              page.path,
+              {
+                method: "HEAD",
+                cache: "no-store"
+              }
+            );
+
+        } catch (headError) {
+
+          /*
+           * Some static environments may reject HEAD.
+           * Fallback to GET.
+           */
+
+          response =
+            await fetch(
+              page.path,
+              {
+                method: "GET",
+                cache: "no-store"
+              }
+            );
+        }
+
+        const duration =
+          Math.round(
+            performance.now() -
+            started
+          );
+
+        page.http =
+          response.status;
+
+        page.duration =
+          `${duration} ms`;
+
+        /*
+         * Successful response.
+         */
+
+        if (
+          response.ok
+        ) {
+
+          page.status =
+            "success";
+
+          return;
+        }
+
+        /*
+         * Redirects / unusual responses.
+         */
+
+        if (
+          response.status >= 300 &&
+          response.status < 400
+        ) {
+
+          page.status =
+            "warning";
+
+          return;
+        }
+
+        /*
+         * Failed HTTP response.
+         */
+
+        page.status =
+          "error";
+
+      } catch (error) {
+
+        const duration =
+          Math.round(
+            performance.now() -
+            started
+          );
+
+        page.duration =
+          `${duration} ms`;
+
+        page.http =
+          "ERR";
+
+        /*
+         * Browser security / CORS / local
+         * environment restrictions can cause
+         * fetch to fail even when the page exists.
+         */
+
+        page.status =
+          "warning";
+      }
+    }
+
+    /* =========================================================
+       RENDER RESULTS
+    ========================================================= */
+
+    function renderResults() {
+
+      if (
+        !results.length
+      ) {
+
+        resultsBody.innerHTML = `
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <div class="empty-icon">
+                  ↗
+                </div>
+                No pages configured.
+              </div>
+            </td>
+          </tr>
+        `;
+
+        return;
+      }
+
+      resultsBody.innerHTML =
+        results.map(
+          (page, index) => {
+
+            const statusText =
+              getStatusText(
+                page.status
+              );
+
+            return `
+              <tr>
+
+                <td>
+
+                  <div class="page-name">
+
+                    <div class="page-icon">
+                      ${escapeHTML(page.icon)}
+                    </div>
+
+                    <div>
+
+                      <strong>
+                        ${escapeHTML(page.name)}
+                      </strong>
+
+                      <span>
+                        ${escapeHTML(page.description)}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div class="path">
+                    ${escapeHTML(page.path)}
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <span
+                    class="status ${page.status}"
+                  >
+                    ${statusText}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span class="http-code">
+                    ${escapeHTML(
+                      String(page.http)
+                    )}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span class="duration">
+                    ${escapeHTML(
+                      page.duration
+                    )}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <button
+                    class="row-action"
+                    onclick="openPage(${index})"
+                  >
+                    Open
+                  </button>
+
+                </td>
+
+              </tr>
+            `;
+          }
+        ).join("");
+    }
+
+    /* =========================================================
+       STATUS TEXT
+    ========================================================= */
+
+    function getStatusText(
+      status
+    ) {
+
+      switch (status) {
+
+        case "success":
+          return "Working";
+
+        case "checking":
+          return "Checking";
+
+        case "warning":
+          return "Warning";
+
+        case "error":
+          return "Broken";
+
+        default:
+          return "Pending";
+      }
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    function updateStats() {
+
+      const total =
+        results.length;
+
+      const success =
+        results.filter(
+          item =>
+            item.status === "success"
+        ).length;
+
+      const warning =
+        results.filter(
+          item =>
+            item.status === "warning"
+        ).length;
+
+      const error =
+        results.filter(
+          item =>
+            item.status === "error"
+        ).length;
+
+      document.getElementById(
+        "totalCount"
+      ).textContent =
+        total;
+
+      document.getElementById(
+        "successCount"
+      ).textContent =
+        success;
+
+      document.getElementById(
+        "warningCount"
+      ).textContent =
+        warning;
+
+      document.getElementById(
+        "errorCount"
+      ).textContent =
+        error;
+
+      document.getElementById(
+        "summaryTotal"
+      ).textContent =
+        `Total: ${total}`;
+
+      document.getElementById(
+        "summarySuccess"
+      ).textContent =
+        `Working: ${success}`;
+
+      document.getElementById(
+        "summaryWarning"
+      ).textContent =
+        `Warning: ${warning}`;
+
+      document.getElementById(
+        "summaryError"
+      ).textContent =
+        `Broken: ${error}`;
+    }
+
+    /* =========================================================
+       OPEN PAGE
+    ========================================================= */
+
+    function openPage(index) {
+
+      const page =
+        results[index];
+
+      if (!page) {
+        return;
+      }
+
+      window.open(
+        page.path,
+        "_blank"
+      );
+    }
+
+    function openWebsite() {
+
+      window.open(
+        "../index.html",
+        "_blank"
+      );
+    }
+
+    /* =========================================================
+       CLEAR RESULTS
+    ========================================================= */
+
+    function clearResults() {
+
+      results = [];
+
+      renderResults();
+
+      updateStats();
+
+      document.getElementById(
+        "lastCheck"
+      ).textContent =
+        "No check has been run yet.";
+
+      showToast(
+        "Results cleared.",
+        "success"
+      );
+    }
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function addActivity() {
+
+      try {
+
+        const activities =
+          JSON.parse(
+            localStorage.getItem(
+              ACTIVITY_KEY
+            ) || "[]"
+          );
+
+        const broken =
+          results.filter(
+            item =>
+              item.status === "error"
+          ).length;
+
+        const warning =
+          results.filter(
+            item =>
+              item.status === "warning"
+          ).length;
+
+        activities.unshift({
+          title:
+            "Navigation link check completed",
+
+          description:
+            `${broken} broken and ${warning} warning result(s).`,
+
+          time:
+            new Date().toISOString()
+        });
+
+        localStorage.setItem(
+          ACTIVITY_KEY,
+          JSON.stringify(
+            activities.slice(0, 10)
+          )
+        );
+
+      } catch (error) {
+        /* Ignore activity storage errors. */
+      }
+    }
+
+    /* =========================================================
+       ADMIN PROFILE
+    ========================================================= */
+
+    function renderAdminProfile() {
+
+      let session = null;
+
+      try {
+
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            ) || "null"
+          );
+
+      } catch (error) {
+        session = null;
+      }
+
+      if (!session) {
+        return;
+      }
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+      const role =
+        String(
+          session.role ||
+          "admin"
+        ).toLowerCase();
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Administrator"
+          : "Administrator";
+
+      document.getElementById(
+        "adminAvatar"
+      ).textContent =
+        getInitials(name);
+
+      updateLiveMonitorAccess(
+        role
+      );
+    }
+
+    function getInitials(name) {
+
+      const value =
+        String(name || "")
+          .trim();
+
+      if (!value) {
+        return "AD";
+      }
+
+      const parts =
+        value.split(/\s+/);
+
+      if (
+        parts.length === 1
+      ) {
+
+        return parts[0]
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+      return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+      ).toUpperCase();
+    }
+
+    /* =========================================================
+       LIVE MONITOR ACCESS
+    ========================================================= */
+
+    function updateLiveMonitorAccess(
+      role
+    ) {
+
+      const link =
+        document.getElementById(
+          "liveMonitorLink"
+        );
+
+      if (!link) {
+        return;
+      }
+
+      if (
+        String(role).toLowerCase() !==
+        "superadmin"
+      ) {
+
+        link.style.opacity =
+          "0.55";
+
+        link.title =
+          "Super Admin access required";
+      }
+    }
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    function handleLogout() {
+
+      if (
+        window.AdminAuth &&
+        typeof window.AdminAuth.logout ===
+          "function"
+      ) {
+
+        window.AdminAuth.logout();
+
+        return;
+      }
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      window.location.href =
+        "../login/index.html";
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    function toggleSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.toggle("show");
+    }
+
+    function closeSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.remove("show");
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+    function showToast(
+      message,
+      type = ""
+    ) {
+
+      toast.textContent =
+        message;
+
+      toast.className =
+        "toast show " +
+        type;
+
+      clearTimeout(
+        toastTimer
+      );
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.className =
+              "toast";
+
+          },
+          2800
+        );
+    }
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHTML(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+    }
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      function(event) {
+
+        if (
+          event.key ===
+          SESSION_KEY
+        ) {
+
+          renderAdminProfile();
+        }
+
+      }
+    );
+
+    /* =========================================================
+       WINDOW RESIZE
+    ========================================================= */
+
+    window.addEventListener(
+      "resize",
+      function() {
+
+        if (
+          window.innerWidth > 900
+        ) {
+
+          closeSidebar();
+        }
+
+      }
+    );
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    renderAdminProfile();
+
+    renderPending();
+
+  </script>
+
+</body>
+</html>
