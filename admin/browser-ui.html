@@ -1,2033 +1,2914 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Browser UI Advertisement - Admin</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Inter, Arial, sans-serif;
-            background: #f5f8fa;
-            color: #17353b;
-        }
-
-        button,
-        input,
-        textarea {
-            font: inherit;
-        }
-
-        /* =========================
-           LAYOUT
-        ========================== */
-
-        .layout {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* =========================
-           SIDEBAR
-        ========================== */
-
-        .sidebar {
-            width: 260px;
-            background: #073f45;
-            color: #fff;
-            padding: 24px 16px;
-            position: fixed;
-            inset: 0 auto 0 0;
-            overflow-y: auto;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0 10px 28px;
-            border-bottom: 1px solid rgba(255,255,255,.12);
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: #fff;
-            color: #087f86;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
-            font-weight: 800;
-        }
-
-        .brand-text strong {
-            display: block;
-            font-size: 16px;
-        }
-
-        .brand-text span {
-            font-size: 12px;
-            color: #a9c7ca;
-        }
-
-        .menu-title {
-            margin: 28px 10px 10px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #7faeb2;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #c8dfe1;
-            text-decoration: none;
-            padding: 12px 13px;
-            border-radius: 10px;
-            margin-bottom: 4px;
-            font-size: 14px;
-            transition: .2s;
-        }
-
-        .sidebar a:hover {
-            background: rgba(255,255,255,.08);
-            color: #fff;
-        }
-
-        .sidebar a.active {
-            background: #087f86;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .logout {
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,.12);
-            padding-top: 18px;
-        }
-
-        /* =========================
-           MAIN
-        ========================== */
-
-        .main {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-            min-height: 100vh;
-        }
-
-        /* =========================
-           MOBILE HEADER
-        ========================== */
-
-        .mobile-header {
-            display: none;
-        }
-
-        /* =========================
-           TOPBAR
-        ========================== */
-
-        .topbar {
-            height: 74px;
-            background: #fff;
-            border-bottom: 1px solid #e6edef;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 34px;
-        }
-
-        .page-title h1 {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-
-        .page-title p {
-            color: #789095;
-            font-size: 12px;
-        }
-
-        .admin-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .avatar {
-            width: 38px;
-            height: 38px;
-            background: #e7f6f5;
-            color: #087f86;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-        }
-
-        /* =========================
-           CONTENT
-        ========================== */
-
-        .content {
-            padding: 30px 34px 50px;
-            max-width: 1250px;
-        }
-
-        .intro {
-            margin-bottom: 24px;
-        }
-
-        .intro h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .intro p {
-            color: #7d9094;
-            font-size: 12px;
-        }
-
-        /* =========================
-           GRID
-        ========================== */
-
-        .grid {
-            display: grid;
-            grid-template-columns: 390px 1fr;
-            gap: 22px;
-            align-items: start;
-        }
-
-        .panel {
-            background: #fff;
-            border: 1px solid #e2eaeb;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 5px 20px rgba(20,50,60,.035);
-        }
-
-        .panel + .panel {
-            margin-top: 20px;
-        }
-
-        .panel-header {
-            border-bottom: 1px solid #edf1f2;
-            padding-bottom: 15px;
-            margin-bottom: 5px;
-        }
-
-        .panel-header h3 {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
-
-        .panel-header p {
-            color: #849397;
-            font-size: 10px;
-            line-height: 1.5;
-        }
-
-        /* =========================
-           FORM
-        ========================== */
-
-        .form-group {
-            margin-top: 17px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 10px;
-            font-weight: 700;
-            color: #4d656a;
-            margin-bottom: 7px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            border: 1px solid #dce6e7;
-            border-radius: 9px;
-            padding: 11px 12px;
-            outline: none;
-            color: #17353b;
-            background: #fff;
-            font-size: 11px;
-            transition: .2s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #087f86;
-            box-shadow: 0 0 0 3px rgba(8,127,134,.08);
-        }
-
-        .form-group textarea {
-            min-height: 75px;
-            resize: vertical;
-        }
-
-        /* =========================
-           ENABLE ROW
-        ========================== */
-
-        .enable-row {
-            background: #f2faf9;
-            border: 1px solid #d8eeec;
-            border-radius: 11px;
-            padding: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .enable-text strong {
-            display: block;
-            font-size: 11px;
-            margin-bottom: 3px;
-        }
-
-        .enable-text span {
-            color: #7a9094;
-            font-size: 9px;
-        }
-
-        /* =========================
-           SWITCH
-        ========================== */
-
-        .switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            inset: 0;
-            background: #cbd6d8;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .slider:before {
-            content: "";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            left: 3px;
-            top: 3px;
-            border-radius: 50%;
-            background: #fff;
-            transition: .2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,.12);
-        }
-
-        .switch input:checked + .slider {
-            background: #087f86;
-        }
-
-        .switch input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        /* =========================
-           IMAGE INPUT
-        ========================== */
-
-        .image-box {
-            border: 1px dashed #cbd9db;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            background: #fafcfc;
-        }
-
-        .image-preview {
-            width: 54px;
-            height: 54px;
-            border-radius: 12px;
-            background: #e8f5f4;
-            color: #087f86;
-            margin: 0 auto 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            overflow: hidden;
-        }
-
-        .image-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .image-box input {
-            border: 0;
-            padding: 0;
-            background: transparent;
-            font-size: 9px;
-        }
-
-        /* =========================
-           COLOR
-        ========================== */
-
-        .color-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .color-input {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            border: 1px solid #dce6e7;
-            border-radius: 9px;
-            padding: 7px;
-        }
-
-        .color-input input[type="color"] {
-            width: 36px;
-            height: 30px;
-            padding: 0;
-            border: 0;
-            background: none;
-            cursor: pointer;
-        }
-
-        .color-input input[type="text"] {
-            border: 0;
-            padding: 5px;
-            outline: none;
-            width: 100%;
-            font-size: 10px;
-        }
-
-        /* =========================
-           BUTTONS
-        ========================== */
-
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 22px;
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 9px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .btn-primary {
-            background: #087f86;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #056b71;
-        }
-
-        .btn-secondary {
-            background: #edf3f4;
-            color: #4d686d;
-        }
-
-        /* =========================
-           PREVIEW
-        ========================== */
-
-        .preview-panel {
-            min-height: 550px;
-        }
-
-        .browser-frame {
-            border: 1px solid #dbe5e6;
-            border-radius: 14px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(20,50,60,.07);
-        }
-
-        .browser-top {
-            height: 42px;
-            background: #f3f5f6;
-            border-bottom: 1px solid #e1e6e7;
-            display: flex;
-            align-items: center;
-            padding: 0 14px;
-            gap: 6px;
-        }
-
-        .browser-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #c6ced0;
-        }
-
-        .browser-address {
-            height: 25px;
-            background: #fff;
-            border: 1px solid #dce3e4;
-            border-radius: 6px;
-            margin-left: 10px;
-            flex: 1;
-            color: #9aa8aa;
-            font-size: 8px;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-        }
-
-        .fake-site {
-            background: #f8fbfb;
-            min-height: 460px;
-        }
-
-        /* =========================
-           AD PREVIEW
-        ========================== */
-
-        .ad-preview {
-            width: 100%;
-            min-height: 82px;
-            padding: 13px 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-        }
-
-        .ad-label {
-            position: absolute;
-            left: 18px;
-            top: 5px;
-            font-size: 7px;
-            opacity: .7;
-        }
-
-        .ad-icon {
-            width: 43px;
-            height: 43px;
-            border-radius: 11px;
-            background: rgba(255,255,255,.18);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 20px;
-            flex-shrink: 0;
-            margin-top: 5px;
-        }
-
-        .ad-image {
-            width: 43px;
-            height: 43px;
-            border-radius: 11px;
-            object-fit: cover;
-            display: none;
-            margin-top: 5px;
-        }
-
-        .ad-copy {
-            flex: 1;
-            color: #fff;
-            padding-top: 7px;
-        }
-
-        .ad-copy strong {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 3px;
-        }
-
-        .ad-copy span {
-            display: block;
-            font-size: 9px;
-            opacity: .85;
-        }
-
-        .ad-action {
-            border: 0;
-            border-radius: 7px;
-            padding: 9px 12px;
-            font-size: 9px;
-            font-weight: 800;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .close-ad {
-            position: absolute;
-            right: 7px;
-            top: 5px;
-            border: 0;
-            background: transparent;
-            color: #fff;
-            opacity: .8;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        /* =========================
-           FAKE WEBSITE
-        ========================== */
-
-        .fake-navbar {
-            height: 55px;
-            background: #fff;
-            border-bottom: 1px solid #edf1f2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-        }
-
-        .fake-logo {
-            width: 95px;
-            height: 10px;
-            border-radius: 5px;
-            background: #087f86;
-        }
-
-        .fake-nav-links {
-            display: flex;
-            gap: 8px;
-        }
-
-        .fake-nav-links span {
-            width: 35px;
-            height: 6px;
-            border-radius: 5px;
-            background: #d7e1e2;
-        }
-
-        .fake-hero {
-            padding: 45px 35px;
-            text-align: center;
-        }
-
-        .fake-hero-badge {
-            width: 110px;
-            height: 9px;
-            background: #d9eeee;
-            border-radius: 5px;
-            margin: 0 auto 14px;
-        }
-
-        .fake-hero-title {
-            width: 260px;
-            height: 18px;
-            background: #17353b;
-            border-radius: 5px;
-            margin: 0 auto 10px;
-        }
-
-        .fake-hero-title.small {
-            width: 180px;
-            height: 12px;
-            background: #aebdc0;
-        }
-
-        .fake-cards {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 35px;
-        }
-
-        .fake-card {
-            width: 110px;
-            height: 90px;
-            background: #fff;
-            border: 1px solid #e4ebec;
-            border-radius: 10px;
-        }
-
-        /* =========================
-           INFO BOX
-        ========================== */
-
-        .info-box {
-            margin-top: 18px;
-            padding: 13px;
-            background: #eef8f7;
-            border: 1px solid #d9ecea;
-            border-radius: 10px;
-            color: #537276;
-            font-size: 9px;
-            line-height: 1.6;
-        }
-
-        .info-box strong {
-            color: #087f86;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
-
-        @media (max-width: 1000px) {
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .preview-panel {
-                order: -1;
-            }
-        }
-
-        @media (max-width: 850px) {
-
-            .sidebar {
-                display: none;
-            }
-
-            .main {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .mobile-header {
-                display: flex;
-                height: 64px;
-                background: #073f45;
-                color: #fff;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 18px;
-            }
-
-            .mobile-brand {
-                font-size: 14px;
-                font-weight: 800;
-            }
-
-            .mobile-menu-btn {
-                border: 0;
-                background: none;
-                color: #fff;
-                font-size: 23px;
-            }
-
-            .content {
-                padding: 22px 18px 40px;
-            }
-        }
-
-        @media (max-width: 550px) {
-
-            .topbar {
-                padding: 0 18px;
-            }
-
-            .admin-user {
-                display: none;
-            }
-
-            .color-row {
-                grid-template-columns: 1fr;
-            }
-
-            .ad-preview {
-                padding: 12px;
-                gap: 8px;
-            }
-
-            .ad-copy strong {
-                font-size: 10px;
-            }
-
-            .ad-copy span {
-                font-size: 7px;
-            }
-
-            .ad-action {
-                padding: 7px;
-                font-size: 7px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Browser UI | Admin</title>
+
+  <style>
+    /* =========================================================
+       BROWSER UI MANAGEMENT
+       ADMIN PANEL
+    ========================================================= */
+
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --sidebar: #111827;
+      --sidebar-hover: #1f2937;
+      --sidebar-active: #2563eb;
+
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+
+      --radius: 18px;
+      --shadow:
+        0 10px 30px rgba(15, 23, 42, 0.07);
+
+      --sidebar-width: 270px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: var(--sidebar-width);
+
+      background: var(--sidebar);
+      color: #fff;
+
+      z-index: 1000;
+
+      display: flex;
+      flex-direction: column;
+
+      transition:
+        transform 0.3s ease;
+    }
+
+    .brand {
+      min-height: 82px;
+
+      padding: 20px 22px;
+
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      font-size: 17px;
+      font-weight: 900;
+
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text h2 {
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .brand-text span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #9ca3af;
+      font-size: 11px;
+    }
+
+    .sidebar-menu {
+      flex: 1;
+
+      padding: 18px 12px;
+
+      overflow-y: auto;
+    }
+
+    .menu-title {
+      padding: 10px 12px;
+
+      color: #6b7280;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .menu-item {
+      min-height: 46px;
+
+      margin: 4px 0;
+      padding: 0 13px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+
+      transition: 0.2s ease;
+    }
+
+    .menu-item:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+
+    .menu-item.active {
+      background: var(--sidebar-active);
+      color: #fff;
+
+      box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.25);
+    }
+
+    .menu-icon {
+      width: 21px;
+
+      text-align: center;
+
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-bottom {
+      padding: 14px;
+
+      border-top:
+        1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .admin-profile {
+      padding: 10px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(255, 255, 255, 0.05);
+
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #3b82f6,
+          #8b5cf6
+        );
+
+      font-size: 12px;
+      font-weight: 900;
+
+      flex-shrink: 0;
+    }
+
+    .profile-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .profile-name {
+      overflow: hidden;
+
+      color: #fff;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .profile-role {
+      margin-top: 2px;
+
+      color: #9ca3af;
+
+      font-size: 10px;
+    }
+
+    .logout-btn {
+      padding: 6px;
+
+      border: 0;
+      border-radius: 8px;
+
+      background: transparent;
+
+      color: #9ca3af;
+
+      font-size: 16px;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      color: #fff;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main {
+      min-height: 100vh;
+
+      margin-left:
+        var(--sidebar-width);
+    }
+
+    .topbar {
+      height: 76px;
+
+      padding: 0 30px;
+
+      position: sticky;
+      top: 0;
+
+      z-index: 100;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background:
+        rgba(255, 255, 255, 0.95);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter:
+        blur(12px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #fff;
+
+      font-size: 18px;
+    }
+
+    .page-title h1 {
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .page-title p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: #fff;
+
+      color: #475569;
+
+      transition: 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: #bfdbfe;
+
+      background: #eff6ff;
+
+      color: var(--primary);
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      max-width: 1600px;
+
+      margin: auto;
+
+      padding:
+        28px 30px 45px;
+    }
+
+    /* =========================================================
+       HERO NOTICE
+    ========================================================= */
+
+    .security-card {
+      margin-bottom: 22px;
+
+      padding: 21px;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: var(--radius);
+
+      background:
+        linear-gradient(
+          135deg,
+          #eff6ff,
+          #f5f3ff
+        );
+
+      box-shadow: var(--shadow);
+
+      display: flex;
+      align-items: center;
+
+      gap: 17px;
+    }
+
+    .security-icon {
+      width: 52px;
+      height: 52px;
+
+      border-radius: 15px;
+
+      flex-shrink: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #fff;
+
+      color: var(--primary);
+
+      font-size: 22px;
+
+      box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.10);
+    }
+
+    .security-content {
+      flex: 1;
+    }
+
+    .security-content h2 {
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .security-content p {
+      max-width: 850px;
+
+      margin-top: 5px;
+
+      color: #64748b;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+    }
+
+    .security-badge {
+      padding: 7px 11px;
+
+      border-radius: 30px;
+
+      background: #fff;
+
+      color: #15803d;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       SECTION HEADER
+    ========================================================= */
+
+    .section-header {
+      margin-bottom: 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+    }
+
+    .section-header h2 {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .section-header p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    /* =========================================================
+       STATUS GRID
+    ========================================================= */
+
+    .status-grid {
+      margin-bottom: 25px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 18px;
+    }
+
+    .status-card {
+      padding: 19px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
+
+      transition: 0.2s ease;
+    }
+
+    .status-card:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 16px 38px rgba(15, 23, 42, 0.09);
+    }
+
+    .status-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+    }
+
+    .feature-icon {
+      width: 43px;
+      height: 43px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eff6ff;
+
+      color: var(--primary);
+
+      font-size: 18px;
+    }
+
+    .feature-icon.green {
+      background: #f0fdf4;
+      color: var(--success);
+    }
+
+    .feature-icon.orange {
+      background: #fff7ed;
+      color: var(--warning);
+    }
+
+    .feature-icon.purple {
+      background: #faf5ff;
+      color: #7c3aed;
+    }
+
+    .status-name {
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .status-description {
+      margin-top: 4px;
+
+      color: #94a3b8;
+
+      font-size: 9px;
+
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 9px;
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    .status-pill.ready {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .status-pill.warning {
+      background: #fff7ed;
+      color: #b45309;
+    }
+
+    .status-pill.disabled {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .status-detail {
+      margin-top: 17px;
+
+      padding-top: 14px;
+
+      border-top:
+        1px solid #eef2f7;
+
+      display: flex;
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .status-detail span {
+      color: #94a3b8;
+
+      font-size: 9px;
+    }
+
+    .status-detail strong {
+      color: #475569;
+
+      font-size: 9px;
+
+      text-align: right;
+    }
+
+    /* =========================================================
+       BROWSER RULES
+    ========================================================= */
+
+    .rules-card {
+      margin-top: 24px;
+
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
+    }
+
+    .rules-list {
+      margin-top: 5px;
+    }
+
+    .rule {
+      padding: 15px 0;
+
+      display: flex;
+      align-items: flex-start;
+
+      gap: 13px;
+
+      border-bottom:
+        1px solid #eef2f7;
+    }
+
+    .rule:last-child {
+      border-bottom: 0;
+    }
+
+    .rule-number {
+      width: 28px;
+      height: 28px;
+
+      flex-shrink: 0;
+
+      border-radius: 9px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eff6ff;
+
+      color: var(--primary);
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .rule-content h3 {
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .rule-content p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       ACTION PANEL
+    ========================================================= */
+
+    .action-panel {
+      margin-top: 24px;
+
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
+    }
+
+    .action-buttons {
+      margin-top: 15px;
+
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 9px;
+    }
+
+    .btn {
+      min-height: 40px;
+
+      padding: 0 14px;
+
+      border-radius: 10px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      border: 0;
+
+      background: var(--primary);
+
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-light {
+      border:
+        1px solid var(--border);
+
+      background: #fff;
+
+      color: #475569;
+    }
+
+    .btn-light:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .btn-warning {
+      border:
+        1px solid #fed7aa;
+
+      background: #fff7ed;
+
+      color: #b45309;
+    }
+
+    .btn-warning:hover {
+      background: #ffedd5;
+    }
+
+    /* =========================================================
+       LOG
+    ========================================================= */
+
+    .log-card {
+      margin-top: 24px;
+
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
+    }
+
+    .log-list {
+      margin-top: 15px;
+
+      max-height: 270px;
+
+      overflow-y: auto;
+    }
+
+    .log-item {
+      padding: 12px 0;
+
+      display: flex;
+      align-items: flex-start;
+
+      gap: 10px;
+
+      border-bottom:
+        1px solid #eef2f7;
+    }
+
+    .log-item:last-child {
+      border-bottom: 0;
+    }
+
+    .log-dot {
+      width: 8px;
+      height: 8px;
+
+      margin-top: 5px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--primary);
+    }
+
+    .log-text {
+      flex: 1;
+    }
+
+    .log-text strong {
+      display: block;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .log-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #94a3b8;
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       SIDEBAR OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 900;
+
+      display: none;
+
+      background:
+        rgba(15, 23, 42, 0.45);
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      right: 25px;
+      bottom: 25px;
+
+      min-width: 260px;
+      max-width: 370px;
+
+      padding: 13px 16px;
+
+      border-radius: 12px;
+
+      background: #111827;
+
+      color: #fff;
+
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+
+      font-size: 12px;
+      font-weight: 700;
+
+      z-index: 5000;
+
+      opacity: 0;
+
+      transform:
+        translateY(20px);
+
+      pointer-events: none;
+
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+
+      transform:
+        translateY(0);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1150px) {
+
+      .status-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .sidebar {
+        transform:
+          translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform:
+          translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .content {
+        padding:
+          22px 18px 35px;
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .security-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .security-badge {
+        align-self: flex-start;
+      }
+
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .content {
+        padding:
+          18px 12px 30px;
+      }
+
+      .page-title h1 {
+        font-size: 18px;
+      }
+
+      .page-title p {
+        display: none;
+      }
+
+      .topbar-actions .icon-btn:first-child {
+        display: none;
+      }
+
+      .section-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .action-buttons {
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+
+        width: 100%;
+      }
+
+      .action-buttons .btn {
+        width: 100%;
+      }
+
+      .toast {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+
+        min-width: auto;
+      }
+
+    }
+
+    @media (max-width: 400px) {
+
+      .action-buttons {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration:
+          0.01ms !important;
+
+        transition-duration:
+          0.01ms !important;
+
+        scroll-behavior:
+          auto !important;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
-<div class="layout">
+  <!-- =======================================================
+       SIDEBAR
+  ======================================================== -->
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
 
-    <aside class="sidebar">
+    <div class="brand">
 
-        <div class="brand">
+      <div class="brand-logo">
+        DS
+      </div>
 
-            <div class="brand-icon">
-                ✚
+      <div class="brand-text">
+
+        <h2>
+          Design System
+        </h2>
+
+        <span>
+          Admin Control Panel
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+      <div class="menu-title">
+        Main
+      </div>
+
+      <a
+        class="menu-item"
+        href="./dashboard.html"
+      >
+        <span class="menu-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./website.html"
+      >
+        <span class="menu-icon">
+          🌐
+        </span>
+
+        <span>
+          Website
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./website-edit.html"
+      >
+        <span class="menu-icon">
+          ✎
+        </span>
+
+        <span>
+          Website Editor
+        </span>
+      </a>
+
+
+      <div class="menu-title">
+        Management
+      </div>
+
+
+      <a
+        class="menu-item"
+        href="./design-manage.html"
+      >
+        <span class="menu-icon">
+          ▧
+        </span>
+
+        <span>
+          Design Management
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./banner.html"
+      >
+        <span class="menu-icon">
+          ▤
+        </span>
+
+        <span>
+          Banner Manager
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item active"
+        href="./browser-ui.html"
+      >
+        <span class="menu-icon">
+          ◉
+        </span>
+
+        <span>
+          Browser UI
+        </span>
+      </a>
+
+
+      <div class="menu-title">
+        System
+      </div>
+
+
+      <a
+        class="menu-item"
+        href="./chatter.html"
+      >
+        <span class="menu-icon">
+          💬
+        </span>
+
+        <span>
+          Chatter
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./live-monitor.html"
+      >
+        <span class="menu-icon">
+          ◉
+        </span>
+
+        <span>
+          Live Monitor
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./system.html"
+      >
+        <span class="menu-icon">
+          ⚙
+        </span>
+
+        <span>
+          System Settings
+        </span>
+      </a>
+
+
+      <a
+        class="menu-item"
+        href="./link-check.html"
+      >
+        <span class="menu-icon">
+          🔗
+        </span>
+
+        <span>
+          Link Checker
+        </span>
+      </a>
+
+
+      <div class="menu-title">
+        Website
+      </div>
+
+
+      <a
+        class="menu-item"
+        href="../index.html"
+        target="_blank"
+      >
+        <span class="menu-icon">
+          ↗
+        </span>
+
+        <span>
+          View Website
+        </span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="admin-profile">
+
+        <div
+          class="avatar"
+          id="profileAvatar"
+        >
+          A
+        </div>
+
+
+        <div class="profile-info">
+
+          <div
+            class="profile-name"
+            id="profileName"
+          >
+            Admin
+          </div>
+
+          <div
+            class="profile-role"
+            id="profileRole"
+          >
+            Administrator
+          </div>
+
+        </div>
+
+
+        <button
+          class="logout-btn"
+          id="logoutBtn"
+          type="button"
+          title="Logout"
+        >
+          ⎋
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          type="button"
+        >
+          ☰
+        </button>
+
+
+        <div class="page-title">
+
+          <h1>
+            Browser UI
+          </h1>
+
+          <p>
+            Browser permission guidance and feature availability.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          class="icon-btn"
+          id="refreshBtn"
+          type="button"
+          title="Refresh"
+        >
+          ↻
+        </button>
+
+
+        <button
+          class="icon-btn"
+          type="button"
+          title="Open Permission Page"
+          onclick="window.open('../browser-permission.html', '_blank')"
+        >
+          ↗
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+      <!-- ===================================================
+           SECURITY NOTICE
+      ==================================================== -->
+
+      <div class="security-card">
+
+        <div class="security-icon">
+          🔐
+        </div>
+
+
+        <div class="security-content">
+
+          <h2>
+            Browser Permission Protection
+          </h2>
+
+          <p>
+            Camera, microphone and screen sharing are controlled
+            by the user's browser. This admin page can show feature
+            availability and guidance, but it cannot secretly grant,
+            bypass or override browser permissions.
+          </p>
+
+        </div>
+
+
+        <div class="security-badge">
+          Privacy Protected
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           FEATURE STATUS
+      ==================================================== -->
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Browser Feature Status
+          </h2>
+
+          <p>
+            Current browser capability and system feature status.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="status-grid"
+        id="statusGrid"
+      >
+
+        <!-- Camera -->
+
+        <div class="status-card">
+
+          <div class="status-top">
+
+            <div class="status-left">
+
+              <div class="feature-icon">
+                📷
+              </div>
+
+              <div>
+
+                <div class="status-name">
+                  Camera
+                </div>
+
+                <div class="status-description">
+                  Required for video calls and camera preview.
+                </div>
+
+              </div>
+
             </div>
 
-            <div class="brand-text">
-                <strong>Doctor Poster</strong>
-                <span>Admin Panel</span>
-            </div>
 
-        </div>
-
-
-        <div class="menu-title">
-            Main
-        </div>
-
-        <a href="dashboard.html">
-            <span>▦</span>
-            Dashboard
-        </a>
-
-
-        <div class="menu-title">
-            Website
-        </div>
-
-        <a href="website.html">
-            <span>◉</span>
-            Website Overview
-        </a>
-
-        <a href="website-edit.html">
-            <span>✎</span>
-            Edit Website
-        </a>
-
-
-        <div class="menu-title">
-            Advertisement
-        </div>
-
-        <a href="browser-ui.html" class="active">
-            <span>▣</span>
-            Browser UI Ad
-        </a>
-
-        <a href="banner.html">
-            <span>▰</span>
-            Banner
-        </a>
-
-
-        <div class="menu-title">
-            Designs
-        </div>
-
-        <a href="design-manage.html">
-            <span>◇</span>
-            Design Management
-        </a>
-
-
-        <div class="menu-title">
-            System
-        </div>
-
-        <a href="system.html">
-            <span>⚙</span>
-            System Settings
-        </a>
-
-
-        <div class="logout">
-
-            <a href="index.html">
-                <span>↪</span>
-                Logout
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
-    <main class="main">
-
-        <div class="mobile-header">
-
-            <div class="mobile-brand">
-                Doctor Poster Admin
-            </div>
-
-            <button
-                class="mobile-menu-btn"
-                onclick="alert('Mobile menu can be added later.')"
+            <span
+              class="status-pill"
+              id="cameraStatus"
             >
-                ☰
-            </button>
+              Checking
+            </span>
+
+          </div>
+
+
+          <div class="status-detail">
+
+            <span>
+              Browser API
+            </span>
+
+            <strong id="cameraApi">
+              Checking...
+            </strong>
+
+          </div>
 
         </div>
 
 
-        <!-- TOPBAR -->
+        <!-- Microphone -->
 
-        <div class="topbar">
+        <div class="status-card">
 
-            <div class="page-title">
+          <div class="status-top">
 
-                <h1>
-                    Browser UI Advertisement
-                </h1>
+            <div class="status-left">
 
-                <p>
-                    Control the advertisement displayed above your website navigation.
-                </p>
+              <div class="feature-icon green">
+                🎙
+              </div>
 
-            </div>
+              <div>
 
-
-            <div class="admin-user">
-
-                <strong>
-                    Administrator
-                </strong>
-
-                <div class="avatar">
-                    A
+                <div class="status-name">
+                  Microphone
                 </div>
 
+                <div class="status-description">
+                  Required for voice and video calls.
+                </div>
+
+              </div>
+
             </div>
+
+
+            <span
+              class="status-pill"
+              id="microphoneStatus"
+            >
+              Checking
+            </span>
+
+          </div>
+
+
+          <div class="status-detail">
+
+            <span>
+              Browser API
+            </span>
+
+            <strong id="microphoneApi">
+              Checking...
+            </strong>
+
+          </div>
 
         </div>
 
 
-        <!-- CONTENT -->
+        <!-- Screen Share -->
 
-        <section class="content">
+        <div class="status-card">
 
-            <div class="intro">
+          <div class="status-top">
 
-                <h2>
-                    Advertisement Control
-                </h2>
+            <div class="status-left">
 
-                <p>
-                    Configure your global browser UI advertisement.
-                </p>
+              <div class="feature-icon purple">
+                🖥
+              </div>
+
+              <div>
+
+                <div class="status-name">
+                  Screen Share
+                </div>
+
+                <div class="status-description">
+                  Browser-native screen sharing for live sessions.
+                </div>
+
+              </div>
 
             </div>
 
 
-            <div class="grid">
+            <span
+              class="status-pill"
+              id="screenStatus"
+            >
+              Checking
+            </span>
 
+          </div>
 
-                <!-- =========================
-                     LEFT FORM
-                ========================== -->
 
-                <div>
+          <div class="status-detail">
 
+            <span>
+              Browser API
+            </span>
 
-                    <!-- STATUS -->
+            <strong id="screenApi">
+              Checking...
+            </strong>
 
-                    <div class="panel">
+          </div>
 
-                        <div class="panel-header">
+        </div>
 
-                            <h3>
-                                Advertisement Status
-                            </h3>
+      </div>
 
-                            <p>
-                                Enable or disable the advertisement globally.
-                            </p>
 
-                        </div>
+      <!-- ===================================================
+           BROWSER RULES
+      ==================================================== -->
 
+      <div class="rules-card">
 
-                        <div class="enable-row">
+        <div class="section-header">
 
-                            <div class="enable-text">
+          <div>
 
-                                <strong>
-                                    Browser UI Advertisement
-                                </strong>
+            <h2>
+              Permission Rules
+            </h2>
 
-                                <span>
-                                    Display advertisement above the navbar.
-                                </span>
+            <p>
+              Important rules for camera, microphone and screen sharing.
+            </p>
 
-                            </div>
+          </div>
 
+        </div>
 
-                            <label class="switch">
 
-                                <input
-                                    type="checkbox"
-                                    id="adEnabled"
-                                    checked
-                                    onchange="updatePreview()"
-                                >
+        <div class="rules-list">
 
-                                <span class="slider"></span>
+          <div class="rule">
 
-                            </label>
+            <div class="rule-number">
+              01
+            </div>
 
-                        </div>
+            <div class="rule-content">
 
-                    </div>
+              <h3>
+                User must grant permission
+              </h3>
 
-
-                    <!-- CONTENT -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Advertisement Content
-                            </h3>
-
-                            <p>
-                                Enter the text visitors will see.
-                            </p>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Advertisement Label
-                            </label>
-
-                            <input
-                                type="text"
-                                id="adLabel"
-                                value="Advertisement"
-                                oninput="updatePreview()"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Advertisement Title
-                            </label>
-
-                            <input
-                                type="text"
-                                id="adTitle"
-                                value="Promote Your Healthcare Brand"
-                                oninput="updatePreview()"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Description
-                            </label>
-
-                            <textarea
-                                id="adDescription"
-                                oninput="updatePreview()"
-                            >Reach doctors, clinics & healthcare professionals</textarea>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Button Text
-                            </label>
-
-                            <input
-                                type="text"
-                                id="adButton"
-                                value="Advertise With Us →"
-                                oninput="updatePreview()"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Button Link
-                            </label>
-
-                            <input
-                                type="text"
-                                id="adLink"
-                                value="#"
-                                placeholder="https://example.com"
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- IMAGE -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Advertisement Image
-                            </h3>
-
-                            <p>
-                                Optional logo or promotional image.
-                            </p>
-
-                        </div>
-
-
-                        <div class="image-box">
-
-                            <div
-                                class="image-preview"
-                                id="imagePreview"
-                            >
-                                ✦
-                            </div>
-
-                            <input
-                                type="file"
-                                id="adImage"
-                                accept="image/*"
-                                onchange="previewImage(event)"
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- DESIGN -->
-
-                    <div class="panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Advertisement Style
-                            </h3>
-
-                            <p>
-                                Customize the colors of the advertisement.
-                            </p>
-
-                        </div>
-
-
-                        <div class="color-row">
-
-                            <div>
-
-                                <label
-                                    style="
-                                        display:block;
-                                        font-size:10px;
-                                        font-weight:700;
-                                        margin-bottom:7px;
-                                        color:#4d656a;
-                                    "
-                                >
-                                    Background
-                                </label>
-
-                                <div class="color-input">
-
-                                    <input
-                                        type="color"
-                                        id="bgColorPicker"
-                                        value="#087f86"
-                                        oninput="syncColor('bg')"
-                                    >
-
-                                    <input
-                                        type="text"
-                                        id="bgColorText"
-                                        value="#087f86"
-                                        oninput="syncTextColor('bg')"
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <div>
-
-                                <label
-                                    style="
-                                        display:block;
-                                        font-size:10px;
-                                        font-weight:700;
-                                        margin-bottom:7px;
-                                        color:#4d656a;
-                                    "
-                                >
-                                    Button
-                                </label>
-
-                                <div class="color-input">
-
-                                    <input
-                                        type="color"
-                                        id="buttonColorPicker"
-                                        value="#ffffff"
-                                        oninput="syncColor('button')"
-                                    >
-
-                                    <input
-                                        type="text"
-                                        id="buttonColorText"
-                                        value="#ffffff"
-                                        oninput="syncTextColor('button')"
-                                    >
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="setting-row"
-                             style="
-                                display:flex;
-                                justify-content:space-between;
-                                align-items:center;
-                                margin-top:20px;
-                             ">
-
-                            <div>
-
-                                <strong
-                                    style="
-                                        display:block;
-                                        font-size:11px;
-                                        margin-bottom:3px;
-                                    "
-                                >
-                                    Show Close Button
-                                </strong>
-
-                                <span
-                                    style="
-                                        color:#829397;
-                                        font-size:9px;
-                                    "
-                                >
-                                    Allow visitors to close the advertisement.
-                                </span>
-
-                            </div>
-
-
-                            <label class="switch">
-
-                                <input
-                                    type="checkbox"
-                                    id="closeButton"
-                                    checked
-                                    onchange="updatePreview()"
-                                >
-
-                                <span class="slider"></span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="saveAdvertisement()"
-                            >
-                                Save Advertisement
-                            </button>
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="resetAdvertisement()"
-                            >
-                                Reset
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     RIGHT PREVIEW
-                ========================== -->
-
-                <div>
-
-                    <div class="panel preview-panel">
-
-                        <div class="panel-header">
-
-                            <h3>
-                                Live Preview
-                            </h3>
-
-                            <p>
-                                This is how the advertisement will appear
-                                above your website navbar.
-                            </p>
-
-                        </div>
-
-
-                        <div class="browser-frame">
-
-                            <!-- Browser top -->
-
-                            <div class="browser-top">
-
-                                <span class="browser-dot"></span>
-                                <span class="browser-dot"></span>
-                                <span class="browser-dot"></span>
-
-                                <div class="browser-address">
-                                    doctorpostermaker.com
-                                </div>
-
-                            </div>
-
-
-                            <!-- Fake Website -->
-
-                            <div class="fake-site">
-
-
-                                <!-- AD -->
-
-                                <div
-                                    class="ad-preview"
-                                    id="adPreview"
-                                >
-
-                                    <div
-                                        class="ad-label"
-                                        id="previewLabel"
-                                    >
-                                        Advertisement
-                                    </div>
-
-
-                                    <div
-                                        class="ad-icon"
-                                        id="previewIcon"
-                                    >
-                                        ✦
-                                    </div>
-
-
-                                    <img
-                                        class="ad-image"
-                                        id="previewImage"
-                                        alt="Advertisement"
-                                    >
-
-
-                                    <div class="ad-copy">
-
-                                        <strong id="previewTitle">
-                                            Promote Your Healthcare Brand
-                                        </strong>
-
-                                        <span id="previewDescription">
-                                            Reach doctors, clinics &
-                                            healthcare professionals
-                                        </span>
-
-                                    </div>
-
-
-                                    <button
-                                        class="ad-action"
-                                        id="previewButton"
-                                    >
-                                        Advertise With Us →
-                                    </button>
-
-
-                                    <button
-                                        class="close-ad"
-                                        id="previewClose"
-                                    >
-                                        ×
-                                    </button>
-
-                                </div>
-
-
-                                <!-- NAVBAR -->
-
-                                <div class="fake-navbar">
-
-                                    <div class="fake-logo"></div>
-
-                                    <div class="fake-nav-links">
-
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <!-- HERO -->
-
-                                <div class="fake-hero">
-
-                                    <div class="fake-hero-badge"></div>
-
-                                    <div class="fake-hero-title"></div>
-
-                                    <div class="fake-hero-title small"></div>
-
-
-                                    <div class="fake-cards">
-
-                                        <div class="fake-card"></div>
-                                        <div class="fake-card"></div>
-                                        <div class="fake-card"></div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="info-box">
-
-                            <strong>
-                                Important:
-                            </strong>
-
-                            This advertisement belongs only to the website
-                            browser interface. It will never be inserted into
-                            Design 1, Design 2, Design 3 or Design 4 poster
-                            exports.
-
-                        </div>
-
-                    </div>
-
-                </div>
+              <p>
+                The browser asks the user before allowing camera
+                or microphone access. Admin cannot silently approve it.
+              </p>
 
             </div>
 
-        </section>
-
-    </main>
-
-</div>
+          </div>
 
 
-<script>
+          <div class="rule">
 
-    /* =========================
-       DEFAULT DATA
-    ========================== */
+            <div class="rule-number">
+              02
+            </div>
 
-    const defaultAdvertisement = {
+            <div class="rule-content">
 
-        enabled: true,
+              <h3>
+                Screen sharing uses the native browser picker
+              </h3>
 
-        label: "Advertisement",
+              <p>
+                The user chooses the screen, window or tab from the
+                browser's own screen-sharing dialog.
+              </p>
 
-        title: "Promote Your Healthcare Brand",
+            </div>
 
-        description:
-            "Reach doctors, clinics & healthcare professionals",
+          </div>
 
-        buttonText:
-            "Advertise With Us →",
 
-        buttonLink:
-            "#",
+          <div class="rule">
 
-        backgroundColor:
-            "#087f86",
+            <div class="rule-number">
+              03
+            </div>
 
-        buttonColor:
-            "#ffffff",
+            <div class="rule-content">
 
-        showCloseButton:
-            true,
+              <h3>
+                No hidden recording
+              </h3>
 
-        image:
-            ""
+              <p>
+                This project does not record camera, microphone or
+                screen-share sessions. Live media disappears when
+                the active session ends.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="rule">
+
+            <div class="rule-number">
+              04
+            </div>
+
+            <div class="rule-content">
+
+              <h3>
+                HTTPS is recommended
+              </h3>
+
+              <p>
+                Production camera, microphone and screen-sharing
+                features should run on a secure HTTPS website such
+                as GitHub Pages.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           ACTION PANEL
+      ==================================================== -->
+
+      <div class="action-panel">
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Permission Tools
+            </h2>
+
+            <p>
+              Open the user-side permission page or refresh browser capability status.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="action-buttons">
+
+          <button
+            class="btn btn-primary"
+            id="openPermissionBtn"
+            type="button"
+          >
+            🔐 Open Permission Page
+          </button>
+
+
+          <button
+            class="btn btn-light"
+            id="checkStatusBtn"
+            type="button"
+          >
+            ↻ Check Browser Status
+          </button>
+
+
+          <button
+            class="btn btn-light"
+            id="openChatterBtn"
+            type="button"
+          >
+            💬 Open Chatter
+          </button>
+
+
+          <button
+            class="btn btn-warning"
+            id="clearPermissionBtn"
+            type="button"
+          >
+            Reset Local Permission Preferences
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           ACTIVITY LOG
+      ==================================================== -->
+
+      <div class="log-card">
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Browser UI Activity
+            </h2>
+
+            <p>
+              Local activity generated by this admin page.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="log-list"
+          id="logList"
+        >
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       TOAST
+  ======================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
+
+  <script>
+
+    /* =========================================================
+       STORAGE KEYS
+    ========================================================= */
+
+    const SESSION_KEY =
+      "chatterAdminSession";
+
+    const CHATTER_SETTINGS_KEY =
+      "chatterSystemSettings";
+
+    const BROWSER_PERMISSION_KEY =
+      "chatterBrowserPermissions";
+
+
+    /* =========================================================
+       DEFAULT PERMISSIONS
+    ========================================================= */
+
+    const DEFAULT_PERMISSIONS = {
+
+      camera: false,
+
+      microphone: false,
+
+      screenShare: false
 
     };
 
 
-    /* =========================
-       GET DATA
-    ========================== */
+    /* =========================================================
+       DOM
+    ========================================================= */
 
-    function getAdvertisementData() {
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
 
-        const saved =
-            localStorage.getItem(
-                "doctorPosterAdvertisement"
-            );
+    const sidebarOverlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
 
+    const mobileMenuBtn =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
 
-        return saved
-            ? {
-                ...defaultAdvertisement,
-                ...JSON.parse(saved)
-            }
-            : {
-                ...defaultAdvertisement
-            };
+    const toast =
+      document.getElementById(
+        "toast"
+      );
 
-    }
+    const logList =
+      document.getElementById(
+        "logList"
+      );
 
 
-    /* =========================
-       LOAD
-    ========================== */
+    /* =========================================================
+       INIT
+    ========================================================= */
 
-    function loadAdvertisement() {
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
 
-        const data =
-            getAdvertisementData();
+        loadAdminProfile();
 
+        checkBrowserStatus();
 
-        document.getElementById(
-            "adEnabled"
-        ).checked =
-            data.enabled;
+        renderActivityLog();
 
+        bindEvents();
 
-        document.getElementById(
-            "adLabel"
-        ).value =
-            data.label;
-
-
-        document.getElementById(
-            "adTitle"
-        ).value =
-            data.title;
-
-
-        document.getElementById(
-            "adDescription"
-        ).value =
-            data.description;
-
-
-        document.getElementById(
-            "adButton"
-        ).value =
-            data.buttonText;
-
-
-        document.getElementById(
-            "adLink"
-        ).value =
-            data.buttonLink;
-
-
-        document.getElementById(
-            "bgColorPicker"
-        ).value =
-            data.backgroundColor;
-
-
-        document.getElementById(
-            "bgColorText"
-        ).value =
-            data.backgroundColor;
-
-
-        document.getElementById(
-            "buttonColorPicker"
-        ).value =
-            data.buttonColor;
-
-
-        document.getElementById(
-            "buttonColorText"
-        ).value =
-            data.buttonColor;
-
-
-        document.getElementById(
-            "closeButton"
-        ).checked =
-            data.showCloseButton;
-
-
-        if (data.image) {
-
-            document.getElementById(
-                "previewImage"
-            ).src =
-                data.image;
-
-            document.getElementById(
-                "previewImage"
-            ).style.display =
-                "block";
-
-            document.getElementById(
-                "previewIcon"
-            ).style.display =
-                "none";
-
-        }
-
-
-        updatePreview();
-
-    }
-
-
-    /* =========================
-       UPDATE PREVIEW
-    ========================== */
-
-    function updatePreview() {
-
-        const enabled =
-            document.getElementById(
-                "adEnabled"
-            ).checked;
-
-
-        const preview =
-            document.getElementById(
-                "adPreview"
-            );
-
-
-        preview.style.display =
-            enabled
-                ? "flex"
-                : "none";
-
-
-        document.getElementById(
-            "previewLabel"
-        ).textContent =
-            document.getElementById(
-                "adLabel"
-            ).value;
-
-
-        document.getElementById(
-            "previewTitle"
-        ).textContent =
-            document.getElementById(
-                "adTitle"
-            ).value;
-
-
-        document.getElementById(
-            "previewDescription"
-        ).textContent =
-            document.getElementById(
-                "adDescription"
-            ).value;
-
-
-        document.getElementById(
-            "previewButton"
-        ).textContent =
-            document.getElementById(
-                "adButton"
-            ).value;
-
-
-        document.getElementById(
-            "adPreview"
-        ).style.background =
-            document.getElementById(
-                "bgColorText"
-            ).value;
-
-
-        document.getElementById(
-            "previewButton"
-        ).style.background =
-            document.getElementById(
-                "buttonColorText"
-            ).value;
-
-
-        const closeButton =
-            document.getElementById(
-                "previewClose"
-            );
-
-
-        closeButton.style.display =
-            document.getElementById(
-                "closeButton"
-            ).checked
-                ? "block"
-                : "none";
-
-
-        if (
-            document.getElementById(
-                "buttonColorText"
-            ).value.toLowerCase()
-            === "#ffffff"
-        ) {
-
-            document.getElementById(
-                "previewButton"
-            ).style.color =
-                "#087f86";
-
-        } else {
-
-            document.getElementById(
-                "previewButton"
-            ).style.color =
-                "#ffffff";
-
-        }
-
-    }
-
-
-    /* =========================
-       COLOR PICKER
-    ========================== */
-
-    function syncColor(type) {
-
-        if (type === "bg") {
-
-            const value =
-                document.getElementById(
-                    "bgColorPicker"
-                ).value;
-
-
-            document.getElementById(
-                "bgColorText"
-            ).value =
-                value;
-
-        }
-
-
-        if (type === "button") {
-
-            const value =
-                document.getElementById(
-                    "buttonColorPicker"
-                ).value;
-
-
-            document.getElementById(
-                "buttonColorText"
-            ).value =
-                value;
-
-        }
-
-
-        updatePreview();
-
-    }
-
-
-    /* =========================
-       COLOR TEXT
-    ========================== */
-
-    function syncTextColor(type) {
-
-        if (type === "bg") {
-
-            let value =
-                document.getElementById(
-                    "bgColorText"
-                ).value;
-
-
-            if (
-                /^#[0-9A-Fa-f]{6}$/.test(value)
-            ) {
-
-                document.getElementById(
-                    "bgColorPicker"
-                ).value =
-                    value;
-
-            }
-
-        }
-
-
-        if (type === "button") {
-
-            let value =
-                document.getElementById(
-                    "buttonColorText"
-                ).value;
-
-
-            if (
-                /^#[0-9A-Fa-f]{6}$/.test(value)
-            ) {
-
-                document.getElementById(
-                    "buttonColorPicker"
-                ).value =
-                    value;
-
-            }
-
-        }
-
-
-        updatePreview();
-
-    }
-
-
-    /* =========================
-       IMAGE PREVIEW
-    ========================== */
-
-    function previewImage(event) {
-
-        const file =
-            event.target.files[0];
-
-
-        if (!file) {
-            return;
-        }
-
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            function(e) {
-
-                const image =
-                    document.getElementById(
-                        "previewImage"
-                    );
-
-
-                image.src =
-                    e.target.result;
-
-
-                image.style.display =
-                    "block";
-
-
-                document.getElementById(
-                    "previewIcon"
-                ).style.display =
-                    "none";
-
-            };
-
-
-        reader.readAsDataURL(file);
-
-    }
-
-
-    /* =========================
-       SAVE
-    ========================== */
-
-    function saveAdvertisement() {
-
-        const data = {
-
-            enabled:
-                document.getElementById(
-                    "adEnabled"
-                ).checked,
-
-            label:
-                document.getElementById(
-                    "adLabel"
-                ).value,
-
-            title:
-                document.getElementById(
-                    "adTitle"
-                ).value,
-
-            description:
-                document.getElementById(
-                    "adDescription"
-                ).value,
-
-            buttonText:
-                document.getElementById(
-                    "adButton"
-                ).value,
-
-            buttonLink:
-                document.getElementById(
-                    "adLink"
-                ).value,
-
-            backgroundColor:
-                document.getElementById(
-                    "bgColorText"
-                ).value,
-
-            buttonColor:
-                document.getElementById(
-                    "buttonColorText"
-                ).value,
-
-            showCloseButton:
-                document.getElementById(
-                    "closeButton"
-                ).checked
-
-        };
-
-
-        localStorage.setItem(
-            "doctorPosterAdvertisement",
-            JSON.stringify(data)
-        );
-
-
-        alert(
-            "Advertisement settings saved successfully."
-        );
-
-    }
-
-
-    /* =========================
-       RESET
-    ========================== */
-
-    function resetAdvertisement() {
-
-        const confirmed =
-            confirm(
-                "Reset advertisement settings?"
-            );
-
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        localStorage.removeItem(
-            "doctorPosterAdvertisement"
-        );
-
-
-        loadAdvertisement();
-
-
-        alert(
-            "Advertisement settings reset."
-        );
-
-    }
-
-
-    /* =========================
-       CLOSE PREVIEW
-    ========================== */
-
-    document.getElementById(
-        "previewClose"
-    ).addEventListener(
-        "click",
-        function() {
-
-            document.getElementById(
-                "adPreview"
-            ).style.display =
-                "none";
-
-        }
+      }
     );
 
 
-    /* =========================
-       INIT
-    ========================== */
+    /* =========================================================
+       BIND EVENTS
+    ========================================================= */
 
-    loadAdvertisement();
+    function bindEvents() {
 
-</script>
+      mobileMenuBtn.addEventListener(
+        "click",
+        openSidebar
+      );
+
+
+      sidebarOverlay.addEventListener(
+        "click",
+        closeSidebar
+      );
+
+
+      document.getElementById(
+        "logoutBtn"
+      ).addEventListener(
+        "click",
+        logout
+      );
+
+
+      document.getElementById(
+        "refreshBtn"
+      ).addEventListener(
+        "click",
+        () => {
+
+          checkBrowserStatus();
+
+          renderActivityLog();
+
+          showToast(
+            "Browser status refreshed."
+          );
+
+        }
+      );
+
+
+      document.getElementById(
+        "checkStatusBtn"
+      ).addEventListener(
+        "click",
+        () => {
+
+          checkBrowserStatus();
+
+          addLog(
+            "Browser capability status checked."
+          );
+
+          showToast(
+            "Browser status checked."
+          );
+
+        }
+      );
+
+
+      document.getElementById(
+        "openPermissionBtn"
+      ).addEventListener(
+        "click",
+        () => {
+
+          window.open(
+            "../browser-permission.html",
+            "_blank"
+          );
+
+          addLog(
+            "User permission page opened."
+          );
+
+        }
+      );
+
+
+      document.getElementById(
+        "openChatterBtn"
+      ).addEventListener(
+        "click",
+        () => {
+
+          window.open(
+            "../chatter/index.html",
+            "_blank"
+          );
+
+          addLog(
+            "Chatter opened from Browser UI."
+          );
+
+        }
+      );
+
+
+      document.getElementById(
+        "clearPermissionBtn"
+      ).addEventListener(
+        "click",
+        resetPermissionPreferences
+      );
+
+
+      window.addEventListener(
+        "storage",
+        event => {
+
+          if (
+            event.key ===
+            BROWSER_PERMISSION_KEY
+          ) {
+
+            checkBrowserStatus();
+
+            addLog(
+              "Browser permission preference changed."
+            );
+
+          }
+
+
+          if (
+            event.key ===
+            CHATTER_SETTINGS_KEY
+          ) {
+
+            checkBrowserStatus();
+
+            addLog(
+              "Chatter system settings changed."
+            );
+
+          }
+
+
+          if (
+            event.key ===
+            SESSION_KEY
+          ) {
+
+            loadAdminProfile();
+
+          }
+
+        }
+      );
+
+
+      document.addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Escape"
+          ) {
+
+            closeSidebar();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD ADMIN PROFILE
+    ========================================================= */
+
+    function loadAdminProfile() {
+
+      const profileName =
+        document.getElementById(
+          "profileName"
+        );
+
+      const profileRole =
+        document.getElementById(
+          "profileRole"
+        );
+
+      const profileAvatar =
+        document.getElementById(
+          "profileAvatar"
+        );
+
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            SESSION_KEY
+          );
+
+        if (!raw) {
+
+          profileName.textContent =
+            "Admin";
+
+          profileRole.textContent =
+            "Administrator";
+
+          profileAvatar.textContent =
+            "A";
+
+          return;
+
+        }
+
+
+        const session =
+          JSON.parse(raw);
+
+
+        const name =
+          session.name ||
+          session.email ||
+          "Admin";
+
+
+        const role =
+          session.role === "superadmin"
+            ? "Super Administrator"
+            : "Administrator";
+
+
+        profileName.textContent =
+          name;
+
+        profileRole.textContent =
+          role;
+
+        profileAvatar.textContent =
+          getInitials(name);
+
+      } catch (error) {
+
+        console.warn(
+          "Could not load admin profile.",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       INITIALS
+    ========================================================= */
+
+    function getInitials(
+      name
+    ) {
+
+      const words =
+        String(name)
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+
+
+      if (!words.length) {
+
+        return "A";
+
+      }
+
+
+      if (words.length === 1) {
+
+        return words[0]
+          .substring(0, 2)
+          .toUpperCase();
+
+      }
+
+
+      return (
+        words[0][0] +
+        words[words.length - 1][0]
+      ).toUpperCase();
+
+    }
+
+
+    /* =========================================================
+       LOAD SYSTEM SETTINGS
+    ========================================================= */
+
+    function getSystemSettings() {
+
+      const defaults = {
+
+        enabled: true,
+
+        messaging: true,
+
+        voiceCalls: true,
+
+        videoCalls: true,
+
+        voiceMessages: false,
+
+        camera: true,
+
+        microphone: true,
+
+        screenShare: true,
+
+        fileSharing: true,
+
+        imageSharing: true,
+
+        typingIndicator: true,
+
+        notifications: true
+
+      };
+
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            CHATTER_SETTINGS_KEY
+          );
+
+
+        if (!raw) {
+
+          return defaults;
+
+        }
+
+
+        const parsed =
+          JSON.parse(raw);
+
+
+        return {
+          ...defaults,
+          ...parsed
+        };
+
+      } catch (error) {
+
+        return defaults;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       LOAD USER PERMISSION PREFERENCES
+    ========================================================= */
+
+    function getBrowserPreferences() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            BROWSER_PERMISSION_KEY
+          );
+
+
+        if (!raw) {
+
+          return {
+            ...DEFAULT_PERMISSIONS
+          };
+
+        }
+
+
+        const parsed =
+          JSON.parse(raw);
+
+
+        return {
+          ...DEFAULT_PERMISSIONS,
+          ...parsed
+        };
+
+      } catch (error) {
+
+        return {
+          ...DEFAULT_PERMISSIONS
+        };
+
+      }
+
+    }
+
+
+    /* =========================================================
+       CHECK BROWSER STATUS
+    ========================================================= */
+
+    async function checkBrowserStatus() {
+
+      const settings =
+        getSystemSettings();
+
+
+      const preferences =
+        getBrowserPreferences();
+
+
+      /* -------------------------------------------------------
+         CAMERA
+      ------------------------------------------------------- */
+
+      const cameraSupported =
+        Boolean(
+          navigator.mediaDevices &&
+          navigator.mediaDevices.getUserMedia
+        );
+
+
+      updateStatus(
+        "cameraStatus",
+        "cameraApi",
+        cameraSupported,
+        settings.enabled &&
+        settings.camera,
+        preferences.camera
+      );
+
+
+      /* -------------------------------------------------------
+         MICROPHONE
+      ------------------------------------------------------- */
+
+      const microphoneSupported =
+        Boolean(
+          navigator.mediaDevices &&
+          navigator.mediaDevices.getUserMedia
+        );
+
+
+      updateStatus(
+        "microphoneStatus",
+        "microphoneApi",
+        microphoneSupported,
+        settings.enabled &&
+        settings.microphone,
+        preferences.microphone
+      );
+
+
+      /* -------------------------------------------------------
+         SCREEN SHARE
+      ------------------------------------------------------- */
+
+      const screenSupported =
+        Boolean(
+          navigator.mediaDevices &&
+          navigator.mediaDevices.getDisplayMedia
+        );
+
+
+      updateStatus(
+        "screenStatus",
+        "screenApi",
+        screenSupported,
+        settings.enabled &&
+        settings.screenShare,
+        preferences.screenShare
+      );
+
+    }
+
+
+    /* =========================================================
+       UPDATE STATUS CARD
+    ========================================================= */
+
+    function updateStatus(
+      statusId,
+      apiId,
+      supported,
+      systemEnabled,
+      userPreference
+    ) {
+
+      const status =
+        document.getElementById(
+          statusId
+        );
+
+      const api =
+        document.getElementById(
+          apiId
+        );
+
+
+      status.className =
+        "status-pill";
+
+
+      if (!supported) {
+
+        status.textContent =
+          "Not Supported";
+
+        status.classList.add(
+          "warning"
+        );
+
+        api.textContent =
+          "Unavailable";
+
+        return;
+
+      }
+
+
+      api.textContent =
+        "Available";
+
+
+      if (!systemEnabled) {
+
+        status.textContent =
+          "System Disabled";
+
+        status.classList.add(
+          "disabled"
+        );
+
+        return;
+
+      }
+
+
+      if (userPreference) {
+
+        status.textContent =
+          "Enabled";
+
+        status.classList.add(
+          "ready"
+        );
+
+      } else {
+
+        status.textContent =
+          "Permission Needed";
+
+        status.classList.add(
+          "warning"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       RESET PERMISSION PREFERENCES
+    ========================================================= */
+
+    function resetPermissionPreferences() {
+
+      const confirmed =
+        window.confirm(
+          "Reset local camera, microphone and screen-share preferences?"
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      localStorage.setItem(
+        BROWSER_PERMISSION_KEY,
+        JSON.stringify(
+          DEFAULT_PERMISSIONS
+        )
+      );
+
+
+      checkBrowserStatus();
+
+
+      addLog(
+        "Local browser permission preferences were reset."
+      );
+
+
+      showToast(
+        "Permission preferences reset."
+      );
+
+    }
+
+
+    /* =========================================================
+       ACTIVITY LOG STORAGE
+    ========================================================= */
+
+    const LOG_KEY =
+      "browserUiActivityLog";
+
+
+    function getLogs() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            LOG_KEY
+          );
+
+
+        if (!raw) {
+
+          return [];
+
+        }
+
+
+        const parsed =
+          JSON.parse(raw);
+
+
+        return Array.isArray(parsed)
+          ? parsed
+          : [];
+
+      } catch (error) {
+
+        return [];
+
+      }
+
+    }
+
+
+    function addLog(
+      message
+    ) {
+
+      const logs =
+        getLogs();
+
+
+      logs.unshift({
+
+        message,
+
+        time:
+          new Date()
+            .toLocaleString()
+
+      });
+
+
+      const limited =
+        logs.slice(0, 30);
+
+
+      localStorage.setItem(
+        LOG_KEY,
+        JSON.stringify(limited)
+      );
+
+
+      renderActivityLog();
+
+    }
+
+
+    function renderActivityLog() {
+
+      const logs =
+        getLogs();
+
+
+      logList.innerHTML =
+        "";
+
+
+      if (!logs.length) {
+
+        logList.innerHTML = `
+
+          <div class="log-item">
+
+            <div class="log-dot"></div>
+
+            <div class="log-text">
+
+              <strong>
+                Browser UI initialized.
+              </strong>
+
+              <span>
+                No previous activity found.
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      logs.forEach(
+        log => {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+
+          item.className =
+            "log-item";
+
+
+          item.innerHTML = `
+
+            <div class="log-dot"></div>
+
+            <div class="log-text">
+
+              <strong>
+                ${escapeHtml(
+                  log.message
+                )}
+              </strong>
+
+              <span>
+                ${escapeHtml(
+                  log.time
+                )}
+              </span>
+
+            </div>
+
+          `;
+
+
+          logList.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    function openSidebar() {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      sidebarOverlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      sidebarOverlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    function logout() {
+
+      const confirmed =
+        window.confirm(
+          "Do you want to logout?"
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+
+      window.location.href =
+        "../login/index.html";
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(
+      message
+    ) {
+
+      toast.textContent =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2600
+        );
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value)
+
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+
+    }
+
+  </script>
+
+
+  <!-- =======================================================
+       ADMIN AUTH GUARD
+  ======================================================== -->
+
+  <script
+    src="./auth-guard.js"
+  ></script>
 
 </body>
 </html>
