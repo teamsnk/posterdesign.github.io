@@ -1,1329 +1,1835 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Live Monitor | Super Admin</title>
-
-    <style>
-        :root {
-            --primary: #635bff;
-            --primary-dark: #4f46e5;
-            --bg: #f5f7fb;
-            --white: #ffffff;
-            --text: #172033;
-            --muted: #667085;
-            --border: #e4e7ec;
-            --success: #12b76a;
-            --danger: #f04438;
-            --warning: #f79009;
-            --dark: #101828;
-            --sidebar: #111827;
-            --shadow: 0 10px 30px rgba(16, 24, 40, 0.07);
-            --radius: 16px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
-
-        button {
-            font: inherit;
-            cursor: pointer;
-        }
-
-        /* =========================================
-           APP
-        ========================================= */
-
-        .app {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* =========================================
-           SIDEBAR
-        ========================================= */
-
-        .sidebar {
-            width: 255px;
-            min-height: 100vh;
-            background: var(--sidebar);
-            color: white;
-            padding: 22px 15px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 100;
-            overflow-y: auto;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 4px 8px 25px;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: linear-gradient(
-                135deg,
-                var(--primary),
-                var(--primary-dark)
-            );
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            font-size: 19px;
-        }
-
-        .brand-text h1 {
-            font-size: 16px;
-        }
-
-        .brand-text p {
-            color: #98a2b3;
-            font-size: 11px;
-            margin-top: 2px;
-        }
-
-        .menu-title {
-            color: #667085;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 15px 10px 8px;
-        }
-
-        .menu {
-            display: grid;
-            gap: 5px;
-        }
-
-        .menu a {
-            color: #d0d5dd;
-            text-decoration: none;
-            padding: 11px 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s ease;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-        }
-
-        .menu-icon {
-            width: 22px;
-            text-align: center;
-        }
-
-        .role-box {
-            margin-top: 25px;
-            padding: 13px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .role-box span {
-            display: block;
-            font-size: 10px;
-            color: #98a2b3;
-        }
-
-        .role-box strong {
-            display: block;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-
-        /* =========================================
-           MAIN
-        ========================================= */
-
-        .main {
-            flex: 1;
-            margin-left: 255px;
-            min-width: 0;
-        }
-
-        .topbar {
-            height: 72px;
-            background: white;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 28px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .topbar-title h2 {
-            font-size: 19px;
-        }
-
-        .topbar-title p {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 3px;
-        }
-
-        .live-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--success);
-        }
-
-        .live-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--success);
-            box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.12);
-        }
-
-        /* =========================================
-           CONTENT
-        ========================================= */
-
-        .content {
-            padding: 25px 28px 40px;
-        }
-
-        /* =========================================
-           SECURITY NOTICE
-        ========================================= */
-
-        .security-notice {
-            background: #eff8ff;
-            border: 1px solid #b2ddff;
-            color: #175cd3;
-            border-radius: var(--radius);
-            padding: 16px 18px;
-            margin-bottom: 22px;
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        .security-notice strong {
-            display: block;
-            margin-bottom: 4px;
-            font-size: 14px;
-        }
-
-        /* =========================================
-           STATS
-        ========================================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns:
-                repeat(5, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 22px;
-        }
-
-        .stat-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-card .icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
-            background: #f2f4ff;
-            display: grid;
-            place-items: center;
-            margin-bottom: 12px;
-        }
-
-        .stat-card span {
-            display: block;
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .stat-card strong {
-            display: block;
-            margin-top: 4px;
-            font-size: 24px;
-        }
-
-        /* =========================================
-           GRID
-        ========================================= */
-
-        .monitor-grid {
-            display: grid;
-            grid-template-columns:
-                minmax(0, 1.35fr)
-                minmax(320px, 0.65fr);
-            gap: 20px;
-        }
-
-        .panel {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .panel-header {
-            min-height: 60px;
-            padding: 15px 18px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .panel-header h3 {
-            font-size: 14px;
-        }
-
-        .panel-header p {
-            color: var(--muted);
-            font-size: 11px;
-            margin-top: 3px;
-        }
-
-        /* =========================================
-           PREVIEW
-        ========================================= */
-
-        .preview {
-            min-height: 390px;
-            background: #0b1220;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-empty {
-            text-align: center;
-            color: #98a2b3;
-            padding: 30px;
-        }
-
-        .preview-empty .big-icon {
-            width: 68px;
-            height: 68px;
-            margin: 0 auto 15px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.06);
-            display: grid;
-            place-items: center;
-            font-size: 28px;
-        }
-
-        .preview-empty h4 {
-            color: white;
-            font-size: 15px;
-            margin-bottom: 7px;
-        }
-
-        .preview-empty p {
-            font-size: 12px;
-            line-height: 1.6;
-            max-width: 430px;
-            margin: auto;
-        }
-
-        .remote-video {
-            width: 100%;
-            height: 100%;
-            min-height: 390px;
-            object-fit: contain;
-            display: none;
-            background: black;
-        }
-
-        .preview-live-badge {
-            display: none;
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            background: var(--danger);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .preview-user {
-            display: none;
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            background: rgba(0, 0, 0, 0.65);
-            color: white;
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-        }
-
-        /* =========================================
-           SESSION LIST
-        ========================================= */
-
-        .session-list {
-            max-height: 390px;
-            overflow-y: auto;
-        }
-
-        .session-empty {
-            padding: 35px 20px;
-            text-align: center;
-            color: var(--muted);
-        }
-
-        .session-empty .icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .session-empty h4 {
-            font-size: 14px;
-            color: var(--text);
-            margin-bottom: 5px;
-        }
-
-        .session-empty p {
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        .session-item {
-            padding: 14px 16px;
-            border-bottom: 1px solid #f0f2f5;
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .session-item:hover,
-        .session-item.active {
-            background: #f8f9ff;
-        }
-
-        .session-avatar {
-            width: 39px;
-            height: 39px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            background: #e9e7ff;
-            color: var(--primary);
-            font-size: 13px;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .session-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .session-info strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .session-info span {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        .session-type {
-            padding: 5px 8px;
-            border-radius: 7px;
-            font-size: 9px;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .session-type.video {
-            background: #eef4ff;
-            color: #175cd3;
-        }
-
-        .session-type.voice {
-            background: #ecfdf3;
-            color: #027a48;
-        }
-
-        .session-type.screen {
-            background: #fff7ed;
-            color: #c2410c;
-        }
-
-        /* =========================================
-           FEATURE STATUS
-        ========================================= */
-
-        .feature-list {
-            padding: 8px 18px 15px;
-        }
-
-        .feature-row {
-            min-height: 43px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #f2f4f7;
-            gap: 10px;
-        }
-
-        .feature-row:last-child {
-            border-bottom: 0;
-        }
-
-        .feature-row span {
-            font-size: 12px;
-        }
-
-        .badge {
-            padding: 5px 8px;
-            border-radius: 999px;
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-        .badge.on {
-            background: #ecfdf3;
-            color: #027a48;
-        }
-
-        .badge.off {
-            background: #fef3f2;
-            color: #b42318;
-        }
-
-        /* =========================================
-           ACTIVITY
-        ========================================= */
-
-        .activity-list {
-            max-height: 250px;
-            overflow-y: auto;
-            padding: 8px 18px 15px;
-        }
-
-        .activity-item {
-            display: flex;
-            gap: 10px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f2f4f7;
-        }
-
-        .activity-item:last-child {
-            border-bottom: 0;
-        }
-
-        .activity-icon {
-            width: 29px;
-            height: 29px;
-            border-radius: 8px;
-            background: #f2f4ff;
-            display: grid;
-            place-items: center;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .activity-text {
-            min-width: 0;
-        }
-
-        .activity-text strong {
-            display: block;
-            font-size: 11px;
-        }
-
-        .activity-text span {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        /* =========================================
-           ACCESS DENIED
-        ========================================= */
-
-        .access-denied {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #f5f7fb;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .access-card {
-            width: min(420px, 100%);
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .access-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 18px;
-            background: #fef3f2;
-            display: grid;
-            place-items: center;
-            font-size: 25px;
-        }
-
-        .access-card h2 {
-            font-size: 19px;
-            margin-bottom: 7px;
-        }
-
-        .access-card p {
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.6;
-            margin-bottom: 18px;
-        }
-
-        .access-card button {
-            border: 0;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px;
-            padding: 10px 18px;
-            font-weight: 700;
-        }
-
-        /* =========================================
-           MOBILE MENU
-        ========================================= */
-
-        .menu-toggle {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border: 1px solid var(--border);
-            background: white;
-            border-radius: 9px;
-            font-size: 18px;
-        }
-
-        .sidebar-overlay {
-            display: none;
-        }
-
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
-
-        @media (max-width: 1100px) {
-
-            .stats {
-                grid-template-columns:
-                    repeat(3, minmax(0, 1fr));
-            }
-
-            .monitor-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 800px) {
-
-            .sidebar {
-                transform: translateX(-100%);
-                transition: 0.25s ease;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
-            .menu-toggle {
-                display: grid;
-                place-items: center;
-            }
-
-            .topbar {
-                padding: 0 16px;
-                gap: 12px;
-            }
-
-            .content {
-                padding: 18px 16px 30px;
-            }
-
-            .sidebar-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.35);
-                z-index: 90;
-            }
-
-            .sidebar-overlay.show {
-                display: block;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .stats {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-            .topbar-title p {
-                display: none;
-            }
-
-            .security-notice {
-                font-size: 12px;
-            }
-
-            .preview,
-            .remote-video {
-                min-height: 280px;
-            }
-        }
-
-        @media (max-width: 400px) {
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <title>Live Monitor | Admin Panel</title>
+
+  <style>
+    /* =========================================================
+       LIVE MONITOR
+       SUPER ADMIN PANEL
+    ========================================================= */
+
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --sidebar: #0b1220;
+      --sidebar-2: #111a2d;
+      --text: #172033;
+      --muted: #718096;
+      --border: #e5eaf2;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --success: #16a34a;
+      --success-soft: #ecfdf3;
+      --warning: #d97706;
+      --warning-soft: #fff7ed;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --sidebar-width: 270px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =========================================================
+       LAYOUT
+    ========================================================= */
+
+    .admin-layout {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      background:
+        linear-gradient(
+          180deg,
+          #09111f 0%,
+          #0d1627 55%,
+          #101a2d 100%
+        );
+      color: #fff;
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .brand {
+      min-height: 82px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-text span {
+      display: block;
+      color: #91a0b8;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 12px;
+    }
+
+    .nav-title {
+      padding: 10px 12px 8px;
+      color: #71809a;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      color: #aeb9ca;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      transform: translateX(2px);
+    }
+
+    .nav-item.active {
+      background: rgba(37, 99, 235, 0.18);
+      color: #fff;
+      box-shadow: inset 3px 0 0 #3b82f6;
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.045);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-icon {
+      background: rgba(59,130,246,0.2);
+    }
+
+    .sidebar-bottom {
+      padding: 14px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .admin-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 13px;
+      background: rgba(255,255,255,0.045);
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      font-size: 13px;
+      font-weight: 800;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .admin-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .admin-info strong {
+      display: block;
+      color: #fff;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-info span {
+      display: block;
+      color: #8391a7;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .logout-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      color: #aeb9ca;
+      background: transparent;
+      transition: 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(220,38,38,0.12);
+      color: #f87171;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main {
+      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 78px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 19px;
+    }
+
+    .page-title h1 {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .page-title p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .monitor-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.7s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(22,163,74,0.35);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(22,163,74,0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(22,163,74,0);
+      }
+    }
+
+    .refresh-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: #f1f5f9;
+      color: #334155;
+      transition: 0.2s ease;
+    }
+
+    .refresh-btn:hover {
+      background: #e2e8f0;
+      transform: rotate(15deg);
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      padding: 28px 30px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .security-banner {
+      background:
+        linear-gradient(
+          135deg,
+          #eff6ff 0%,
+          #f8fafc 100%
+        );
+      border: 1px solid #dbeafe;
+      border-radius: var(--radius);
+      padding: 17px 19px;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin-bottom: 24px;
+    }
+
+    .security-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: #dbeafe;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .security-banner strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .security-banner p {
+      font-size: 11px;
+      line-height: 1.6;
+      color: #64748b;
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      margin-top: 13px;
+    }
+
+    .stat-note {
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    /* =========================================================
+       GRID
+    ========================================================= */
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.8fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-header h2 {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel-header p {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .panel-body {
+      padding: 20px;
+    }
+
+    /* =========================================================
+       LIVE PREVIEW
+    ========================================================= */
+
+    .preview-stage {
+      min-height: 390px;
+      border-radius: 16px;
+      background:
+        radial-gradient(
+          circle at 30% 20%,
+          rgba(37,99,235,0.15),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 80% 70%,
+          rgba(124,58,237,0.12),
+          transparent 30%
+        ),
+        #0b1220;
+      border: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-placeholder {
+      text-align: center;
+      max-width: 350px;
+      padding: 30px;
+    }
+
+    .preview-placeholder-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      color: #94a3b8;
+      font-size: 25px;
+    }
+
+    .preview-placeholder h3 {
+      color: #fff;
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .preview-placeholder p {
+      color: #94a3b8;
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .live-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: none;
+      align-items: center;
+      gap: 7px;
+      background: #dc2626;
+      color: #fff;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      box-shadow: 0 6px 20px rgba(220,38,38,0.25);
+    }
+
+    .preview-info {
+      display: none;
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+      background: rgba(15,23,42,0.82);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 11px 13px;
+    }
+
+    .preview-info strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .preview-info span {
+      display: block;
+      font-size: 9px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    /* =========================================================
+       SESSIONS
+    ========================================================= */
+
+    .session-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .session-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      transition: 0.2s ease;
+    }
+
+    .session-item:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+    }
+
+    .session-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .session-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .session-main strong {
+      display: block;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .session-main span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    .session-type {
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+      background: var(--success-soft);
+      color: var(--success);
+      white-space: nowrap;
+    }
+
+    .session-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+    }
+
+    .icon-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .empty-state {
+      padding: 30px 15px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: #f1f5f9;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 10px;
+      color: #94a3b8;
+      font-size: 19px;
+    }
+
+    .empty-state strong {
+      display: block;
+      color: #475569;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .empty-state p {
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FEATURE STATUS
+    ========================================================= */
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .feature-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .feature-name {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .feature-icon {
+      width: 29px;
+      height: 29px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .feature-name strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .feature-name span {
+      display: block;
+      color: var(--muted);
+      font-size: 8px;
+      margin-top: 2px;
+    }
+
+    .feature-state {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .feature-state.enabled {
+      color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .feature-state.disabled {
+      color: #64748b;
+      background: #f1f5f9;
+    }
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-item:last-child {
+      border-bottom: 0;
+    }
+
+    .activity-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #94a3b8;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .activity-dot.success {
+      background: var(--success);
+    }
+
+    .activity-dot.warning {
+      background: var(--warning);
+    }
+
+    .activity-dot.danger {
+      background: var(--danger);
+    }
+
+    .activity-text {
+      flex: 1;
+    }
+
+    .activity-text strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .activity-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    /* =========================================================
+       ACTIONS
+    ========================================================= */
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .btn {
+      min-height: 38px;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 950;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast-container {
+      position: fixed;
+      top: 90px;
+      right: 24px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      min-width: 250px;
+      max-width: 360px;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 12px;
+      padding: 13px 15px;
+      font-size: 11px;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.2);
+      animation: toastIn 0.25s ease;
+    }
+
+    .toast.success {
+      border-left: 3px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 3px solid var(--danger);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1250px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --sidebar-width: 270px;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.show {
+        display: block;
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .menu-btn {
+        display: grid;
+        place-items: center;
+      }
+
+      .content {
+        padding: 22px 20px 35px;
+      }
+
+      .topbar {
+        padding: 0 20px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      .monitor-status {
+        padding: 8px 10px;
+      }
+
+      .monitor-status span:last-child {
+        display: none;
+      }
+
+      .topbar {
+        height: 70px;
+      }
+
+      .page-title h1 {
+        font-size: 18px;
+      }
+
+      .page-title p {
+        display: none;
+      }
+
+      .content {
+        padding: 17px 14px 28px;
+      }
+
+      .security-banner {
+        padding: 14px;
+      }
+
+      .panel-body {
+        padding: 14px;
+      }
+
+      .preview-stage {
+        min-height: 300px;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr;
+      }
+
+      .session-item {
+        align-items: flex-start;
+      }
+
+      .session-type {
+        display: none;
+      }
+
+      .session-actions {
+        flex-direction: column;
+      }
+
+      .toast-container {
+        left: 14px;
+        right: 14px;
+        top: 78px;
+      }
+
+      .toast {
+        min-width: 0;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        border-radius: 14px;
+      }
+
+      .stat-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .stat-note {
+        display: none;
+      }
+
+      .topbar-right .refresh-btn {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- =========================================
-     ACCESS DENIED
-========================================== -->
+  <div class="admin-layout">
 
-<div
-    class="access-denied"
-    id="accessDenied"
->
-
-    <div class="access-card">
-
-        <div class="access-icon">
-            🔒
-        </div>
-
-        <h2>
-            Super Admin Only
-        </h2>
-
-        <p>
-            Live Monitor শুধুমাত্র Super Admin ব্যবহার করতে পারবেন।
-        </p>
-
-        <button
-            type="button"
-            id="accessBackBtn"
-        >
-            Go Back
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================
-     SIDEBAR OVERLAY
-========================================== -->
-
-<div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-></div>
-
-
-<!-- =========================================
-     APP
-========================================== -->
-
-<div
-    class="app"
-    id="app"
->
-
-    <!-- =====================================
+    <!-- =====================================================
          SIDEBAR
-    ====================================== -->
+    ====================================================== -->
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+    <aside class="sidebar" id="sidebar">
 
-        <div class="brand">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
 
-            <div class="brand-icon">
-                S
-            </div>
+        <div class="brand-text">
+          <strong>Design System</strong>
+          <span>Admin Control Center</span>
+        </div>
+      </div>
 
-            <div class="brand-text">
+      <div class="sidebar-scroll">
 
-                <h1>
-                    Super Admin
-                </h1>
+        <div class="nav-title">Main</div>
 
-                <p>
-                    Design System
-                </p>
+        <a href="./dashboard.html" class="nav-item">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
 
-            </div>
+        <a href="./website.html" class="nav-item">
+          <span class="nav-icon">🌐</span>
+          <span>Website</span>
+        </a>
+
+        <a href="./website-edit.html" class="nav-item">
+          <span class="nav-icon">✎</span>
+          <span>Website Editor</span>
+        </a>
+
+        <a href="./design-manage.html" class="nav-item">
+          <span class="nav-icon">▦</span>
+          <span>Design Manager</span>
+        </a>
+
+        <div class="nav-title">Controls</div>
+
+        <a href="./banner.html" class="nav-item">
+          <span class="nav-icon">▣</span>
+          <span>Advertisement</span>
+        </a>
+
+        <a href="./browser-ui.html" class="nav-item">
+          <span class="nav-icon">◉</span>
+          <span>Browser UI</span>
+        </a>
+
+        <a href="./chatter.html" class="nav-item">
+          <span class="nav-icon">💬</span>
+          <span>Chatter</span>
+        </a>
+
+        <a href="./system.html" class="nav-item">
+          <span class="nav-icon">⚙</span>
+          <span>System Settings</span>
+        </a>
+
+        <div class="nav-title">Monitoring</div>
+
+        <a href="./live-monitor.html" class="nav-item active">
+          <span class="nav-icon">◉</span>
+          <span>Live Monitor</span>
+        </a>
+
+        <a href="./link-check.html" class="nav-item">
+          <span class="nav-icon">✓</span>
+          <span>Link Checker</span>
+        </a>
+
+        <div class="nav-title">Website</div>
+
+        <a href="../index.html" class="nav-item">
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
+
+      </div>
+
+      <div class="sidebar-bottom">
+
+        <div class="admin-mini">
+
+          <div class="admin-avatar" id="adminAvatar">
+            SA
+          </div>
+
+          <div class="admin-info">
+            <strong id="adminName">Super Admin</strong>
+            <span id="adminRole">Super Administrator</span>
+          </div>
+
+          <button
+            type="button"
+            class="logout-btn"
+            id="logoutBtn"
+            title="Logout"
+          >
+            ⇥
+          </button>
 
         </div>
 
-
-        <div class="menu-title">
-            Management
-        </div>
-
-        <nav class="menu">
-
-            <a href="dashboard.html">
-                <span class="menu-icon">📊</span>
-                Dashboard
-            </a>
-
-            <a href="chatter.html">
-                <span class="menu-icon">💬</span>
-                Chatter
-            </a>
-
-            <a
-                href="live-monitor.html"
-                class="active"
-            >
-                <span class="menu-icon">📡</span>
-                Live Monitor
-            </a>
-
-            <a href="system.html">
-                <span class="menu-icon">⚙️</span>
-                System Manager
-            </a>
-
-            <a href="website.html">
-                <span class="menu-icon">🌐</span>
-                Website
-            </a>
-
-            <a href="design-manage.html">
-                <span class="menu-icon">🎨</span>
-                Designs
-            </a>
-
-        </nav>
-
-
-        <div class="menu-title">
-            Account
-        </div>
-
-        <nav class="menu">
-
-            <a href="../login/index.html">
-                <span class="menu-icon">↪️</span>
-                Logout
-            </a>
-
-        </nav>
-
-
-        <div class="role-box">
-
-            <span>
-                CURRENT ROLE
-            </span>
-
-            <strong id="roleName">
-                Super Admin
-            </strong>
-
-        </div>
+      </div>
 
     </aside>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- =====================================
+    <!-- =====================================================
          MAIN
-    ====================================== -->
+    ====================================================== -->
 
     <main class="main">
 
-        <!-- TOPBAR -->
+      <!-- TOPBAR -->
 
-        <header class="topbar">
+      <header class="topbar">
 
-            <div
-                style="
-                    display:flex;
-                    align-items:center;
-                    gap:12px;
-                "
-            >
+        <div class="topbar-left">
 
-                <button
-                    class="menu-toggle"
-                    id="menuToggle"
-                    type="button"
-                >
-                    ☰
-                </button>
+          <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
 
-                <div class="topbar-title">
+          <div class="page-title">
+            <h1>Live Monitor</h1>
+            <p>Super Admin live session monitoring</p>
+          </div>
 
-                    <h2>
-                        Live Monitor
-                    </h2>
+        </div>
 
-                    <p>
-                        Consent-based live session monitoring
-                    </p>
+        <div class="topbar-right">
 
-                </div>
+          <div class="monitor-status">
+            <span class="status-dot"></span>
+            <span>Monitor Ready</span>
+          </div>
 
-            </div>
+          <button
+            type="button"
+            class="refresh-btn"
+            id="refreshBtn"
+            title="Refresh"
+          >
+            ↻
+          </button>
 
+        </div>
 
-            <div class="live-status">
+      </header>
 
-                <span class="live-dot"></span>
+      <!-- CONTENT -->
 
-                Monitor Active
+      <div class="content">
 
-            </div>
+        <!-- SECURITY NOTICE -->
 
-        </header>
+        <section class="security-banner">
 
+          <div class="security-icon">
+            🔒
+          </div>
 
-        <!-- CONTENT -->
+          <div>
+            <strong>Privacy & Live Session Protection</strong>
 
-        <section class="content">
-
-            <!-- SECURITY NOTICE -->
-
-            <div class="security-notice">
-
-                <strong>
-                    🔐 Privacy & Security
-                </strong>
-
-                এই Live Monitor শুধুমাত্র user-এর
-                intentionally started live session দেখাবে।
-                Camera, Microphone বা Screen Share কোনোভাবেই
-                permission bypass করে চালু করা যাবে না।
-
-                <br><br>
-
-                <strong>
-                    🎥 No Recording
-                </strong>
-
-                কোনো live video, voice অথবা screen session
-                record বা historical playback করা হবে না।
-                Session শেষ হলে live media stream বন্ধ হয়ে যাবে।
-
-            </div>
-
-
-            <!-- STATS -->
-
-            <div class="stats">
-
-                <div class="stat-card">
-
-                    <div class="icon">
-                        👥
-                    </div>
-
-                    <span>
-                        Online Users
-                    </span>
-
-                    <strong id="onlineUsers">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="icon">
-                        📡
-                    </div>
-
-                    <span>
-                        Live Sessions
-                    </span>
-
-                    <strong id="liveSessions">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="icon">
-                        🎥
-                    </div>
-
-                    <span>
-                        Video Calls
-                    </span>
-
-                    <strong id="videoCalls">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="icon">
-                        🎙️
-                    </div>
-
-                    <span>
-                        Voice Calls
-                    </span>
-
-                    <strong id="voiceCalls">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="icon">
-                        🖥️
-                    </div>
-
-                    <span>
-                        Screen Share
-                    </span>
-
-                    <strong id="screenShares">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <!-- MONITOR GRID -->
-
-            <div class="monitor-grid">
-
-                <!-- LEFT -->
-
-                <div>
-
-                    <!-- LIVE PREVIEW -->
-
-                    <section class="panel">
-
-                        <div class="panel-header">
-
-                            <div>
-
-                                <h3>
-                                    Live Preview
-                                </h3>
-
-                                <p id="previewSubtitle">
-                                    No active session selected
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="preview">
-
-                            <video
-                                class="remote-video"
-                                id="remoteVideo"
-                                autoplay
-                                playsinline
-                                muted
-                            ></video>
-
-                            <div
-                                class="preview-live-badge"
-                                id="previewLiveBadge"
-                            >
-                                ● LIVE
-                            </div>
-
-                            <div
-                                class="preview-user"
-                                id="previewUser"
-                            >
-                                -
-                            </div>
-
-                            <div
-                                class="preview-empty"
-                                id="previewEmpty"
-                            >
-
-                                <div class="big-icon">
-                                    📡
-                                </div>
-
-                                <h4>
-                                    No Live Session
-                                </h4>
-
-                                <p>
-                                    কোনো user বর্তমানে live
-                                    video বা screen-share session
-                                    চালু করেনি।
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- ACTIVITY -->
-
-                    <section
-                        class="panel"
-                        style="margin-top:20px;"
-                    >
-
-                        <div class="panel-header">
-
-                            <div>
-
-                                <h3>
-                                    Recent Activity
-                                </h3>
-
-                                <p>
-                                    Live session events
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="activity-list"
-                            id="activityList"
-                        >
-
-                            <div class="activity-item">
-
-                                <div class="activity-icon">
-                                    ℹ️
-                                </div>
-
-                                <div class="activity-text">
-
-                                    <strong>
-                                        Monitor started
-                                    </strong>
-
-                                    <span>
-                                        Waiting for live sessions.
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-                </div>
-
-
-                <!-- RIGHT -->
-
-                <div>
-
-                    <!-- ACTIVE SESSIONS -->
-
-                    <section class="panel">
-
-                        <div class="panel-header">
-
-                            <div>
-
-                                <h3>
-                                    Active Sessions
-                                </h3>
-
-                                <p>
-                                    Currently active users
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="session-list"
-                            id="sessionList"
-                        >
-
-                            <div class="session-empty">
-
-                                <div class="icon">
-                                    📡
-                                </div>
-
-                                <h4>
-                                    No active sessions
-                                </h4>
-
-                                <p>
-                                    User intentionally starts a
-                                    live session করলে এখানে দেখা যাবে।
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- FEATURE STATUS -->
-
-                    <section
-                        class="panel"
-                        style="margin-top:20px;"
-                    >
-
-                        <div class="panel-header">
-
-                            <div>
-
-                                <h3>
-                                    Feature Status
-                                </h3>
-
-                                <p>
-                                    Current Chatter controls
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="feature-list"
-                            id="featureList"
-                        ></div>
-
-                    </section>
-
-                </div>
-
-            </div>
+            <p>
+              This monitor is designed for active, consent-based WebRTC
+              sessions only. It does not record video, audio, screen content,
+              or create historical playback. Camera, microphone and screen
+              access still require the user's own browser permission.
+            </p>
+          </div>
 
         </section>
 
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Online Users</span>
+              <span class="stat-icon">👥</span>
+            </div>
+
+            <div class="stat-value" id="onlineUsers">
+              0
+            </div>
+
+            <div class="stat-note">
+              Current online users
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Live Sessions</span>
+              <span class="stat-icon">◉</span>
+            </div>
+
+            <div class="stat-value" id="liveSessions">
+              0
+            </div>
+
+            <div class="stat-note">
+              Active WebRTC sessions
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Video Calls</span>
+              <span class="stat-icon">▣</span>
+            </div>
+
+            <div class="stat-value" id="videoCalls">
+              0
+            </div>
+
+            <div class="stat-note">
+              Current video sessions
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Voice Calls</span>
+              <span class="stat-icon">☎</span>
+            </div>
+
+            <div class="stat-value" id="voiceCalls">
+              0
+            </div>
+
+            <div class="stat-note">
+              Current voice sessions
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Screen Share</span>
+              <span class="stat-icon">▤</span>
+            </div>
+
+            <div class="stat-value" id="screenShares">
+              0
+            </div>
+
+            <div class="stat-note">
+              Active screen shares
+            </div>
+          </div>
+
+        </section>
+
+        <!-- PREVIEW + SESSIONS -->
+
+        <section class="section-grid">
+
+          <!-- LIVE PREVIEW -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Live Preview</h2>
+                <p>Active consent-based session preview</p>
+              </div>
+
+              <span
+                id="previewStatus"
+                class="feature-state disabled"
+              >
+                Waiting
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="preview-stage" id="previewStage">
+
+                <div
+                  class="live-badge"
+                  id="liveBadge"
+                >
+                  <span class="status-dot"></span>
+                  LIVE
+                </div>
+
+                <div
+                  class="preview-placeholder"
+                  id="previewPlaceholder"
+                >
+
+                  <div class="preview-placeholder-icon">
+                    ◉
+                  </div>
+
+                  <h3>Waiting for live session</h3>
+
+                  <p>
+                    When an authorized user starts a consent-based
+                    WebRTC session, its live stream can appear here.
+                    No recording or historical playback is used.
+                  </p>
+
+                </div>
+
+                <video
+                  id="remoteVideo"
+                  autoplay
+                  playsinline
+                  muted
+                  style="
+                    display:none;
+                    width:100%;
+                    height:100%;
+                    object-fit:contain;
+                    background:#000;
+                  "
+                ></video>
+
+                <div
+                  class="preview-info"
+                  id="previewInfo"
+                >
+                  <strong id="previewUser">
+                    Live User
+                  </strong>
+
+                  <span id="previewType">
+                    Video Session
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ACTIVE SESSIONS -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Active Sessions</h2>
+                <p>Current live connections</p>
+              </div>
+
+              <span
+                class="feature-state enabled"
+                id="sessionCountBadge"
+              >
+                0 Active
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div
+                class="session-list"
+                id="sessionList"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- FEATURE STATUS -->
+
+        <section class="panel" style="margin-bottom:20px;">
+
+          <div class="panel-header">
+
+            <div>
+              <h2>Live Feature Status</h2>
+              <p>
+                Availability controlled from Chatter/System settings
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="openChatterBtn"
+            >
+              ⚙ Chatter Settings
+            </button>
+
+          </div>
+
+          <div class="panel-body">
+
+            <div class="feature-list">
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">💬</div>
+
+                  <div>
+                    <strong>Messaging</strong>
+                    <span>Text communication</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureMessaging"
+                >
+                  —
+                </span>
+
+              </div>
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">☎</div>
+
+                  <div>
+                    <strong>Voice Call</strong>
+                    <span>Live audio session</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureVoice"
+                >
+                  —
+                </span>
+
+              </div>
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">▣</div>
+
+                  <div>
+                    <strong>Video Call</strong>
+                    <span>Live video session</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureVideo"
+                >
+                  —
+                </span>
+
+              </div>
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">▤</div>
+
+                  <div>
+                    <strong>Screen Share</strong>
+                    <span>Browser-approved screen sharing</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureScreen"
+                >
+                  —
+                </span>
+
+              </div>
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">📁</div>
+
+                  <div>
+                    <strong>File Sharing</strong>
+                    <span>User-to-user file sharing</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureFile"
+                >
+                  —
+                </span>
+
+              </div>
+
+              <div class="feature-row">
+
+                <div class="feature-name">
+                  <div class="feature-icon">🔔</div>
+
+                  <div>
+                    <strong>Notifications</strong>
+                    <span>Chatter notifications</span>
+                  </div>
+                </div>
+
+                <span
+                  class="feature-state"
+                  id="featureNotification"
+                >
+                  —
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ACTIVITY + ACTIONS -->
+
+        <section class="section-grid">
+
+          <!-- ACTIVITY -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Monitoring Activity</h2>
+                <p>Recent monitor events</p>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="clearActivityBtn"
+              >
+                Clear
+              </button>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div
+                class="activity-list"
+                id="activityList"
+              ></div>
+
+            </div>
+
+          </div>
+
+          <!-- ACTIONS -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Monitor Actions</h2>
+                <p>Safe controls for active sessions</p>
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="action-row">
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="refreshSessionsBtn"
+                >
+                  ↻ Refresh Sessions
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="openChatterBtn2"
+                >
+                  💬 Open Chatter
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="openSystemBtn"
+                >
+                  ⚙ System Settings
+                </button>
+
+              </div>
+
+              <div
+                style="
+                  margin-top:18px;
+                  padding:13px;
+                  border-radius:12px;
+                  background:#f8fafc;
+                  border:1px solid #e2e8f0;
+                  font-size:10px;
+                  color:#64748b;
+                  line-height:1.7;
+                "
+              >
+                <strong
+                  style="
+                    display:block;
+                    color:#334155;
+                    margin-bottom:4px;
+                    font-size:11px;
+                  "
+                >
+                  Important
+                </strong>
+
+                Disconnect and remote media controls require a real
+                backend/WebRTC signaling layer. The current UI does
+                not pretend to perform those actions without that
+                backend.
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
     </main>
 
-</div>
+  </div>
+
+  <div
+    class="toast-container"
+    id="toastContainer"
+  ></div>
 
 
-<script>
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================== -->
+
+  <script src="./auth-guard.js"></script>
+
+
+  <!-- =========================================================
+       LIVE MONITOR JAVASCRIPT
+  ========================================================== -->
+
+  <script>
 
     /* =========================================================
-       STORAGE
+       STORAGE KEYS
     ========================================================= */
 
-    const SESSION_KEY =
-        "chatterAdminSession";
-
-    const SETTINGS_KEY =
-        "chatterSystemSettings";
-
-    const LIVE_SESSION_KEY =
-        "chatterLiveSessions";
+    const SETTINGS_KEY = "chatterSystemSettings";
+    const SESSION_KEY = "chatterAdminSession";
+    const LIVE_SESSIONS_KEY = "chatterLiveSessions";
+    const ACTIVITY_KEY = "chatterAdminActivity";
 
 
     /* =========================================================
@@ -1331,395 +1837,437 @@
     ========================================================= */
 
     const DEFAULT_SETTINGS = {
-
-        chatterEnabled: true,
-
-        messaging: true,
-
-        voiceCall: true,
-
-        videoCall: true,
-
-        voiceMessages: true,
-
-        camera: true,
-
-        microphone: true,
-
-        screenShare: true,
-
-        fileSharing: true,
-
-        imageSharing: true,
-
-        typingIndicator: true,
-
-        notifications: true
-
+      enabled: true,
+      messaging: true,
+      voiceCalls: true,
+      videoCalls: true,
+      camera: true,
+      microphone: true,
+      screenShare: true,
+      fileSharing: true,
+      imageSharing: true,
+      typingIndicator: true,
+      notifications: true
     };
-
-
-    /* =========================================================
-       STATE
-    ========================================================= */
-
-    let settings = {
-        ...DEFAULT_SETTINGS
-    };
-
-    let activeSessions = [];
-
-    let selectedSessionId = null;
 
 
     /* =========================================================
        DOM
     ========================================================= */
 
-    const accessDenied =
-        document.getElementById(
-            "accessDenied"
-        );
+    const sidebar = document.getElementById("sidebar");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const menuBtn = document.getElementById("menuBtn");
 
-    const app =
-        document.getElementById("app");
+    const adminName = document.getElementById("adminName");
+    const adminRole = document.getElementById("adminRole");
+    const adminAvatar = document.getElementById("adminAvatar");
 
-    const roleName =
-        document.getElementById("roleName");
+    const onlineUsers = document.getElementById("onlineUsers");
+    const liveSessions = document.getElementById("liveSessions");
+    const videoCalls = document.getElementById("videoCalls");
+    const voiceCalls = document.getElementById("voiceCalls");
+    const screenShares = document.getElementById("screenShares");
 
-    const sessionList =
-        document.getElementById(
-            "sessionList"
-        );
+    const sessionList = document.getElementById("sessionList");
+    const sessionCountBadge =
+      document.getElementById("sessionCountBadge");
 
-    const featureList =
-        document.getElementById(
-            "featureList"
-        );
+    const previewPlaceholder =
+      document.getElementById("previewPlaceholder");
 
-    const activityList =
-        document.getElementById(
-            "activityList"
-        );
+    const previewStatus =
+      document.getElementById("previewStatus");
 
-    const previewEmpty =
-        document.getElementById(
-            "previewEmpty"
-        );
+    const liveBadge =
+      document.getElementById("liveBadge");
 
-    const remoteVideo =
-        document.getElementById(
-            "remoteVideo"
-        );
-
-    const previewLiveBadge =
-        document.getElementById(
-            "previewLiveBadge"
-        );
+    const previewInfo =
+      document.getElementById("previewInfo");
 
     const previewUser =
-        document.getElementById(
-            "previewUser"
-        );
+      document.getElementById("previewUser");
 
-    const previewSubtitle =
-        document.getElementById(
-            "previewSubtitle"
-        );
+    const previewType =
+      document.getElementById("previewType");
 
-    const onlineUsers =
-        document.getElementById(
-            "onlineUsers"
-        );
+    const remoteVideo =
+      document.getElementById("remoteVideo");
 
-    const liveSessions =
-        document.getElementById(
-            "liveSessions"
-        );
+    const activityList =
+      document.getElementById("activityList");
 
-    const videoCalls =
-        document.getElementById(
-            "videoCalls"
-        );
-
-    const voiceCalls =
-        document.getElementById(
-            "voiceCalls"
-        );
-
-    const screenShares =
-        document.getElementById(
-            "screenShares"
-        );
-
-    const sidebar =
-        document.getElementById("sidebar");
-
-    const sidebarOverlay =
-        document.getElementById(
-            "sidebarOverlay"
-        );
-
-    const menuToggle =
-        document.getElementById(
-            "menuToggle"
-        );
+    const toastContainer =
+      document.getElementById("toastContainer");
 
 
     /* =========================================================
-       AUTH CHECK
+       MOBILE MENU
     ========================================================= */
 
-    function checkAuth() {
+    function openSidebar() {
+      sidebar.classList.add("open");
+      sidebarOverlay.classList.add("show");
+    }
 
-        let session = null;
+    function closeSidebar() {
+      sidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("show");
+    }
 
-        try {
+    if (menuBtn) {
+      menuBtn.addEventListener("click", openSidebar);
+    }
 
-            const localSession =
-                localStorage.getItem(
-                    SESSION_KEY
-                );
+    sidebarOverlay.addEventListener(
+      "click",
+      closeSidebar
+    );
 
-            const sessionStorageData =
-                sessionStorage.getItem(
-                    SESSION_KEY
-                );
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", () => {
+        if (window.innerWidth <= 900) {
+          closeSidebar();
+        }
+      });
+    });
 
-            const raw =
-                localSession ||
-                sessionStorageData;
 
-            if (raw) {
+    /* =========================================================
+       TOAST
+    ========================================================= */
 
-                session =
-                    JSON.parse(raw);
+    function showToast(message, type = "success") {
 
-            }
+      const toast =
+        document.createElement("div");
 
-        } catch (error) {
+      toast.className = `toast ${type}`;
 
-            console.error(
-                "Session error:",
-                error
-            );
+      toast.textContent = message;
 
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+
+    /* =========================================================
+       ADMIN PROFILE
+    ========================================================= */
+
+    function loadAdminProfile() {
+
+      let session = null;
+
+      try {
+        session =
+          JSON.parse(
+            localStorage.getItem(SESSION_KEY)
+          );
+      } catch (error) {
+        session = null;
+      }
+
+      if (!session) {
+        adminName.textContent = "Super Admin";
+        adminRole.textContent =
+          "Super Administrator";
+        adminAvatar.textContent = "SA";
+        return;
+      }
+
+      adminName.textContent =
+        session.name ||
+        session.email ||
+        "Super Admin";
+
+      adminRole.textContent =
+        session.role === "superadmin"
+          ? "Super Administrator"
+          : "Administrator";
+
+      if (session.avatar) {
+
+        adminAvatar.innerHTML = "";
+
+        const image =
+          document.createElement("img");
+
+        image.src = session.avatar;
+        image.alt = "Admin";
+
+        adminAvatar.appendChild(image);
+
+      } else {
+
+        const name =
+          session.name ||
+          session.email ||
+          "SA";
+
+        const initials =
+          name
+            .split(/\s+/)
+            .map(part => part[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+
+        adminAvatar.textContent =
+          initials || "SA";
+      }
+    }
+
+
+    /* =========================================================
+       SAFE JSON
+    ========================================================= */
+
+    function readJSON(key, fallback) {
+
+      try {
+
+        const value =
+          localStorage.getItem(key);
+
+        if (!value) {
+          return fallback;
         }
 
+        return JSON.parse(value);
+
+      } catch (error) {
+
+        return fallback;
+      }
+    }
+
+
+    /* =========================================================
+       SYSTEM SETTINGS
+    ========================================================= */
+
+    function getSettings() {
+
+      const stored =
+        readJSON(
+          SETTINGS_KEY,
+          {}
+        );
+
+      return {
+        ...DEFAULT_SETTINGS,
+        ...stored
+      };
+    }
+
+
+    /* =========================================================
+       LIVE SESSIONS
+    ========================================================= */
+
+    function getLiveSessions() {
+
+      const sessions =
+        readJSON(
+          LIVE_SESSIONS_KEY,
+          []
+        );
+
+      if (!Array.isArray(sessions)) {
+        return [];
+      }
+
+      return sessions.filter(session => {
+
+        if (!session) {
+          return false;
+        }
 
         if (
-            !session ||
-            session.role !== "superadmin"
+          session.active === false ||
+          session.status === "ended"
         ) {
-
-            app.style.display = "none";
-
-            accessDenied.style.display =
-                "flex";
-
-            return false;
+          return false;
         }
-
-
-        roleName.textContent =
-            session.name ||
-            "Super Admin";
 
         return true;
 
+      });
     }
 
 
     /* =========================================================
-       LOAD SETTINGS
+       SESSION TYPE
     ========================================================= */
 
-    function loadSettings() {
+    function normalizeSessionType(session) {
 
-        try {
+      const type =
+        String(
+          session.type ||
+          session.mode ||
+          session.feature ||
+          ""
+        ).toLowerCase();
 
-            const raw =
-                localStorage.getItem(
-                    SETTINGS_KEY
-                );
+      if (
+        type.includes("screen")
+      ) {
+        return "Screen Share";
+      }
 
-            if (!raw) {
+      if (
+        type.includes("video")
+      ) {
+        return "Video Call";
+      }
 
-                settings = {
-                    ...DEFAULT_SETTINGS
-                };
+      if (
+        type.includes("voice") ||
+        type.includes("audio")
+      ) {
+        return "Voice Call";
+      }
 
-                return;
-            }
-
-            settings = {
-                ...DEFAULT_SETTINGS,
-                ...JSON.parse(raw)
-            };
-
-        } catch (error) {
-
-            settings = {
-                ...DEFAULT_SETTINGS
-            };
-
-        }
-
+      return "Live Session";
     }
 
 
     /* =========================================================
-       LOAD LIVE SESSIONS
+       INITIALS
     ========================================================= */
 
-    function loadLiveSessions() {
+    function getInitials(value) {
 
-        try {
+      if (!value) {
+        return "U";
+      }
 
-            const raw =
-                localStorage.getItem(
-                    LIVE_SESSION_KEY
-                );
-
-            if (!raw) {
-
-                activeSessions = [];
-
-                return;
-            }
-
-            const parsed =
-                JSON.parse(raw);
-
-            if (Array.isArray(parsed)) {
-
-                activeSessions = parsed;
-
-            } else {
-
-                activeSessions = [];
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Live session error:",
-                error
-            );
-
-            activeSessions = [];
-
-        }
-
+      return String(value)
+        .trim()
+        .split(/\s+/)
+        .map(part => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
     }
 
 
     /* =========================================================
-       CLEAN EXPIRED DEMO METADATA
+       SESSION TIME
     ========================================================= */
 
-    function cleanSessions() {
+    function getSessionTime(session) {
 
-        const now =
-            Date.now();
+      const started =
+        session.startedAt ||
+        session.startTime ||
+        session.createdAt;
 
-        activeSessions =
-            activeSessions.filter(
-                session => {
+      if (!started) {
+        return "Active now";
+      }
 
-                    if (!session) {
-                        return false;
-                    }
+      const timestamp =
+        new Date(started).getTime();
 
-                    if (!session.startedAt) {
-                        return true;
-                    }
+      if (Number.isNaN(timestamp)) {
+        return "Active now";
+      }
 
-                    return (
-                        now -
-                        Number(session.startedAt)
-                    ) < 1000 * 60 * 60;
-
-                }
-            );
-
-    }
-
-
-    /* =========================================================
-       UPDATE STATS
-    ========================================================= */
-
-    function updateStats() {
-
-        const sessions =
-            activeSessions;
-
-        onlineUsers.textContent =
-            getUniqueOnlineUsers(
-                sessions
-            );
-
-        liveSessions.textContent =
-            sessions.length;
-
-        videoCalls.textContent =
-            sessions.filter(
-                item =>
-                    item.type === "video"
-            ).length;
-
-        voiceCalls.textContent =
-            sessions.filter(
-                item =>
-                    item.type === "voice"
-            ).length;
-
-        screenShares.textContent =
-            sessions.filter(
-                item =>
-                    item.type === "screen"
-            ).length;
-
-    }
-
-
-    /* =========================================================
-       ONLINE USERS
-    ========================================================= */
-
-    function getUniqueOnlineUsers(
-        sessions
-    ) {
-
-        const users =
-            new Set();
-
-        sessions.forEach(
-            session => {
-
-                if (session.userId) {
-
-                    users.add(
-                        session.userId
-                    );
-
-                } else if (
-                    session.userEmail
-                ) {
-
-                    users.add(
-                        session.userEmail
-                    );
-
-                }
-
-            }
+      const diff =
+        Math.max(
+          0,
+          Date.now() - timestamp
         );
 
-        return users.size;
+      const seconds =
+        Math.floor(diff / 1000);
 
+      if (seconds < 60) {
+        return `${seconds}s active`;
+      }
+
+      const minutes =
+        Math.floor(seconds / 60);
+
+      if (minutes < 60) {
+        return `${minutes}m active`;
+      }
+
+      const hours =
+        Math.floor(minutes / 60);
+
+      return `${hours}h active`;
+    }
+
+
+    /* =========================================================
+       RENDER STATS
+    ========================================================= */
+
+    function renderStats(sessions) {
+
+      const uniqueUsers =
+        new Set();
+
+      let videos = 0;
+      let voices = 0;
+      let screens = 0;
+
+      sessions.forEach(session => {
+
+        const user =
+          session.userId ||
+          session.uid ||
+          session.user ||
+          session.email ||
+          session.name ||
+          session.sessionId;
+
+        if (user) {
+          uniqueUsers.add(String(user));
+        }
+
+        const type =
+          normalizeSessionType(
+            session
+          );
+
+        if (type === "Video Call") {
+          videos++;
+        }
+
+        if (type === "Voice Call") {
+          voices++;
+        }
+
+        if (type === "Screen Share") {
+          screens++;
+        }
+      });
+
+      onlineUsers.textContent =
+        uniqueUsers.size;
+
+      liveSessions.textContent =
+        sessions.length;
+
+      videoCalls.textContent =
+        videos;
+
+      voiceCalls.textContent =
+        voices;
+
+      screenShares.textContent =
+        screens;
+
+      sessionCountBadge.textContent =
+        `${sessions.length} Active`;
     }
 
 
@@ -1727,473 +2275,121 @@
        RENDER SESSIONS
     ========================================================= */
 
-    function renderSessions() {
-
-        if (!activeSessions.length) {
-
-            sessionList.innerHTML = `
-                <div class="session-empty">
-
-                    <div class="icon">
-                        📡
-                    </div>
-
-                    <h4>
-                        No active sessions
-                    </h4>
-
-                    <p>
-                        User intentionally starts a
-                        live session করলে এখানে দেখা যাবে।
-                    </p>
-
-                </div>
-            `;
-
-            return;
-        }
+    function renderSessions(sessions) {
 
+      sessionList.innerHTML = "";
 
-        sessionList.innerHTML =
-            activeSessions
-                .map(
-                    session => {
+      if (!sessions.length) {
 
-                        const name =
-                            session.userName ||
-                            session.userEmail ||
-                            "Unknown User";
+        sessionList.innerHTML = `
+          <div class="empty-state">
 
-                        const initial =
-                            name
-                                .charAt(0)
-                                .toUpperCase();
-
-                        const type =
-                            session.type ||
-                            "video";
-
-                        const typeLabel =
-                            type === "video"
-                                ? "VIDEO"
-                                : type === "voice"
-                                    ? "VOICE"
-                                    : "SCREEN";
+            <div class="empty-icon">
+              ◉
+            </div>
 
+            <strong>No active live sessions</strong>
 
-                        return `
-                            <div
-                                class="session-item ${
-                                    selectedSessionId ===
-                                    session.id
-                                        ? "active"
-                                        : ""
-                                }"
-                                data-session-id="${escapeHtml(
-                                    String(
-                                        session.id || ""
-                                    )
-                                )}"
-                            >
+            <p>
+              Live users will appear here when an
+              authorized WebRTC session becomes active.
+            </p>
 
-                                <div class="session-avatar">
-                                    ${escapeHtml(initial)}
-                                </div>
+          </div>
+        `;
 
-                                <div class="session-info">
+        return;
+      }
 
-                                    <strong>
-                                        ${escapeHtml(name)}
-                                    </strong>
-
-                                    <span>
-                                        ${formatStartedTime(
-                                            session.startedAt
-                                        )}
-                                    </span>
-
-                                </div>
-
-                                <span
-                                    class="session-type ${type}"
-                                >
-                                    ${typeLabel}
-                                </span>
-
-                            </div>
-                        `;
-
-                    }
-                )
-                .join("");
-
-
-        document
-            .querySelectorAll(
-                ".session-item"
-            )
-            .forEach(
-                item => {
+      sessions.forEach(session => {
 
-                    item.addEventListener(
-                        "click",
-                        () => {
+        const userName =
+          session.name ||
+          session.userName ||
+          session.email ||
+          "Anonymous User";
 
-                            selectSession(
-                                item.dataset.sessionId
-                            );
+        const type =
+          normalizeSessionType(session);
 
-                        }
-                    );
-
-                }
-            );
-
-    }
+        const item =
+          document.createElement("div");
 
+        item.className =
+          "session-item";
 
-    /* =========================================================
-       SELECT SESSION
-    ========================================================= */
+        item.innerHTML = `
+          <div class="session-avatar">
+            ${escapeHTML(
+              getInitials(userName)
+            )}
+          </div>
 
-    function selectSession(
-        sessionId
-    ) {
+          <div class="session-main">
 
-        const session =
-            activeSessions.find(
-                item =>
-                    String(item.id) ===
-                    String(sessionId)
-            );
+            <strong>
+              ${escapeHTML(userName)}
+            </strong>
 
-        if (!session) {
-            return;
-        }
+            <span>
+              ${escapeHTML(
+                getSessionTime(session)
+              )}
+            </span>
 
-        selectedSessionId =
-            sessionId;
+          </div>
 
-        renderSessions();
+          <span class="session-type">
+            ${escapeHTML(type)}
+          </span>
 
-        previewEmpty.style.display =
-            "none";
+          <div class="session-actions">
 
-        previewLiveBadge.style.display =
-            "block";
+            <button
+              type="button"
+              class="icon-btn view-session-btn"
+              title="View"
+            >
+              👁
+            </button>
 
-        previewUser.style.display =
-            "block";
+            <button
+              type="button"
+              class="icon-btn disconnect-session-btn"
+              title="Disconnect"
+            >
+              ×
+            </button>
 
-        previewUser.textContent =
-            session.userName ||
-            session.userEmail ||
-            "Live User";
+          </div>
+        `;
 
-        previewSubtitle.textContent =
-            `${getTypeLabel(session.type)} • ${
-                session.userName ||
-                session.userEmail ||
-                "User"
-            }`;
+        const viewBtn =
+          item.querySelector(
+            ".view-session-btn"
+          );
 
+        const disconnectBtn =
+          item.querySelector(
+            ".disconnect-session-btn"
+          );
 
-        /*
-         * Future WebRTC integration:
-         *
-         * session.remoteStream can be connected
-         * to remoteVideo.srcObject.
-         *
-         * Example:
-         *
-         * remoteVideo.srcObject =
-         *     session.remoteStream;
-         *
-         * This prototype does not create
-         * remote streams or store media.
-         */
-
-        if (
-            session.remoteStream
-        ) {
-
-            remoteVideo.srcObject =
-                session.remoteStream;
-
-            remoteVideo.style.display =
-                "block";
-
-        } else {
-
-            remoteVideo.style.display =
-                "none";
-
-            previewEmpty.style.display =
-                "flex";
-
-            previewEmpty.innerHTML = `
-                <div class="big-icon">
-                    📡
-                </div>
-
-                <h4>
-                    Live Session Connected
-                </h4>
-
-                <p>
-                    WebRTC remote stream এখনো যুক্ত হয়নি।
-                    Backend signaling যুক্ত করলে এখানে
-                    live video/screen দেখা যাবে।
-                </p>
-            `;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       TYPE LABEL
-    ========================================================= */
-
-    function getTypeLabel(
-        type
-    ) {
-
-        if (type === "voice") {
-            return "Voice Call";
-        }
-
-        if (type === "screen") {
-            return "Screen Share";
-        }
-
-        return "Video Call";
-
-    }
-
-
-    /* =========================================================
-       FEATURE STATUS
-    ========================================================= */
-
-    function renderFeatureStatus() {
-
-        const features = [
-
-            [
-                "Chatter System",
-                settings.chatterEnabled
-            ],
-
-            [
-                "Messaging",
-                settings.messaging
-            ],
-
-            [
-                "Voice Call",
-                settings.voiceCall
-            ],
-
-            [
-                "Video Call",
-                settings.videoCall
-            ],
-
-            [
-                "Camera",
-                settings.camera
-            ],
-
-            [
-                "Microphone",
-                settings.microphone
-            ],
-
-            [
-                "Screen Share",
-                settings.screenShare
-            ],
-
-            [
-                "File Sharing",
-                settings.fileSharing
-            ],
-
-            [
-                "Image Sharing",
-                settings.imageSharing
-            ],
-
-            [
-                "Typing Indicator",
-                settings.typingIndicator
-            ],
-
-            [
-                "Notifications",
-                settings.notifications
-            ]
-
-        ];
-
-
-        featureList.innerHTML =
-            features
-                .map(
-                    ([name, enabled]) => `
-
-                        <div class="feature-row">
-
-                            <span>
-                                ${escapeHtml(name)}
-                            </span>
-
-                            <span
-                                class="badge ${
-                                    enabled
-                                        ? "on"
-                                        : "off"
-                                }"
-                            >
-                                ${
-                                    enabled
-                                        ? "ON"
-                                        : "OFF"
-                                }
-                            </span>
-
-                        </div>
-
-                    `
-                )
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       ACTIVITY
-    ========================================================= */
-
-    function renderActivity() {
-
-        if (!activeSessions.length) {
-
-            activityList.innerHTML = `
-                <div class="activity-item">
-
-                    <div class="activity-icon">
-                        ℹ️
-                    </div>
-
-                    <div class="activity-text">
-
-                        <strong>
-                            No live activity
-                        </strong>
-
-                        <span>
-                            Waiting for a user to start
-                            a consent-based live session.
-                        </span>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        activityList.innerHTML =
-            activeSessions
-                .slice(0, 8)
-                .map(
-                    session => {
-
-                        const name =
-                            session.userName ||
-                            session.userEmail ||
-                            "Unknown User";
-
-                        return `
-                            <div class="activity-item">
-
-                                <div class="activity-icon">
-                                    📡
-                                </div>
-
-                                <div class="activity-text">
-
-                                    <strong>
-                                        ${escapeHtml(name)}
-                                        started
-                                        ${escapeHtml(
-                                            getTypeLabel(
-                                                session.type
-                                            )
-                                        )}
-                                    </strong>
-
-                                    <span>
-                                        ${formatStartedTime(
-                                            session.startedAt
-                                        )}
-                                    </span>
-
-                                </div>
-
-                            </div>
-                        `;
-
-                    }
-                )
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       FORMAT TIME
-    ========================================================= */
-
-    function formatStartedTime(
-        timestamp
-    ) {
-
-        if (!timestamp) {
-            return "Active now";
-        }
-
-        const date =
-            new Date(
-                Number(timestamp)
-            );
-
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-
-            return "Active now";
-
-        }
-
-        return (
-            "Started " +
-            date.toLocaleTimeString(
-                [],
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            )
+        viewBtn.addEventListener(
+          "click",
+          () => {
+            selectSession(session);
+          }
         );
 
+        disconnectBtn.addEventListener(
+          "click",
+          () => {
+            requestDisconnect(session);
+          }
+        );
+
+        sessionList.appendChild(item);
+      });
     }
 
 
@@ -2201,32 +2397,401 @@
        ESCAPE HTML
     ========================================================= */
 
-    function escapeHtml(
-        value
+    function escapeHTML(value) {
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+    /* =========================================================
+       SELECT SESSION
+    ========================================================= */
+
+    function selectSession(session) {
+
+      const userName =
+        session.name ||
+        session.userName ||
+        session.email ||
+        "Live User";
+
+      const type =
+        normalizeSessionType(session);
+
+      previewUser.textContent =
+        userName;
+
+      previewType.textContent =
+        type;
+
+      previewStatus.textContent =
+        "Live Session";
+
+      previewStatus.className =
+        "feature-state enabled";
+
+      liveBadge.style.display =
+        "flex";
+
+      previewInfo.style.display =
+        "block";
+
+      /*
+        Important:
+        We do NOT call getUserMedia() or getDisplayMedia()
+        here. The Super Admin page cannot secretly request
+        another user's camera, microphone or screen.
+
+        A real WebRTC backend will later attach the remote
+        MediaStream to #remoteVideo after authorization.
+      */
+
+      if (
+        session.mediaStream instanceof MediaStream
+      ) {
+
+        remoteVideo.srcObject =
+          session.mediaStream;
+
+        remoteVideo.style.display =
+          "block";
+
+        previewPlaceholder.style.display =
+          "none";
+
+      } else {
+
+        remoteVideo.style.display =
+          "none";
+
+        previewPlaceholder.style.display =
+          "block";
+
+        previewPlaceholder.innerHTML = `
+          <div class="preview-placeholder-icon">
+            ◉
+          </div>
+
+          <h3>
+            ${escapeHTML(type)}
+            selected
+          </h3>
+
+          <p>
+            Session selected successfully.
+            The actual remote WebRTC stream will appear
+            here only after the signaling/backend layer
+            provides an authorized MediaStream.
+          </p>
+        `;
+      }
+
+      addActivity(
+        `Selected ${userName}'s ${type.toLowerCase()} session`,
+        "success"
+      );
+    }
+
+
+    /* =========================================================
+       DISCONNECT REQUEST
+    ========================================================= */
+
+    function requestDisconnect(session) {
+
+      const userName =
+        session.name ||
+        session.userName ||
+        session.email ||
+        "this user";
+
+      /*
+        No fake disconnect:
+        Without backend signaling, this button cannot
+        terminate another user's WebRTC session.
+      */
+
+      showToast(
+        `Disconnect request for ${userName} requires the backend signaling layer.`,
+        "error"
+      );
+
+      addActivity(
+        `Disconnect request prepared for ${userName}`,
+        "warning"
+      );
+    }
+
+
+    /* =========================================================
+       PREVIEW RESET
+    ========================================================= */
+
+    function resetPreview() {
+
+      remoteVideo.pause();
+
+      remoteVideo.srcObject =
+        null;
+
+      remoteVideo.style.display =
+        "none";
+
+      previewPlaceholder.style.display =
+        "block";
+
+      previewPlaceholder.innerHTML = `
+        <div class="preview-placeholder-icon">
+          ◉
+        </div>
+
+        <h3>Waiting for live session</h3>
+
+        <p>
+          When an authorized user starts a consent-based
+          WebRTC session, its live stream can appear here.
+          No recording or historical playback is used.
+        </p>
+      `;
+
+      previewStatus.textContent =
+        "Waiting";
+
+      previewStatus.className =
+        "feature-state disabled";
+
+      liveBadge.style.display =
+        "none";
+
+      previewInfo.style.display =
+        "none";
+    }
+
+
+    /* =========================================================
+       FEATURE STATUS
+    ========================================================= */
+
+    function setFeatureState(
+      elementId,
+      enabled
     ) {
 
-        return String(value)
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
+      const element =
+        document.getElementById(
+          elementId
+        );
 
+      if (!element) {
+        return;
+      }
+
+      element.textContent =
+        enabled
+          ? "Enabled"
+          : "Disabled";
+
+      element.className =
+        `feature-state ${
+          enabled
+            ? "enabled"
+            : "disabled"
+        }`;
+    }
+
+
+    function renderFeatureStatus() {
+
+      const settings =
+        getSettings();
+
+      const systemEnabled =
+        settings.enabled !== false;
+
+      setFeatureState(
+        "featureMessaging",
+        systemEnabled &&
+        settings.messaging !== false
+      );
+
+      setFeatureState(
+        "featureVoice",
+        systemEnabled &&
+        settings.voiceCalls !== false
+      );
+
+      setFeatureState(
+        "featureVideo",
+        systemEnabled &&
+        settings.videoCalls !== false &&
+        settings.camera !== false
+      );
+
+      setFeatureState(
+        "featureScreen",
+        systemEnabled &&
+        settings.screenShare !== false
+      );
+
+      setFeatureState(
+        "featureFile",
+        systemEnabled &&
+        settings.fileSharing !== false
+      );
+
+      setFeatureState(
+        "featureNotification",
+        systemEnabled &&
+        settings.notifications !== false
+      );
+    }
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function getActivity() {
+
+      const activity =
+        readJSON(
+          ACTIVITY_KEY,
+          []
+        );
+
+      return Array.isArray(activity)
+        ? activity
+        : [];
+    }
+
+
+    function saveActivity(activity) {
+
+      localStorage.setItem(
+        ACTIVITY_KEY,
+        JSON.stringify(activity.slice(-50))
+      );
+    }
+
+
+    function addActivity(
+      message,
+      type = "success"
+    ) {
+
+      const activity =
+        getActivity();
+
+      activity.push({
+        message,
+        type,
+        time: new Date().toISOString()
+      });
+
+      saveActivity(activity);
+
+      renderActivity();
+    }
+
+
+    function formatActivityTime(
+      timestamp
+    ) {
+
+      const date =
+        new Date(timestamp);
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return "Recently";
+      }
+
+      return date.toLocaleString(
+        undefined,
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
+    }
+
+
+    function renderActivity() {
+
+      const activity =
+        getActivity()
+          .slice(-8)
+          .reverse();
+
+      activityList.innerHTML = "";
+
+      if (!activity.length) {
+
+        activityList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              ✓
+            </div>
+
+            <strong>No activity yet</strong>
+
+            <p>
+              Monitoring events will appear here.
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+      activity.forEach(item => {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "activity-item";
+
+        const type =
+          item.type === "danger"
+            ? "danger"
+            : item.type === "warning"
+              ? "warning"
+              : "success";
+
+        row.innerHTML = `
+          <div class="activity-dot ${type}"></div>
+
+          <div class="activity-text">
+
+            <strong>
+              ${escapeHTML(
+                item.message ||
+                "Monitor event"
+              )}
+            </strong>
+
+            <span>
+              ${escapeHTML(
+                formatActivityTime(
+                  item.time
+                )
+              )}
+            </span>
+
+          </div>
+        `;
+
+        activityList.appendChild(row);
+      });
     }
 
 
@@ -2234,163 +2799,222 @@
        REFRESH
     ========================================================= */
 
-    function refreshMonitor() {
+    function refreshMonitor(
+      showMessage = false
+    ) {
 
-        loadSettings();
+      const sessions =
+        getLiveSessions();
 
-        loadLiveSessions();
+      renderStats(sessions);
+      renderSessions(sessions);
+      renderFeatureStatus();
+      renderActivity();
 
-        cleanSessions();
+      if (!sessions.length) {
+        resetPreview();
+      }
 
-        updateStats();
+      if (showMessage) {
 
-        renderSessions();
+        addActivity(
+          "Live monitor refreshed",
+          "success"
+        );
 
-        renderFeatureStatus();
-
-        renderActivity();
-
+        showToast(
+          "Live monitor refreshed."
+        );
+      }
     }
 
 
     /* =========================================================
-       STORAGE EVENTS
-    ========================================================= */
-
-    window.addEventListener(
-        "storage",
-        function(event) {
-
-            if (
-                event.key ===
-                SETTINGS_KEY
-            ) {
-
-                loadSettings();
-
-                renderFeatureStatus();
-
-            }
-
-            if (
-                event.key ===
-                LIVE_SESSION_KEY
-            ) {
-
-                loadLiveSessions();
-
-                cleanSessions();
-
-                updateStats();
-
-                renderSessions();
-
-                renderActivity();
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       AUTO REFRESH
-    ========================================================= */
-
-    setInterval(
-        function() {
-
-            loadLiveSessions();
-
-            cleanSessions();
-
-            updateStats();
-
-            renderSessions();
-
-            renderActivity();
-
-        },
-        3000
-    );
-
-
-    /* =========================================================
-       MOBILE SIDEBAR
-    ========================================================= */
-
-    menuToggle.addEventListener(
-        "click",
-        function() {
-
-            sidebar.classList.add(
-                "open"
-            );
-
-            sidebarOverlay.classList.add(
-                "show"
-            );
-
-        }
-    );
-
-
-    sidebarOverlay.addEventListener(
-        "click",
-        function() {
-
-            sidebar.classList.remove(
-                "open"
-            );
-
-            sidebarOverlay.classList.remove(
-                "show"
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       ACCESS BACK
+       BUTTONS
     ========================================================= */
 
     document
-        .getElementById(
-            "accessBackBtn"
-        )
-        .addEventListener(
-            "click",
-            function() {
+      .getElementById("refreshBtn")
+      .addEventListener(
+        "click",
+        () => {
+          refreshMonitor(true);
+        }
+      );
 
-                window.location.href =
-                    "dashboard.html";
 
-            }
-        );
+    document
+      .getElementById("refreshSessionsBtn")
+      .addEventListener(
+        "click",
+        () => {
+          refreshMonitor(true);
+        }
+      );
+
+
+    document
+      .getElementById("openChatterBtn")
+      .addEventListener(
+        "click",
+        () => {
+          window.location.href =
+            "./chatter.html";
+        }
+      );
+
+
+    document
+      .getElementById("openChatterBtn2")
+      .addEventListener(
+        "click",
+        () => {
+          window.location.href =
+            "../chatter/index.html";
+        }
+      );
+
+
+    document
+      .getElementById("openSystemBtn")
+      .addEventListener(
+        "click",
+        () => {
+          window.location.href =
+            "./system.html";
+        }
+      );
+
+
+    document
+      .getElementById("clearActivityBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          localStorage.removeItem(
+            ACTIVITY_KEY
+          );
+
+          renderActivity();
+
+          showToast(
+            "Monitoring activity cleared."
+          );
+        }
+      );
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          if (
+            window.AdminAuth &&
+            typeof window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+          }
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+          window.location.href =
+            "../login/index.html";
+        }
+      );
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key === LIVE_SESSIONS_KEY ||
+          event.key === SETTINGS_KEY
+        ) {
+
+          refreshMonitor(false);
+        }
+
+        if (
+          event.key === ACTIVITY_KEY
+        ) {
+
+          renderActivity();
+        }
+
+        if (
+          event.key === SESSION_KEY
+        ) {
+
+          loadAdminProfile();
+        }
+      }
+    );
+
+
+    /* =========================================================
+       PERIODIC REFRESH
+    ========================================================= */
+
+    setInterval(
+      () => {
+
+        const sessions =
+          getLiveSessions();
+
+        renderStats(sessions);
+        renderSessions(sessions);
+        renderFeatureStatus();
+
+      },
+      5000
+    );
+
+
+    /* =========================================================
+       PAGE VISIBILITY
+    ========================================================= */
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+
+        if (
+          document.visibilityState ===
+          "visible"
+        ) {
+
+          refreshMonitor(false);
+        }
+      }
+    );
 
 
     /* =========================================================
        INITIALIZE
     ========================================================= */
 
-    function init() {
+    loadAdminProfile();
+    refreshMonitor(false);
 
-        const authenticated =
-            checkAuth();
-
-        if (!authenticated) {
-            return;
-        }
-
-        refreshMonitor();
-
-    }
-
-
-    init();
-
-</script>
+  </script>
 
 </body>
 </html>
