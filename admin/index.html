@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Website Management | Design System</title>
+  <title>Admin Control Center | Design System</title>
 
   <style>
     * {
@@ -14,10 +14,6 @@
     }
 
     :root {
-      --sidebar: #0f172a;
-      --sidebar-text: #cbd5e1;
-      --sidebar-muted: #94a3b8;
-
       --bg: #f4f7fb;
       --card: #ffffff;
       --border: #e5e7eb;
@@ -29,15 +25,15 @@
       --primary-dark: #1d4ed8;
 
       --success: #16a34a;
-      --warning: #d97706;
       --danger: #dc2626;
 
-      --sidebar-width: 260px;
+      --dark: #0f172a;
+      --dark-2: #111827;
 
       --shadow:
-        0 12px 35px rgba(15, 23, 42, 0.08);
+        0 20px 50px rgba(15, 23, 42, 0.09);
 
-      --radius: 18px;
+      --radius: 22px;
     }
 
     html {
@@ -47,7 +43,18 @@
     body {
       min-height: 100vh;
 
-      background: var(--bg);
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(37, 99, 235, 0.08),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(124, 58, 237, 0.07),
+          transparent 30%
+        ),
+        var(--bg);
 
       color: var(--text);
 
@@ -58,8 +65,6 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-
-      overflow-x: hidden;
     }
 
     a {
@@ -67,46 +72,35 @@
       text-decoration: none;
     }
 
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
     button {
+      font: inherit;
       cursor: pointer;
     }
 
     /* =========================================================
-       SIDEBAR
+       TOPBAR
     ========================================================= */
 
-    .sidebar {
-      position: fixed;
-
-      top: 0;
-      left: 0;
-      bottom: 0;
-
-      width: var(--sidebar-width);
-
-      z-index: 1000;
+    .topbar {
+      height: 72px;
 
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
 
-      color: white;
+      padding: 0 30px;
 
       background:
-        linear-gradient(
-          180deg,
-          #0f172a 0%,
-          #111827 55%,
-          #0b1220 100%
-        );
+        rgba(255, 255, 255, 0.9);
 
-      border-right:
-        1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(15px);
+
+      border-bottom:
+        1px solid var(--border);
+
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .brand {
@@ -114,11 +108,6 @@
       align-items: center;
 
       gap: 12px;
-
-      padding: 24px 20px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.08);
     }
 
     .brand-icon {
@@ -128,9 +117,9 @@
       display: grid;
       place-items: center;
 
-      flex-shrink: 0;
-
       border-radius: 13px;
+
+      color: white;
 
       background:
         linear-gradient(
@@ -139,316 +128,39 @@
           #7c3aed
         );
 
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 900;
 
       box-shadow:
         0 10px 25px
-        rgba(37,99,235,0.35);
+        rgba(37, 99, 235, 0.25);
     }
 
-    .brand-text h1 {
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .brand-text p {
-      margin-top: 3px;
-
-      color: var(--sidebar-muted);
-
-      font-size: 10px;
-    }
-
-    .nav {
-      flex: 1;
-
-      overflow-y: auto;
-
-      padding: 18px 12px;
-    }
-
-    .nav-title {
-      padding: 8px 12px;
-
-      margin-bottom: 6px;
-
-      color: #64748b;
-
-      font-size: 10px;
-      font-weight: 800;
-
-      text-transform: uppercase;
-
-      letter-spacing: 1px;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-
-      padding: 11px 13px;
-
-      margin-bottom: 4px;
-
-      border-radius: 12px;
-
-      color: var(--sidebar-text);
-
-      font-size: 13px;
-      font-weight: 600;
-
-      transition: 0.2s ease;
-    }
-
-    .nav-link:hover {
-      background:
-        rgba(255,255,255,0.07);
-
-      color: white;
-
-      transform:
-        translateX(2px);
-    }
-
-    .nav-link.active {
-      color: white;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(37,99,235,0.95),
-          rgba(79,70,229,0.95)
-        );
-
-      box-shadow:
-        0 8px 20px
-        rgba(37,99,235,0.25);
-    }
-
-    .nav-icon {
-      width: 22px;
-
-      text-align: center;
-
-      font-size: 15px;
-    }
-
-    .sidebar-footer {
-      padding: 14px;
-
-      border-top:
-        1px solid rgba(255,255,255,0.08);
-    }
-
-    .admin-mini {
-      display: flex;
-      align-items: center;
-
-      gap: 10px;
-
-      padding: 10px;
-
-      border-radius: 13px;
-
-      background:
-        rgba(255,255,255,0.05);
-    }
-
-    .admin-avatar {
-      width: 36px;
-      height: 36px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      overflow: hidden;
-
-      border-radius: 50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #9333ea
-        );
-
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .admin-avatar img {
-      width: 100%;
-      height: 100%;
-
-      object-fit: cover;
-    }
-
-    .admin-info {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .admin-info strong {
+    .brand-text strong {
       display: block;
 
-      color: white;
-
-      font-size: 12px;
-
-      white-space: nowrap;
-
-      overflow: hidden;
-
-      text-overflow: ellipsis;
+      font-size: 14px;
+      font-weight: 850;
     }
 
-    .admin-info span {
+    .brand-text span {
       display: block;
 
       margin-top: 2px;
 
-      color: #94a3b8;
-
-      font-size: 10px;
-
-      text-transform: capitalize;
-    }
-
-    .logout-btn {
-      width: 100%;
-
-      margin-top: 9px;
-
-      padding: 9px;
-
-      border: 0;
-
-      border-radius: 10px;
-
-      background:
-        rgba(220,38,38,0.12);
-
-      color: #fca5a5;
-
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .logout-btn:hover {
-      background:
-        rgba(220,38,38,0.2);
-
-      color: white;
-    }
-
-    /* =========================================================
-       OVERLAY
-    ========================================================= */
-
-    .sidebar-overlay {
-      display: none;
-
-      position: fixed;
-      inset: 0;
-
-      z-index: 900;
-
-      background:
-        rgba(15,23,42,0.55);
-
-      backdrop-filter: blur(2px);
-    }
-
-    /* =========================================================
-       MAIN
-    ========================================================= */
-
-    .main {
-      min-height: 100vh;
-
-      margin-left: var(--sidebar-width);
-    }
-
-    /* =========================================================
-       TOPBAR
-    ========================================================= */
-
-    .topbar {
-      position: sticky;
-
-      top: 0;
-
-      z-index: 500;
-
-      height: 72px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 28px;
-
-      background:
-        rgba(255,255,255,0.92);
-
-      backdrop-filter: blur(14px);
-
-      border-bottom:
-        1px solid var(--border);
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-
-      gap: 14px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-
-      width: 40px;
-      height: 40px;
-
-      place-items: center;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 11px;
-
-      background: white;
-
-      font-size: 19px;
-    }
-
-    .page-title h2 {
-      font-size: 19px;
-
-      letter-spacing: -0.4px;
-    }
-
-    .page-title p {
-      margin-top: 3px;
-
       color: var(--muted);
 
-      font-size: 11px;
+      font-size: 9px;
     }
 
-    .topbar-right {
+    .top-actions {
       display: flex;
       align-items: center;
 
       gap: 8px;
     }
 
-    .top-btn {
+    .top-link {
       padding: 9px 13px;
 
       border:
@@ -458,28 +170,32 @@
 
       background: white;
 
-      color: var(--text);
+      font-size: 10px;
+      font-weight: 750;
 
-      font-size: 11px;
-      font-weight: 700;
+      transition: 0.2s ease;
     }
 
-    .top-btn:hover {
+    .top-link:hover {
       color: var(--primary);
 
-      border-color: #bfdbfe;
+      border-color:
+        #bfdbfe;
     }
 
     /* =========================================================
-       CONTENT
+       PAGE
     ========================================================= */
 
-    .content {
-      max-width: 1500px;
+    .page {
+      width: min(
+        1180px,
+        calc(100% - 32px)
+      );
 
       margin: 0 auto;
 
-      padding: 28px;
+      padding: 55px 0 70px;
     }
 
     /* =========================================================
@@ -491,27 +207,52 @@
 
       overflow: hidden;
 
-      padding: 29px;
+      padding: 42px;
 
       margin-bottom: 22px;
 
-      border-radius: 23px;
+      border-radius: 28px;
 
       color: white;
 
       background:
         radial-gradient(
-          circle at 90% 10%,
-          rgba(59,130,246,0.23),
-          transparent 31%
+          circle at 85% 10%,
+          rgba(59, 130, 246, 0.3),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 15% 90%,
+          rgba(124, 58, 237, 0.2),
+          transparent 30%
         ),
         linear-gradient(
           135deg,
-          #111827,
+          #0f172a,
           #1e293b
         );
 
-      box-shadow: var(--shadow);
+      box-shadow:
+        0 25px 60px
+        rgba(15, 23, 42, 0.17);
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      right: -70px;
+      bottom: -90px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
     }
 
     .hero-badge {
@@ -523,65 +264,78 @@
       padding: 7px 11px;
 
       border:
-        1px solid rgba(255,255,255,0.1);
+        1px solid
+        rgba(255,255,255,0.12);
 
       border-radius: 999px;
 
       background:
         rgba(255,255,255,0.08);
 
-      font-size: 10px;
-      font-weight: 800;
+      color: #dbeafe;
 
-      text-transform: uppercase;
+      font-size: 9px;
+      font-weight: 850;
 
       letter-spacing: 0.8px;
+      text-transform: uppercase;
     }
 
     .hero h1 {
-      margin-top: 13px;
+      max-width: 700px;
+
+      margin-top: 15px;
 
       font-size:
-        clamp(25px, 3vw, 36px);
+        clamp(
+          30px,
+          5vw,
+          48px
+        );
 
-      line-height: 1.15;
+      line-height: 1.08;
 
-      letter-spacing: -0.8px;
+      letter-spacing: -1.2px;
     }
 
     .hero p {
-      max-width: 760px;
+      max-width: 700px;
 
-      margin-top: 10px;
+      margin-top: 13px;
 
       color: #cbd5e1;
 
       font-size: 12px;
 
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
 
-      gap: 8px;
+      gap: 9px;
 
-      margin-top: 18px;
+      margin-top: 23px;
     }
 
     .hero-btn {
-      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
 
-      border-radius: 10px;
+      gap: 7px;
+
+      padding: 11px 15px;
+
+      border-radius: 11px;
 
       font-size: 10px;
       font-weight: 800;
+
+      transition: 0.2s ease;
     }
 
     .hero-btn.primary {
-      border: 0;
-
       background: white;
 
       color: #111827;
@@ -589,56 +343,202 @@
 
     .hero-btn.secondary {
       border:
-        1px solid rgba(255,255,255,0.15);
+        1px solid
+        rgba(255,255,255,0.14);
 
       background:
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.07);
 
       color: white;
     }
 
     .hero-btn:hover {
       transform:
-        translateY(-1px);
+        translateY(-2px);
     }
 
     /* =========================================================
-       STATS
+       SESSION CARD
     ========================================================= */
 
-    .stats-grid {
-      display: grid;
+    .session-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-      grid-template-columns:
-        repeat(4, 1fr);
+      gap: 20px;
 
-      gap: 15px;
+      padding: 20px 22px;
 
       margin-bottom: 22px;
-    }
-
-    .stat-card {
-      padding: 19px;
 
       border:
         1px solid var(--border);
 
-      border-radius: 17px;
+      border-radius: 18px;
 
       background: white;
 
       box-shadow: var(--shadow);
     }
 
-    .stat-top {
+    .session-left {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+
+      gap: 13px;
     }
 
-    .stat-icon {
-      width: 42px;
-      height: 42px;
+    .avatar {
+      width: 46px;
+      height: 46px;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      color: white;
+
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .session-info strong {
+      display: block;
+
+      font-size: 12px;
+    }
+
+    .session-info span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .online-badge {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 5px;
+
+      margin-top: 5px;
+
+      color: var(--success);
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .online-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: var(--success);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(22,163,74,0.1);
+    }
+
+    /* =========================================================
+       SECTION HEADER
+    ========================================================= */
+
+    .section-header {
+      margin-bottom: 14px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+
+      letter-spacing: -0.3px;
+    }
+
+    .section-header p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       ACCESS GRID
+    ========================================================= */
+
+    .access-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 14px;
+    }
+
+    .access-card {
+      position: relative;
+
+      overflow: hidden;
+
+      min-height: 185px;
+
+      display: flex;
+      flex-direction: column;
+
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+
+      transition: 0.22s ease;
+    }
+
+    .access-card:hover {
+      transform:
+        translateY(-4px);
+
+      border-color:
+        #bfdbfe;
+
+      box-shadow:
+        0 20px 45px
+        rgba(15,23,42,0.11);
+    }
+
+    .access-icon {
+      width: 43px;
+      height: 43px;
 
       display: grid;
       place-items: center;
@@ -650,426 +550,152 @@
       font-size: 18px;
     }
 
-    .status-pill {
-      padding: 5px 8px;
+    .access-card h3 {
+      margin-top: 14px;
 
-      border-radius: 999px;
-
-      font-size: 8px;
-      font-weight: 800;
+      font-size: 13px;
     }
 
-    .status-pill.success {
-      background: #f0fdf4;
-      color: #15803d;
-    }
-
-    .status-pill.warning {
-      background: #fffbeb;
-      color: #b45309;
-    }
-
-    .status-pill.danger {
-      background: #fef2f2;
-      color: #b91c1c;
-    }
-
-    .stat-label {
-      margin-top: 13px;
-
-      color: var(--muted);
-
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .stat-value {
-      margin-top: 4px;
-
-      font-size: 25px;
-      font-weight: 800;
-    }
-
-    .stat-description {
-      margin-top: 4px;
+    .access-card p {
+      margin-top: 5px;
 
       color: var(--muted);
 
       font-size: 9px;
+
+      line-height: 1.6;
+    }
+
+    .access-action {
+      margin-top: auto;
+
+      padding-top: 16px;
+
+      color: var(--primary);
+
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .access-card.super {
+      border-color:
+        rgba(124,58,237,0.18);
+    }
+
+    .access-card.super .access-icon {
+      background:
+        #f5f3ff;
+    }
+
+    .role-label {
+      position: absolute;
+
+      top: 14px;
+      right: 14px;
+
+      padding: 5px 7px;
+
+      border-radius: 999px;
+
+      background: #f8fafc;
+
+      color: #64748b;
+
+      font-size: 7px;
+      font-weight: 800;
+
+      text-transform: uppercase;
     }
 
     /* =========================================================
-       TWO COLUMN
+       SYSTEM STATUS
     ========================================================= */
 
-    .two-column {
+    .status-section {
+      margin-top: 28px;
+    }
+
+    .status-grid {
       display: grid;
 
       grid-template-columns:
-        1.15fr 0.85fr;
+        repeat(4, 1fr);
 
-      gap: 18px;
-
-      margin-bottom: 18px;
+      gap: 12px;
     }
 
-    .card {
-      padding: 20px;
-
-      background: white;
+    .status-card {
+      padding: 17px;
 
       border:
         1px solid var(--border);
 
-      border-radius: 17px;
+      border-radius: 16px;
+
+      background: white;
 
       box-shadow: var(--shadow);
     }
 
-    .card-header {
+    .status-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      gap: 10px;
-
-      margin-bottom: 17px;
     }
 
-    .card-header h3 {
-      font-size: 14px;
-    }
-
-    .card-header p {
-      margin-top: 3px;
-
+    .status-title {
       color: var(--muted);
 
       font-size: 9px;
-    }
-
-    /* =========================================================
-       STATUS ROWS
-    ========================================================= */
-
-    .status-list {
-      display: grid;
-
-      gap: 9px;
-    }
-
-    .status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
-
-      padding: 12px;
-
-      border:
-        1px solid #eef2f7;
-
-      border-radius: 12px;
-
-      background: #f8fafc;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-
-      gap: 10px;
-
-      min-width: 0;
-    }
-
-    .status-icon {
-      width: 34px;
-      height: 34px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 10px;
-
-      background: white;
-
-      box-shadow:
-        0 4px 10px
-        rgba(15,23,42,0.05);
-    }
-
-    .status-name strong {
-      display: block;
-
-      font-size: 10px;
-    }
-
-    .status-name span {
-      display: block;
-
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 8px;
-    }
-
-    /* =========================================================
-       SWITCH
-    ========================================================= */
-
-    .switch {
-      position: relative;
-
-      width: 42px;
-      height: 23px;
-
-      flex-shrink: 0;
-    }
-
-    .switch input {
-      opacity: 0;
-
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-
-      inset: 0;
-
-      border-radius: 999px;
-
-      background: #cbd5e1;
-
-      transition: 0.2s ease;
-    }
-
-    .slider::before {
-      content: "";
-
-      position: absolute;
-
-      width: 17px;
-      height: 17px;
-
-      left: 3px;
-      top: 3px;
-
-      border-radius: 50%;
-
-      background: white;
-
-      box-shadow:
-        0 2px 5px
-        rgba(15,23,42,0.18);
-
-      transition: 0.2s ease;
-    }
-
-    .switch input:checked + .slider {
-      background: var(--primary);
-    }
-
-    .switch input:checked + .slider::before {
-      transform:
-        translateX(19px);
-    }
-
-    /* =========================================================
-       QUICK ACTIONS
-    ========================================================= */
-
-    .quick-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 9px;
-    }
-
-    .quick-btn {
-      min-height: 68px;
-
-      display: flex;
-      flex-direction: column;
-
-      align-items: flex-start;
-      justify-content: center;
-
-      gap: 5px;
-
-      padding: 12px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 12px;
-
-      background: white;
-
-      text-align: left;
-
-      transition: 0.2s ease;
-    }
-
-    .quick-btn:hover {
-      border-color: #bfdbfe;
-
-      background: #f8fbff;
-
-      transform:
-        translateY(-2px);
-    }
-
-    .quick-btn strong {
-      font-size: 10px;
-    }
-
-    .quick-btn span {
-      color: var(--muted);
-
-      font-size: 8px;
-    }
-
-    /* =========================================================
-       WEBSITE INFO
-    ========================================================= */
-
-    .website-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 10px;
-    }
-
-    .info-box {
-      padding: 13px;
-
-      border-radius: 12px;
-
-      background: #f8fafc;
-
-      border:
-        1px solid #eef2f7;
-    }
-
-    .info-box label {
-      display: block;
-
-      color: var(--muted);
-
-      font-size: 8px;
       font-weight: 700;
     }
 
-    .info-box strong {
-      display: block;
+    .status-number {
+      margin-top: 8px;
 
-      margin-top: 5px;
-
-      font-size: 11px;
-
-      word-break: break-word;
+      font-size: 21px;
+      font-weight: 850;
     }
 
-    /* =========================================================
-       ACTIVITY
-    ========================================================= */
-
-    .activity-list {
-      display: grid;
-
-      gap: 9px;
-
-      max-height: 280px;
-
-      overflow-y: auto;
-    }
-
-    .activity-item {
-      display: flex;
-
-      gap: 10px;
-
-      padding: 10px;
-
-      border-radius: 11px;
-
-      background: #f8fafc;
-    }
-
-    .activity-dot {
-      width: 8px;
-      height: 8px;
-
-      flex-shrink: 0;
-
-      margin-top: 5px;
+    .status-indicator {
+      width: 10px;
+      height: 10px;
 
       border-radius: 50%;
 
-      background: var(--primary);
+      background: var(--success);
+
+      box-shadow:
+        0 0 0 5px
+        rgba(22,163,74,0.08);
     }
 
-    .activity-content {
-      min-width: 0;
-    }
+    .status-indicator.off {
+      background: var(--danger);
 
-    .activity-content strong {
-      display: block;
-
-      font-size: 9px;
-    }
-
-    .activity-content span {
-      display: block;
-
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 8px;
-
-      line-height: 1.5;
-    }
-
-    .empty-activity {
-      padding: 25px 10px;
-
-      text-align: center;
-
-      color: var(--muted);
-
-      font-size: 9px;
+      box-shadow:
+        0 0 0 5px
+        rgba(220,38,38,0.08);
     }
 
     /* =========================================================
-       SECURITY
+       NOTICE
     ========================================================= */
 
-    .security {
+    .notice {
       display: flex;
       align-items: flex-start;
 
       gap: 12px;
 
-      padding: 17px;
+      padding: 18px;
 
-      margin-top: 18px;
+      margin-top: 28px;
 
       border:
         1px solid #bfdbfe;
 
-      border-radius: 15px;
+      border-radius: 16px;
 
       background:
         linear-gradient(
@@ -1079,34 +705,50 @@
         );
     }
 
-    .security-icon {
-      width: 38px;
-      height: 38px;
-
-      flex-shrink: 0;
+    .notice-icon {
+      width: 36px;
+      height: 36px;
 
       display: grid;
       place-items: center;
 
-      border-radius: 11px;
+      flex-shrink: 0;
+
+      border-radius: 10px;
 
       background: white;
-
-      font-size: 17px;
     }
 
-    .security h3 {
+    .notice h3 {
       font-size: 11px;
     }
 
-    .security p {
+    .notice p {
       margin-top: 4px;
 
-      color: #64748b;
+      color: var(--muted);
 
       font-size: 9px;
 
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      margin-top: 42px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .footer strong {
+      color: var(--text);
     }
 
     /* =========================================================
@@ -1116,182 +758,149 @@
     .toast {
       position: fixed;
 
-      right: 24px;
-      bottom: 24px;
+      right: 22px;
+      bottom: 22px;
 
-      min-width: 260px;
-      max-width: 370px;
+      z-index: 1000;
 
-      padding: 13px 15px;
+      max-width: 350px;
 
-      z-index: 3000;
+      padding: 12px 15px;
 
-      border-radius: 13px;
+      border-radius: 12px;
 
       color: white;
 
       background: #111827;
 
       box-shadow:
-        0 15px 40px
+        0 18px 45px
         rgba(15,23,42,0.25);
 
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-
-      transform:
-        translateY(120px);
 
       opacity: 0;
 
+      transform:
+        translateY(80px);
+
       pointer-events: none;
 
-      transition: 0.3s ease;
+      transition: 0.25s ease;
     }
 
     .toast.show {
+      opacity: 1;
+
       transform:
         translateY(0);
-
-      opacity: 1;
     }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
 
-    @media (max-width: 1150px) {
+    @media (max-width: 1000px) {
 
-      .stats-grid {
+      .access-grid {
         grid-template-columns:
           repeat(2, 1fr);
       }
 
-      .two-column {
+      .status-grid {
         grid-template-columns:
-          1fr;
+          repeat(2, 1fr);
       }
 
-      .website-grid {
-        grid-template-columns:
-          repeat(3, 1fr);
-      }
     }
 
-    @media (max-width: 850px) {
-
-      .sidebar {
-        transform:
-          translateX(-100%);
-
-        transition:
-          transform 0.25s ease;
-      }
-
-      .sidebar.open {
-        transform:
-          translateX(0);
-      }
-
-      .sidebar-overlay.show {
-        display: block;
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
-      .mobile-menu-btn {
-        display: grid;
-      }
-
-      .topbar {
-        padding: 0 18px;
-      }
-
-      .content {
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 650px) {
+    @media (max-width: 700px) {
 
       .topbar {
         height: 64px;
+
+        padding: 0 16px;
       }
 
-      .page-title h2 {
-        font-size: 16px;
-      }
-
-      .page-title p {
+      .top-actions .top-link {
         display: none;
       }
 
-      .top-btn {
-        display: none;
-      }
+      .page {
+        width:
+          min(
+            100% - 24px,
+            1180px
+          );
 
-      .content {
-        padding: 14px;
+        padding-top: 25px;
       }
 
       .hero {
-        padding: 21px;
+        padding: 27px 22px;
 
-        border-radius: 19px;
+        border-radius: 21px;
       }
 
       .hero h1 {
-        font-size: 25px;
+        font-size: 30px;
       }
 
-      .stats-grid {
-        grid-template-columns:
-          1fr 1fr;
+      .session-card {
+        align-items: flex-start;
 
-        gap: 10px;
+        flex-direction: column;
       }
 
-      .stat-card {
-        padding: 14px;
-      }
-
-      .stat-value {
-        font-size: 21px;
-      }
-
-      .website-grid {
+      .access-grid {
         grid-template-columns:
           1fr;
       }
 
-      .quick-grid {
+      .status-grid {
         grid-template-columns:
           1fr 1fr;
       }
 
-      .toast {
-        left: 14px;
-        right: 14px;
-
-        min-width: auto;
-
-        bottom: 14px;
-      }
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 430px) {
 
-      .stats-grid {
+      .brand-text span {
+        display: none;
+      }
+
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .hero p {
+        font-size: 10px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-btn {
+        justify-content: center;
+      }
+
+      .status-grid {
         grid-template-columns:
           1fr;
       }
 
-      .quick-grid {
-        grid-template-columns:
-          1fr;
+      .session-card {
+        padding: 16px;
       }
+
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1300,14 +909,12 @@
       *::before,
       *::after {
         transition: none !important;
-        scroll-behavior: auto !important;
       }
+
     }
 
     button:focus-visible,
-    a:focus-visible,
-    input:focus-visible,
-    select:focus-visible {
+    a:focus-visible {
       outline:
         3px solid
         rgba(37,99,235,0.2);
@@ -1320,15 +927,15 @@
 <body>
 
   <!-- =========================================================
-       SIDEBAR
+       TOPBAR
   ========================================================= -->
 
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
+  <header class="topbar">
 
-    <div class="brand">
+    <a
+      href="../index.html"
+      class="brand"
+    >
 
       <div class="brand-icon">
         DS
@@ -1336,146 +943,121 @@
 
       <div class="brand-text">
 
-        <h1>
+        <strong>
           Design System
-        </h1>
+        </strong>
 
-        <p>
+        <span>
           Admin Control Center
-        </p>
+        </span>
 
       </div>
 
-    </div>
+    </a>
 
 
-    <nav class="nav">
-
-      <div class="nav-title">
-        Main
-      </div>
-
-      <a
-        href="./dashboard.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">📊</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a
-        href="./website.html"
-        class="nav-link active"
-      >
-        <span class="nav-icon">🌐</span>
-        <span>Website</span>
-      </a>
-
-      <a
-        href="./website-edit.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">✏️</span>
-        <span>Website Editor</span>
-      </a>
-
-      <a
-        href="./design-manage.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🎨</span>
-        <span>Design Management</span>
-      </a>
-
-      <a
-        href="./banner.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🖼️</span>
-        <span>Advertisement</span>
-      </a>
-
-
-      <div class="nav-title">
-        Chatter
-      </div>
-
-      <a
-        href="./chatter.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">💬</span>
-        <span>Chatter Settings</span>
-      </a>
-
-      <a
-        href="./browser-ui.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🌐</span>
-        <span>Browser UI</span>
-      </a>
-
-      <a
-        href="./live-monitor.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">📡</span>
-        <span>Live Monitor</span>
-      </a>
-
-
-      <div class="nav-title">
-        System
-      </div>
-
-      <a
-        href="./system.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">⚙️</span>
-        <span>System Settings</span>
-      </a>
-
-      <a
-        href="./link-check.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🔗</span>
-        <span>Link Checker</span>
-      </a>
+    <div class="top-actions">
 
       <a
         href="../index.html"
-        class="nav-link"
+        class="top-link"
       >
-        <span class="nav-icon">🏠</span>
-        <span>View Website</span>
+        🏠 Website
       </a>
 
-    </nav>
+      <a
+        href="../login/index.html"
+        class="top-link"
+        id="loginLink"
+      >
+        🔐 Login
+      </a>
+
+    </div>
+
+  </header>
 
 
-    <div class="sidebar-footer">
+  <!-- =========================================================
+       PAGE
+  ========================================================= -->
 
-      <div class="admin-mini">
+  <main class="page">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-badge">
+        🛡️ Secure Admin Area
+      </div>
+
+      <h1>
+        Admin Control Center
+      </h1>
+
+      <p>
+        Manage your website, designs, advertisements, Chatter,
+        browser features and system settings from one central
+        administration area.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          href="./dashboard.html"
+          class="hero-btn primary"
+          id="dashboardBtn"
+        >
+          📊 Open Dashboard
+        </a>
+
+        <a
+          href="./website.html"
+          class="hero-btn secondary"
+        >
+          🌐 Website Management
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         SESSION
+    ======================================================= -->
+
+    <section class="session-card">
+
+      <div class="session-left">
 
         <div
-          class="admin-avatar"
-          id="adminAvatar"
+          class="avatar"
+          id="avatar"
         >
           AD
         </div>
 
-        <div class="admin-info">
+        <div class="session-info">
 
           <strong id="adminName">
-            System Admin
+            Not Signed In
           </strong>
 
-          <span id="adminRole">
-            Admin
+          <span id="adminEmail">
+            Please sign in to access administration.
           </span>
+
+          <div class="online-badge">
+
+            <span class="online-dot"></span>
+
+            <span id="sessionStatus">
+              Session checking...
+            </span>
+
+          </div>
 
         </div>
 
@@ -1483,797 +1065,553 @@
 
 
       <button
-        class="logout-btn"
-        id="logoutBtn"
+        class="hero-btn secondary"
+        id="sessionAction"
+        style="
+          color:#111827;
+          background:#f8fafc;
+          border:1px solid #e5e7eb;
+        "
       >
-        Logout
+        Sign In
       </button>
 
-    </div>
-
-  </aside>
-
-
-  <div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-  ></div>
-
-
-  <!-- =========================================================
-       MAIN
-  ========================================================= -->
-
-  <main class="main">
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-      <div class="topbar-left">
-
-        <button
-          class="mobile-menu-btn"
-          id="mobileMenuBtn"
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
-
-        <div class="page-title">
-
-          <h2>
-            Website Management
-          </h2>
-
-          <p>
-            Control the public website from one place
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="topbar-right">
-
-        <a
-          href="../index.html"
-          target="_blank"
-          rel="noopener"
-          class="top-btn"
-        >
-          ↗ Open Website
-        </a>
-
-        <a
-          href="./website-edit.html"
-          class="top-btn"
-        >
-          ✏️ Edit Website
-        </a>
-
-      </div>
-
-    </header>
+    </section>
 
 
     <!-- =======================================================
-         CONTENT
+         ACCESS
     ======================================================= -->
 
-    <section class="content">
+    <div class="section-header">
 
-      <!-- HERO -->
+      <h2>
+        Administration Modules
+      </h2>
 
-      <div class="hero">
+      <p>
+        Select a module to continue managing the system.
+      </p>
 
-        <div class="hero-badge">
-          🌐 Website Control
+    </div>
+
+
+    <section class="access-grid">
+
+      <!-- DASHBOARD -->
+
+      <a
+        href="./dashboard.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          📊
         </div>
 
-        <h1>
-          Manage Your Website
-        </h1>
+        <h3>
+          Dashboard
+        </h3>
 
         <p>
-          Control website availability, design gallery visibility,
-          Chatter availability, maintenance mode and other public
-          website settings without touching the homepage code.
+          View system overview, statistics,
+          shortcuts and current website status.
         </p>
 
-        <div class="hero-actions">
-
-          <a
-            href="../index.html"
-            target="_blank"
-            rel="noopener"
-            class="hero-btn primary"
-          >
-            👁 View Live Website
-          </a>
-
-          <a
-            href="./website-edit.html"
-            class="hero-btn secondary"
-          >
-            ✏️ Open Website Editor
-          </a>
-
+        <div class="access-action">
+          Open Dashboard →
         </div>
+
+      </a>
+
+
+      <!-- WEBSITE -->
+
+      <a
+        href="./website.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          🌐
+        </div>
+
+        <h3>
+          Website Management
+        </h3>
+
+        <p>
+          Control website availability,
+          homepage features and maintenance mode.
+        </p>
+
+        <div class="access-action">
+          Manage Website →
+        </div>
+
+      </a>
+
+
+      <!-- WEBSITE EDITOR -->
+
+      <a
+        href="./website-edit.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          ✏️
+        </div>
+
+        <h3>
+          Website Editor
+        </h3>
+
+        <p>
+          Edit homepage hero, gallery, features,
+          how-it-works and CTA sections.
+        </p>
+
+        <div class="access-action">
+          Open Editor →
+        </div>
+
+      </a>
+
+
+      <!-- DESIGN -->
+
+      <a
+        href="./design-manage.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          🎨
+        </div>
+
+        <h3>
+          Design Management
+        </h3>
+
+        <p>
+          Manage individual design pages,
+          categories, status and design metadata.
+        </p>
+
+        <div class="access-action">
+          Manage Designs →
+        </div>
+
+      </a>
+
+
+      <!-- BANNER -->
+
+      <a
+        href="./banner.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          🖼️
+        </div>
+
+        <h3>
+          Advertisement
+        </h3>
+
+        <p>
+          Manage advertisement banners shown
+          on your own website.
+        </p>
+
+        <div class="access-action">
+          Manage Ads →
+        </div>
+
+      </a>
+
+
+      <!-- CHATTER -->
+
+      <a
+        href="./chatter.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          💬
+        </div>
+
+        <h3>
+          Chatter Settings
+        </h3>
+
+        <p>
+          Control messaging, voice, video,
+          camera, microphone and screen sharing availability.
+        </p>
+
+        <div class="access-action">
+          Open Chatter →
+        </div>
+
+      </a>
+
+
+      <!-- BROWSER UI -->
+
+      <a
+        href="./browser-ui.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          🌐
+        </div>
+
+        <h3>
+          Browser UI
+        </h3>
+
+        <p>
+          Manage browser feature availability
+          and user permission preferences.
+        </p>
+
+        <div class="access-action">
+          Manage Browser UI →
+        </div>
+
+      </a>
+
+
+      <!-- SYSTEM -->
+
+      <a
+        href="./system.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          ⚙️
+        </div>
+
+        <h3>
+          System Settings
+        </h3>
+
+        <p>
+          Manage global website settings,
+          notifications and maintenance controls.
+        </p>
+
+        <div class="access-action">
+          Open System Settings →
+        </div>
+
+      </a>
+
+
+      <!-- LINK CHECK -->
+
+      <a
+        href="./link-check.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Admin
+        </span>
+
+        <div class="access-icon">
+          🔗
+        </div>
+
+        <h3>
+          Link Checker
+        </h3>
+
+        <p>
+          Check website pages and internal navigation
+          for broken or unavailable routes.
+        </p>
+
+        <div class="access-action">
+          Check Links →
+        </div>
+
+      </a>
+
+
+      <!-- LIVE MONITOR -->
+
+      <a
+        href="./live-monitor.html"
+        class="access-card super"
+        id="liveMonitorCard"
+      >
+
+        <span class="role-label">
+          Super Admin
+        </span>
+
+        <div class="access-icon">
+          📡
+        </div>
+
+        <h3>
+          Live Monitor
+        </h3>
+
+        <p>
+          Monitor active, consent-based live sessions
+          when the feature is available.
+        </p>
+
+        <div class="access-action">
+          Open Live Monitor →
+        </div>
+
+      </a>
+
+
+      <!-- VIEW WEBSITE -->
+
+      <a
+        href="../index.html"
+        class="access-card"
+      >
+
+        <span class="role-label">
+          Public
+        </span>
+
+        <div class="access-icon">
+          👁️
+        </div>
+
+        <h3>
+          View Website
+        </h3>
+
+        <p>
+          Open the public homepage and inspect
+          the current visitor experience.
+        </p>
+
+        <div class="access-action">
+          Open Website →
+        </div>
+
+      </a>
+
+    </section>
+
+
+    <!-- =======================================================
+         SYSTEM STATUS
+    ======================================================= -->
+
+    <section class="status-section">
+
+      <div class="section-header">
+
+        <h2>
+          Current System Status
+        </h2>
+
+        <p>
+          Live status based on current browser settings.
+        </p>
 
       </div>
 
 
-      <!-- =====================================================
-           STATS
-      ===================================================== -->
+      <div class="status-grid">
 
-      <div class="stats-grid">
+        <div class="status-card">
 
-        <div class="stat-card">
+          <div class="status-top">
 
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              🌐
-            </div>
-
-            <span
-              class="status-pill success"
-              id="websiteStatusPill"
-            >
-              Online
+            <span class="status-title">
+              Website
             </span>
 
-          </div>
+            <span
+              class="status-indicator"
+              id="websiteIndicator"
+            ></span>
 
-          <div class="stat-label">
-            Website Status
           </div>
 
           <div
-            class="stat-value"
-            id="websiteStatusValue"
+            class="status-number"
+            id="websiteStatus"
           >
             Online
           </div>
 
-          <div class="stat-description">
-            Public website availability
-          </div>
-
         </div>
 
 
-        <div class="stat-card">
+        <div class="status-card">
 
-          <div class="stat-top">
+          <div class="status-top">
 
-            <div class="stat-icon">
-              🎨
-            </div>
-
-            <span
-              class="status-pill success"
-              id="designStatusPill"
-            >
-              Visible
+            <span class="status-title">
+              Design Gallery
             </span>
 
-          </div>
+            <span
+              class="status-indicator"
+              id="designIndicator"
+            ></span>
 
-          <div class="stat-label">
-            Design Gallery
           </div>
 
           <div
-            class="stat-value"
-            id="designStatusValue"
+            class="status-number"
+            id="designStatus"
           >
             Visible
           </div>
 
-          <div class="stat-description">
-            Public design gallery status
-          </div>
-
         </div>
 
 
-        <div class="stat-card">
+        <div class="status-card">
 
-          <div class="stat-top">
+          <div class="status-top">
 
-            <div class="stat-icon">
-              💬
-            </div>
-
-            <span
-              class="status-pill success"
-              id="chatterStatusPill"
-            >
-              Enabled
+            <span class="status-title">
+              Chatter
             </span>
 
-          </div>
+            <span
+              class="status-indicator"
+              id="chatterIndicator"
+            ></span>
 
-          <div class="stat-label">
-            Chatter
           </div>
 
           <div
-            class="stat-value"
-            id="chatterStatusValue"
+            class="status-number"
+            id="chatterStatus"
           >
             Enabled
           </div>
 
-          <div class="stat-description">
-            Website communication feature
-          </div>
-
         </div>
 
 
-        <div class="stat-card">
+        <div class="status-card">
 
-          <div class="stat-top">
+          <div class="status-top">
 
-            <div class="stat-icon">
-              🔧
-            </div>
-
-            <span
-              class="status-pill success"
-              id="maintenanceStatusPill"
-            >
-              Normal
+            <span class="status-title">
+              Maintenance
             </span>
 
-          </div>
+            <span
+              class="status-indicator"
+              id="maintenanceIndicator"
+            ></span>
 
-          <div class="stat-label">
-            Maintenance
           </div>
 
           <div
-            class="stat-value"
-            id="maintenanceStatusValue"
+            class="status-number"
+            id="maintenanceStatus"
           >
             Normal
           </div>
-
-          <div class="stat-description">
-            Public maintenance mode
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- =====================================================
-           TWO COLUMN
-      ===================================================== -->
-
-      <div class="two-column">
-
-        <!-- WEBSITE SETTINGS -->
-
-        <div class="card">
-
-          <div class="card-header">
-
-            <div>
-
-              <h3>
-                Website Controls
-              </h3>
-
-              <p>
-                Changes are saved locally in this prototype.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="status-list">
-
-            <!-- WEBSITE -->
-
-            <div class="status-row">
-
-              <div class="status-left">
-
-                <div class="status-icon">
-                  🌐
-                </div>
-
-                <div class="status-name">
-
-                  <strong>
-                    Website Enabled
-                  </strong>
-
-                  <span>
-                    Allow visitors to access the website
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="websiteEnabled"
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-
-            <!-- DESIGNS -->
-
-            <div class="status-row">
-
-              <div class="status-left">
-
-                <div class="status-icon">
-                  🎨
-                </div>
-
-                <div class="status-name">
-
-                  <strong>
-                    Design Gallery
-                  </strong>
-
-                  <span>
-                    Show design gallery on homepage
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="showDesigns"
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-
-            <!-- CHATTER -->
-
-            <div class="status-row">
-
-              <div class="status-left">
-
-                <div class="status-icon">
-                  💬
-                </div>
-
-                <div class="status-name">
-
-                  <strong>
-                    Chatter
-                  </strong>
-
-                  <span>
-                    Show Chatter navigation and feature
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="chatterEnabled"
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-
-            <!-- MAINTENANCE -->
-
-            <div class="status-row">
-
-              <div class="status-left">
-
-                <div class="status-icon">
-                  🔧
-                </div>
-
-                <div class="status-name">
-
-                  <strong>
-                    Maintenance Mode
-                  </strong>
-
-                  <span>
-                    Display maintenance screen to visitors
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="maintenanceMode"
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-
-            <!-- NOTIFICATIONS -->
-
-            <div class="status-row">
-
-              <div class="status-left">
-
-                <div class="status-icon">
-                  🔔
-                </div>
-
-                <div class="status-name">
-
-                  <strong>
-                    System Notifications
-                  </strong>
-
-                  <span>
-                    Allow website notification UI
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="notificationsEnabled"
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- QUICK ACTIONS -->
-
-        <div class="card">
-
-          <div class="card-header">
-
-            <div>
-
-              <h3>
-                Quick Actions
-              </h3>
-
-              <p>
-                Frequently used website controls.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="quick-grid">
-
-            <button
-              class="quick-btn"
-              id="saveBtn"
-            >
-
-              <strong>
-                💾 Save Settings
-              </strong>
-
-              <span>
-                Save current website state
-              </span>
-
-            </button>
-
-
-            <button
-              class="quick-btn"
-              id="enableAllBtn"
-            >
-
-              <strong>
-                ✅ Enable All
-              </strong>
-
-              <span>
-                Turn on public features
-              </span>
-
-            </button>
-
-
-            <button
-              class="quick-btn"
-              id="disableAllBtn"
-            >
-
-              <strong>
-                ⛔ Disable All
-              </strong>
-
-              <span>
-                Turn off public features
-              </span>
-
-            </button>
-
-
-            <button
-              class="quick-btn"
-              id="resetBtn"
-            >
-
-              <strong>
-                ↺ Reset Defaults
-              </strong>
-
-              <span>
-                Restore normal website state
-              </span>
-
-            </button>
-
-
-            <a
-              href="./website-edit.html"
-              class="quick-btn"
-            >
-
-              <strong>
-                ✏️ Website Editor
-              </strong>
-
-              <span>
-                Edit homepage content
-              </span>
-
-            </a>
-
-
-            <a
-              href="./banner.html"
-              class="quick-btn"
-            >
-
-              <strong>
-                🖼️ Advertisement
-              </strong>
-
-              <span>
-                Manage website ads
-              </span>
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- =====================================================
-           WEBSITE INFORMATION
-      ===================================================== -->
-
-      <div class="card">
-
-        <div class="card-header">
-
-          <div>
-
-            <h3>
-              Website Information
-            </h3>
-
-            <p>
-              Current project and routing information.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="website-grid">
-
-          <div class="info-box">
-
-            <label>
-              Homepage
-            </label>
-
-            <strong>
-              ../index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Login
-            </label>
-
-            <strong>
-              ../login/index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Chatter
-            </label>
-
-            <strong>
-              ../chatter/index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Design Folder
-            </label>
-
-            <strong>
-              ../design/
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Advertisement
-            </label>
-
-            <strong>
-              websiteBannerData
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Settings Storage
-            </label>
-
-            <strong>
-              websiteSettings
-            </strong>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- =====================================================
-           ACTIVITY
-      ===================================================== -->
-
-      <div class="card" style="margin-top:18px;">
-
-        <div class="card-header">
-
-          <div>
-
-            <h3>
-              Recent Website Activity
-            </h3>
-
-            <p>
-              Changes made from the Website Management panel.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="activity-list"
-          id="activityList"
-        ></div>
-
-      </div>
-
-
-      <!-- =====================================================
-           SECURITY
-      ===================================================== -->
-
-      <div class="security">
-
-        <div class="security-icon">
-          🔐
-        </div>
-
-        <div>
-
-          <h3>
-            Prototype Security Notice
-          </h3>
-
-          <p>
-            These settings currently use browser LocalStorage.
-            They are suitable for UI testing only. Firebase/backend
-            authentication and database rules should be added later
-            for real production access control. This page does not
-            secretly access camera, microphone or screen and contains
-            no recording system.
-          </p>
 
         </div>
 
       </div>
 
     </section>
+
+
+    <!-- =======================================================
+         NOTICE
+    ======================================================= -->
+
+    <section class="notice">
+
+      <div class="notice-icon">
+        🔐
+      </div>
+
+      <div>
+
+        <h3>
+          Administration & Privacy
+        </h3>
+
+        <p>
+          This interface is currently a frontend prototype using
+          LocalStorage for settings and session information.
+          Production authentication and role enforcement should
+          later be handled by Firebase/backend security rules.
+          Camera, microphone and screen access are never performed
+          secretly from this page, and there is no recording system.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+      <strong>
+        Design System
+      </strong>
+
+      · Admin Control Center ·
+
+      <span id="year">
+        2026
+      </span>
+
+    </footer>
 
   </main>
 
@@ -2302,30 +1640,24 @@
   <script>
 
     /* =========================================================
-       STORAGE KEYS
+       STORAGE
     ========================================================= */
-
-    const WEBSITE_KEY =
-      "websiteSettings";
-
-    const ACTIVITY_KEY =
-      "websiteManagementActivity";
 
     const SESSION_KEY =
       "chatterAdminSession";
 
-    const BANNER_KEY =
-      "websiteBannerData";
+    const WEBSITE_KEY =
+      "websiteSettings";
 
-    const BANNER_SETTINGS_KEY =
-      "websiteBannerSettings";
+    const CHATTER_KEY =
+      "chatterSystemSettings";
 
 
     /* =========================================================
-       DEFAULT SETTINGS
+       DEFAULT WEBSITE SETTINGS
     ========================================================= */
 
-    const DEFAULT_SETTINGS = {
+    const DEFAULT_WEBSITE_SETTINGS = {
 
       websiteEnabled: true,
 
@@ -2341,10 +1673,33 @@
 
 
     /* =========================================================
-       GET SETTINGS
+       GET SESSION
     ========================================================= */
 
-    function getSettings() {
+    function getSession() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            SESSION_KEY
+          )
+        );
+
+      } catch (error) {
+
+        return null;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       GET WEBSITE SETTINGS
+    ========================================================= */
+
+    function getWebsiteSettings() {
 
       try {
 
@@ -2358,7 +1713,7 @@
 
         return {
 
-          ...DEFAULT_SETTINGS,
+          ...DEFAULT_WEBSITE_SETTINGS,
 
           ...(saved || {})
 
@@ -2367,7 +1722,7 @@
       } catch (error) {
 
         return {
-          ...DEFAULT_SETTINGS
+          ...DEFAULT_WEBSITE_SETTINGS
         };
 
       }
@@ -2376,693 +1731,117 @@
 
 
     /* =========================================================
-       SAVE SETTINGS
+       GET CHATTER SETTINGS
     ========================================================= */
 
-    function saveSettings(
-      showToastMessage = true
-    ) {
+    function getChatterSettings() {
 
-      const settings = {
+      const defaults = {
 
-        websiteEnabled:
-          document.getElementById(
-            "websiteEnabled"
-          ).checked,
-
-        showDesigns:
-          document.getElementById(
-            "showDesigns"
-          ).checked,
-
-        chatterEnabled:
-          document.getElementById(
-            "chatterEnabled"
-          ).checked,
-
-        maintenanceMode:
-          document.getElementById(
-            "maintenanceMode"
-          ).checked,
-
-        notificationsEnabled:
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked
+        enabled: true
 
       };
 
-
-      localStorage.setItem(
-        WEBSITE_KEY,
-        JSON.stringify(settings)
-      );
-
-
-      addActivity(
-        "Website settings updated."
-      );
-
-
-      updateDashboard();
-
-
-      if (showToastMessage) {
-
-        showToast(
-          "Website settings saved successfully."
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       LOAD SETTINGS
-    ========================================================= */
-
-    function loadSettings() {
-
-      const settings =
-        getSettings();
-
-
-      document.getElementById(
-        "websiteEnabled"
-      ).checked =
-        settings.websiteEnabled;
-
-
-      document.getElementById(
-        "showDesigns"
-      ).checked =
-        settings.showDesigns;
-
-
-      document.getElementById(
-        "chatterEnabled"
-      ).checked =
-        settings.chatterEnabled;
-
-
-      document.getElementById(
-        "maintenanceMode"
-      ).checked =
-        settings.maintenanceMode;
-
-
-      document.getElementById(
-        "notificationsEnabled"
-      ).checked =
-        settings.notificationsEnabled;
-
-
-      updateDashboard();
-
-    }
-
-
-    /* =========================================================
-       UPDATE DASHBOARD
-    ========================================================= */
-
-    function updateDashboard() {
-
-      const settings =
-        getSettings();
-
-
-      /* WEBSITE */
-
-      const websiteValue =
-        document.getElementById(
-          "websiteStatusValue"
-        );
-
-      const websitePill =
-        document.getElementById(
-          "websiteStatusPill"
-        );
-
-
-      if (
-        settings.websiteEnabled
-      ) {
-
-        websiteValue.textContent =
-          "Online";
-
-        setPill(
-          websitePill,
-          "Online",
-          "success"
-        );
-
-      } else {
-
-        websiteValue.textContent =
-          "Offline";
-
-        setPill(
-          websitePill,
-          "Offline",
-          "danger"
-        );
-
-      }
-
-
-      /* DESIGN */
-
-      const designValue =
-        document.getElementById(
-          "designStatusValue"
-        );
-
-      const designPill =
-        document.getElementById(
-          "designStatusPill"
-        );
-
-
-      if (
-        settings.showDesigns
-      ) {
-
-        designValue.textContent =
-          "Visible";
-
-        setPill(
-          designPill,
-          "Visible",
-          "success"
-        );
-
-      } else {
-
-        designValue.textContent =
-          "Hidden";
-
-        setPill(
-          designPill,
-          "Hidden",
-          "warning"
-        );
-
-      }
-
-
-      /* CHATTER */
-
-      const chatterValue =
-        document.getElementById(
-          "chatterStatusValue"
-        );
-
-      const chatterPill =
-        document.getElementById(
-          "chatterStatusPill"
-        );
-
-
-      if (
-        settings.chatterEnabled
-      ) {
-
-        chatterValue.textContent =
-          "Enabled";
-
-        setPill(
-          chatterPill,
-          "Enabled",
-          "success"
-        );
-
-      } else {
-
-        chatterValue.textContent =
-          "Disabled";
-
-        setPill(
-          chatterPill,
-          "Disabled",
-          "warning"
-        );
-
-      }
-
-
-      /* MAINTENANCE */
-
-      const maintenanceValue =
-        document.getElementById(
-          "maintenanceStatusValue"
-        );
-
-      const maintenancePill =
-        document.getElementById(
-          "maintenanceStatusPill"
-        );
-
-
-      if (
-        settings.maintenanceMode
-      ) {
-
-        maintenanceValue.textContent =
-          "Active";
-
-        setPill(
-          maintenancePill,
-          "Active",
-          "danger"
-        );
-
-      } else {
-
-        maintenanceValue.textContent =
-          "Normal";
-
-        setPill(
-          maintenancePill,
-          "Normal",
-          "success"
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       PILL
-    ========================================================= */
-
-    function setPill(
-      element,
-      text,
-      type
-    ) {
-
-      element.textContent =
-        text;
-
-      element.className =
-        `status-pill ${type}`;
-
-    }
-
-
-    /* =========================================================
-       AUTO SAVE CHANGE
-    ========================================================= */
-
-    document
-      .querySelectorAll(
-        '.status-row input[type="checkbox"]'
-      )
-      .forEach(
-        checkbox => {
-
-          checkbox.addEventListener(
-            "change",
-            () => {
-
-              saveSettings(
-                false
-              );
-
-              showToast(
-                "Website setting updated."
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       SAVE BUTTON
-    ========================================================= */
-
-    document
-      .getElementById(
-        "saveBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          saveSettings();
-
-        }
-      );
-
-
-    /* =========================================================
-       ENABLE ALL
-    ========================================================= */
-
-    document
-      .getElementById(
-        "enableAllBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked = true;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked = true;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked = true;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked = false;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked = true;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "All public website features enabled."
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       DISABLE ALL
-    ========================================================= */
-
-    document
-      .getElementById(
-        "disableAllBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked = false;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked = false;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked = false;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked = true;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked = false;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "Website switched to restricted mode."
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       RESET
-    ========================================================= */
-
-    document
-      .getElementById(
-        "resetBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.websiteEnabled;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked =
-            DEFAULT_SETTINGS.showDesigns;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.chatterEnabled;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked =
-            DEFAULT_SETTINGS.maintenanceMode;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.notificationsEnabled;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "Website settings restored to defaults."
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       ACTIVITY
-    ========================================================= */
-
-    function getActivities() {
 
       try {
 
         const saved =
           JSON.parse(
             localStorage.getItem(
-              ACTIVITY_KEY
+              CHATTER_KEY
             )
           );
 
 
-        if (
-          Array.isArray(saved)
-        ) {
+        return {
 
-          return saved;
+          ...defaults,
 
-        }
+          ...(saved || {})
 
-      } catch (error) {}
+        };
 
+      } catch (error) {
 
-      return [];
-
-    }
-
-
-    function addActivity(
-      message
-    ) {
-
-      const activities =
-        getActivities();
-
-
-      activities.unshift({
-
-        message,
-
-        time:
-          new Date().toISOString()
-
-      });
-
-
-      localStorage.setItem(
-        ACTIVITY_KEY,
-        JSON.stringify(
-          activities.slice(0,30)
-        )
-      );
-
-
-      renderActivities();
-
-    }
-
-
-    function renderActivities() {
-
-      const container =
-        document.getElementById(
-          "activityList"
-        );
-
-
-      const activities =
-        getActivities();
-
-
-      if (
-        !activities.length
-      ) {
-
-        container.innerHTML = `
-          <div class="empty-activity">
-            No website activity yet.
-          </div>
-        `;
-
-        return;
+        return defaults;
 
       }
-
-
-      container.innerHTML =
-        activities
-          .slice(0,12)
-          .map(
-            item => `
-
-              <div class="activity-item">
-
-                <div class="activity-dot"></div>
-
-                <div class="activity-content">
-
-                  <strong>
-                    ${escapeHtml(
-                      item.message
-                    )}
-                  </strong>
-
-                  <span>
-                    ${formatTime(
-                      item.time
-                    )}
-                  </span>
-
-                </div>
-
-              </div>
-
-            `
-          )
-          .join("");
 
     }
 
 
     /* =========================================================
-       FORMAT TIME
-    ========================================================= */
-
-    function formatTime(
-      value
-    ) {
-
-      const date =
-        new Date(value);
-
-
-      if (
-        Number.isNaN(
-          date.getTime()
-        )
-      ) {
-
-        return "Unknown time";
-
-      }
-
-
-      return date.toLocaleString(
-        undefined,
-        {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       PROFILE
+       LOAD PROFILE
     ========================================================= */
 
     function loadProfile() {
 
-      let session = null;
+      const session =
+        getSession();
 
 
-      try {
+      const nameElement =
+        document.getElementById(
+          "adminName"
+        );
 
-        session =
-          JSON.parse(
-            localStorage.getItem(
-              SESSION_KEY
-            )
-          );
+      const emailElement =
+        document.getElementById(
+          "adminEmail"
+        );
 
-      } catch (error) {
+      const statusElement =
+        document.getElementById(
+          "sessionStatus"
+        );
 
-        session = null;
+      const avatar =
+        document.getElementById(
+          "avatar"
+        );
 
-      }
+      const action =
+        document.getElementById(
+          "sessionAction"
+        );
 
 
       if (!session) {
+
+        nameElement.textContent =
+          "Not Signed In";
+
+        emailElement.textContent =
+          "Please sign in to access administration.";
+
+        statusElement.textContent =
+          "No active session";
+
+        avatar.textContent =
+          "AD";
+
+        action.textContent =
+          "Sign In";
+
+        action.style.background =
+          "#2563eb";
+
+        action.style.color =
+          "white";
+
+        action.style.border =
+          "0";
+
+        action.onclick =
+          () => {
+
+            window.location.href =
+              "../login/index.html";
+
+          };
+
         return;
+
       }
 
 
@@ -3072,29 +1851,23 @@
         "System Admin";
 
 
-      const role =
-        session.role ||
-        "admin";
+      const email =
+        session.email ||
+        "";
 
 
-      document.getElementById(
-        "adminName"
-      ).textContent =
+      nameElement.textContent =
         name;
 
 
-      document.getElementById(
-        "adminRole"
-      ).textContent =
-        role === "superadmin"
-          ? "Super Admin"
-          : "Admin";
+      emailElement.textContent =
+        email;
 
 
-      const avatar =
-        document.getElementById(
-          "adminAvatar"
-        );
+      statusElement.textContent =
+        session.role === "superadmin"
+          ? "Super Admin session active"
+          : "Admin session active";
 
 
       if (
@@ -3126,72 +1899,303 @@
 
       }
 
+
+      action.textContent =
+        "Open Dashboard";
+
+
+      action.onclick =
+        () => {
+
+          window.location.href =
+            "./dashboard.html";
+
+        };
+
+
+      /* SUPER ADMIN ACCESS */
+
+      const liveCard =
+        document.getElementById(
+          "liveMonitorCard"
+        );
+
+
+      if (
+        session.role !==
+        "superadmin"
+      ) {
+
+        liveCard.style.opacity =
+          "0.55";
+
+        liveCard.style.cursor =
+          "not-allowed";
+
+
+        liveCard.onclick =
+          event => {
+
+            event.preventDefault();
+
+            showToast(
+              "Live Monitor is available to Super Admin only."
+            );
+
+          };
+
+      }
+
     }
 
 
     /* =========================================================
-       BANNER SUMMARY
+       UPDATE STATUS
     ========================================================= */
 
-    function getBannerSummary() {
+    function updateStatus() {
 
-      let banners = [];
+      const website =
+        getWebsiteSettings();
 
-      let settings = {};
+
+      const chatter =
+        getChatterSettings();
 
 
-      try {
+      /* WEBSITE */
 
-        banners =
-          JSON.parse(
-            localStorage.getItem(
-              BANNER_KEY
-            )
-          ) || [];
+      const websiteStatus =
+        document.getElementById(
+          "websiteStatus"
+        );
 
-      } catch (error) {
+      const websiteIndicator =
+        document.getElementById(
+          "websiteIndicator"
+        );
 
-        banners = [];
+
+      if (
+        website.websiteEnabled
+      ) {
+
+        websiteStatus.textContent =
+          "Online";
+
+        websiteIndicator.classList.remove(
+          "off"
+        );
+
+      } else {
+
+        websiteStatus.textContent =
+          "Offline";
+
+        websiteIndicator.classList.add(
+          "off"
+        );
 
       }
 
 
-      try {
+      /* DESIGNS */
 
-        settings =
-          JSON.parse(
-            localStorage.getItem(
-              BANNER_SETTINGS_KEY
-            )
-          ) || {};
+      const designStatus =
+        document.getElementById(
+          "designStatus"
+        );
 
-      } catch (error) {
+      const designIndicator =
+        document.getElementById(
+          "designIndicator"
+        );
 
-        settings = {};
+
+      if (
+        website.showDesigns
+      ) {
+
+        designStatus.textContent =
+          "Visible";
+
+        designIndicator.classList.remove(
+          "off"
+        );
+
+      } else {
+
+        designStatus.textContent =
+          "Hidden";
+
+        designIndicator.classList.add(
+          "off"
+        );
 
       }
 
 
-      return {
+      /* CHATTER */
 
-        total:
-          Array.isArray(banners)
-            ? banners.length
-            : 0,
+      const chatterStatus =
+        document.getElementById(
+          "chatterStatus"
+        );
 
-        enabled:
-          settings.enabled !== false
+      const chatterIndicator =
+        document.getElementById(
+          "chatterIndicator"
+        );
 
-      };
+
+      const chatterEnabled =
+        website.chatterEnabled &&
+        chatter.enabled !== false;
+
+
+      if (
+        chatterEnabled
+      ) {
+
+        chatterStatus.textContent =
+          "Enabled";
+
+        chatterIndicator.classList.remove(
+          "off"
+        );
+
+      } else {
+
+        chatterStatus.textContent =
+          "Disabled";
+
+        chatterIndicator.classList.add(
+          "off"
+        );
+
+      }
+
+
+      /* MAINTENANCE */
+
+      const maintenanceStatus =
+        document.getElementById(
+          "maintenanceStatus"
+        );
+
+      const maintenanceIndicator =
+        document.getElementById(
+          "maintenanceIndicator"
+        );
+
+
+      if (
+        website.maintenanceMode
+      ) {
+
+        maintenanceStatus.textContent =
+          "Active";
+
+        maintenanceIndicator.classList.add(
+          "off"
+        );
+
+      } else {
+
+        maintenanceStatus.textContent =
+          "Normal";
+
+        maintenanceIndicator.classList.remove(
+          "off"
+        );
+
+      }
 
     }
+
+
+    /* =========================================================
+       SESSION ACTION
+    ========================================================= */
+
+    function setupSessionAction() {
+
+      const action =
+        document.getElementById(
+          "sessionAction"
+        );
+
+
+      const session =
+        getSession();
+
+
+      if (!session) {
+        return;
+      }
+
+
+      action.addEventListener(
+        "click",
+        () => {
+
+          window.location.href =
+            "./dashboard.html";
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key ===
+          WEBSITE_KEY
+        ) {
+
+          updateStatus();
+
+        }
+
+
+        if (
+          event.key ===
+          CHATTER_KEY
+        ) {
+
+          updateStatus();
+
+        }
+
+
+        if (
+          event.key ===
+          SESSION_KEY
+        ) {
+
+          loadProfile();
+
+          updateStatus();
+
+        }
+
+      }
+    );
 
 
     /* =========================================================
        TOAST
     ========================================================= */
 
-    let toastTimer = null;
+    let toastTimer;
 
 
     function showToast(
@@ -3227,132 +2231,10 @@
             );
 
           },
-          2500
+          2800
         );
 
     }
-
-
-    /* =========================================================
-       MOBILE SIDEBAR
-    ========================================================= */
-
-    const sidebar =
-      document.getElementById(
-        "sidebar"
-      );
-
-    const overlay =
-      document.getElementById(
-        "sidebarOverlay"
-      );
-
-    const mobileMenu =
-      document.getElementById(
-        "mobileMenuBtn"
-      );
-
-
-    function openSidebar() {
-
-      sidebar.classList.add(
-        "open"
-      );
-
-      overlay.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function closeSidebar() {
-
-      sidebar.classList.remove(
-        "open"
-      );
-
-      overlay.classList.remove(
-        "show"
-      );
-
-    }
-
-
-    mobileMenu.addEventListener(
-      "click",
-      openSidebar
-    );
-
-
-    overlay.addEventListener(
-      "click",
-      closeSidebar
-    );
-
-
-    document
-      .querySelectorAll(
-        ".nav-link"
-      )
-      .forEach(
-        link => {
-
-          link.addEventListener(
-            "click",
-            () => {
-
-              if (
-                window.innerWidth <= 850
-              ) {
-
-                closeSidebar();
-
-              }
-
-            }
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    document
-      .getElementById(
-        "logoutBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          if (
-            window.AdminAuth &&
-            typeof
-              window.AdminAuth.logout ===
-              "function"
-          ) {
-
-            window.AdminAuth.logout();
-
-            return;
-
-          }
-
-
-          localStorage.removeItem(
-            SESSION_KEY
-          );
-
-
-          window.location.href =
-            "../login/index.html";
-
-        }
-      );
 
 
     /* =========================================================
@@ -3364,22 +2246,27 @@
     ) {
 
       return String(value)
+
         .replace(
           /&/g,
           "&amp;"
         )
+
         .replace(
           /</g,
           "&lt;"
         )
+
         .replace(
           />/g,
           "&gt;"
         )
+
         .replace(
           /"/g,
           "&quot;"
         )
+
         .replace(
           /'/g,
           "&#039;"
@@ -3389,44 +2276,13 @@
 
 
     /* =========================================================
-       STORAGE SYNC
+       YEAR
     ========================================================= */
 
-    window.addEventListener(
-      "storage",
-      event => {
-
-        if (
-          event.key ===
-          WEBSITE_KEY
-        ) {
-
-          loadSettings();
-
-        }
-
-
-        if (
-          event.key ===
-          ACTIVITY_KEY
-        ) {
-
-          renderActivities();
-
-        }
-
-
-        if (
-          event.key ===
-          SESSION_KEY
-        ) {
-
-          loadProfile();
-
-        }
-
-      }
-    );
+    document.getElementById(
+      "year"
+    ).textContent =
+      new Date().getFullYear();
 
 
     /* =========================================================
@@ -3435,11 +2291,9 @@
 
     loadProfile();
 
-    loadSettings();
+    updateStatus();
 
-    renderActivities();
-
-    getBannerSummary();
+    setupSessionAction();
 
   </script>
 
