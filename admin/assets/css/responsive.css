@@ -1,0 +1,416 @@
+/* =========================================================
+WEBSITE RESPONSIVE SYSTEM
+FILE: assets/css/responsive.css
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  }
+
+html {
+width: 100%;
+overflow-x: hidden;
+}
+
+body {
+width: 100%;
+max-width: 100%;
+overflow-x: hidden;
+}
+
+/* =========================================================
+IMAGES
+========================================================= */
+
+img {
+max-width: 100%;
+height: auto;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+button,
+a {
+-webkit-tap-highlight-color: transparent;
+}
+
+button {
+touch-action: manipulation;
+}
+
+/* =========================================================
+CONTAINERS
+========================================================= */
+
+.container,
+.section-container,
+.content-container {
+width: min(1200px, calc(100% - 40px));
+margin-left: auto;
+margin-right: auto;
+}
+
+/* =========================================================
+DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) {
+
+```
+.mobile-menu-toggle {
+    display: none !important;
+}
+
+.mobile-menu {
+    display: none !important;
+}
+```
+
+}
+
+/* =========================================================
+LARGE TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 1199px) {
+
+```
+.container,
+.section-container,
+.content-container {
+    width: min(100% - 40px, 1000px);
+}
+
+.hero-content {
+    max-width: 760px;
+}
+
+.hero-title {
+    font-size: clamp(42px, 6vw, 68px);
+}
+
+.features-grid,
+.design-grid,
+.cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+```
+
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+```
+.container,
+.section-container,
+.content-container {
+    width: calc(100% - 32px);
+}
+
+.desktop-nav {
+    display: none !important;
+}
+
+.mobile-menu-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero {
+    min-height: auto;
+    padding-top: 90px;
+    padding-bottom: 80px;
+}
+
+.hero-content {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+}
+
+.features-grid,
+.design-grid,
+.cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.how-it-works-grid {
+    grid-template-columns: 1fr;
+}
+
+.footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+```
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+```
+.container,
+.section-container,
+.content-container {
+    width: calc(100% - 24px);
+}
+
+/* Header */
+
+.header,
+.navbar,
+.site-header {
+    min-height: 64px;
+}
+
+.logo {
+    max-width: 150px;
+    font-size: 20px;
+}
+
+/* Typography */
+
+.hero-title,
+.section-title {
+    line-height: 1.12;
+}
+
+.hero-title {
+    font-size: clamp(34px, 10vw, 48px);
+}
+
+.section-title {
+    font-size: clamp(28px, 8vw, 38px);
+}
+
+.hero-description,
+.section-description {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* Hero */
+
+.hero {
+    padding-top: 72px;
+    padding-bottom: 64px;
+}
+
+.hero-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.hero-actions a,
+.hero-actions button {
+    width: 100%;
+    min-height: 48px;
+}
+
+/* Grids */
+
+.features-grid,
+.design-grid,
+.cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/* Section */
+
+.section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+
+/* Footer */
+
+.footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+}
+
+/* Forms */
+
+input,
+select,
+textarea {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+}
+
+/* Tables */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    min-width: 680px;
+}
+```
+
+}
+
+/* =========================================================
+SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+```
+.container,
+.section-container,
+.content-container {
+    width: calc(100% - 20px);
+}
+
+.hero-title {
+    font-size: 32px;
+}
+
+.section-title {
+    font-size: 27px;
+}
+
+.hero-description,
+.section-description {
+    font-size: 14px;
+}
+
+.card,
+.feature-card {
+    padding: 18px;
+}
+
+.btn,
+.button,
+button {
+    min-height: 46px;
+}
+```
+
+}
+
+/* =========================================================
+TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+```
+button,
+a,
+input,
+select,
+textarea {
+    touch-action: manipulation;
+}
+
+button,
+.btn,
+.button {
+    min-height: 44px;
+}
+
+a {
+    min-height: 44px;
+}
+```
+
+}
+
+/* =========================================================
+REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+```
+*,
+*::before,
+*::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+```
+
+}
+
+/* =========================================================
+SAFE AREA — MOBILE DEVICES
+========================================================= */
+
+@supports (padding: max(0px)) {
+
+```
+body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+}
+
+.mobile-bottom-bar {
+    padding-bottom:
+        max(12px, env(safe-area-inset-bottom));
+}
+```
+
+}
+
+/* =========================================================
+ACCESSIBILITY
+========================================================= */
+
+:focus-visible {
+outline: 3px solid rgba(99, 91, 255, 0.35);
+outline-offset: 3px;
+}
+
+/* =========================================================
+HORIZONTAL OVERFLOW PROTECTION
+========================================================= */
+
+pre,
+code {
+max-width: 100%;
+overflow-x: auto;
+}
+
+iframe,
+video,
+canvas {
+max-width: 100%;
+}
