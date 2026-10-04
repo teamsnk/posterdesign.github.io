@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>Website Management | Design System</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* =========================================================
+       WEBSITE MANAGEMENT
+       ADMIN PANEL
+    ========================================================= */
 
     :root {
-      --sidebar: #0f172a;
-      --sidebar-text: #cbd5e1;
-      --sidebar-muted: #94a3b8;
-
       --bg: #f4f7fb;
       --card: #ffffff;
-      --border: #e5e7eb;
+      --text: #172033;
+      --muted: #718096;
+      --border: #e5eaf1;
 
-      --text: #111827;
-      --muted: #64748b;
+      --sidebar: #101827;
+      --sidebar-soft: #182235;
+      --sidebar-text: #aeb9ca;
+      --sidebar-active: #ffffff;
 
       --primary: #2563eb;
       --primary-dark: #1d4ed8;
 
       --success: #16a34a;
-      --warning: #d97706;
-      --danger: #dc2626;
+      --success-bg: #ecfdf3;
 
-      --sidebar-width: 260px;
+      --warning: #d97706;
+      --warning-bg: #fff7ed;
+
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+
+      --info: #0891b2;
+      --info-bg: #ecfeff;
 
       --shadow:
-        0 12px 35px rgba(15, 23, 42, 0.08);
+        0 10px 30px rgba(15, 23, 42, 0.06);
 
       --radius: 18px;
+      --sidebar-width: 260px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html {
@@ -45,26 +60,19 @@
     }
 
     body {
-      min-height: 100vh;
-
-      background: var(--bg);
-
-      color: var(--text);
-
       font-family:
         Inter,
+        ui-sans-serif,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
 
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     button,
@@ -77,273 +85,189 @@
       cursor: pointer;
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     /* =========================================================
        SIDEBAR
     ========================================================= */
 
     .sidebar {
       position: fixed;
-
       top: 0;
       left: 0;
-      bottom: 0;
-
       width: var(--sidebar-width);
-
+      height: 100vh;
+      background: var(--sidebar);
+      color: var(--sidebar-text);
       z-index: 1000;
-
       display: flex;
       flex-direction: column;
-
-      color: white;
-
-      background:
-        linear-gradient(
-          180deg,
-          #0f172a 0%,
-          #111827 55%,
-          #0b1220 100%
-        );
-
-      border-right:
-        1px solid rgba(255,255,255,0.06);
+      transition: transform 0.25s ease;
     }
 
     .brand {
+      height: 76px;
+      padding: 0 22px;
       display: flex;
       align-items: center;
-
       gap: 12px;
-
-      padding: 24px 20px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
     }
 
     .brand-icon {
-      width: 42px;
-      height: 42px;
-
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
       display: grid;
       place-items: center;
-
-      flex-shrink: 0;
-
-      border-radius: 13px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #7c3aed
-        );
-
-      font-size: 19px;
-      font-weight: 900;
-
-      box-shadow:
-        0 10px 25px
-        rgba(37,99,235,0.35);
-    }
-
-    .brand-text h1 {
-      font-size: 16px;
+      background: linear-gradient(
+        135deg,
+        #2563eb,
+        #7c3aed
+      );
+      color: #fff;
       font-weight: 800;
+      font-size: 15px;
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
     }
 
-    .brand-text p {
+    .brand-text strong {
+      display: block;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-text span {
+      display: block;
+      color: #7f8ca1;
+      font-size: 11px;
       margin-top: 3px;
-
-      color: var(--sidebar-muted);
-
-      font-size: 10px;
     }
 
-    .nav {
+    .sidebar-scroll {
       flex: 1;
-
       overflow-y: auto;
-
       padding: 18px 12px;
     }
 
     .nav-title {
-      padding: 8px 12px;
-
-      margin-bottom: 6px;
-
-      color: #64748b;
-
+      padding: 8px 11px;
+      color: #647187;
       font-size: 10px;
       font-weight: 800;
-
       text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
 
-      letter-spacing: 1px;
+    .nav {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 20px;
     }
 
     .nav-link {
+      min-height: 44px;
+      padding: 0 12px;
       display: flex;
       align-items: center;
-
-      gap: 12px;
-
-      padding: 11px 13px;
-
-      margin-bottom: 4px;
-
-      border-radius: 12px;
-
+      gap: 11px;
+      border-radius: 11px;
       color: var(--sidebar-text);
-
       font-size: 13px;
       font-weight: 600;
-
       transition: 0.2s ease;
     }
 
     .nav-link:hover {
-      background:
-        rgba(255,255,255,0.07);
-
-      color: white;
-
-      transform:
-        translateX(2px);
+      background: var(--sidebar-soft);
+      color: #fff;
+      transform: translateX(2px);
     }
 
     .nav-link.active {
-      color: white;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(37,99,235,0.95),
-          rgba(79,70,229,0.95)
-        );
-
+      background: #1d4ed8;
+      color: #fff;
       box-shadow:
-        0 8px 20px
-        rgba(37,99,235,0.25);
+        0 8px 18px rgba(29, 78, 216, 0.22);
     }
 
     .nav-icon {
-      width: 22px;
-
+      width: 25px;
       text-align: center;
-
       font-size: 15px;
+      flex-shrink: 0;
     }
 
-    .sidebar-footer {
-      padding: 14px;
-
-      border-top:
-        1px solid rgba(255,255,255,0.08);
+    .sidebar-bottom {
+      padding: 14px 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
     }
 
     .admin-mini {
       display: flex;
       align-items: center;
-
       gap: 10px;
-
-      padding: 10px;
-
-      border-radius: 13px;
-
-      background:
-        rgba(255,255,255,0.05);
+      padding: 9px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
     }
 
     .admin-avatar {
       width: 36px;
       height: 36px;
-
-      flex-shrink: 0;
-
+      border-radius: 10px;
+      background: linear-gradient(
+        135deg,
+        #2563eb,
+        #7c3aed
+      );
       display: grid;
       place-items: center;
-
-      overflow: hidden;
-
-      border-radius: 50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #9333ea
-        );
-
-      font-size: 11px;
+      color: #fff;
+      font-size: 12px;
       font-weight: 800;
     }
 
-    .admin-avatar img {
-      width: 100%;
-      height: 100%;
-
-      object-fit: cover;
-    }
-
-    .admin-info {
+    .admin-mini-info {
       min-width: 0;
       flex: 1;
     }
 
-    .admin-info strong {
+    .admin-mini-info strong {
       display: block;
-
-      color: white;
-
+      color: #fff;
       font-size: 12px;
-
       white-space: nowrap;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
     }
 
-    .admin-info span {
+    .admin-mini-info span {
       display: block;
-
-      margin-top: 2px;
-
-      color: #94a3b8;
-
+      color: #77849a;
       font-size: 10px;
-
-      text-transform: capitalize;
+      margin-top: 2px;
     }
 
     .logout-btn {
-      width: 100%;
-
-      margin-top: 9px;
-
-      padding: 9px;
-
       border: 0;
-
-      border-radius: 10px;
-
-      background:
-        rgba(220,38,38,0.12);
-
-      color: #fca5a5;
-
-      font-size: 11px;
-      font-weight: 700;
+      background: transparent;
+      color: #7f8ca1;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
     }
 
     .logout-btn:hover {
-      background:
-        rgba(220,38,38,0.2);
-
-      color: white;
+      color: #fff;
+      background: rgba(255,255,255,0.07);
     }
 
     /* =========================================================
@@ -351,17 +275,18 @@
     ========================================================= */
 
     .sidebar-overlay {
-      display: none;
-
       position: fixed;
       inset: 0;
-
+      background: rgba(2, 6, 23, 0.52);
       z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s ease;
+    }
 
-      background:
-        rgba(15,23,42,0.55);
-
-      backdrop-filter: blur(2px);
+    .sidebar-overlay.show {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* =========================================================
@@ -369,9 +294,8 @@
     ========================================================= */
 
     .main {
-      min-height: 100vh;
-
       margin-left: var(--sidebar-width);
+      min-height: 100vh;
     }
 
     /* =========================================================
@@ -379,95 +303,74 @@
     ========================================================= */
 
     .topbar {
+      height: 76px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       position: sticky;
-
       top: 0;
-
       z-index: 500;
-
-      height: 72px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      padding: 0 28px;
-
-      background:
-        rgba(255,255,255,0.92);
-
-      backdrop-filter: blur(14px);
-
-      border-bottom:
-        1px solid var(--border);
+      padding: 0 30px;
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-
       gap: 14px;
     }
 
-    .mobile-menu-btn {
+    .mobile-menu {
       display: none;
-
       width: 40px;
       height: 40px;
-
-      place-items: center;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 11px;
-
-      background: white;
-
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 10px;
       font-size: 19px;
     }
 
-    .page-title h2 {
-      font-size: 19px;
-
-      letter-spacing: -0.4px;
+    .page-title h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     .page-title p {
-      margin-top: 3px;
-
       color: var(--muted);
-
       font-size: 11px;
+      margin-top: 3px;
     }
 
     .topbar-right {
       display: flex;
       align-items: center;
-
-      gap: 8px;
+      gap: 10px;
     }
 
-    .top-btn {
-      padding: 9px 13px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 10px;
-
-      background: white;
-
-      color: var(--text);
-
+    .top-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 999px;
+      padding: 8px 12px;
       font-size: 11px;
+      color: #536174;
       font-weight: 700;
     }
 
-    .top-btn:hover {
-      color: var(--primary);
-
-      border-color: #bfdbfe;
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(22,163,74,0.1);
     }
 
     /* =========================================================
@@ -475,11 +378,9 @@
     ========================================================= */
 
     .content {
-      max-width: 1500px;
-
+      padding: 30px;
+      max-width: 1600px;
       margin: 0 auto;
-
-      padding: 28px;
     }
 
     /* =========================================================
@@ -487,626 +388,492 @@
     ========================================================= */
 
     .hero {
-      position: relative;
-
-      overflow: hidden;
-
-      padding: 29px;
-
-      margin-bottom: 22px;
-
-      border-radius: 23px;
-
-      color: white;
-
       background:
-        radial-gradient(
-          circle at 90% 10%,
-          rgba(59,130,246,0.23),
-          transparent 31%
-        ),
         linear-gradient(
           135deg,
-          #111827,
-          #1e293b
+          #172554 0%,
+          #1e3a8a 48%,
+          #312e81 100%
         );
 
-      box-shadow: var(--shadow);
+      border-radius: 22px;
+      padding: 30px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      box-shadow:
+        0 18px 40px rgba(30, 58, 138, 0.18);
+      margin-bottom: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      top: -120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
-
       gap: 7px;
-
-      padding: 7px 11px;
-
-      border:
-        1px solid rgba(255,255,255,0.1);
-
+      padding: 7px 10px;
       border-radius: 999px;
-
-      background:
-        rgba(255,255,255,0.08);
-
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dbeafe;
       font-size: 10px;
       font-weight: 800;
-
       text-transform: uppercase;
-
-      letter-spacing: 0.8px;
+      letter-spacing: 0.08em;
+      margin-bottom: 13px;
     }
 
-    .hero h1 {
-      margin-top: 13px;
-
-      font-size:
-        clamp(25px, 3vw, 36px);
-
+    .hero h2 {
+      font-size: 28px;
       line-height: 1.15;
-
-      letter-spacing: -0.8px;
+      letter-spacing: -0.03em;
+      margin-bottom: 9px;
     }
 
     .hero p {
-      max-width: 760px;
-
-      margin-top: 10px;
-
-      color: #cbd5e1;
-
-      font-size: 12px;
-
+      max-width: 650px;
+      color: #bfdbfe;
+      font-size: 13px;
       line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
-      flex-wrap: wrap;
-
-      gap: 8px;
-
-      margin-top: 18px;
+      gap: 9px;
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
     }
 
     .hero-btn {
-      padding: 10px 14px;
-
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      padding: 11px 15px;
       border-radius: 10px;
-
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .hero-btn.primary {
-      border: 0;
-
-      background: white;
-
-      color: #111827;
-    }
-
-    .hero-btn.secondary {
-      border:
-        1px solid rgba(255,255,255,0.15);
-
-      background:
-        rgba(255,255,255,0.08);
-
-      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      transition: 0.2s ease;
     }
 
     .hero-btn:hover {
-      transform:
-        translateY(-1px);
+      background: rgba(255,255,255,0.17);
+      transform: translateY(-1px);
+    }
+
+    .hero-btn.primary {
+      background: #fff;
+      color: #1d4ed8;
+      border-color: #fff;
     }
 
     /* =========================================================
-       STATS
+       GRID
     ========================================================= */
 
-    .stats-grid {
+    .grid {
       display: grid;
+      gap: 18px;
+    }
 
-      grid-template-columns:
-        repeat(4, 1fr);
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 
-      gap: 15px;
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
-      margin-bottom: 22px;
+    /* =========================================================
+       CARDS
+    ========================================================= */
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
     .stat-card {
-      padding: 19px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 17px;
-
-      background: white;
-
-      box-shadow: var(--shadow);
+      padding: 20px;
+      min-height: 130px;
     }
 
     .stat-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
     }
 
     .stat-icon {
       width: 42px;
       height: 42px;
-
+      border-radius: 12px;
       display: grid;
       place-items: center;
-
-      border-radius: 12px;
-
+      font-size: 17px;
       background: #eff6ff;
-
-      font-size: 18px;
-    }
-
-    .status-pill {
-      padding: 5px 8px;
-
-      border-radius: 999px;
-
-      font-size: 8px;
-      font-weight: 800;
-    }
-
-    .status-pill.success {
-      background: #f0fdf4;
-      color: #15803d;
-    }
-
-    .status-pill.warning {
-      background: #fffbeb;
-      color: #b45309;
-    }
-
-    .status-pill.danger {
-      background: #fef2f2;
-      color: #b91c1c;
+      color: var(--primary);
     }
 
     .stat-label {
-      margin-top: 13px;
-
+      font-size: 11px;
       color: var(--muted);
-
-      font-size: 10px;
       font-weight: 700;
     }
 
     .stat-value {
-      margin-top: 4px;
-
-      font-size: 25px;
-      font-weight: 800;
+      font-size: 26px;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      margin-top: 10px;
     }
 
-    .stat-description {
-      margin-top: 4px;
-
-      color: var(--muted);
-
-      font-size: 9px;
+    .stat-note {
+      font-size: 10px;
+      color: #8a96a8;
+      margin-top: 3px;
     }
 
     /* =========================================================
-       TWO COLUMN
+       SECTION HEADER
     ========================================================= */
 
-    .two-column {
-      display: grid;
-
-      grid-template-columns:
-        1.15fr 0.85fr;
-
-      gap: 18px;
-
-      margin-bottom: 18px;
+    .section {
+      margin-top: 22px;
     }
 
-    .card {
-      padding: 20px;
-
-      background: white;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 17px;
-
-      box-shadow: var(--shadow);
-    }
-
-    .card-header {
+    .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      gap: 10px;
-
-      margin-bottom: 17px;
+      gap: 15px;
+      margin-bottom: 12px;
     }
 
-    .card-header h3 {
-      font-size: 14px;
+    .section-header h3 {
+      font-size: 15px;
+      font-weight: 800;
     }
 
-    .card-header p {
-      margin-top: 3px;
-
+    .section-header p {
       color: var(--muted);
-
-      font-size: 9px;
+      font-size: 11px;
+      margin-top: 3px;
     }
 
     /* =========================================================
-       STATUS ROWS
+       STATUS CARD
     ========================================================= */
 
-    .status-list {
-      display: grid;
-
-      gap: 9px;
+    .status-card {
+      padding: 20px;
     }
 
     .status-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 15px;
-
-      padding: 12px;
-
-      border:
-        1px solid #eef2f7;
-
-      border-radius: 12px;
-
-      background: #f8fafc;
+      padding: 14px 0;
+      border-bottom: 1px solid #eef1f5;
     }
 
-    .status-left {
+    .status-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .status-row:first-child {
+      padding-top: 0;
+    }
+
+    .status-info {
       display: flex;
       align-items: center;
-
-      gap: 10px;
-
+      gap: 12px;
       min-width: 0;
     }
 
     .status-icon {
-      width: 34px;
-      height: 34px;
-
-      flex-shrink: 0;
-
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       display: grid;
       place-items: center;
-
-      border-radius: 10px;
-
-      background: white;
-
-      box-shadow:
-        0 4px 10px
-        rgba(15,23,42,0.05);
-    }
-
-    .status-name strong {
-      display: block;
-
-      font-size: 10px;
-    }
-
-    .status-name span {
-      display: block;
-
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 8px;
-    }
-
-    /* =========================================================
-       SWITCH
-    ========================================================= */
-
-    .switch {
-      position: relative;
-
-      width: 42px;
-      height: 23px;
-
+      background: #f5f7fb;
+      color: #516071;
       flex-shrink: 0;
     }
 
-    .switch input {
-      opacity: 0;
-
-      width: 0;
-      height: 0;
+    .status-info strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    .slider {
-      position: absolute;
+    .status-info span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
 
-      inset: 0;
-
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
       border-radius: 999px;
-
-      background: #cbd5e1;
-
-      transition: 0.2s ease;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .slider::before {
+    .pill::before {
       content: "";
-
-      position: absolute;
-
-      width: 17px;
-      height: 17px;
-
-      left: 3px;
-      top: 3px;
-
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-
-      background: white;
-
-      box-shadow:
-        0 2px 5px
-        rgba(15,23,42,0.18);
-
-      transition: 0.2s ease;
+      background: currentColor;
     }
 
-    .switch input:checked + .slider {
-      background: var(--primary);
+    .pill.success {
+      background: var(--success-bg);
+      color: var(--success);
     }
 
-    .switch input:checked + .slider::before {
-      transform:
-        translateX(19px);
+    .pill.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .pill.danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .pill.info {
+      background: var(--info-bg);
+      color: var(--info);
     }
 
     /* =========================================================
        QUICK ACTIONS
     ========================================================= */
 
-    .quick-grid {
+    .quick-card {
+      padding: 20px;
+    }
+
+    .action-grid {
       display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 9px;
     }
 
-    .quick-btn {
-      min-height: 68px;
-
-      display: flex;
-      flex-direction: column;
-
-      align-items: flex-start;
-      justify-content: center;
-
-      gap: 5px;
-
-      padding: 12px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 12px;
-
-      background: white;
-
-      text-align: left;
-
+    .action-btn {
+      min-height: 48px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 11px;
+      color: #39465a;
+      font-size: 11px;
+      font-weight: 750;
       transition: 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
     }
 
-    .quick-btn:hover {
-      border-color: #bfdbfe;
-
+    .action-btn:hover {
+      border-color: #bfd0ef;
       background: #f8fbff;
-
-      transform:
-        translateY(-2px);
+      color: var(--primary);
+      transform: translateY(-1px);
     }
 
-    .quick-btn strong {
-      font-size: 10px;
+    .action-btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
     }
 
-    .quick-btn span {
-      color: var(--muted);
+    .action-btn.primary:hover {
+      background: var(--primary-dark);
+      color: #fff;
+    }
 
-      font-size: 8px;
+    .action-btn.danger {
+      color: var(--danger);
     }
 
     /* =========================================================
        WEBSITE INFO
     ========================================================= */
 
-    .website-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 10px;
+    .info-card {
+      padding: 20px;
     }
 
     .info-box {
-      padding: 13px;
-
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: #f9fbfd;
       border-radius: 12px;
-
-      background: #f8fafc;
-
-      border:
-        1px solid #eef2f7;
+      margin-bottom: 10px;
     }
 
-    .info-box label {
-      display: block;
+    .info-box:last-child {
+      margin-bottom: 0;
+    }
 
-      color: var(--muted);
-
-      font-size: 8px;
-      font-weight: 700;
+    .info-box-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
     }
 
     .info-box strong {
-      display: block;
+      font-size: 12px;
+    }
 
+    .info-box p {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
       margin-top: 5px;
-
-      font-size: 11px;
-
-      word-break: break-word;
     }
 
     /* =========================================================
        ACTIVITY
     ========================================================= */
 
+    .activity-card {
+      padding: 20px;
+    }
+
     .activity-list {
       display: grid;
-
-      gap: 9px;
-
-      max-height: 280px;
-
-      overflow-y: auto;
+      gap: 0;
     }
 
     .activity-item {
       display: flex;
-
-      gap: 10px;
-
-      padding: 10px;
-
-      border-radius: 11px;
-
-      background: #f8fafc;
-    }
-
-    .activity-dot {
-      width: 8px;
-      height: 8px;
-
-      flex-shrink: 0;
-
-      margin-top: 5px;
-
-      border-radius: 50%;
-
-      background: var(--primary);
-    }
-
-    .activity-content {
-      min-width: 0;
-    }
-
-    .activity-content strong {
-      display: block;
-
-      font-size: 9px;
-    }
-
-    .activity-content span {
-      display: block;
-
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 8px;
-
-      line-height: 1.5;
-    }
-
-    .empty-activity {
-      padding: 25px 10px;
-
-      text-align: center;
-
-      color: var(--muted);
-
-      font-size: 9px;
-    }
-
-    /* =========================================================
-       SECURITY
-    ========================================================= */
-
-    .security {
-      display: flex;
       align-items: flex-start;
-
-      gap: 12px;
-
-      padding: 17px;
-
-      margin-top: 18px;
-
-      border:
-        1px solid #bfdbfe;
-
-      border-radius: 15px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #eff6ff,
-          #f8fbff
-        );
+      gap: 11px;
+      padding: 13px 0;
+      border-bottom: 1px solid #eef1f5;
     }
 
-    .security-icon {
-      width: 38px;
-      height: 38px;
+    .activity-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
 
-      flex-shrink: 0;
-
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
       display: grid;
       place-items: center;
-
-      border-radius: 11px;
-
-      background: white;
-
-      font-size: 17px;
+      background: #eff6ff;
+      color: var(--primary);
+      flex-shrink: 0;
+      font-size: 13px;
     }
 
-    .security h3 {
+    .activity-text {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .activity-text strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .activity-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .activity-time {
+      color: #9aa5b5;
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 25px 10px;
       font-size: 11px;
     }
 
+    /* =========================================================
+       SECURITY NOTICE
+    ========================================================= */
+
+    .security {
+      margin-top: 22px;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .security-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .security strong {
+      display: block;
+      font-size: 11px;
+      color: #1e3a8a;
+    }
+
     .security p {
+      color: #365783;
+      font-size: 10px;
+      line-height: 1.7;
       margin-top: 4px;
-
-      color: #64748b;
-
-      font-size: 9px;
-
-      line-height: 1.6;
     }
 
     /* =========================================================
@@ -1115,94 +882,69 @@
 
     .toast {
       position: fixed;
-
-      right: 24px;
-      bottom: 24px;
-
-      min-width: 260px;
-      max-width: 370px;
-
-      padding: 13px 15px;
-
-      z-index: 3000;
-
-      border-radius: 13px;
-
-      color: white;
-
+      right: 22px;
+      bottom: 22px;
+      min-width: 240px;
+      max-width: calc(100vw - 44px);
       background: #111827;
-
+      color: #fff;
+      border-radius: 12px;
+      padding: 13px 15px;
       box-shadow:
-        0 15px 40px
-        rgba(15,23,42,0.25);
-
+        0 18px 35px rgba(15,23,42,0.2);
       font-size: 11px;
       font-weight: 700;
-
-      transform:
-        translateY(120px);
-
+      transform: translateY(20px);
       opacity: 0;
-
-      pointer-events: none;
-
-      transition: 0.3s ease;
+      visibility: hidden;
+      transition: 0.25s ease;
+      z-index: 3000;
     }
 
     .toast.show {
-      transform:
-        translateY(0);
-
+      transform: translateY(0);
       opacity: 1;
+      visibility: visible;
+    }
+
+    .toast.success {
+      background: #166534;
+    }
+
+    .toast.error {
+      background: #991b1b;
     }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
 
-    @media (max-width: 1150px) {
-
-      .stats-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
-      }
-
-      .two-column {
-        grid-template-columns:
-          1fr;
-      }
-
-      .website-grid {
-        grid-template-columns:
-          repeat(3, 1fr);
+    @media (max-width: 1200px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
+      :root {
+        --sidebar-width: 260px;
+      }
 
       .sidebar {
-        transform:
-          translateX(-100%);
-
-        transition:
-          transform 0.25s ease;
+        transform: translateX(-100%);
       }
 
       .sidebar.open {
-        transform:
-          translateX(0);
-      }
-
-      .sidebar-overlay.show {
-        display: block;
+        transform: translateX(0);
       }
 
       .main {
         margin-left: 0;
       }
 
-      .mobile-menu-btn {
+      .mobile-menu {
         display: grid;
+        place-items: center;
       }
 
       .topbar {
@@ -1212,23 +954,35 @@
       .content {
         padding: 20px;
       }
-    }
 
-    @media (max-width: 650px) {
-
-      .topbar {
-        height: 64px;
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
-      .page-title h2 {
+      .hero-actions {
+        width: 100%;
+      }
+
+      .hero-btn {
+        flex: 1;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .top-status {
+        display: none;
+      }
+
+      .page-title h1 {
         font-size: 16px;
       }
 
       .page-title p {
-        display: none;
-      }
-
-      .top-btn {
         display: none;
       }
 
@@ -1237,226 +991,219 @@
       }
 
       .hero {
-        padding: 21px;
-
-        border-radius: 19px;
+        padding: 22px;
+        border-radius: 18px;
       }
 
-      .hero h1 {
-        font-size: 25px;
+      .hero h2 {
+        font-size: 23px;
       }
 
-      .stats-grid {
-        grid-template-columns:
-          1fr 1fr;
+      .hero p {
+        font-size: 11px;
+      }
 
-        gap: 10px;
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .grid-4 {
+        grid-template-columns: 1fr;
       }
 
       .stat-card {
-        padding: 14px;
+        min-height: auto;
       }
 
-      .stat-value {
-        font-size: 21px;
+      .section {
+        margin-top: 16px;
       }
 
-      .website-grid {
-        grid-template-columns:
-          1fr;
+      .status-card,
+      .quick-card,
+      .info-card,
+      .activity-card {
+        padding: 16px;
       }
 
-      .quick-grid {
-        grid-template-columns:
-          1fr 1fr;
+      .action-grid {
+        grid-template-columns: 1fr;
       }
 
-      .toast {
-        left: 14px;
-        right: 14px;
-
-        min-width: auto;
-
-        bottom: 14px;
-      }
-    }
-
-    @media (max-width: 380px) {
-
-      .stats-grid {
-        grid-template-columns:
-          1fr;
+      .status-row {
+        align-items: flex-start;
       }
 
-      .quick-grid {
-        grid-template-columns:
-          1fr;
+      .status-row .pill {
+        margin-top: 2px;
+      }
+
+      .security {
+        padding: 13px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-
       *,
       *::before,
       *::after {
-        transition: none !important;
         scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
       }
-    }
-
-    button:focus-visible,
-    a:focus-visible,
-    input:focus-visible,
-    select:focus-visible {
-      outline:
-        3px solid
-        rgba(37,99,235,0.2);
-
-      outline-offset: 2px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =========================================================
-       SIDEBAR
-  ========================================================= -->
+  <!-- =======================================================
+       SIDEBAR OVERLAY
+  ======================================================== -->
 
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="closeSidebar()"
+  ></div>
+
+  <!-- =======================================================
+       SIDEBAR
+  ======================================================== -->
+
+  <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-
-      <div class="brand-icon">
-        DS
-      </div>
+      <div class="brand-icon">DS</div>
 
       <div class="brand-text">
-
-        <h1>
-          Design System
-        </h1>
-
-        <p>
-          Admin Control Center
-        </p>
-
+        <strong>Design System</strong>
+        <span>Admin Control Center</span>
       </div>
+    </div>
+
+    <div class="sidebar-scroll">
+
+      <div class="nav-title">Main</div>
+
+      <nav class="nav">
+
+        <a
+          href="./dashboard.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a
+          href="./website.html"
+          class="nav-link active"
+        >
+          <span class="nav-icon">◉</span>
+          <span>Website</span>
+        </a>
+
+        <a
+          href="./website-edit.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">✎</span>
+          <span>Website Editor</span>
+        </a>
+
+        <a
+          href="./design-manage.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">▦</span>
+          <span>Design Management</span>
+        </a>
+
+        <a
+          href="./banner.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">▣</span>
+          <span>Advertisement</span>
+        </a>
+
+        <a
+          href="./chatter.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">◌</span>
+          <span>Chatter</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-title">System</div>
+
+      <nav class="nav">
+
+        <a
+          href="./browser-ui.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">◫</span>
+          <span>Browser UI</span>
+        </a>
+
+        <a
+          href="./live-monitor.html"
+          class="nav-link"
+          id="liveMonitorLink"
+        >
+          <span class="nav-icon">◉</span>
+          <span>Live Monitor</span>
+        </a>
+
+        <a
+          href="./system.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">⚙</span>
+          <span>System Settings</span>
+        </a>
+
+        <a
+          href="./link-check.html"
+          class="nav-link"
+        >
+          <span class="nav-icon">↗</span>
+          <span>Link Checker</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-title">Public</div>
+
+      <nav class="nav">
+
+        <a
+          href="../index.html"
+          target="_blank"
+          class="nav-link"
+        >
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
+
+        <a
+          href="../chatter/index.html"
+          target="_blank"
+          class="nav-link"
+        >
+          <span class="nav-icon">☏</span>
+          <span>Open Chatter</span>
+        </a>
+
+      </nav>
 
     </div>
 
-
-    <nav class="nav">
-
-      <div class="nav-title">
-        Main
-      </div>
-
-      <a
-        href="./dashboard.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">📊</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a
-        href="./website.html"
-        class="nav-link active"
-      >
-        <span class="nav-icon">🌐</span>
-        <span>Website</span>
-      </a>
-
-      <a
-        href="./website-edit.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">✏️</span>
-        <span>Website Editor</span>
-      </a>
-
-      <a
-        href="./design-manage.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🎨</span>
-        <span>Design Management</span>
-      </a>
-
-      <a
-        href="./banner.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🖼️</span>
-        <span>Advertisement</span>
-      </a>
-
-
-      <div class="nav-title">
-        Chatter
-      </div>
-
-      <a
-        href="./chatter.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">💬</span>
-        <span>Chatter Settings</span>
-      </a>
-
-      <a
-        href="./browser-ui.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🌐</span>
-        <span>Browser UI</span>
-      </a>
-
-      <a
-        href="./live-monitor.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">📡</span>
-        <span>Live Monitor</span>
-      </a>
-
-
-      <div class="nav-title">
-        System
-      </div>
-
-      <a
-        href="./system.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">⚙️</span>
-        <span>System Settings</span>
-      </a>
-
-      <a
-        href="./link-check.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🔗</span>
-        <span>Link Checker</span>
-      </a>
-
-      <a
-        href="../index.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">🏠</span>
-        <span>View Website</span>
-      </a>
-
-    </nav>
-
-
-    <div class="sidebar-footer">
+    <div class="sidebar-bottom">
 
       <div class="admin-mini">
 
@@ -1464,45 +1211,36 @@
           class="admin-avatar"
           id="adminAvatar"
         >
-          AD
+          SA
         </div>
 
-        <div class="admin-info">
-
+        <div class="admin-mini-info">
           <strong id="adminName">
             System Admin
           </strong>
 
           <span id="adminRole">
-            Admin
+            Administrator
           </span>
-
         </div>
 
+        <button
+          class="logout-btn"
+          onclick="handleLogout()"
+          title="Logout"
+        >
+          ↪
+        </button>
+
       </div>
-
-
-      <button
-        class="logout-btn"
-        id="logoutBtn"
-      >
-        Logout
-      </button>
 
     </div>
 
   </aside>
 
-
-  <div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-  ></div>
-
-
-  <!-- =========================================================
+  <!-- =======================================================
        MAIN
-  ========================================================= -->
+  ======================================================== -->
 
   <main class="main">
 
@@ -1513,466 +1251,495 @@
       <div class="topbar-left">
 
         <button
-          class="mobile-menu-btn"
-          id="mobileMenuBtn"
+          class="mobile-menu"
+          onclick="toggleSidebar()"
           aria-label="Open menu"
         >
           ☰
         </button>
 
         <div class="page-title">
-
-          <h2>
-            Website Management
-          </h2>
-
-          <p>
-            Control the public website from one place
-          </p>
-
+          <h1>Website Management</h1>
+          <p>Control your public website and homepage behavior</p>
         </div>
 
       </div>
 
-
       <div class="topbar-right">
 
-        <a
-          href="../index.html"
-          target="_blank"
-          rel="noopener"
-          class="top-btn"
-        >
-          ↗ Open Website
-        </a>
-
-        <a
-          href="./website-edit.html"
-          class="top-btn"
-        >
-          ✏️ Edit Website
-        </a>
+        <div class="top-status">
+          <span class="status-dot"></span>
+          <span>Admin System Online</span>
+        </div>
 
       </div>
 
     </header>
 
+    <!-- CONTENT -->
 
-    <!-- =======================================================
-         CONTENT
-    ======================================================= -->
-
-    <section class="content">
+    <div class="content">
 
       <!-- HERO -->
 
-      <div class="hero">
+      <section class="hero">
 
-        <div class="hero-badge">
-          🌐 Website Control
+        <div class="hero-content">
+
+          <div class="hero-badge">
+            <span>●</span>
+            Website Control
+          </div>
+
+          <h2>
+            Manage your website from one place.
+          </h2>
+
+          <p>
+            Control website availability, homepage sections,
+            advertisement display, Chatter integration and
+            maintenance mode without changing the source code.
+          </p>
+
         </div>
-
-        <h1>
-          Manage Your Website
-        </h1>
-
-        <p>
-          Control website availability, design gallery visibility,
-          Chatter availability, maintenance mode and other public
-          website settings without touching the homepage code.
-        </p>
 
         <div class="hero-actions">
 
-          <a
-            href="../index.html"
-            target="_blank"
-            rel="noopener"
+          <button
             class="hero-btn primary"
+            onclick="openWebsite()"
           >
-            👁 View Live Website
-          </a>
+            ↗ View Website
+          </button>
 
-          <a
-            href="./website-edit.html"
-            class="hero-btn secondary"
+          <button
+            class="hero-btn"
+            onclick="openEditor()"
           >
-            ✏️ Open Website Editor
-          </a>
+            ✎ Edit Website
+          </button>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- =====================================================
            STATS
-      ===================================================== -->
+      ====================================================== -->
 
-      <div class="stats-grid">
+      <section class="grid grid-4">
 
-        <div class="stat-card">
+        <div class="card stat-card">
 
           <div class="stat-top">
-
-            <div class="stat-icon">
-              🌐
+            <div>
+              <div class="stat-label">
+                Website
+              </div>
             </div>
 
-            <span
-              class="status-pill success"
-              id="websiteStatusPill"
-            >
-              Online
-            </span>
-
-          </div>
-
-          <div class="stat-label">
-            Website Status
+            <div class="stat-icon">
+              ◉
+            </div>
           </div>
 
           <div
             class="stat-value"
-            id="websiteStatusValue"
+            id="websiteStat"
           >
-            Online
+            Active
           </div>
 
-          <div class="stat-description">
-            Public website availability
+          <div
+            class="stat-note"
+            id="websiteStatNote"
+          >
+            Public website is available
           </div>
 
         </div>
 
-
-        <div class="stat-card">
+        <div class="card stat-card">
 
           <div class="stat-top">
 
-            <div class="stat-icon">
-              🎨
+            <div>
+              <div class="stat-label">
+                Homepage Sections
+              </div>
             </div>
 
-            <span
-              class="status-pill success"
-              id="designStatusPill"
-            >
-              Visible
-            </span>
+            <div class="stat-icon">
+              ▦
+            </div>
 
-          </div>
-
-          <div class="stat-label">
-            Design Gallery
           </div>
 
           <div
             class="stat-value"
-            id="designStatusValue"
+            id="sectionStat"
           >
-            Visible
+            5/5
           </div>
 
-          <div class="stat-description">
-            Public design gallery status
+          <div class="stat-note">
+            Sections currently enabled
           </div>
 
         </div>
 
-
-        <div class="stat-card">
+        <div class="card stat-card">
 
           <div class="stat-top">
 
-            <div class="stat-icon">
-              💬
+            <div>
+              <div class="stat-label">
+                Advertisements
+              </div>
             </div>
 
-            <span
-              class="status-pill success"
-              id="chatterStatusPill"
-            >
-              Enabled
-            </span>
+            <div class="stat-icon">
+              ▣
+            </div>
 
-          </div>
-
-          <div class="stat-label">
-            Chatter
           </div>
 
           <div
             class="stat-value"
-            id="chatterStatusValue"
+            id="bannerStat"
+          >
+            0
+          </div>
+
+          <div
+            class="stat-note"
+            id="bannerStatNote"
+          >
+            Active website banners
+          </div>
+
+        </div>
+
+        <div class="card stat-card">
+
+          <div class="stat-top">
+
+            <div>
+              <div class="stat-label">
+                Chatter
+              </div>
+            </div>
+
+            <div class="stat-icon">
+              ◌
+            </div>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="chatterStat"
           >
             Enabled
           </div>
 
-          <div class="stat-description">
-            Website communication feature
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              🔧
-            </div>
-
-            <span
-              class="status-pill success"
-              id="maintenanceStatusPill"
-            >
-              Normal
-            </span>
-
-          </div>
-
-          <div class="stat-label">
-            Maintenance
-          </div>
-
           <div
-            class="stat-value"
-            id="maintenanceStatusValue"
+            class="stat-note"
+            id="chatterStatNote"
           >
-            Normal
-          </div>
-
-          <div class="stat-description">
-            Public maintenance mode
+            Chatter availability
           </div>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- =====================================================
-           TWO COLUMN
-      ===================================================== -->
+           WEBSITE + HOMEPAGE
+      ====================================================== -->
 
-      <div class="two-column">
+      <section class="section">
 
-        <!-- WEBSITE SETTINGS -->
+        <div class="section-header">
 
-        <div class="card">
-
-          <div class="card-header">
-
-            <div>
-
-              <h3>
-                Website Controls
-              </h3>
-
-              <p>
-                Changes are saved locally in this prototype.
-              </p>
-
-            </div>
-
+          <div>
+            <h3>Website Status</h3>
+            <p>
+              Current public website configuration
+            </p>
           </div>
 
+        </div>
 
-          <div class="status-list">
+        <div class="grid grid-2">
 
-            <!-- WEBSITE -->
+          <!-- WEBSITE STATUS -->
+
+          <div class="card status-card">
 
             <div class="status-row">
 
-              <div class="status-left">
+              <div class="status-info">
 
                 <div class="status-icon">
-                  🌐
+                  ◉
                 </div>
 
-                <div class="status-name">
-
-                  <strong>
-                    Website Enabled
-                  </strong>
-
+                <div>
+                  <strong>Website Availability</strong>
                   <span>
-                    Allow visitors to access the website
+                    Main website access
                   </span>
-
                 </div>
 
               </div>
 
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="websiteEnabled"
-                >
-
-                <span class="slider"></span>
-
-              </label>
+              <span
+                class="pill success"
+                id="websitePill"
+              >
+                Enabled
+              </span>
 
             </div>
 
-
-            <!-- DESIGNS -->
-
             <div class="status-row">
 
-              <div class="status-left">
+              <div class="status-info">
 
                 <div class="status-icon">
-                  🎨
+                  ▦
                 </div>
 
-                <div class="status-name">
-
-                  <strong>
-                    Design Gallery
-                  </strong>
-
+                <div>
+                  <strong>Design Gallery</strong>
                   <span>
-                    Show design gallery on homepage
+                    Public design listing
                   </span>
-
                 </div>
 
               </div>
 
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="showDesigns"
-                >
-
-                <span class="slider"></span>
-
-              </label>
+              <span
+                class="pill success"
+                id="galleryPill"
+              >
+                Enabled
+              </span>
 
             </div>
 
-
-            <!-- CHATTER -->
-
             <div class="status-row">
 
-              <div class="status-left">
+              <div class="status-info">
 
                 <div class="status-icon">
-                  💬
+                  ◌
                 </div>
 
-                <div class="status-name">
-
-                  <strong>
-                    Chatter
-                  </strong>
-
+                <div>
+                  <strong>Chatter</strong>
                   <span>
-                    Show Chatter navigation and feature
+                    Website communication system
                   </span>
-
                 </div>
 
               </div>
 
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="chatterEnabled"
-                >
-
-                <span class="slider"></span>
-
-              </label>
+              <span
+                class="pill success"
+                id="chatterPill"
+              >
+                Enabled
+              </span>
 
             </div>
 
-
-            <!-- MAINTENANCE -->
-
             <div class="status-row">
 
-              <div class="status-left">
+              <div class="status-info">
 
                 <div class="status-icon">
-                  🔧
+                  ⚠
                 </div>
 
-                <div class="status-name">
-
-                  <strong>
-                    Maintenance Mode
-                  </strong>
-
+                <div>
+                  <strong>Maintenance Mode</strong>
                   <span>
-                    Display maintenance screen to visitors
+                    Temporary public access restriction
                   </span>
-
                 </div>
 
               </div>
 
-
-              <label class="switch">
-
-                <input
-                  type="checkbox"
-                  id="maintenanceMode"
-                >
-
-                <span class="slider"></span>
-
-              </label>
+              <span
+                class="pill"
+                id="maintenancePill"
+              >
+                Disabled
+              </span>
 
             </div>
 
-
-            <!-- NOTIFICATIONS -->
-
             <div class="status-row">
 
-              <div class="status-left">
+              <div class="status-info">
 
                 <div class="status-icon">
                   🔔
                 </div>
 
-                <div class="status-name">
-
-                  <strong>
-                    System Notifications
-                  </strong>
-
+                <div>
+                  <strong>System Notifications</strong>
                   <span>
-                    Allow website notification UI
+                    Website notification behavior
                   </span>
-
                 </div>
 
               </div>
 
+              <span
+                class="pill success"
+                id="notificationPill"
+              >
+                Enabled
+              </span>
 
-              <label class="switch">
+            </div>
 
-                <input
-                  type="checkbox"
-                  id="notificationsEnabled"
-                >
+          </div>
 
-                <span class="slider"></span>
+          <!-- HOMEPAGE SECTIONS -->
 
-              </label>
+          <div class="card status-card">
+
+            <div class="status-row">
+
+              <div class="status-info">
+
+                <div class="status-icon">
+                  H
+                </div>
+
+                <div>
+                  <strong>Hero Section</strong>
+                  <span>
+                    Main homepage introduction
+                  </span>
+                </div>
+
+              </div>
+
+              <span
+                class="pill success"
+                id="heroSectionPill"
+              >
+                Enabled
+              </span>
+
+            </div>
+
+            <div class="status-row">
+
+              <div class="status-info">
+
+                <div class="status-icon">
+                  ▦
+                </div>
+
+                <div>
+                  <strong>Design Gallery</strong>
+                  <span>
+                    Featured designs on homepage
+                  </span>
+                </div>
+
+              </div>
+
+              <span
+                class="pill success"
+                id="gallerySectionPill"
+              >
+                Enabled
+              </span>
+
+            </div>
+
+            <div class="status-row">
+
+              <div class="status-info">
+
+                <div class="status-icon">
+                  ★
+                </div>
+
+                <div>
+                  <strong>Features</strong>
+                  <span>
+                    Website feature highlights
+                  </span>
+                </div>
+
+              </div>
+
+              <span
+                class="pill success"
+                id="featuresSectionPill"
+              >
+                Enabled
+              </span>
+
+            </div>
+
+            <div class="status-row">
+
+              <div class="status-info">
+
+                <div class="status-icon">
+                  →
+                </div>
+
+                <div>
+                  <strong>How It Works</strong>
+                  <span>
+                    Website usage explanation
+                  </span>
+                </div>
+
+              </div>
+
+              <span
+                class="pill success"
+                id="howSectionPill"
+              >
+                Enabled
+              </span>
+
+            </div>
+
+            <div class="status-row">
+
+              <div class="status-info">
+
+                <div class="status-icon">
+                  ✓
+                </div>
+
+                <div>
+                  <strong>Final CTA</strong>
+                  <span>
+                    Final website call-to-action
+                  </span>
+                </div>
+
+              </div>
+
+              <span
+                class="pill success"
+                id="ctaSectionPill"
+              >
+                Enabled
+              </span>
 
             </div>
 
@@ -1980,463 +1747,422 @@
 
         </div>
 
+      </section>
 
-        <!-- QUICK ACTIONS -->
+      <!-- =====================================================
+           ADVERTISEMENT + QUICK ACTIONS
+      ====================================================== -->
 
-        <div class="card">
+      <section class="section">
 
-          <div class="card-header">
+        <div class="section-header">
 
-            <div>
+          <div>
+            <h3>Website Advertisement</h3>
+            <p>
+              Advertisement settings for your own website
+            </p>
+          </div>
 
-              <h3>
-                Quick Actions
-              </h3>
+        </div>
+
+        <div class="grid grid-2">
+
+          <!-- ADVERTISEMENT -->
+
+          <div class="card info-card">
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+
+                <strong>
+                  Advertisement System
+                </strong>
+
+                <span
+                  class="pill success"
+                  id="adPill"
+                >
+                  Enabled
+                </span>
+
+              </div>
 
               <p>
-                Frequently used website controls.
+                Controls advertisements displayed on
+                your own website. This section is separate
+                from client design creation.
+              </p>
+
+            </div>
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+
+                <strong>
+                  Homepage Display
+                </strong>
+
+                <span
+                  class="pill success"
+                  id="adHomepagePill"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+              <p>
+                Shows active advertisement banners on
+                the homepage.
+              </p>
+
+            </div>
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+
+                <strong>
+                  Auto Rotation
+                </strong>
+
+                <span
+                  class="pill success"
+                  id="adRotatePill"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+              <p>
+                Automatically rotates between available
+                advertisement banners.
               </p>
 
             </div>
 
           </div>
 
+          <!-- QUICK ACTIONS -->
 
-          <div class="quick-grid">
+          <div class="card quick-card">
 
-            <button
-              class="quick-btn"
-              id="saveBtn"
-            >
+            <div class="section-header">
+              <div>
+                <h3>Quick Actions</h3>
+                <p>
+                  Frequently used website controls
+                </p>
+              </div>
+            </div>
 
-              <strong>
-                💾 Save Settings
-              </strong>
+            <div class="action-grid">
 
-              <span>
-                Save current website state
-              </span>
+              <button
+                class="action-btn primary"
+                onclick="openWebsite()"
+              >
+                ↗ View Website
+              </button>
 
-            </button>
+              <button
+                class="action-btn"
+                onclick="openEditor()"
+              >
+                ✎ Website Editor
+              </button>
 
+              <button
+                class="action-btn"
+                onclick="openAdvertisement()"
+              >
+                ▣ Advertisement
+              </button>
 
-            <button
-              class="quick-btn"
-              id="enableAllBtn"
-            >
+              <button
+                class="action-btn"
+                onclick="openChatter()"
+              >
+                ◌ Open Chatter
+              </button>
 
-              <strong>
-                ✅ Enable All
-              </strong>
+              <button
+                class="action-btn"
+                onclick="enableWebsite()"
+              >
+                ✓ Enable Website
+              </button>
 
-              <span>
-                Turn on public features
-              </span>
+              <button
+                class="action-btn danger"
+                onclick="disableWebsite()"
+              >
+                × Disable Website
+              </button>
 
-            </button>
+              <button
+                class="action-btn"
+                onclick="toggleMaintenance()"
+              >
+                ⚠ Toggle Maintenance
+              </button>
 
+              <button
+                class="action-btn"
+                onclick="resetWebsiteSettings()"
+              >
+                ↻ Reset Defaults
+              </button>
 
-            <button
-              class="quick-btn"
-              id="disableAllBtn"
-            >
-
-              <strong>
-                ⛔ Disable All
-              </strong>
-
-              <span>
-                Turn off public features
-              </span>
-
-            </button>
-
-
-            <button
-              class="quick-btn"
-              id="resetBtn"
-            >
-
-              <strong>
-                ↺ Reset Defaults
-              </strong>
-
-              <span>
-                Restore normal website state
-              </span>
-
-            </button>
-
-
-            <a
-              href="./website-edit.html"
-              class="quick-btn"
-            >
-
-              <strong>
-                ✏️ Website Editor
-              </strong>
-
-              <span>
-                Edit homepage content
-              </span>
-
-            </a>
-
-
-            <a
-              href="./banner.html"
-              class="quick-btn"
-            >
-
-              <strong>
-                🖼️ Advertisement
-              </strong>
-
-              <span>
-                Manage website ads
-              </span>
-
-            </a>
+            </div>
 
           </div>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- =====================================================
-           WEBSITE INFORMATION
-      ===================================================== -->
+           WEBSITE INFORMATION + ACTIVITY
+      ====================================================== -->
 
-      <div class="card">
+      <section class="section">
 
-        <div class="card-header">
+        <div class="grid grid-2">
 
-          <div>
+          <!-- INFORMATION -->
 
-            <h3>
-              Website Information
-            </h3>
+          <div class="card info-card">
 
-            <p>
-              Current project and routing information.
-            </p>
+            <div class="section-header">
+
+              <div>
+                <h3>Website Information</h3>
+                <p>
+                  Current system configuration
+                </p>
+              </div>
+
+            </div>
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+                <strong>Website Path</strong>
+                <span class="pill info">
+                  Root
+                </span>
+              </div>
+
+              <p>
+                ../index.html
+              </p>
+
+            </div>
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+                <strong>Editor</strong>
+                <span class="pill info">
+                  Available
+                </span>
+              </div>
+
+              <p>
+                Homepage content can be controlled from
+                the Website Editor page.
+              </p>
+
+            </div>
+
+            <div class="info-box">
+
+              <div class="info-box-head">
+                <strong>Configuration</strong>
+                <span class="pill warning">
+                  Prototype
+                </span>
+              </div>
+
+              <p>
+                Current configuration is stored locally
+                in the browser. Firebase/backend integration
+                can be added later.
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- ACTIVITY -->
+
+          <div class="card activity-card">
+
+            <div class="section-header">
+
+              <div>
+                <h3>Recent Activity</h3>
+                <p>
+                  Latest website management actions
+                </p>
+              </div>
+
+            </div>
+
+            <div
+              class="activity-list"
+              id="activityList"
+            >
+              <div class="empty">
+                No recent website activity.
+              </div>
+            </div>
 
           </div>
 
         </div>
 
-
-        <div class="website-grid">
-
-          <div class="info-box">
-
-            <label>
-              Homepage
-            </label>
-
-            <strong>
-              ../index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Login
-            </label>
-
-            <strong>
-              ../login/index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Chatter
-            </label>
-
-            <strong>
-              ../chatter/index.html
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Design Folder
-            </label>
-
-            <strong>
-              ../design/
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Advertisement
-            </label>
-
-            <strong>
-              websiteBannerData
-            </strong>
-
-          </div>
-
-
-          <div class="info-box">
-
-            <label>
-              Settings Storage
-            </label>
-
-            <strong>
-              websiteSettings
-            </strong>
-
-          </div>
-
-        </div>
-
-      </div>
-
+      </section>
 
       <!-- =====================================================
-           ACTIVITY
-      ===================================================== -->
+           SECURITY NOTICE
+      ====================================================== -->
 
-      <div class="card" style="margin-top:18px;">
-
-        <div class="card-header">
-
-          <div>
-
-            <h3>
-              Recent Website Activity
-            </h3>
-
-            <p>
-              Changes made from the Website Management panel.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="activity-list"
-          id="activityList"
-        ></div>
-
-      </div>
-
-
-      <!-- =====================================================
-           SECURITY
-      ===================================================== -->
-
-      <div class="security">
+      <section class="security">
 
         <div class="security-icon">
-          🔐
+          🔒
         </div>
 
         <div>
 
-          <h3>
-            Prototype Security Notice
-          </h3>
+          <strong>
+            Website Management Security Notice
+          </strong>
 
           <p>
-            These settings currently use browser LocalStorage.
-            They are suitable for UI testing only. Firebase/backend
-            authentication and database rules should be added later
-            for real production access control. This page does not
-            secretly access camera, microphone or screen and contains
-            no recording system.
+            This version uses browser LocalStorage for
+            configuration and is intended as the current
+            static prototype. It does not secretly access
+            camera, microphone or screen, and it does not
+            record or store live media. Real authentication,
+            role enforcement and database persistence should
+            be handled by Firebase/backend integration later.
           </p>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+    </div>
 
   </main>
 
-
-  <!-- =========================================================
+  <!-- =======================================================
        TOAST
-  ========================================================= -->
+  ======================================================== -->
 
   <div
     class="toast"
     id="toast"
   ></div>
 
-
-  <!-- =========================================================
+  <!-- =======================================================
        AUTH GUARD
-  ========================================================= -->
+  ======================================================== -->
 
   <script src="./auth-guard.js"></script>
 
-
-  <!-- =========================================================
-       JAVASCRIPT
-  ========================================================= -->
-
   <script>
-
     /* =========================================================
-       STORAGE KEYS
+       WEBSITE MANAGEMENT
     ========================================================= */
 
-    const WEBSITE_KEY =
-      "websiteSettings";
-
-    const ACTIVITY_KEY =
-      "websiteManagementActivity";
-
-    const SESSION_KEY =
-      "chatterAdminSession";
-
-    const BANNER_KEY =
-      "websiteBannerData";
-
-    const BANNER_SETTINGS_KEY =
-      "websiteBannerSettings";
-
+    const WEBSITE_KEY = "websiteSettings";
+    const EDITOR_KEY = "websiteEditorSettings";
+    const BANNER_KEY = "websiteBannerData";
+    const BANNER_SETTINGS_KEY = "websiteBannerSettings";
+    const CHATTER_KEY = "chatterSystemSettings";
+    const SESSION_KEY = "chatterAdminSession";
+    const ACTIVITY_KEY = "websiteAdminActivity";
 
     /* =========================================================
        DEFAULT SETTINGS
     ========================================================= */
 
-    const DEFAULT_SETTINGS = {
-
+    const DEFAULT_WEBSITE_SETTINGS = {
       websiteEnabled: true,
-
       showDesigns: true,
-
       chatterEnabled: true,
-
       maintenanceMode: false,
-
       notificationsEnabled: true
-
     };
 
+    const DEFAULT_EDITOR_SETTINGS = {
+      hero: true,
+      designs: true,
+      features: true,
+      howItWorks: true,
+      finalCta: true
+    };
+
+    const DEFAULT_BANNER_SETTINGS = {
+      enabled: true,
+      showOnHomepage: true,
+      autoRotate: true
+    };
+
+    const DEFAULT_CHATTER_SETTINGS = {
+      enabled: true
+    };
 
     /* =========================================================
-       GET SETTINGS
+       STATE
     ========================================================= */
 
-    function getSettings() {
+    let websiteSettings = {};
+    let editorSettings = {};
+    let bannerSettings = {};
+    let chatterSettings = {};
+    let bannerData = [];
 
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const toast = document.getElementById("toast");
+
+    /* =========================================================
+       STORAGE HELPERS
+    ========================================================= */
+
+    function readJSON(key, fallback) {
       try {
+        const raw = localStorage.getItem(key);
 
-        const saved =
-          JSON.parse(
-            localStorage.getItem(
-              WEBSITE_KEY
-            )
-          );
+        if (!raw) {
+          return fallback;
+        }
 
+        const parsed = JSON.parse(raw);
 
-        return {
-
-          ...DEFAULT_SETTINGS,
-
-          ...(saved || {})
-
-        };
-
+        return parsed || fallback;
       } catch (error) {
-
-        return {
-          ...DEFAULT_SETTINGS
-        };
-
+        return fallback;
       }
-
     }
 
-
-    /* =========================================================
-       SAVE SETTINGS
-    ========================================================= */
-
-    function saveSettings(
-      showToastMessage = true
-    ) {
-
-      const settings = {
-
-        websiteEnabled:
-          document.getElementById(
-            "websiteEnabled"
-          ).checked,
-
-        showDesigns:
-          document.getElementById(
-            "showDesigns"
-          ).checked,
-
-        chatterEnabled:
-          document.getElementById(
-            "chatterEnabled"
-          ).checked,
-
-        maintenanceMode:
-          document.getElementById(
-            "maintenanceMode"
-          ).checked,
-
-        notificationsEnabled:
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked
-
-      };
-
-
+    function writeJSON(key, value) {
       localStorage.setItem(
-        WEBSITE_KEY,
-        JSON.stringify(settings)
+        key,
+        JSON.stringify(value)
       );
-
-
-      addActivity(
-        "Website settings updated."
-      );
-
-
-      updateDashboard();
-
-
-      if (showToastMessage) {
-
-        showToast(
-          "Website settings saved successfully."
-        );
-
-      }
-
     }
-
 
     /* =========================================================
        LOAD SETTINGS
@@ -2444,748 +2170,693 @@
 
     function loadSettings() {
 
-      const settings =
-        getSettings();
+      websiteSettings = {
+        ...DEFAULT_WEBSITE_SETTINGS,
+        ...readJSON(
+          WEBSITE_KEY,
+          DEFAULT_WEBSITE_SETTINGS
+        )
+      };
 
+      editorSettings = {
+        ...DEFAULT_EDITOR_SETTINGS,
+        ...readJSON(
+          EDITOR_KEY,
+          DEFAULT_EDITOR_SETTINGS
+        )
+      };
 
-      document.getElementById(
-        "websiteEnabled"
-      ).checked =
-        settings.websiteEnabled;
+      bannerSettings = {
+        ...DEFAULT_BANNER_SETTINGS,
+        ...readJSON(
+          BANNER_SETTINGS_KEY,
+          DEFAULT_BANNER_SETTINGS
+        )
+      };
 
+      chatterSettings = {
+        ...DEFAULT_CHATTER_SETTINGS,
+        ...readJSON(
+          CHATTER_KEY,
+          DEFAULT_CHATTER_SETTINGS
+        )
+      };
 
-      document.getElementById(
-        "showDesigns"
-      ).checked =
-        settings.showDesigns;
+      const savedBanners = readJSON(
+        BANNER_KEY,
+        []
+      );
 
+      bannerData = Array.isArray(savedBanners)
+        ? savedBanners
+        : [];
 
-      document.getElementById(
-        "chatterEnabled"
-      ).checked =
-        settings.chatterEnabled;
-
-
-      document.getElementById(
-        "maintenanceMode"
-      ).checked =
-        settings.maintenanceMode;
-
-
-      document.getElementById(
-        "notificationsEnabled"
-      ).checked =
-        settings.notificationsEnabled;
-
-
-      updateDashboard();
-
+      renderAll();
     }
 
-
     /* =========================================================
-       UPDATE DASHBOARD
+       SAVE WEBSITE SETTINGS
     ========================================================= */
 
-    function updateDashboard() {
+    function saveWebsiteSettings() {
 
-      const settings =
-        getSettings();
+      writeJSON(
+        WEBSITE_KEY,
+        websiteSettings
+      );
 
+      writeJSON(
+        EDITOR_KEY,
+        editorSettings
+      );
 
-      /* WEBSITE */
+      addActivity(
+        "Website settings saved",
+        "Website configuration was updated."
+      );
 
-      const websiteValue =
-        document.getElementById(
-          "websiteStatusValue"
-        );
+      showToast(
+        "Website settings saved successfully.",
+        "success"
+      );
 
-      const websitePill =
-        document.getElementById(
-          "websiteStatusPill"
-        );
-
-
-      if (
-        settings.websiteEnabled
-      ) {
-
-        websiteValue.textContent =
-          "Online";
-
-        setPill(
-          websitePill,
-          "Online",
-          "success"
-        );
-
-      } else {
-
-        websiteValue.textContent =
-          "Offline";
-
-        setPill(
-          websitePill,
-          "Offline",
-          "danger"
-        );
-
-      }
-
-
-      /* DESIGN */
-
-      const designValue =
-        document.getElementById(
-          "designStatusValue"
-        );
-
-      const designPill =
-        document.getElementById(
-          "designStatusPill"
-        );
-
-
-      if (
-        settings.showDesigns
-      ) {
-
-        designValue.textContent =
-          "Visible";
-
-        setPill(
-          designPill,
-          "Visible",
-          "success"
-        );
-
-      } else {
-
-        designValue.textContent =
-          "Hidden";
-
-        setPill(
-          designPill,
-          "Hidden",
-          "warning"
-        );
-
-      }
-
-
-      /* CHATTER */
-
-      const chatterValue =
-        document.getElementById(
-          "chatterStatusValue"
-        );
-
-      const chatterPill =
-        document.getElementById(
-          "chatterStatusPill"
-        );
-
-
-      if (
-        settings.chatterEnabled
-      ) {
-
-        chatterValue.textContent =
-          "Enabled";
-
-        setPill(
-          chatterPill,
-          "Enabled",
-          "success"
-        );
-
-      } else {
-
-        chatterValue.textContent =
-          "Disabled";
-
-        setPill(
-          chatterPill,
-          "Disabled",
-          "warning"
-        );
-
-      }
-
-
-      /* MAINTENANCE */
-
-      const maintenanceValue =
-        document.getElementById(
-          "maintenanceStatusValue"
-        );
-
-      const maintenancePill =
-        document.getElementById(
-          "maintenanceStatusPill"
-        );
-
-
-      if (
-        settings.maintenanceMode
-      ) {
-
-        maintenanceValue.textContent =
-          "Active";
-
-        setPill(
-          maintenancePill,
-          "Active",
-          "danger"
-        );
-
-      } else {
-
-        maintenanceValue.textContent =
-          "Normal";
-
-        setPill(
-          maintenancePill,
-          "Normal",
-          "success"
-        );
-
-      }
-
+      renderAll();
     }
-
-
-    /* =========================================================
-       PILL
-    ========================================================= */
-
-    function setPill(
-      element,
-      text,
-      type
-    ) {
-
-      element.textContent =
-        text;
-
-      element.className =
-        `status-pill ${type}`;
-
-    }
-
-
-    /* =========================================================
-       AUTO SAVE CHANGE
-    ========================================================= */
-
-    document
-      .querySelectorAll(
-        '.status-row input[type="checkbox"]'
-      )
-      .forEach(
-        checkbox => {
-
-          checkbox.addEventListener(
-            "change",
-            () => {
-
-              saveSettings(
-                false
-              );
-
-              showToast(
-                "Website setting updated."
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       SAVE BUTTON
-    ========================================================= */
-
-    document
-      .getElementById(
-        "saveBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          saveSettings();
-
-        }
-      );
-
-
-    /* =========================================================
-       ENABLE ALL
-    ========================================================= */
-
-    document
-      .getElementById(
-        "enableAllBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked = true;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked = true;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked = true;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked = false;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked = true;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "All public website features enabled."
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       DISABLE ALL
-    ========================================================= */
-
-    document
-      .getElementById(
-        "disableAllBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked = false;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked = false;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked = false;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked = true;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked = false;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "Website switched to restricted mode."
-          );
-
-        }
-      );
-
-
-    /* =========================================================
-       RESET
-    ========================================================= */
-
-    document
-      .getElementById(
-        "resetBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "websiteEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.websiteEnabled;
-
-
-          document.getElementById(
-            "showDesigns"
-          ).checked =
-            DEFAULT_SETTINGS.showDesigns;
-
-
-          document.getElementById(
-            "chatterEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.chatterEnabled;
-
-
-          document.getElementById(
-            "maintenanceMode"
-          ).checked =
-            DEFAULT_SETTINGS.maintenanceMode;
-
-
-          document.getElementById(
-            "notificationsEnabled"
-          ).checked =
-            DEFAULT_SETTINGS.notificationsEnabled;
-
-
-          saveSettings(
-            false
-          );
-
-
-          showToast(
-            "Website settings restored to defaults."
-          );
-
-        }
-      );
-
 
     /* =========================================================
        ACTIVITY
     ========================================================= */
 
-    function getActivities() {
-
-      try {
-
-        const saved =
-          JSON.parse(
-            localStorage.getItem(
-              ACTIVITY_KEY
-            )
-          );
-
-
-        if (
-          Array.isArray(saved)
-        ) {
-
-          return saved;
-
-        }
-
-      } catch (error) {}
-
-
-      return [];
-
-    }
-
-
     function addActivity(
-      message
+      title,
+      description
     ) {
 
-      const activities =
-        getActivities();
-
-
-      activities.unshift({
-
-        message,
-
-        time:
-          new Date().toISOString()
-
-      });
-
-
-      localStorage.setItem(
+      const activities = readJSON(
         ACTIVITY_KEY,
-        JSON.stringify(
-          activities.slice(0,30)
-        )
+        []
       );
 
+      activities.unshift({
+        title,
+        description,
+        time: new Date().toISOString()
+      });
 
-      renderActivities();
+      writeJSON(
+        ACTIVITY_KEY,
+        activities.slice(0, 10)
+      );
 
+      renderActivity();
     }
 
+    function renderActivity() {
 
-    function renderActivities() {
-
-      const container =
+      const list =
         document.getElementById(
           "activityList"
         );
 
-
-      const activities =
-        getActivities();
-
+      const activities = readJSON(
+        ACTIVITY_KEY,
+        []
+      );
 
       if (
-        !activities.length
+        !Array.isArray(activities) ||
+        activities.length === 0
       ) {
 
-        container.innerHTML = `
-          <div class="empty-activity">
-            No website activity yet.
+        list.innerHTML = `
+          <div class="empty">
+            No recent website activity.
           </div>
         `;
 
         return;
-
       }
 
+      list.innerHTML = activities
+        .slice(0, 6)
+        .map((item) => {
 
-      container.innerHTML =
-        activities
-          .slice(0,12)
-          .map(
-            item => `
+          const date =
+            item.time
+              ? new Date(item.time)
+              : new Date();
 
-              <div class="activity-item">
+          return `
+            <div class="activity-item">
 
-                <div class="activity-dot"></div>
-
-                <div class="activity-content">
-
-                  <strong>
-                    ${escapeHtml(
-                      item.message
-                    )}
-                  </strong>
-
-                  <span>
-                    ${formatTime(
-                      item.time
-                    )}
-                  </span>
-
-                </div>
-
+              <div class="activity-icon">
+                ✓
               </div>
 
-            `
-          )
-          .join("");
+              <div class="activity-text">
+                <strong>
+                  ${escapeHTML(item.title || "Website action")}
+                </strong>
 
+                <span>
+                  ${escapeHTML(
+                    item.description ||
+                    "Website configuration updated."
+                  )}
+                </span>
+              </div>
+
+              <div class="activity-time">
+                ${formatTime(date)}
+              </div>
+
+            </div>
+          `;
+        })
+        .join("");
     }
 
-
     /* =========================================================
-       FORMAT TIME
+       RENDER
     ========================================================= */
 
-    function formatTime(
-      value
-    ) {
+    function renderAll() {
 
-      const date =
-        new Date(value);
+      renderStats();
+      renderWebsiteStatus();
+      renderHomepageSections();
+      renderAdvertisement();
+      renderActivity();
+      renderAdminProfile();
+      updateLiveMonitorAccess();
+    }
 
+    /* =========================================================
+       STATS
+    ========================================================= */
 
-      if (
-        Number.isNaN(
-          date.getTime()
-        )
-      ) {
+    function renderStats() {
 
-        return "Unknown time";
+      const websiteActive =
+        websiteSettings.websiteEnabled;
 
-      }
+      document.getElementById(
+        "websiteStat"
+      ).textContent =
+        websiteActive
+          ? "Active"
+          : "Offline";
 
+      document.getElementById(
+        "websiteStatNote"
+      ).textContent =
+        websiteActive
+          ? "Public website is available"
+          : "Public website is disabled";
 
-      return date.toLocaleString(
-        undefined,
-        {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }
+      const sectionKeys = [
+        "hero",
+        "designs",
+        "features",
+        "howItWorks",
+        "finalCta"
+      ];
+
+      const activeSections =
+        sectionKeys.filter(
+          (key) => editorSettings[key] !== false
+        ).length;
+
+      document.getElementById(
+        "sectionStat"
+      ).textContent =
+        `${activeSections}/${sectionKeys.length}`;
+
+      const activeBanners =
+        getActiveBanners().length;
+
+      document.getElementById(
+        "bannerStat"
+      ).textContent =
+        activeBanners;
+
+      document.getElementById(
+        "bannerStatNote"
+      ).textContent =
+        activeBanners === 1
+          ? "1 active website banner"
+          : `${activeBanners} active website banners`;
+
+      const chatterEnabled =
+        websiteSettings.chatterEnabled &&
+        chatterSettings.enabled;
+
+      document.getElementById(
+        "chatterStat"
+      ).textContent =
+        chatterEnabled
+          ? "Enabled"
+          : "Disabled";
+
+      document.getElementById(
+        "chatterStatNote"
+      ).textContent =
+        chatterEnabled
+          ? "Chatter availability"
+          : "Chatter is currently disabled";
+    }
+
+    /* =========================================================
+       WEBSITE STATUS
+    ========================================================= */
+
+    function renderWebsiteStatus() {
+
+      setPill(
+        "websitePill",
+        websiteSettings.websiteEnabled,
+        "Enabled",
+        "Disabled"
       );
 
+      setPill(
+        "galleryPill",
+        websiteSettings.showDesigns,
+        "Enabled",
+        "Disabled"
+      );
+
+      const chatterEnabled =
+        websiteSettings.chatterEnabled &&
+        chatterSettings.enabled;
+
+      setPill(
+        "chatterPill",
+        chatterEnabled,
+        "Enabled",
+        "Disabled"
+      );
+
+      setPill(
+        "maintenancePill",
+        websiteSettings.maintenanceMode,
+        "Enabled",
+        "Disabled"
+      );
+
+      setPill(
+        "notificationPill",
+        websiteSettings.notificationsEnabled,
+        "Enabled",
+        "Disabled"
+      );
     }
 
-
     /* =========================================================
-       PROFILE
+       HOMEPAGE SECTIONS
     ========================================================= */
 
-    function loadProfile() {
+    function renderHomepageSections() {
 
-      let session = null;
+      setPill(
+        "heroSectionPill",
+        editorSettings.hero,
+        "Enabled",
+        "Disabled"
+      );
 
+      setPill(
+        "gallerySectionPill",
+        editorSettings.designs &&
+        websiteSettings.showDesigns,
+        "Enabled",
+        "Disabled"
+      );
 
-      try {
+      setPill(
+        "featuresSectionPill",
+        editorSettings.features,
+        "Enabled",
+        "Disabled"
+      );
 
-        session =
-          JSON.parse(
-            localStorage.getItem(
-              SESSION_KEY
-            )
-          );
+      setPill(
+        "howSectionPill",
+        editorSettings.howItWorks,
+        "Enabled",
+        "Disabled"
+      );
 
-      } catch (error) {
+      setPill(
+        "ctaSectionPill",
+        editorSettings.finalCta,
+        "Enabled",
+        "Disabled"
+      );
+    }
 
-        session = null;
+    /* =========================================================
+       ADVERTISEMENT
+    ========================================================= */
 
+    function renderAdvertisement() {
+
+      setPill(
+        "adPill",
+        bannerSettings.enabled,
+        "Enabled",
+        "Disabled"
+      );
+
+      setPill(
+        "adHomepagePill",
+        bannerSettings.showOnHomepage,
+        "Enabled",
+        "Disabled"
+      );
+
+      setPill(
+        "adRotatePill",
+        bannerSettings.autoRotate,
+        "Enabled",
+        "Disabled"
+      );
+    }
+
+    function getActiveBanners() {
+
+      if (
+        !Array.isArray(bannerData)
+      ) {
+        return [];
       }
 
+      return bannerData.filter(
+        (banner) =>
+          banner &&
+          banner.status !== "inactive" &&
+          banner.enabled !== false
+      );
+    }
+
+    /* =========================================================
+       PILLS
+    ========================================================= */
+
+    function setPill(
+      id,
+      enabled,
+      enabledText,
+      disabledText
+    ) {
+
+      const element =
+        document.getElementById(id);
+
+      if (!element) {
+        return;
+      }
+
+      element.textContent =
+        enabled
+          ? enabledText
+          : disabledText;
+
+      element.className =
+        "pill " +
+        (
+          enabled
+            ? "success"
+            : "danger"
+        );
+    }
+
+    /* =========================================================
+       WEBSITE ACTIONS
+    ========================================================= */
+
+    function enableWebsite() {
+
+      websiteSettings.websiteEnabled = true;
+
+      saveWebsiteSettings();
+
+      showToast(
+        "Website enabled.",
+        "success"
+      );
+    }
+
+    function disableWebsite() {
+
+      websiteSettings.websiteEnabled = false;
+
+      saveWebsiteSettings();
+
+      showToast(
+        "Website disabled.",
+        "success"
+      );
+    }
+
+    function toggleMaintenance() {
+
+      websiteSettings.maintenanceMode =
+        !websiteSettings.maintenanceMode;
+
+      saveWebsiteSettings();
+
+      showToast(
+        websiteSettings.maintenanceMode
+          ? "Maintenance mode enabled."
+          : "Maintenance mode disabled.",
+        "success"
+      );
+    }
+
+    function resetWebsiteSettings() {
+
+      const confirmed =
+        window.confirm(
+          "Reset website settings to default?"
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      websiteSettings = {
+        ...DEFAULT_WEBSITE_SETTINGS
+      };
+
+      editorSettings = {
+        ...DEFAULT_EDITOR_SETTINGS
+      };
+
+      writeJSON(
+        WEBSITE_KEY,
+        websiteSettings
+      );
+
+      writeJSON(
+        EDITOR_KEY,
+        editorSettings
+      );
+
+      addActivity(
+        "Website settings reset",
+        "Website and homepage settings were restored to defaults."
+      );
+
+      renderAll();
+
+      showToast(
+        "Website settings restored.",
+        "success"
+      );
+    }
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    function openWebsite() {
+      window.open(
+        "../index.html",
+        "_blank"
+      );
+    }
+
+    function openEditor() {
+      window.location.href =
+        "./website-edit.html";
+    }
+
+    function openAdvertisement() {
+      window.location.href =
+        "./banner.html";
+    }
+
+    function openChatter() {
+      window.open(
+        "../chatter/index.html",
+        "_blank"
+      );
+    }
+
+    /* =========================================================
+       ADMIN PROFILE
+    ========================================================= */
+
+    function renderAdminProfile() {
+
+      const session =
+        readJSON(
+          SESSION_KEY,
+          null
+        );
 
       if (!session) {
         return;
       }
-
 
       const name =
         session.name ||
         session.email ||
         "System Admin";
 
-
       const role =
-        session.role ||
-        "admin";
-
+        String(
+          session.role ||
+          "admin"
+        ).toLowerCase();
 
       document.getElementById(
         "adminName"
-      ).textContent =
-        name;
-
+      ).textContent = name;
 
       document.getElementById(
         "adminRole"
       ).textContent =
         role === "superadmin"
-          ? "Super Admin"
-          : "Admin";
-
+          ? "Super Administrator"
+          : "Administrator";
 
       const avatar =
-        document.getElementById(
-          "adminAvatar"
-        );
+        getInitials(name);
 
-
-      if (
-        session.avatar
-      ) {
-
-        avatar.innerHTML = `
-          <img
-            src="${escapeHtml(
-              session.avatar
-            )}"
-            alt="Admin"
-          >
-        `;
-
-      } else {
-
-        avatar.textContent =
-          name
-            .split(" ")
-            .map(
-              word =>
-                word.charAt(0)
-            )
-            .join("")
-            .slice(0,2)
-            .toUpperCase() ||
-          "AD";
-
-      }
-
+      document.getElementById(
+        "adminAvatar"
+      ).textContent = avatar;
     }
 
+    function getInitials(name) {
+
+      const clean =
+        String(name || "")
+          .trim();
+
+      if (!clean) {
+        return "AD";
+      }
+
+      const parts =
+        clean.split(/\s+/);
+
+      if (parts.length === 1) {
+        return parts[0]
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+      return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+      ).toUpperCase();
+    }
 
     /* =========================================================
-       BANNER SUMMARY
+       LIVE MONITOR ACCESS
     ========================================================= */
 
-    function getBannerSummary() {
+    function updateLiveMonitorAccess() {
 
-      let banners = [];
+      const session =
+        readJSON(
+          SESSION_KEY,
+          null
+        );
 
-      let settings = {};
+      const link =
+        document.getElementById(
+          "liveMonitorLink"
+        );
 
-
-      try {
-
-        banners =
-          JSON.parse(
-            localStorage.getItem(
-              BANNER_KEY
-            )
-          ) || [];
-
-      } catch (error) {
-
-        banners = [];
-
+      if (!link) {
+        return;
       }
 
+      const role =
+        String(
+          session?.role || "admin"
+        ).toLowerCase();
 
-      try {
+      if (role !== "superadmin") {
 
-        settings =
-          JSON.parse(
-            localStorage.getItem(
-              BANNER_SETTINGS_KEY
-            )
-          ) || {};
-
-      } catch (error) {
-
-        settings = {};
-
+        link.style.opacity = "0.55";
+        link.title =
+          "Super Admin access required";
       }
-
-
-      return {
-
-        total:
-          Array.isArray(banners)
-            ? banners.length
-            : 0,
-
-        enabled:
-          settings.enabled !== false
-
-      };
-
     }
 
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    function handleLogout() {
+
+      if (
+        window.AdminAuth &&
+        typeof window.AdminAuth.logout === "function"
+      ) {
+
+        window.AdminAuth.logout();
+        return;
+      }
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      window.location.href =
+        "../login/index.html";
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    function toggleSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.toggle("show");
+    }
+
+    function closeSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.remove("show");
+    }
 
     /* =========================================================
        TOAST
@@ -3193,200 +2864,93 @@
 
     let toastTimer = null;
 
-
     function showToast(
-      message
+      message,
+      type = ""
     ) {
 
-      const toast =
-        document.getElementById(
-          "toast"
-        );
+      toast.textContent = message;
 
+      toast.className =
+        "toast show " +
+        type;
 
-      clearTimeout(
-        toastTimer
-      );
-
-
-      toast.textContent =
-        message;
-
-
-      toast.classList.add(
-        "show"
-      );
-
+      clearTimeout(toastTimer);
 
       toastTimer =
-        setTimeout(
-          () => {
+        setTimeout(() => {
 
-            toast.classList.remove(
-              "show"
-            );
+          toast.className =
+            "toast";
 
-          },
-          2500
-        );
-
+        }, 2800);
     }
-
 
     /* =========================================================
-       MOBILE SIDEBAR
+       HELPERS
     ========================================================= */
 
-    const sidebar =
-      document.getElementById(
-        "sidebar"
-      );
+    function escapeHTML(value) {
 
-    const overlay =
-      document.getElementById(
-        "sidebarOverlay"
-      );
-
-    const mobileMenu =
-      document.getElementById(
-        "mobileMenuBtn"
-      );
-
-
-    function openSidebar() {
-
-      sidebar.classList.add(
-        "open"
-      );
-
-      overlay.classList.add(
-        "show"
-      );
-
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
+    function formatTime(date) {
 
-    function closeSidebar() {
+      if (
+        !(date instanceof Date) ||
+        Number.isNaN(date.getTime())
+      ) {
+        return "—";
+      }
 
-      sidebar.classList.remove(
-        "open"
-      );
+      const now =
+        new Date();
 
-      overlay.classList.remove(
-        "show"
-      );
+      const diff =
+        now.getTime() -
+        date.getTime();
 
-    }
+      const minute =
+        60 * 1000;
 
+      const hour =
+        60 * minute;
 
-    mobileMenu.addEventListener(
-      "click",
-      openSidebar
-    );
+      const day =
+        24 * hour;
 
+      if (diff < minute) {
+        return "Just now";
+      }
 
-    overlay.addEventListener(
-      "click",
-      closeSidebar
-    );
+      if (diff < hour) {
+        return (
+          Math.floor(diff / minute) +
+          " min ago"
+        );
+      }
 
+      if (diff < day) {
+        return (
+          Math.floor(diff / hour) +
+          " hr ago"
+        );
+      }
 
-    document
-      .querySelectorAll(
-        ".nav-link"
-      )
-      .forEach(
-        link => {
-
-          link.addEventListener(
-            "click",
-            () => {
-
-              if (
-                window.innerWidth <= 850
-              ) {
-
-                closeSidebar();
-
-              }
-
-            }
-          );
-
+      return date.toLocaleDateString(
+        undefined,
+        {
+          day: "2-digit",
+          month: "short"
         }
       );
-
-
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    document
-      .getElementById(
-        "logoutBtn"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          if (
-            window.AdminAuth &&
-            typeof
-              window.AdminAuth.logout ===
-              "function"
-          ) {
-
-            window.AdminAuth.logout();
-
-            return;
-
-          }
-
-
-          localStorage.removeItem(
-            SESSION_KEY
-          );
-
-
-          window.location.href =
-            "../login/index.html";
-
-        }
-      );
-
-
-    /* =========================================================
-       ESCAPE HTML
-    ========================================================= */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(value)
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
     }
-
 
     /* =========================================================
        STORAGE SYNC
@@ -3394,52 +2958,50 @@
 
     window.addEventListener(
       "storage",
-      event => {
+      function (event) {
 
-        if (
-          event.key ===
-          WEBSITE_KEY
-        ) {
-
-          loadSettings();
-
-        }
-
-
-        if (
-          event.key ===
+        const relevantKeys = [
+          WEBSITE_KEY,
+          EDITOR_KEY,
+          BANNER_KEY,
+          BANNER_SETTINGS_KEY,
+          CHATTER_KEY,
+          SESSION_KEY,
           ACTIVITY_KEY
-        ) {
-
-          renderActivities();
-
-        }
-
+        ];
 
         if (
-          event.key ===
-          SESSION_KEY
+          relevantKeys.includes(
+            event.key
+          )
         ) {
+          loadSettings();
+        }
+      }
+    );
 
-          loadProfile();
+    /* =========================================================
+       WINDOW EVENTS
+    ========================================================= */
 
+    window.addEventListener(
+      "resize",
+      function () {
+
+        if (
+          window.innerWidth > 900
+        ) {
+          closeSidebar();
         }
 
       }
     );
 
-
     /* =========================================================
        INITIALIZE
     ========================================================= */
 
-    loadProfile();
-
     loadSettings();
-
-    renderActivities();
-
-    getBannerSummary();
 
   </script>
 
