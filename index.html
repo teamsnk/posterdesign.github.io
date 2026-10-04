@@ -1,1602 +1,3227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-    <title>Doctor Poster Maker</title>
+  <title>Design System</title>
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+  <meta
+    name="description"
+    content="Professional poster and design collection platform."
+  />
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+  <style>
+    /* =========================================================
+       RESET
+    ========================================================= */
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: #172033;
+      background: #f7f9fc;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================================================
+       VARIABLES
+    ========================================================= */
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+
+      --dark: #07111f;
+      --dark-2: #0d1829;
+
+      --text: #172033;
+      --muted: #6f7c91;
+
+      --white: #ffffff;
+      --border: #e6ebf2;
+
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+
+      --success: #16a34a;
+
+      --shadow-sm:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+
+      --shadow-md:
+        0 18px 50px rgba(15, 23, 42, 0.09);
+
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    /* =========================================================
+       CONTAINER
+    ========================================================= */
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(230, 235, 242, 0.8);
+    }
+
+    .nav {
+      height: 76px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 13px;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary)
+        );
+
+      box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.2);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      position: relative;
+
+      color: #59667b;
+      font-size: 13px;
+      font-weight: 700;
+
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-button {
+      min-height: 40px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 0 15px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .nav-button-outline {
+      color: #334155;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .nav-button-outline:hover {
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .nav-button-primary {
+      color: #ffffff;
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.16);
+    }
+
+    .nav-button-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .nav-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .menu-button {
+      display: none;
+
+      width: 42px;
+      height: 42px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #ffffff;
+      color: #334155;
+    }
+
+    .menu-button svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .mobile-menu {
+      display: none;
+
+      padding: 15px 0 20px;
+
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+
+      padding: 13px 0;
+
+      color: #536177;
+      font-size: 14px;
+      font-weight: 700;
+
+      border-bottom: 1px solid #f0f2f6;
+    }
+
+    .mobile-menu-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    /* =========================================================
+       ADVERTISEMENT
+    ========================================================= */
+
+    .ad-banner-area {
+      display: none;
+      padding: 15px 0;
+      background: #f4f7fb;
+    }
+
+    .ad-banner-area.show {
+      display: block;
+    }
+
+    .ad-banner {
+      min-height: 76px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+
+      padding: 18px 22px;
+
+      border-radius: 16px;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #111827,
+          #253a62
+        );
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ad-content h4 {
+      margin-bottom: 4px;
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .ad-content p {
+      color: #cbd5e1;
+      font-size: 12px;
+    }
+
+    .ad-button {
+      flex: 0 0 auto;
+
+      padding: 9px 14px;
+
+      border: 0;
+      border-radius: 9px;
+
+      color: #172033;
+      background: #ffffff;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      padding: 95px 0 90px;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(37, 99, 235, 0.32),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 85% 75%,
+          rgba(124, 58, 237, 0.3),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #07111f,
+          #0b1728 55%,
+          #101b32
+        );
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 520px;
+      height: 520px;
+
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 50%;
+
+      top: -260px;
+      right: -120px;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 400px;
+      height: 400px;
+
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+
+      bottom: -240px;
+      left: -160px;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+
+      align-items: center;
+
+      gap: 70px;
+    }
+
+    .hero-content {
+      max-width: 650px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+
+      padding: 8px 13px;
+      margin-bottom: 20px;
+
+      border-radius: 999px;
+
+      color: #cfe0ff;
+      background: rgba(255, 255, 255, 0.07);
+
+      border: 1px solid rgba(255, 255, 255, 0.09);
+
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .hero-badge span {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: #22c55e;
+
+      box-shadow:
+        0 0 0 5px rgba(34, 197, 94, 0.1);
+    }
+
+    .hero h1 {
+      max-width: 680px;
+
+      font-size: clamp(40px, 5vw, 68px);
+      line-height: 1.03;
+
+      letter-spacing: -0.055em;
+
+      margin-bottom: 23px;
+    }
+
+    .hero h1 span {
+      color: #72a7ff;
+    }
+
+    .hero-description {
+      max-width: 590px;
+
+      color: #b8c6da;
+
+      font-size: 16px;
+      line-height: 1.8;
+
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-button {
+      min-height: 48px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      padding: 0 19px;
+
+      border-radius: 12px;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .hero-button svg {
+      width: 17px;
+      height: 17px;
+
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .hero-button-primary {
+      color: #ffffff;
+      background: var(--primary);
+
+      box-shadow:
+        0 14px 28px rgba(37, 99, 235, 0.25);
+    }
+
+    .hero-button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 18px 35px rgba(37, 99, 235, 0.32);
+    }
+
+    .hero-button-secondary {
+      color: #e6eefb;
+      background: rgba(255, 255, 255, 0.07);
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-button-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* =========================================================
+       HERO PREVIEW
+    ========================================================= */
+
+    .hero-preview {
+      position: relative;
+
+      width: 100%;
+      max-width: 490px;
+
+      margin-left: auto;
+    }
+
+    .preview-window {
+      overflow: hidden;
+
+      border-radius: 22px;
+
+      background: #ffffff;
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.3);
+    }
+
+    .preview-top {
+      height: 44px;
+
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 0 15px;
+
+      background: #f7f9fc;
+
+      border-bottom: 1px solid #e8edf3;
+    }
+
+    .preview-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+
+    .preview-body {
+      padding: 18px;
+
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+
+      gap: 14px;
+
+      background: #ffffff;
+    }
+
+    .preview-sidebar {
+      min-height: 275px;
+
+      padding: 15px;
+
+      border-radius: 13px;
+
+      background: #f5f7fb;
+    }
+
+    .preview-sidebar-line {
+      height: 9px;
+
+      margin-bottom: 13px;
+
+      border-radius: 999px;
+
+      background: #dce3ed;
+    }
+
+    .preview-sidebar-line.short {
+      width: 65%;
+    }
+
+    .preview-sidebar-line.active {
+      width: 80%;
+      background: #b9d0ff;
+    }
+
+    .preview-main {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+    }
+
+    .preview-card {
+      min-height: 125px;
+
+      padding: 11px;
+
+      border-radius: 12px;
+
+      background: #f7f9fc;
+
+      border: 1px solid #edf1f5;
+    }
+
+    .preview-card-image {
+      height: 65px;
+
+      margin-bottom: 9px;
+
+      border-radius: 8px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #dbeafe,
+          #ede9fe
+        );
+    }
+
+    .preview-card-line {
+      height: 7px;
+      width: 75%;
+
+      border-radius: 999px;
+
+      background: #cbd5e1;
+    }
+
+    /* =========================================================
+       SECTION
+    ========================================================= */
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-soft {
+      background: #f8fafc;
+    }
+
+    .section-header {
+      max-width: 680px;
+
+      margin: 0 auto 45px;
+
+      text-align: center;
+    }
+
+    .section-label {
+      display: inline-block;
+
+      margin-bottom: 11px;
+
+      color: var(--primary);
+
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-header h2 {
+      color: #172033;
+
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.15;
+
+      letter-spacing: -0.04em;
+
+      margin-bottom: 13px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* =========================================================
+       DESIGN GALLERY
+    ========================================================= */
+
+    .design-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 20px;
+    }
+
+    .design-card {
+      overflow: hidden;
+
+      background: #ffffff;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+
+      box-shadow: var(--shadow-sm);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .design-card:hover {
+      transform: translateY(-5px);
+
+      box-shadow: var(--shadow-md);
+    }
+
+    .design-image {
+      position: relative;
+
+      aspect-ratio: 1 / 1;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          #dbeafe,
+          #ede9fe
+        );
+    }
+
+    .design-image img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      transition: transform 0.35s ease;
+    }
+
+    .design-card:hover .design-image img {
+      transform: scale(1.04);
+    }
+
+    .design-placeholder {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px;
+
+      text-align: center;
+
+      color: #64748b;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eff6ff,
+          #f5f3ff
+        );
+    }
+
+    .design-placeholder strong {
+      display: block;
+
+      margin-bottom: 6px;
+
+      color: #334155;
+
+      font-size: 18px;
+    }
+
+    .design-placeholder span {
+      font-size: 12px;
+    }
+
+    .design-info {
+      padding: 17px;
+    }
+
+    .design-info h3 {
+      color: #1f2937;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      margin-bottom: 6px;
+    }
+
+    .design-info p {
+      color: #7a869a;
+
+      font-size: 12px;
+      line-height: 1.6;
+
+      margin-bottom: 13px;
+    }
+
+    .design-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      color: var(--primary);
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .design-button svg {
+      width: 15px;
+      height: 15px;
+
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* =========================================================
+       FEATURES
+    ========================================================= */
+
+    .feature-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 25px;
+
+      background: #ffffff;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card-icon {
+      width: 45px;
+      height: 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 17px;
+
+      border-radius: 13px;
+
+      color: var(--primary);
+      background: #edf4ff;
+    }
+
+    .feature-card-icon svg {
+      width: 21px;
+      height: 21px;
+
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .feature-card h3 {
+      color: #253047;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: #7a869a;
+
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       HOW IT WORKS
+    ========================================================= */
+
+    .steps {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 25px;
+    }
+
+    .step {
+      position: relative;
+
+      padding: 28px;
+
+      text-align: center;
+
+      background: #ffffff;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 auto 17px;
+
+      border-radius: 50%;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary)
+        );
+
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .step h3 {
+      margin-bottom: 8px;
+
+      color: #253047;
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .step p {
+      color: #7a869a;
+
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       CTA
+    ========================================================= */
+
+    .cta {
+      padding: 80px 0;
+    }
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+
+      padding: 55px 45px;
+
+      border-radius: 26px;
+
+      text-align: center;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(37, 99, 235, 0.3),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 85% 80%,
+          rgba(124, 58, 237, 0.3),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #0a1525,
+          #101d34
+        );
+
+      box-shadow:
+        0 30px 70px rgba(15, 23, 42, 0.15);
+    }
+
+    .cta-box h2 {
+      position: relative;
+      z-index: 2;
+
+      font-size: clamp(28px, 4vw, 42px);
+
+      letter-spacing: -0.04em;
+
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      position: relative;
+      z-index: 2;
+
+      max-width: 600px;
+
+      margin: 0 auto 25px;
+
+      color: #b9c7da;
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .cta-button {
+      position: relative;
+      z-index: 2;
+
+      min-height: 48px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 0 19px;
+
+      border: 0;
+      border-radius: 11px;
+
+      color: #172033;
+      background: #ffffff;
+
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .cta-button svg {
+      width: 17px;
+      height: 17px;
+
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      padding: 55px 0 25px;
+
+      color: #b4c0d1;
+
+      background: #07111f;
+    }
+
+    .footer-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.4fr
+        repeat(3, 1fr);
+
+      gap: 45px;
+
+      padding-bottom: 40px;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-brand {
+      max-width: 320px;
+    }
+
+    .footer-brand .brand {
+      color: #ffffff;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      color: #8796ad;
+
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 14px;
+
+      color: #ffffff;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .footer-column a {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: #8796ad;
+
+      font-size: 12px;
+    }
+
+    .footer-column a:hover {
+      color: #ffffff;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+
+      padding-top: 22px;
+
+      color: #718096;
+
+      font-size: 11px;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+      z-index: 2000;
+
+      right: 20px;
+      bottom: 20px;
+
+      max-width: 340px;
+
+      padding: 13px 16px;
+
+      border-radius: 12px;
+
+      color: #ffffff;
+
+      background: #172033;
+
+      box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.22);
+
+      font-size: 12px;
+      font-weight: 700;
+
+      opacity: 0;
+      pointer-events: none;
+
+      transform: translateY(15px);
+
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1050px) {
+
+      .hero-grid {
+        gap: 45px;
+      }
+
+      .design-grid,
+      .feature-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-grid {
+        grid-template-columns:
+          1.3fr
+          repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+
+      .container {
+        width: min(100% - 32px, 620px);
+      }
+
+      .nav {
+        height: 68px;
+      }
+
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .menu-button {
+        display: flex;
+      }
+
+      .hero {
+        padding: 70px 0;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-preview {
+        margin: 0 auto;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: calc(100% - 28px);
+      }
+
+      .hero {
+        padding: 58px 0;
+      }
+
+      .hero h1 {
+        font-size: 39px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-button {
+        width: 100%;
+      }
+
+      .preview-body {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-sidebar {
+        min-height: 110px;
+      }
+
+      .design-grid,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .section-header {
+        margin-bottom: 32px;
+      }
+
+      .cta {
+        padding: 55px 0;
+      }
+
+      .cta-box {
+        padding: 42px 22px;
+        border-radius: 20px;
+      }
+
+      .ad-banner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .ad-button {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-brand {
+        grid-column: auto;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 400px) {
+
+      .hero h1 {
+        font-size: 35px;
+      }
+
+      .hero-badge {
+        font-size: 9px;
+      }
+
+      .mobile-menu-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header h2 {
+        font-size: 28px;
+      }
+    }
+
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
+
+    :focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.25);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- =====================================================
-         BROWSER UI ADVERTISEMENT
-         This is NOT part of poster design/export.
-    ====================================================== -->
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
 
-    <div
-        class="top-ad-banner"
-        id="topAdBanner"
-    >
+  <header class="header">
 
-        <div class="ad-content">
+    <div class="container">
 
-            <div
-                class="ad-icon"
-                id="adIcon"
-            >
-                AD
-            </div>
+      <nav class="nav">
 
-            <div
-                class="ad-image-wrap"
-                id="adImageWrap"
-            >
-                <img
-                    id="adImage"
-                    src=""
-                    alt="Advertisement"
-                >
-            </div>
+        <a
+          href="./index.html"
+          class="brand"
+          aria-label="Design System Home"
+        >
 
-            <div class="ad-text">
+          <span class="brand-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 5h16v14H4z"
+              ></path>
 
-                <span
-                    class="ad-label"
-                    id="adLabel"
-                >
-                    Advertisement
-                </span>
+              <path
+                d="m7 15 3-3 2 2 3-4 2 3"
+              ></path>
+            </svg>
+          </span>
 
-                <strong
-                    id="adTitle"
-                >
-                    Promote Your Healthcare Brand
-                </strong>
+          <span>
+            Design System
+          </span>
 
-                <p
-                    id="adDescription"
-                >
-                    Reach doctors, clinics & healthcare professionals
-                </p>
+        </a>
 
-            </div>
 
-            <a
-                href="#"
-                class="ad-button"
-                id="adButton"
-                target="_blank"
-                rel="noopener"
-            >
-                Advertise With Us →
-            </a>
+        <div class="nav-links">
 
-            <button
-                type="button"
-                class="ad-close"
-                id="adClose"
-                aria-label="Close advertisement"
-            >
-                ×
-            </button>
+          <a href="#home">
+            Home
+          </a>
+
+          <a href="#designs">
+            Designs
+          </a>
+
+          <a href="#features">
+            Features
+          </a>
+
+          <a href="#how-it-works">
+            How It Works
+          </a>
+
+          <a href="./chatter/index.html">
+            Chatter
+          </a>
 
         </div>
+
+
+        <div class="nav-actions">
+
+          <a
+            href="./login/index.html"
+            class="nav-button nav-button-outline"
+          >
+            Admin Login
+          </a>
+
+          <a
+            href="#designs"
+            class="nav-button nav-button-primary"
+          >
+            Browse Designs
+          </a>
+
+        </div>
+
+
+        <button
+          class="menu-button"
+          id="menuButton"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+
+          <svg
+            id="menuIcon"
+            viewBox="0 0 24 24"
+          >
+            <path d="M4 6h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 18h16"></path>
+          </svg>
+
+        </button>
+
+      </nav>
+
+
+      <!-- Mobile Menu -->
+
+      <div
+        class="mobile-menu"
+        id="mobileMenu"
+      >
+
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#designs">
+          Designs
+        </a>
+
+        <a href="#features">
+          Features
+        </a>
+
+        <a href="#how-it-works">
+          How It Works
+        </a>
+
+        <a href="./chatter/index.html">
+          Chatter
+        </a>
+
+        <div class="mobile-menu-actions">
+
+          <a
+            href="./login/index.html"
+            class="nav-button nav-button-outline"
+          >
+            Admin Login
+          </a>
+
+          <a
+            href="#designs"
+            class="nav-button nav-button-primary"
+          >
+            Browse Designs
+          </a>
+
+        </div>
+
+      </div>
 
     </div>
 
+  </header>
 
-    <!-- =====================================================
-         WEBSITE OFFLINE
-    ====================================================== -->
 
-    <section
-        class="website-offline"
-        id="websiteOffline"
-    >
+  <!-- =========================================================
+       ADVERTISEMENT AREA
+       Owner website advertisement only
+  ========================================================== -->
 
-        <div class="offline-card">
+  <section
+    class="ad-banner-area"
+    id="adBannerArea"
+  >
 
-            <div class="offline-icon">
-                ⚕
-            </div>
+    <div class="container">
 
-            <h1 id="offlineTitle">
-                Website Temporarily Unavailable
-            </h1>
+      <div class="ad-banner">
 
-            <p id="offlineDescription">
-                We are currently updating the website.
-                Please check back again later.
-            </p>
+        <div class="ad-content">
+
+          <h4 id="adTitle">
+            Welcome
+          </h4>
+
+          <p id="adDescription">
+            Discover our latest designs.
+          </p>
 
         </div>
+
+        <button
+          type="button"
+          class="ad-button"
+          id="adButton"
+        >
+          Learn More
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       HERO
+  ========================================================== -->
+
+  <main>
+
+    <section
+      class="hero"
+      id="home"
+    >
+
+      <div class="container">
+
+        <div class="hero-grid">
+
+          <div class="hero-content">
+
+            <div class="hero-badge">
+              <span></span>
+              Professional Design Platform
+            </div>
+
+            <h1>
+              Create,
+              explore & use
+              <span>beautiful designs.</span>
+            </h1>
+
+            <p class="hero-description">
+              A modern design platform where users can
+              explore professional poster designs, open
+              individual templates and discover creative
+              visual solutions for their needs.
+            </p>
+
+            <div class="hero-actions">
+
+              <a
+                href="#designs"
+                class="hero-button hero-button-primary"
+              >
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+                Explore Designs
+
+              </a>
+
+
+              <a
+                href="./chatter/index.html"
+                class="hero-button hero-button-secondary"
+              >
+
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.9-4.4A8.3 8.3 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"
+                  ></path>
+
+                  <path d="M8 12h8"></path>
+                </svg>
+
+                Open Chatter
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- Preview -->
+
+          <div class="hero-preview">
+
+            <div class="preview-window">
+
+              <div class="preview-top">
+
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+
+              </div>
+
+
+              <div class="preview-body">
+
+                <div class="preview-sidebar">
+
+                  <div class="preview-sidebar-line"></div>
+
+                  <div class="preview-sidebar-line active"></div>
+
+                  <div class="preview-sidebar-line"></div>
+
+                  <div class="preview-sidebar-line short"></div>
+
+                  <div class="preview-sidebar-line"></div>
+
+                  <div class="preview-sidebar-line short"></div>
+
+                </div>
+
+
+                <div class="preview-main">
+
+                  <div class="preview-card">
+
+                    <div class="preview-card-image"></div>
+
+                    <div class="preview-card-line"></div>
+
+                  </div>
+
+                  <div class="preview-card">
+
+                    <div class="preview-card-image"></div>
+
+                    <div class="preview-card-line"></div>
+
+                  </div>
+
+                  <div class="preview-card">
+
+                    <div class="preview-card-image"></div>
+
+                    <div class="preview-card-line"></div>
+
+                  </div>
+
+                  <div class="preview-card">
+
+                    <div class="preview-card-image"></div>
+
+                    <div class="preview-card-line"></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </section>
 
 
-    <!-- =====================================================
-         WEBSITE CONTENT
-    ====================================================== -->
+    <!-- =======================================================
+         DESIGNS
+    ======================================================== -->
 
-    <div id="websiteContent">
+    <section
+      class="section"
+      id="designs"
+    >
 
-        <!-- =================================================
-             NAVBAR
-        ================================================== -->
+      <div class="container">
 
-        <header
-            class="navbar"
-            id="navbar"
-        >
+        <div class="section-header">
 
-            <div class="nav-container">
+          <span class="section-label">
+            Design Collection
+          </span>
 
-                <a
-                    href="#home"
-                    class="brand"
-                >
+          <h2>
+            Explore our latest designs
+          </h2>
 
-                    <div class="brand-logo">
-                        ⚕
-                    </div>
+          <p>
+            Browse separate design styles and open
+            each design individually.
+          </p>
 
-                    <div class="brand-text">
-
-                        <strong id="navWebsiteName">
-                            Doctor Poster Maker
-                        </strong>
-
-                        <span id="navTagline">
-                            Create professional doctor posters in minutes.
-                        </span>
-
-                    </div>
-
-                </a>
+        </div>
 
 
-                <nav class="desktop-nav">
+        <div class="design-grid">
 
-                    <a
-                        href="#home"
-                        class="nav-link active"
-                    >
-                        Home
-                    </a>
+          <!-- Design 01 -->
 
-                    <a
-                        href="#designs"
-                        class="nav-link"
-                    >
-                        Designs
-                    </a>
+          <article class="design-card">
 
-                    <a
-                        href="#features"
-                        class="nav-link"
-                    >
-                        Features
-                    </a>
+            <a
+              href="./design/design1/index.html"
+              class="design-image"
+            >
 
-                    <a
-                        href="#how-it-works"
-                        class="nav-link"
-                    >
-                        How It Works
-                    </a>
+              <div class="design-placeholder">
 
-                    <a
-                        href="#create"
-                        class="nav-link"
-                    >
-                        Create
-                    </a>
+                <div>
 
-                </nav>
+                  <strong>
+                    Design Style 01
+                  </strong>
+
+                  <span>
+                    Professional Poster Template
+                  </span>
+
+                </div>
+
+              </div>
+
+            </a>
 
 
-                <button
-                    type="button"
-                    class="mobile-menu-btn"
-                    id="mobileMenuBtn"
-                    aria-label="Open menu"
-                >
-                    ☰
-                </button>
+            <div class="design-info">
+
+              <h3>
+                Design Style 01
+              </h3>
+
+              <p>
+                Clean and professional poster
+                design collection.
+              </p>
+
+              <a
+                href="./design/design1/index.html"
+                class="design-button"
+              >
+
+                View Design
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+              </a>
 
             </div>
 
+          </article>
 
-            <div
-                class="mobile-menu"
-                id="mobileMenu"
+
+          <!-- Design 02 -->
+
+          <article class="design-card">
+
+            <a
+              href="./design/design2/index.html"
+              class="design-image"
             >
 
-                <a href="#home">
-                    Home
-                </a>
+              <div class="design-placeholder">
 
-                <a href="#designs">
-                    Designs
-                </a>
+                <div>
 
-                <a href="#features">
-                    Features
-                </a>
+                  <strong>
+                    Design Style 02
+                  </strong>
 
-                <a href="#how-it-works">
-                    How It Works
-                </a>
+                  <span>
+                    Modern Creative Template
+                  </span>
 
-                <a href="#create">
-                    Create
-                </a>
+                </div>
+
+              </div>
+
+            </a>
+
+
+            <div class="design-info">
+
+              <h3>
+                Design Style 02
+              </h3>
+
+              <p>
+                Modern visual layout for social
+                media campaigns.
+              </p>
+
+              <a
+                href="./design/design2/index.html"
+                class="design-button"
+              >
+
+                View Design
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+              </a>
 
             </div>
 
-        </header>
+          </article>
 
 
-        <!-- =================================================
-             HOMEPAGE BANNERS
-             Controlled by Banner Management
-        ================================================== -->
+          <!-- Design 03 -->
 
-        <section
-            class="homepage-banner-area"
-            id="homepageBannerArea"
-        >
+          <article class="design-card">
 
-            <!-- Banner 1 -->
-
-            <div
-                class="homepage-banner"
-                id="homepageBanner1"
-                data-banner-slot="banner1"
+            <a
+              href="./design/design3/index.html"
+              class="design-image"
             >
 
-                <div class="homepage-banner-placeholder">
+              <div class="design-placeholder">
 
-                    <span>
-                        HEALTHCARE BANNER
-                    </span>
+                <div>
 
-                    <small>
-                        Banner 1 — Managed from Admin Panel
-                    </small>
+                  <strong>
+                    Design Style 03
+                  </strong>
+
+                  <span>
+                    Premium Social Poster
+                  </span>
 
                 </div>
+
+              </div>
+
+            </a>
+
+
+            <div class="design-info">
+
+              <h3>
+                Design Style 03
+              </h3>
+
+              <p>
+                Premium layout for promotional
+                and campaign content.
+              </p>
+
+              <a
+                href="./design/design3/index.html"
+                class="design-button"
+              >
+
+                View Design
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+              </a>
 
             </div>
 
+          </article>
 
-            <!-- Banner 2 -->
 
-            <div
-                class="homepage-banner"
-                id="homepageBanner2"
-                data-banner-slot="banner2"
+          <!-- Design 04 -->
+
+          <article class="design-card">
+
+            <a
+              href="./design/design4/index.html"
+              class="design-image"
             >
 
-                <div class="homepage-banner-placeholder">
+              <div class="design-placeholder">
 
-                    <span>
-                        PROFESSIONAL BANNER
-                    </span>
+                <div>
 
-                    <small>
-                        Banner 2 — Managed from Admin Panel
-                    </small>
+                  <strong>
+                    Design Style 04
+                  </strong>
+
+                  <span>
+                    Elegant Poster Template
+                  </span>
 
                 </div>
+
+              </div>
+
+            </a>
+
+
+            <div class="design-info">
+
+              <h3>
+                Design Style 04
+              </h3>
+
+              <p>
+                Elegant visual style for premium
+                content presentation.
+              </p>
+
+              <a
+                href="./design/design4/index.html"
+                class="design-button"
+              >
+
+                View Design
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+              </a>
 
             </div>
 
-        </section>
+          </article>
 
 
-        <!-- =================================================
-             HERO
-        ================================================== -->
+          <!-- Design 05 -->
 
-        <main>
+          <article class="design-card">
 
-            <section
-                class="hero"
-                id="home"
+            <a
+              href="./design/design5/index.html"
+              class="design-image"
             >
 
-                <div class="hero-container">
+              <div class="design-placeholder">
 
-                    <div class="hero-content">
+                <div>
 
-                        <span
-                            class="hero-badge"
-                            id="heroBadge"
-                        >
-                            ✦ Built for Healthcare Professionals
-                        </span>
+                  <strong>
+                    Design Style 05
+                  </strong>
 
-                        <h1 id="heroTitle">
-                            Create Beautiful Doctor Posters in Minutes.
-                        </h1>
-
-                        <p
-                            class="hero-description"
-                            id="heroDescription"
-                        >
-                            Create professional medical posters quickly
-                            with beautiful ready-made designs built for
-                            healthcare professionals.
-                        </p>
-
-
-                        <div class="hero-buttons">
-
-                            <a
-                                href="#designs"
-                                class="btn btn-primary"
-                                id="primaryButton"
-                            >
-                                Start Creating →
-                            </a>
-
-                            <a
-                                href="#designs"
-                                class="btn btn-secondary"
-                                id="secondaryButton"
-                            >
-                                Explore Designs
-                            </a>
-
-                        </div>
-
-
-                        <div class="hero-stats">
-
-                            <div class="hero-stat">
-
-                                <strong id="stat1">
-                                    4+ Designs
-                                </strong>
-
-                                <span>
-                                    Ready to use
-                                </span>
-
-                            </div>
-
-
-                            <div class="hero-stat-divider"></div>
-
-
-                            <div class="hero-stat">
-
-                                <strong id="stat2">
-                                    1080px Quality
-                                </strong>
-
-                                <span>
-                                    Professional output
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- HERO VISUAL -->
-
-                    <div class="hero-visual">
-
-                        <div class="floating-card floating-card-one">
-
-                            <div class="floating-icon">
-                                PNG
-                            </div>
-
-                            <div>
-                                <strong>
-                                    High Quality
-                                </strong>
-
-                                <small>
-                                    Ready to export
-                                </small>
-                            </div>
-
-                        </div>
-
-
-                        <div class="hero-poster">
-
-                            <div class="poster-top-line"></div>
-
-
-                            <div class="poster-header">
-
-                                <div class="poster-logo">
-                                    ⚕
-                                </div>
-
-                                <div>
-
-                                    <strong>
-                                        MEDICAL CENTER
-                                    </strong>
-
-                                    <small>
-                                        Professional Healthcare
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="poster-main">
-
-                                <div class="poster-photo">
-
-                                    <span class="photo-placeholder">
-                                        Doctor Photo
-                                    </span>
-
-                                </div>
-
-
-                                <div class="poster-info">
-
-                                    <span>
-                                        CONSULTANT
-                                    </span>
-
-                                    <h3>
-                                        Dr. Sarah Ahmed
-                                    </h3>
-
-                                    <p>
-                                        MBBS, FCPS
-                                    </p>
-
-                                    <strong>
-                                        Specialist Physician
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="poster-info-grid">
-
-                                <div>
-
-                                    <span>
-                                        Chamber
-                                    </span>
-
-                                    <strong>
-                                        City Hospital
-                                    </strong>
-
-                                </div>
-
-                                <div>
-
-                                    <span>
-                                        Appointment
-                                    </span>
-
-                                    <strong>
-                                        01700-000000
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="poster-bottom">
-                                Professional Healthcare Services
-                            </div>
-
-                        </div>
-
-
-                        <div class="floating-card floating-card-two">
-
-                            <div class="floating-icon">
-                                ✓
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Easy to Create
-                                </strong>
-
-                                <small>
-                                    No design skills needed
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                  <span>
+                    Business Poster Design
+                  </span>
 
                 </div>
 
-            </section>
+              </div>
 
+            </a>
 
-            <!-- =================================================
-                 DESIGNS
-            ================================================== -->
 
-            <section
-                class="design-section"
-                id="designs"
-            >
+            <div class="design-info">
 
-                <div class="section-container">
+              <h3>
+                Design Style 05
+              </h3>
 
-                    <div class="section-heading">
+              <p>
+                Business-focused layout with
+                modern typography.
+              </p>
 
-                        <div>
+              <a
+                href="./design/design5/index.html"
+                class="design-button"
+              >
 
-                            <span class="section-eyebrow">
-                                READY-MADE DESIGNS
-                            </span>
+                View Design
 
-                            <h2>
-                                Choose Your Poster Style
-                            </h2>
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
 
-                            <p>
-                                Select a professional design and
-                                start creating your doctor poster.
-                            </p>
-
-                        </div>
-
-
-                        <div class="design-count">
-
-                            <strong id="designCountStat">
-                                4
-                            </strong>
-
-                            <span>
-                                Active Designs
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="design-grid"
-                        id="designGrid"
-                    >
-
-                        <!-- DESIGN 1 -->
-
-                        <article
-                            class="design-card"
-                            data-design-card="design1"
-                        >
-
-                            <div class="design-preview preview-one">
-
-                                <div class="mini-header">
-
-                                    <span>⚕</span>
-
-                                    Medical Professional
-
-                                </div>
-
-
-                                <div class="mini-doctor-area">
-
-                                    <div class="mini-doctor">
-                                        Doctor Photo
-                                    </div>
-
-                                    <div class="mini-details">
-
-                                        <small>
-                                            CONSULTANT
-                                        </small>
-
-                                        <strong>
-                                            Dr. Ahmed
-                                        </strong>
-
-                                        <span>
-                                            MBBS, FCPS
-                                        </span>
-
-                                        <em>
-                                            Specialist
-                                        </em>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="mini-info">
-                                    Chamber • Appointment • Location
-                                </div>
-
-                            </div>
-
-
-                            <div class="design-card-body">
-
-                                <div>
-
-                                    <span class="design-number">
-                                        DESIGN 01
-                                    </span>
-
-                                    <h3>
-                                        Classic Medical
-                                    </h3>
-
-                                    <p>
-                                        Clean and professional
-                                        healthcare poster style.
-                                    </p>
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    class="design-button"
-                                    data-design="design1"
-                                >
-                                    Use This Design →
-                                </button>
-
-                            </div>
-
-                        </article>
-
-
-                        <!-- DESIGN 2 -->
-
-                        <article
-                            class="design-card"
-                            data-design-card="design2"
-                        >
-
-                            <div class="design-preview preview-two">
-
-                                <div class="mini-two-header">
-
-                                    <strong>
-                                        PREMIUM CLINIC
-                                    </strong>
-
-                                    <span>
-                                        HEALTHCARE
-                                    </span>
-
-                                </div>
-
-
-                                <div class="mini-two-dark">
-
-                                    <div class="mini-doctor">
-                                        Doctor Photo
-                                    </div>
-
-                                    <div>
-
-                                        <small>
-                                            CONSULTANT
-                                        </small>
-
-                                        <strong>
-                                            Dr. Ahmed
-                                        </strong>
-
-                                        <span>
-                                            Medical Specialist
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="mini-two-info">
-
-                                    <span>
-                                        CHAMBER
-                                    </span>
-
-                                    <span>
-                                        VISITING
-                                    </span>
-
-                                    <span>
-                                        CONTACT
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="design-card-body">
-
-                                <div>
-
-                                    <span class="design-number">
-                                        DESIGN 02
-                                    </span>
-
-                                    <h3>
-                                        Premium Modern
-                                    </h3>
-
-                                    <p>
-                                        Modern dark premium
-                                        medical presentation.
-                                    </p>
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    class="design-button"
-                                    data-design="design2"
-                                >
-                                    Use This Design →
-                                </button>
-
-                            </div>
-
-                        </article>
-
-
-                        <!-- DESIGN 3 -->
-
-                        <article
-                            class="design-card"
-                            data-design-card="design3"
-                        >
-
-                            <div class="design-preview preview-three">
-
-                                <div class="mini-three-top">
-
-                                    <span>
-                                        ⚕
-                                    </span>
-
-                                    <strong>
-                                        MEDICAL CARE
-                                    </strong>
-
-                                </div>
-
-
-                                <div class="mini-three-doctor">
-
-                                    <div class="mini-doctor">
-                                        Doctor Photo
-                                    </div>
-
-                                    <div>
-
-                                        <small>
-                                            SPECIALIST
-                                        </small>
-
-                                        <strong>
-                                            Dr. Sarah
-                                        </strong>
-
-                                        <span>
-                                            MBBS, MD
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="mini-three-cards">
-
-                                    <div>
-                                        Chamber
-                                    </div>
-
-                                    <div>
-                                        Visiting
-                                    </div>
-
-                                    <div>
-                                        Contact
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="design-card-body">
-
-                                <div>
-
-                                    <span class="design-number">
-                                        DESIGN 03
-                                    </span>
-
-                                    <h3>
-                                        Modern Minimal
-                                    </h3>
-
-                                    <p>
-                                        Minimal layout for a clean
-                                        professional appearance.
-                                    </p>
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    class="design-button"
-                                    data-design="design3"
-                                >
-                                    Use This Design →
-                                </button>
-
-                            </div>
-
-                        </article>
-
-
-                        <!-- DESIGN 4 -->
-
-                        <article
-                            class="design-card"
-                            data-design-card="design4"
-                        >
-
-                            <div class="design-preview preview-four">
-
-                                <div class="mini-four-photo">
-                                    Doctor Photo
-                                </div>
-
-
-                                <div class="mini-four-info">
-
-                                    <small>
-                                        CONSULTANT
-                                    </small>
-
-                                    <strong>
-                                        Dr. Ahmed
-                                    </strong>
-
-                                    <span>
-                                        Specialist Physician
-                                    </span>
-
-                                    <em>
-                                        MBBS, FCPS
-                                    </em>
-
-                                </div>
-
-
-                                <div class="mini-four-bottom">
-
-                                    <span>
-                                        CHAMBER
-                                    </span>
-
-                                    <span>
-                                        APPOINTMENT
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="design-card-body">
-
-                                <div>
-
-                                    <span class="design-number">
-                                        DESIGN 04
-                                    </span>
-
-                                    <h3>
-                                        Elegant Split
-                                    </h3>
-
-                                    <p>
-                                        Elegant split-layout design
-                                        for premium presentation.
-                                    </p>
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    class="design-button"
-                                    data-design="design4"
-                                >
-                                    Use This Design →
-                                </button>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-
-                    <div
-                        class="no-design-message"
-                        id="noDesignMessage"
-                    >
-
-                        <div class="no-design-icon">
-                            ⚕
-                        </div>
-
-                        <h3>
-                            No Designs Available
-                        </h3>
-
-                        <p>
-                            Please check back later for available
-                            poster designs.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 FEATURES
-            ================================================== -->
-
-            <section
-                class="features-section"
-                id="features"
-            >
-
-                <div class="section-container">
-
-                    <div class="section-heading centered">
-
-                        <span class="section-eyebrow">
-                            SIMPLE & POWERFUL
-                        </span>
-
-                        <h2>
-                            Everything You Need
-                        </h2>
-
-                        <p>
-                            Create professional healthcare posters
-                            without complicated design software.
-                        </p>
-
-                    </div>
-
-
-                    <div class="features-grid">
-
-                        <div class="feature-card">
-
-                            <div class="feature-icon">
-                                ✦
-                            </div>
-
-                            <h3>
-                                Ready Designs
-                            </h3>
-
-                            <p>
-                                Choose from professional medical
-                                poster templates.
-                            </p>
-
-                        </div>
-
-
-                        <div class="feature-card">
-
-                            <div class="feature-icon">
-                                HD
-                            </div>
-
-                            <h3>
-                                High Quality
-                            </h3>
-
-                            <p>
-                                Create high-quality posters ready
-                                for social media.
-                            </p>
-
-                        </div>
-
-
-                        <div class="feature-card">
-
-                            <div class="feature-icon">
-                                ⚙
-                            </div>
-
-                            <h3>
-                                Easy Editing
-                            </h3>
-
-                            <p>
-                                Customize doctor information,
-                                photos and poster details.
-                            </p>
-
-                        </div>
-
-
-                        <div class="feature-card">
-
-                            <div class="feature-icon">
-                                PNG
-                            </div>
-
-                            <h3>
-                                Easy Export
-                            </h3>
-
-                            <p>
-                                Export your finished poster as
-                                a high-quality image.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 HOW IT WORKS
-            ================================================== -->
-
-            <section
-                class="steps-section"
-                id="how-it-works"
-            >
-
-                <div class="section-container">
-
-                    <div class="section-heading centered">
-
-                        <span class="section-eyebrow">
-                            HOW IT WORKS
-                        </span>
-
-                        <h2>
-                            Create Your Poster in 3 Steps
-                        </h2>
-
-                        <p>
-                            Simple, fast and designed for
-                            healthcare professionals.
-                        </p>
-
-                    </div>
-
-
-                    <div class="steps-grid">
-
-                        <div class="step-card">
-
-                            <div class="step-number">
-                                01
-                            </div>
-
-                            <h3>
-                                Choose a Design
-                            </h3>
-
-                            <p>
-                                Select the poster design that
-                                matches your professional style.
-                            </p>
-
-                        </div>
-
-
-                        <div class="step-card">
-
-                            <div class="step-number">
-                                02
-                            </div>
-
-                            <h3>
-                                Add Your Information
-                            </h3>
-
-                            <p>
-                                Enter your doctor information,
-                                chamber details and photo.
-                            </p>
-
-                        </div>
-
-
-                        <div class="step-card">
-
-                            <div class="step-number">
-                                03
-                            </div>
-
-                            <h3>
-                                Export & Share
-                            </h3>
-
-                            <p>
-                                Download your finished poster
-                                and share it anywhere.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 CTA
-            ================================================== -->
-
-            <section
-                class="cta-section"
-                id="create"
-            >
-
-                <div class="section-container">
-
-                    <div class="cta-box">
-
-                        <div>
-
-                            <span>
-                                READY TO CREATE?
-                            </span>
-
-                            <h2>
-                                Make Your Professional
-                                Doctor Poster Today.
-                            </h2>
-
-                            <p>
-                                Choose a design and start creating
-                                your poster in minutes.
-                            </p>
-
-                        </div>
-
-
-                        <a
-                            href="#designs"
-                            class="btn btn-white"
-                            id="ctaCreateButton"
-                        >
-                            Start Creating →
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </main>
-
-
-        <!-- =================================================
-             FOOTER
-        ================================================== -->
-
-        <footer class="footer">
-
-            <div class="section-container">
-
-                <div class="footer-grid">
-
-                    <div class="footer-brand">
-
-                        <div class="footer-brand-title">
-
-                            <div class="brand-logo">
-                                ⚕
-                            </div>
-
-                            <strong id="footerWebsiteName">
-                                Doctor Poster Maker
-                            </strong>
-
-                        </div>
-
-
-                        <p id="footerDescription">
-                            Create beautiful professional doctor
-                            posters quickly and easily.
-                        </p>
-
-                    </div>
-
-
-                    <div class="footer-column">
-
-                        <h4>
-                            QUICK LINKS
-                        </h4>
-
-                        <a href="#home">
-                            Home
-                        </a>
-
-                        <a href="#designs">
-                            Designs
-                        </a>
-
-                        <a href="#features">
-                            Features
-                        </a>
-
-                        <a href="#how-it-works">
-                            How It Works
-                        </a>
-
-                    </div>
-
-
-                    <div class="footer-column">
-
-                        <h4>
-                            CONTACT
-                        </h4>
-
-                        <a
-                            href="#"
-                            id="footerContactEmail"
-                        >
-                            Contact Us
-                        </a>
-
-                        <a href="#designs">
-                            Create Poster
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="footer-bottom">
-
-                    <span id="copyrightText">
-                        © 2026 Doctor Poster Maker
-                    </span>
-
-                    <span>
-                        Professional Healthcare Poster Maker
-                    </span>
-
-                </div>
+              </a>
 
             </div>
 
-        </footer>
+          </article>
+
+
+          <!-- Design 06 -->
+
+          <article class="design-card">
+
+            <a
+              href="./design/design6/index.html"
+              class="design-image"
+            >
+
+              <div class="design-placeholder">
+
+                <div>
+
+                  <strong>
+                    Design Style 06
+                  </strong>
+
+                  <span>
+                    Creative Campaign Design
+                  </span>
+
+                </div>
+
+              </div>
+
+            </a>
+
+
+            <div class="design-info">
+
+              <h3>
+                Design Style 06
+              </h3>
+
+              <p>
+                Creative campaign-ready poster
+                template.
+              </p>
+
+              <a
+                href="./design/design6/index.html"
+                class="design-button"
+              >
+
+                View Design
+
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+
+              </a>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FEATURES
+    ======================================================== -->
+
+    <section
+      class="section section-soft"
+      id="features"
+    >
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <span class="section-label">
+            Platform Features
+          </span>
+
+          <h2>
+            Everything in one place
+          </h2>
+
+          <p>
+            A simple and organized platform for
+            managing and exploring your design system.
+          </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="2"
+                ></rect>
+
+                <path
+                  d="m7 15 3-3 2 2 3-4 2 3"
+                ></path>
+              </svg>
+            </div>
+
+            <h3>
+              Professional Designs
+            </h3>
+
+            <p>
+              Explore organized poster designs
+              with separate pages for each design style.
+            </p>
+
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.9-4.4A8.3 8.3 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"
+                ></path>
+
+                <path d="M8 12h8"></path>
+              </svg>
+            </div>
+
+            <h3>
+              Chatter
+            </h3>
+
+            <p>
+              Communicate with users through
+              messaging and supported live communication.
+            </p>
+
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3 5 6v5c0 4.5 2.8 8.5 7 10 4.2-1.5 7-5.5 7-10V6l-7-3Z"
+                ></path>
+
+                <path
+                  d="m9 12 2 2 4-4"
+                ></path>
+              </svg>
+            </div>
+
+            <h3>
+              Admin Control
+            </h3>
+
+            <p>
+              Manage website settings, designs,
+              banners and communication features.
+            </p>
+
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="8"
+                ></circle>
+
+                <path d="M12 8v4l3 2"></path>
+              </svg>
+            </div>
+
+            <h3>
+              Fast Experience
+            </h3>
+
+            <p>
+              Lightweight pages designed to load
+              quickly and work smoothly.
+            </p>
+
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M4 5h16v14H4z"
+                ></path>
+
+                <path
+                  d="M8 9h8"
+                ></path>
+
+                <path
+                  d="M8 13h5"
+                ></path>
+              </svg>
+            </div>
+
+            <h3>
+              Organized System
+            </h3>
+
+            <p>
+              Keep every design and management
+              section separated and easy to maintain.
+            </p>
+
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-card-icon">
+              <svg viewBox="0 0 24 24">
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="14"
+                  rx="2"
+                ></rect>
+
+                <path
+                  d="M8 21h8"
+                ></path>
+
+                <path
+                  d="M12 18v3"
+                ></path>
+              </svg>
+            </div>
+
+            <h3>
+              Responsive
+            </h3>
+
+            <p>
+              Optimized for desktop, tablet and
+              mobile screen sizes.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         HOW IT WORKS
+    ======================================================== -->
+
+    <section
+      class="section"
+      id="how-it-works"
+    >
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <span class="section-label">
+            Simple Process
+          </span>
+
+          <h2>
+            How it works
+          </h2>
+
+          <p>
+            Find the design you need in just a few
+            simple steps.
+          </p>
+
+        </div>
+
+
+        <div class="steps">
+
+          <article class="step">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <h3>
+              Browse
+            </h3>
+
+            <p>
+              Explore the available design
+              collections from the homepage.
+            </p>
+
+          </article>
+
+
+          <article class="step">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <h3>
+              Select
+            </h3>
+
+            <p>
+              Open an individual design to view
+              its complete layout and information.
+            </p>
+
+          </article>
+
+
+          <article class="step">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <h3>
+              Use
+            </h3>
+
+            <p>
+              Continue with the selected design
+              according to your project workflow.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         CTA
+    ======================================================== -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <h2>
+            Ready to explore?
+          </h2>
+
+          <p>
+            Discover the design collection and
+            find a visual style that fits your next
+            project.
+          </p>
+
+          <a
+            href="#designs"
+            class="cta-button"
+          >
+
+            Explore Designs
+
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <a
+            href="./index.html"
+            class="brand"
+          >
+
+            <span class="brand-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M4 5h16v14H4z"
+                ></path>
+
+                <path
+                  d="m7 15 3-3 2 2 3-4 2 3"
+                ></path>
+              </svg>
+            </span>
+
+            <span>
+              Design System
+            </span>
+
+          </a>
+
+          <p>
+            A modern platform for exploring
+            professional poster and design
+            collections.
+          </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>
+            Explore
+          </h4>
+
+          <a href="#home">
+            Home
+          </a>
+
+          <a href="#designs">
+            Designs
+          </a>
+
+          <a href="#features">
+            Features
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>
+            Platform
+          </h4>
+
+          <a href="./chatter/index.html">
+            Chatter
+          </a>
+
+          <a href="./login/index.html">
+            Admin Login
+          </a>
+
+          <a href="#how-it-works">
+            How It Works
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>
+            Management
+          </h4>
+
+          <a href="./admin/dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="./admin/design-manage.html">
+            Design Management
+          </a>
+
+          <a href="./admin/banner.html">
+            Website Banners
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 Design System. All rights reserved.
+        </span>
+
+        <span>
+          Built for a better design experience.
+        </span>
+
+      </div>
 
     </div>
 
-
-    <!-- =====================================================
-         MAIN SCRIPT
-    ====================================================== -->
-
-    <script src="script.js"></script>
+  </footer>
 
 
-    <!-- =====================================================
-         SYSTEM CONTROL
-    ====================================================== -->
+  <!-- =========================================================
+       TOAST
+  ========================================================== -->
 
-    <script>
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+  ></div>
 
-        const PUBLIC_SYSTEM_KEY =
-            "doctorPosterSystemSettings";
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script>
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
 
-        const PUBLIC_DEFAULT_SYSTEM = {
-            websiteStatus: true,
-            maintenanceMode: false,
-            posterCreation: true,
-            advertisementSystem: true
+    menuButton.addEventListener(
+      "click",
+      function () {
+
+        const isOpen =
+          mobileMenu.classList.toggle("active");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".mobile-menu a")
+      .forEach(
+        function (link) {
+
+          link.addEventListener(
+            "click",
+            function () {
+
+              mobileMenu.classList.remove(
+                "active"
+              );
+
+              menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       WEBSITE SETTINGS
+    ========================================================= */
+
+    const WEBSITE_SETTINGS_KEY =
+      "websiteSettings";
+
+
+    const DEFAULT_WEBSITE_SETTINGS = {
+
+      websiteEnabled: true,
+
+      maintenanceMode: false,
+
+      showDesigns: true,
+
+      designSearch: true,
+
+      chatterEnabled: true,
+
+      notificationsEnabled: true,
+
+      maintenanceMessage:
+        "We are currently updating the website. Please check back soon."
+
+    };
+
+
+    function getWebsiteSettings() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            WEBSITE_SETTINGS_KEY
+          );
+
+        if (!raw) {
+          return {
+            ...DEFAULT_WEBSITE_SETTINGS
+          };
+        }
+
+        return {
+          ...DEFAULT_WEBSITE_SETTINGS,
+          ...JSON.parse(raw)
+        };
+
+      } catch (error) {
+
+        console.error(
+          "Website settings error:",
+          error
+        );
+
+        return {
+          ...DEFAULT_WEBSITE_SETTINGS
+        };
+
+      }
+
+    }
+
+
+    /* =========================================================
+       BANNER SETTINGS
+    ========================================================= */
+
+    const BANNER_DATA_KEY =
+      "websiteBannerData";
+
+    const BANNER_SETTINGS_KEY =
+      "websiteBannerSettings";
+
+
+    const DEFAULT_BANNER_SETTINGS = {
+
+      enabled: false,
+
+      showOnHomepage: false,
+
+      autoRotate: false
+
+    };
+
+
+    function getBannerSettings() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            BANNER_SETTINGS_KEY
+          );
+
+        if (!raw) {
+
+          return {
+            ...DEFAULT_BANNER_SETTINGS
+          };
+
+        }
+
+        return {
+          ...DEFAULT_BANNER_SETTINGS,
+          ...JSON.parse(raw)
+        };
+
+      } catch (error) {
+
+        return {
+          ...DEFAULT_BANNER_SETTINGS
+        };
+
+      }
+
+    }
+
+
+    function getBannerData() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            BANNER_DATA_KEY
+          );
+
+        if (!raw) {
+          return [];
+        }
+
+        const banners =
+          JSON.parse(raw);
+
+        if (!Array.isArray(banners)) {
+          return [];
+        }
+
+        return banners;
+
+      } catch (error) {
+
+        return [];
+
+      }
+
+    }
+
+
+    /* =========================================================
+       APPLY BANNER
+    ========================================================= */
+
+    function applyAdvertisementBanner() {
+
+      const area =
+        document.getElementById(
+          "adBannerArea"
+        );
+
+      const title =
+        document.getElementById(
+          "adTitle"
+        );
+
+      const description =
+        document.getElementById(
+          "adDescription"
+        );
+
+      const button =
+        document.getElementById(
+          "adButton"
+        );
+
+
+      const settings =
+        getBannerSettings();
+
+      const banners =
+        getBannerData();
+
+
+      if (
+        !settings.enabled ||
+        !settings.showOnHomepage
+      ) {
+
+        area.classList.remove(
+          "show"
+        );
+
+        return;
+
+      }
+
+
+      const activeBanners =
+        banners.filter(
+          function (banner) {
+
+            return (
+              banner &&
+              banner.status === "active"
+            );
+
+          }
+        );
+
+
+      if (!activeBanners.length) {
+
+        area.classList.remove(
+          "show"
+        );
+
+        return;
+
+      }
+
+
+      const banner =
+        activeBanners[0];
+
+
+      title.textContent =
+        banner.title ||
+        "Welcome";
+
+      description.textContent =
+        banner.description ||
+        "Discover our latest designs.";
+
+      button.textContent =
+        banner.buttonText ||
+        "Learn More";
+
+
+      button.onclick =
+        function () {
+
+          if (!banner.link) {
+            return;
+          }
+
+          window.open(
+            banner.link,
+            "_blank",
+            "noopener,noreferrer"
+          );
+
         };
 
 
-        function readPublicSystemSettings() {
+      area.classList.add(
+        "show"
+      );
 
-            try {
+    }
 
-                const saved =
-                    localStorage.getItem(PUBLIC_SYSTEM_KEY);
 
-                if (!saved) {
-                    return {
-                        ...PUBLIC_DEFAULT_SYSTEM
-                    };
-                }
+    /* =========================================================
+       WEBSITE STATE
+    ========================================================= */
 
-                return {
-                    ...PUBLIC_DEFAULT_SYSTEM,
-                    ...JSON.parse(saved)
-                };
+    function applyWebsiteSettings() {
 
-            } catch (error) {
+      const settings =
+        getWebsiteSettings();
 
-                return {
-                    ...PUBLIC_DEFAULT_SYSTEM
-                };
 
-            }
+      /*
+       * Chatter visibility
+       */
+
+      document
+        .querySelectorAll(
+          'a[href="./chatter/index.html"]'
+        )
+        .forEach(
+          function (element) {
+
+            element.style.display =
+              settings.chatterEnabled
+                ? ""
+                : "none";
+
+          }
+        );
+
+
+      /*
+       * Design section visibility
+       */
+
+      const designSection =
+        document.getElementById(
+          "designs"
+        );
+
+      if (designSection) {
+
+        designSection.style.display =
+          settings.showDesigns
+            ? ""
+            : "none";
+
+      }
+
+
+      /*
+       * Website availability
+       */
+
+      if (
+        settings.websiteEnabled === false
+      ) {
+
+        showMaintenanceMessage(
+          settings.maintenanceMessage
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       MAINTENANCE MESSAGE
+    ========================================================= */
+
+    function showMaintenanceMessage(
+      message
+    ) {
+
+      const existing =
+        document.getElementById(
+          "maintenanceNotice"
+        );
+
+      if (existing) {
+        return;
+      }
+
+
+      const notice =
+        document.createElement(
+          "div"
+        );
+
+
+      notice.id =
+        "maintenanceNotice";
+
+
+      notice.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:25px;
+        background:rgba(7,17,31,.96);
+        color:#fff;
+        text-align:center;
+      `;
+
+
+      notice.innerHTML = `
+        <div style="
+          width:min(500px,100%);
+          padding:35px 25px;
+          border:1px solid rgba(255,255,255,.1);
+          border-radius:22px;
+          background:#0d1829;
+          box-shadow:0 30px 80px rgba(0,0,0,.3);
+        ">
+
+          <div style="
+            width:55px;
+            height:55px;
+            margin:0 auto 18px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:16px;
+            background:rgba(37,99,235,.14);
+            color:#72a7ff;
+            font-size:25px;
+          ">
+            ⚙
+          </div>
+
+          <h2 style="
+            margin-bottom:10px;
+            font-size:25px;
+          ">
+            Website Maintenance
+          </h2>
+
+          <p style="
+            color:#aebdd4;
+            font-size:13px;
+            line-height:1.7;
+          ">
+            ${escapeHtml(
+              message ||
+              "We are currently updating the website."
+            )}
+          </p>
+
+        </div>
+      `;
+
+
+      document.body.appendChild(
+        notice
+      );
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      function (event) {
+
+        if (
+          event.key ===
+          WEBSITE_SETTINGS_KEY
+        ) {
+
+          applyWebsiteSettings();
 
         }
 
 
-        function applyPublicSystemSettings() {
+        if (
+          event.key ===
+          BANNER_SETTINGS_KEY ||
+          event.key ===
+          BANNER_DATA_KEY
+        ) {
 
-            const system =
-                readPublicSystemSettings();
-
-            const websiteContent =
-                document.getElementById("websiteContent");
-
-            const websiteOffline =
-                document.getElementById("websiteOffline");
-
-            const offlineTitle =
-                document.getElementById("offlineTitle");
-
-            const offlineDescription =
-                document.getElementById("offlineDescription");
-
-
-            if (!websiteContent || !websiteOffline) {
-                return;
-            }
-
-
-            if (system.websiteStatus === false) {
-
-                websiteContent.style.display = "none";
-
-                websiteOffline.style.display = "flex";
-
-                if (offlineTitle) {
-
-                    offlineTitle.textContent =
-                        "Website Temporarily Unavailable";
-
-                }
-
-                if (offlineDescription) {
-
-                    offlineDescription.textContent =
-                        "Our website is currently unavailable. Please check back again later.";
-
-                }
-
-                return;
-            }
-
-
-            if (system.maintenanceMode === true) {
-
-                websiteContent.style.display = "none";
-
-                websiteOffline.style.display = "flex";
-
-                if (offlineTitle) {
-
-                    offlineTitle.textContent =
-                        "Website Under Maintenance";
-
-                }
-
-                if (offlineDescription) {
-
-                    offlineDescription.textContent =
-                        "We are currently performing maintenance. Please check back again soon.";
-
-                }
-
-                return;
-            }
-
-
-            websiteContent.style.display = "";
-
-            websiteOffline.style.display = "none";
-
-
-            const creationButtons =
-                document.querySelectorAll(
-                    "[data-design], #primaryButton, #secondaryButton, #ctaCreateButton"
-                );
-
-
-            creationButtons.forEach((button) => {
-
-                if (system.posterCreation === false) {
-
-                    button.classList.add(
-                        "poster-creation-disabled"
-                    );
-
-                    if (
-                        button.hasAttribute("data-design") ||
-                        button.id === "primaryButton" ||
-                        button.id === "secondaryButton" ||
-                        button.id === "ctaCreateButton"
-                    ) {
-
-                        if (!button.dataset.originalText) {
-
-                            button.dataset.originalText =
-                                button.textContent;
-
-                        }
-
-                        button.textContent =
-                            "Creation Disabled";
-
-                    }
-
-                } else {
-
-                    button.classList.remove(
-                        "poster-creation-disabled"
-                    );
-
-                    if (button.dataset.originalText) {
-
-                        button.textContent =
-                            button.dataset.originalText;
-
-                    }
-
-                }
-
-            });
+          applyAdvertisementBanner();
 
         }
 
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                const target =
-                    event.target.closest(
-                        "[data-design], #primaryButton, #secondaryButton, #ctaCreateButton"
-                    );
+      }
+    );
 
 
-                if (!target) {
-                    return;
-                }
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
 
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
 
-                const system =
-                    readPublicSystemSettings();
+        applyWebsiteSettings();
 
+        applyAdvertisementBanner();
 
-                if (system.posterCreation === false) {
+      }
+    );
 
-                    event.preventDefault();
-
-                    alert(
-                        "Poster Creation is currently disabled."
-                    );
-
-                }
-
-            }
-        );
-
-
-        window.addEventListener(
-            "storage",
-            function (event) {
-
-                if (
-                    event.key === PUBLIC_SYSTEM_KEY ||
-                    event.key === "doctorPosterBannerStatus" ||
-                    event.key === "doctorPosterAdvertisement"
-                ) {
-
-                    applyPublicSystemSettings();
-
-                }
-
-            }
-        );
-
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                applyPublicSystemSettings();
-
-            }
-        );
-
-    </script>
+  </script>
 
 </body>
 </html>
