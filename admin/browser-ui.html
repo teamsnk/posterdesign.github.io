@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
 
-  <title>Browser UI | Admin</title>
+  <title>Browser UI Management | Design System</title>
 
   <style>
     /* =========================================================
-       BROWSER UI MANAGEMENT
-       ADMIN PANEL
+       RESET
     ========================================================= */
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     :root {
+      --sidebar: #111827;
+      --sidebar-soft: #1f2937;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
+
       --bg: #f4f7fb;
       --card: #ffffff;
-      --sidebar: #111827;
-      --sidebar-hover: #1f2937;
-      --sidebar-active: #2563eb;
+      --border: #e5e7eb;
 
       --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
+      --muted: #64748b;
 
       --primary: #2563eb;
       --primary-dark: #1d4ed8;
@@ -33,17 +40,10 @@
       --warning: #d97706;
       --danger: #dc2626;
 
+      --shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+
       --radius: 18px;
-      --shadow:
-        0 10px 30px rgba(15, 23, 42, 0.07);
-
-      --sidebar-width: 270px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --sidebar-width: 260px;
     }
 
     html {
@@ -51,24 +51,22 @@
     }
 
     body {
-      min-height: 100vh;
-      overflow-x: hidden;
-
       font-family:
         Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
         "Segoe UI",
-        Roboto,
-        Arial,
         sans-serif;
 
       background: var(--bg);
       color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     button,
-    input,
-    select,
-    textarea {
+    input {
       font: inherit;
     }
 
@@ -87,224 +85,246 @@
 
     .sidebar {
       position: fixed;
-      top: 0;
       left: 0;
+      top: 0;
       bottom: 0;
 
       width: var(--sidebar-width);
 
-      background: var(--sidebar);
-      color: #fff;
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a 0%,
+          #111827 55%,
+          #0b1220 100%
+        );
+
+      color: white;
 
       z-index: 1000;
 
       display: flex;
       flex-direction: column;
 
-      transition:
-        transform 0.3s ease;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .brand {
-      min-height: 82px;
-
-      padding: 20px 22px;
+      padding: 24px 20px;
 
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 12px;
 
-      border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .brand-logo {
+    .brand-icon {
       width: 42px;
       height: 42px;
 
-      border-radius: 12px;
+      border-radius: 13px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
 
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #7c3aed
-        );
+      background: linear-gradient(
+        135deg,
+        #2563eb,
+        #7c3aed
+      );
 
-      font-size: 17px;
-      font-weight: 900;
+      font-size: 20px;
+      font-weight: 800;
 
       box-shadow:
-        0 8px 20px rgba(37, 99, 235, 0.35);
+        0 10px 25px rgba(37, 99, 235, 0.35);
     }
 
-    .brand-text h2 {
+    .brand-text h1 {
       font-size: 16px;
-      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.2px;
     }
 
-    .brand-text span {
-      display: block;
-
-      margin-top: 4px;
-
-      color: #9ca3af;
+    .brand-text p {
+      margin-top: 3px;
+      color: var(--sidebar-muted);
       font-size: 11px;
     }
 
-    .sidebar-menu {
+    .nav {
       flex: 1;
-
-      padding: 18px 12px;
-
       overflow-y: auto;
+      padding: 18px 12px;
     }
 
-    .menu-title {
-      padding: 10px 12px;
-
-      color: #6b7280;
+    .nav-title {
+      padding: 8px 12px;
+      margin-bottom: 6px;
 
       font-size: 10px;
-      font-weight: 800;
-
-      letter-spacing: 1px;
       text-transform: uppercase;
+      letter-spacing: 1px;
+
+      color: #64748b;
+      font-weight: 800;
     }
 
-    .menu-item {
-      min-height: 46px;
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
 
-      margin: 4px 0;
-      padding: 0 13px;
+      padding: 11px 13px;
+      margin-bottom: 4px;
 
       border-radius: 12px;
 
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-
-      color: #cbd5e1;
+      color: var(--sidebar-text);
 
       font-size: 13px;
+      font-weight: 600;
 
       transition: 0.2s ease;
     }
 
-    .menu-item:hover {
-      background: var(--sidebar-hover);
-      color: #fff;
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+      transform: translateX(2px);
     }
 
-    .menu-item.active {
-      background: var(--sidebar-active);
-      color: #fff;
+    .nav-link.active {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37, 99, 235, 0.95),
+          rgba(79, 70, 229, 0.95)
+        );
+
+      color: white;
 
       box-shadow:
-        0 7px 18px rgba(37, 99, 235, 0.25);
+        0 8px 20px rgba(37, 99, 235, 0.25);
     }
 
-    .menu-icon {
-      width: 21px;
-
+    .nav-icon {
+      width: 22px;
       text-align: center;
-
-      font-size: 16px;
-      flex-shrink: 0;
+      font-size: 15px;
     }
 
-    .sidebar-bottom {
+    .sidebar-footer {
       padding: 14px;
-
-      border-top:
-        1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .admin-profile {
-      padding: 10px;
-
-      border-radius: 12px;
-
-      background:
-        rgba(255, 255, 255, 0.05);
-
+    .admin-mini {
       display: flex;
       align-items: center;
-
       gap: 10px;
+
+      padding: 10px;
+
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    .avatar {
+    .admin-avatar {
       width: 36px;
       height: 36px;
 
       border-radius: 50%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
 
-      background:
-        linear-gradient(
-          135deg,
-          #3b82f6,
-          #8b5cf6
-        );
+      background: linear-gradient(
+        135deg,
+        #2563eb,
+        #9333ea
+      );
 
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 13px;
+      font-weight: 800;
 
+      overflow: hidden;
       flex-shrink: 0;
     }
 
-    .profile-info {
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .admin-info {
       min-width: 0;
       flex: 1;
     }
 
-    .profile-name {
-      overflow: hidden;
-
-      color: #fff;
+    .admin-info strong {
+      display: block;
 
       font-size: 12px;
-      font-weight: 800;
+      color: white;
 
       white-space: nowrap;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .profile-role {
+    .admin-info span {
+      display: block;
+
       margin-top: 2px;
 
-      color: #9ca3af;
-
       font-size: 10px;
+      color: #94a3b8;
+
+      text-transform: capitalize;
     }
 
     .logout-btn {
-      padding: 6px;
+      width: 100%;
+
+      margin-top: 9px;
 
       border: 0;
-      border-radius: 8px;
+      border-radius: 10px;
 
-      background: transparent;
+      padding: 9px;
 
-      color: #9ca3af;
+      background: rgba(220, 38, 38, 0.12);
+      color: #fca5a5;
 
-      font-size: 16px;
+      font-size: 11px;
+      font-weight: 700;
+
+      transition: 0.2s ease;
     }
 
     .logout-btn:hover {
-      background:
-        rgba(255, 255, 255, 0.08);
+      background: rgba(220, 38, 38, 0.2);
+      color: white;
+    }
 
-      color: #fff;
+    /* =========================================================
+       MOBILE OVERLAY
+    ========================================================= */
+
+    .sidebar-overlay {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background: rgba(15, 23, 42, 0.55);
+
+      z-index: 900;
+
+      backdrop-filter: blur(2px);
     }
 
     /* =========================================================
@@ -312,40 +332,38 @@
     ========================================================= */
 
     .main {
+      margin-left: var(--sidebar-width);
       min-height: 100vh;
-
-      margin-left:
-        var(--sidebar-width);
     }
 
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+
     .topbar {
-      height: 76px;
-
-      padding: 0 30px;
-
       position: sticky;
       top: 0;
 
-      z-index: 100;
+      height: 72px;
+
+      background: rgba(255, 255, 255, 0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom: 1px solid var(--border);
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      background:
-        rgba(255, 255, 255, 0.95);
+      padding: 0 28px;
 
-      border-bottom:
-        1px solid var(--border);
-
-      backdrop-filter:
-        blur(12px);
+      z-index: 500;
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-
       gap: 14px;
     }
 
@@ -355,57 +373,57 @@
       width: 40px;
       height: 40px;
 
-      border:
-        1px solid var(--border);
+      border: 1px solid var(--border);
+      background: white;
 
-      border-radius: 10px;
+      border-radius: 11px;
 
-      background: #fff;
-
-      font-size: 18px;
+      font-size: 19px;
     }
 
-    .page-title h1 {
-      font-size: 21px;
-      font-weight: 900;
+    .page-title h2 {
+      font-size: 19px;
+      letter-spacing: -0.4px;
     }
 
     .page-title p {
       margin-top: 3px;
-
+      font-size: 11px;
       color: var(--muted);
-
-      font-size: 12px;
     }
 
-    .topbar-actions {
+    .topbar-right {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
     }
 
-    .icon-btn {
-      width: 40px;
-      height: 40px;
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
 
-      border:
-        1px solid var(--border);
+      padding: 8px 11px;
 
-      border-radius: 11px;
+      border: 1px solid #dcfce7;
+      background: #f0fdf4;
 
-      background: #fff;
+      border-radius: 999px;
 
-      color: #475569;
-
-      transition: 0.2s ease;
+      font-size: 11px;
+      color: #15803d;
+      font-weight: 700;
     }
 
-    .icon-btn:hover {
-      border-color: #bfdbfe;
+    .status-dot {
+      width: 7px;
+      height: 7px;
 
-      background: #eff6ff;
+      border-radius: 50%;
 
-      color: var(--primary);
+      background: #22c55e;
+
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
     }
 
     /* =========================================================
@@ -413,107 +431,113 @@
     ========================================================= */
 
     .content {
-      max-width: 1600px;
-
-      margin: auto;
-
-      padding:
-        28px 30px 45px;
+      padding: 28px;
+      max-width: 1500px;
+      margin: 0 auto;
     }
 
     /* =========================================================
-       HERO NOTICE
+       HERO
     ========================================================= */
 
-    .security-card {
-      margin-bottom: 22px;
+    .hero {
+      position: relative;
 
-      padding: 21px;
+      overflow: hidden;
 
-      border:
-        1px solid #bfdbfe;
+      border-radius: 24px;
 
-      border-radius: var(--radius);
+      padding: 30px;
 
       background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59, 130, 246, 0.22),
+          transparent 30%
+        ),
         linear-gradient(
           135deg,
-          #eff6ff,
-          #f5f3ff
+          #111827,
+          #1e293b
         );
+
+      color: white;
 
       box-shadow: var(--shadow);
 
-      display: flex;
+      margin-bottom: 24px;
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
       align-items: center;
+      gap: 7px;
 
-      gap: 17px;
+      padding: 7px 11px;
+
+      border-radius: 999px;
+
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
     }
 
-    .security-icon {
-      width: 52px;
-      height: 52px;
+    .hero h1 {
+      margin-top: 14px;
 
-      border-radius: 15px;
+      font-size: clamp(25px, 3vw, 38px);
 
-      flex-shrink: 0;
+      line-height: 1.12;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #fff;
-
-      color: var(--primary);
-
-      font-size: 22px;
-
-      box-shadow:
-        0 7px 18px rgba(37, 99, 235, 0.10);
+      letter-spacing: -1px;
     }
 
-    .security-content {
-      flex: 1;
-    }
+    .hero p {
+      margin-top: 12px;
 
-    .security-content h2 {
-      font-size: 15px;
-      font-weight: 900;
-    }
+      max-width: 650px;
 
-    .security-content p {
-      max-width: 850px;
+      color: #cbd5e1;
 
-      margin-top: 5px;
-
-      color: #64748b;
-
-      font-size: 11px;
-
+      font-size: 13px;
       line-height: 1.7;
     }
 
-    .security-badge {
-      padding: 7px 11px;
-
-      border-radius: 30px;
-
-      background: #fff;
-
-      color: #15803d;
-
-      font-size: 10px;
-      font-weight: 900;
-
-      white-space: nowrap;
-    }
-
     /* =========================================================
-       SECTION HEADER
+       GRID
     ========================================================= */
 
-    .section-header {
-      margin-bottom: 15px;
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 22px;
+
+      border-bottom: 1px solid var(--border);
 
       display: flex;
       align-items: center;
@@ -522,427 +546,400 @@
       gap: 15px;
     }
 
-    .section-header h2 {
-      font-size: 16px;
-      font-weight: 900;
+    .card-header h3 {
+      font-size: 15px;
+      letter-spacing: -0.2px;
     }
 
-    .section-header p {
+    .card-header p {
       margin-top: 4px;
 
       color: var(--muted);
 
       font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .card-body {
+      padding: 22px;
     }
 
     /* =========================================================
-       STATUS GRID
+       PERMISSION CARDS
     ========================================================= */
 
-    .status-grid {
-      margin-bottom: 25px;
-
+    .permission-list {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-      gap: 18px;
+      gap: 12px;
     }
 
-    .status-card {
-      padding: 19px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      background: var(--card);
-
-      box-shadow: var(--shadow);
-
-      transition: 0.2s ease;
-    }
-
-    .status-card:hover {
-      transform: translateY(-2px);
-
-      box-shadow:
-        0 16px 38px rgba(15, 23, 42, 0.09);
-    }
-
-    .status-top {
+    .permission-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      gap: 10px;
+      gap: 15px;
+
+      padding: 16px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 15px;
+
+      background: #fafbfc;
+
+      transition: 0.2s ease;
     }
 
-    .status-left {
+    .permission-item:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .permission-left {
       display: flex;
       align-items: center;
+      gap: 13px;
 
-      gap: 11px;
+      min-width: 0;
     }
 
-    .feature-icon {
+    .permission-icon {
       width: 43px;
       height: 43px;
 
-      border-radius: 12px;
+      flex-shrink: 0;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 13px;
+
+      display: grid;
+      place-items: center;
 
       background: #eff6ff;
 
-      color: var(--primary);
+      font-size: 19px;
+    }
+
+    .permission-info {
+      min-width: 0;
+    }
+
+    .permission-info strong {
+      display: block;
+
+      font-size: 13px;
+    }
+
+    .permission-info span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       SWITCH
+    ========================================================= */
+
+    .switch {
+      position: relative;
+
+      width: 48px;
+      height: 27px;
+
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+
+      background: #cbd5e1;
+
+      border-radius: 999px;
+
+      transition: 0.25s ease;
+    }
+
+    .slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 21px;
+      height: 21px;
+
+      left: 3px;
+      top: 3px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+
+      transition: 0.25s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--primary);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(21px);
+    }
+
+    /* =========================================================
+       STATUS BOX
+    ========================================================= */
+
+    .browser-status {
+      padding: 17px;
+
+      border-radius: 15px;
+
+      border: 1px solid #dbeafe;
+
+      background: #eff6ff;
+
+      margin-bottom: 18px;
+    }
+
+    .browser-status-top {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .browser-status-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 12px;
+
+      display: grid;
+      place-items: center;
+
+      background: white;
 
       font-size: 18px;
     }
 
-    .feature-icon.green {
-      background: #f0fdf4;
-      color: var(--success);
+    .browser-status strong {
+      display: block;
+      font-size: 13px;
     }
 
-    .feature-icon.orange {
-      background: #fff7ed;
-      color: var(--warning);
-    }
+    .browser-status span {
+      display: block;
 
-    .feature-icon.purple {
-      background: #faf5ff;
-      color: #7c3aed;
-    }
-
-    .status-name {
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .status-description {
       margin-top: 4px;
 
-      color: #94a3b8;
+      font-size: 10px;
 
-      font-size: 9px;
+      color: #64748b;
 
       line-height: 1.5;
     }
 
-    .status-pill {
-      padding: 5px 9px;
+    /* =========================================================
+       ACTION BUTTONS
+    ========================================================= */
 
-      border-radius: 20px;
-
-      font-size: 9px;
-      font-weight: 900;
-
-      white-space: nowrap;
-    }
-
-    .status-pill.ready {
-      background: #f0fdf4;
-      color: #15803d;
-    }
-
-    .status-pill.warning {
-      background: #fff7ed;
-      color: #b45309;
-    }
-
-    .status-pill.disabled {
-      background: #f1f5f9;
-      color: #64748b;
-    }
-
-    .status-detail {
-      margin-top: 17px;
-
-      padding-top: 14px;
-
-      border-top:
-        1px solid #eef2f7;
-
-      display: flex;
-      justify-content: space-between;
-
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
 
-    .status-detail span {
-      color: #94a3b8;
-
-      font-size: 9px;
-    }
-
-    .status-detail strong {
-      color: #475569;
-
-      font-size: 9px;
-
-      text-align: right;
-    }
-
-    /* =========================================================
-       BROWSER RULES
-    ========================================================= */
-
-    .rules-card {
-      margin-top: 24px;
-
-      padding: 20px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      background: var(--card);
-
-      box-shadow: var(--shadow);
-    }
-
-    .rules-list {
-      margin-top: 5px;
-    }
-
-    .rule {
-      padding: 15px 0;
-
-      display: flex;
-      align-items: flex-start;
-
-      gap: 13px;
-
-      border-bottom:
-        1px solid #eef2f7;
-    }
-
-    .rule:last-child {
-      border-bottom: 0;
-    }
-
-    .rule-number {
-      width: 28px;
-      height: 28px;
-
-      flex-shrink: 0;
-
-      border-radius: 9px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #eff6ff;
-
-      color: var(--primary);
-
-      font-size: 10px;
-      font-weight: 900;
-    }
-
-    .rule-content h3 {
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .rule-content p {
-      margin-top: 4px;
-
-      color: var(--muted);
-
-      font-size: 10px;
-
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       ACTION PANEL
-    ========================================================= */
-
-    .action-panel {
-      margin-top: 24px;
-
-      padding: 20px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      background: var(--card);
-
-      box-shadow: var(--shadow);
-    }
-
-    .action-buttons {
-      margin-top: 15px;
-
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 9px;
-    }
-
     .btn {
-      min-height: 40px;
+      min-height: 42px;
 
-      padding: 0 14px;
+      border: 1px solid var(--border);
 
-      border-radius: 10px;
+      border-radius: 11px;
 
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      background: white;
 
-      gap: 7px;
+      color: var(--text);
+
+      padding: 9px 13px;
 
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 800;
 
       transition: 0.2s ease;
     }
 
+    .btn:hover {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 7px 18px rgba(15, 23, 42, 0.08);
+    }
+
     .btn-primary {
-      border: 0;
-
       background: var(--primary);
-
-      color: #fff;
+      border-color: var(--primary);
+      color: white;
     }
 
     .btn-primary:hover {
       background: var(--primary-dark);
     }
 
-    .btn-light {
-      border:
-        1px solid var(--border);
-
-      background: #fff;
-
-      color: #475569;
+    .btn-danger {
+      color: var(--danger);
+      border-color: #fecaca;
+      background: #fffafa;
     }
 
-    .btn-light:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
+    .btn-full {
+      grid-column: 1 / -1;
     }
 
-    .btn-warning {
-      border:
-        1px solid #fed7aa;
+    /* =========================================================
+       INFO LIST
+    ========================================================= */
 
-      background: #fff7ed;
-
-      color: #b45309;
+    .info-list {
+      display: grid;
+      gap: 10px;
     }
 
-    .btn-warning:hover {
-      background: #ffedd5;
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+
+      padding: 12px 0;
+
+      border-bottom: 1px dashed var(--border);
+
+      font-size: 11px;
+    }
+
+    .info-row:last-child {
+      border-bottom: 0;
+    }
+
+    .info-label {
+      color: var(--muted);
+    }
+
+    .info-value {
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .value-success {
+      color: var(--success);
+    }
+
+    .value-warning {
+      color: var(--warning);
+    }
+
+    /* =========================================================
+       NOTICE
+    ========================================================= */
+
+    .notice {
+      margin-top: 22px;
+
+      padding: 18px;
+
+      border-radius: 15px;
+
+      border: 1px solid #fde68a;
+
+      background: #fffbeb;
+
+      display: flex;
+      gap: 12px;
+    }
+
+    .notice-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .notice strong {
+      display: block;
+      font-size: 12px;
+      color: #92400e;
+    }
+
+    .notice p {
+      margin-top: 5px;
+
+      font-size: 10px;
+
+      color: #92400e;
+
+      line-height: 1.6;
     }
 
     /* =========================================================
        LOG
     ========================================================= */
 
-    .log-card {
-      margin-top: 24px;
-
-      padding: 20px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      background: var(--card);
-
-      box-shadow: var(--shadow);
+    .activity {
+      margin-top: 22px;
     }
 
-    .log-list {
-      margin-top: 15px;
-
-      max-height: 270px;
-
-      overflow-y: auto;
+    .activity-list {
+      display: grid;
+      gap: 8px;
     }
 
-    .log-item {
-      padding: 12px 0;
-
+    .activity-item {
       display: flex;
       align-items: flex-start;
-
       gap: 10px;
 
-      border-bottom:
-        1px solid #eef2f7;
+      padding: 10px 0;
+
+      border-bottom: 1px solid var(--border);
     }
 
-    .log-item:last-child {
-      border-bottom: 0;
-    }
-
-    .log-dot {
+    .activity-dot {
       width: 8px;
       height: 8px;
 
       margin-top: 5px;
 
-      flex-shrink: 0;
-
       border-radius: 50%;
 
       background: var(--primary);
+
+      flex-shrink: 0;
     }
 
-    .log-text {
-      flex: 1;
+    .activity-text {
+      font-size: 11px;
+      line-height: 1.5;
     }
 
-    .log-text strong {
+    .activity-time {
       display: block;
 
-      font-size: 10px;
-      font-weight: 800;
-    }
+      margin-top: 2px;
 
-    .log-text span {
-      display: block;
-
-      margin-top: 3px;
-
-      color: #94a3b8;
+      color: var(--muted);
 
       font-size: 9px;
-    }
-
-    /* =========================================================
-       SIDEBAR OVERLAY
-    ========================================================= */
-
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-
-      z-index: 900;
-
-      display: none;
-
-      background:
-        rgba(15, 23, 42, 0.45);
-    }
-
-    .sidebar-overlay.show {
-      display: block;
     }
 
     /* =========================================================
@@ -952,68 +949,74 @@
     .toast {
       position: fixed;
 
-      right: 25px;
-      bottom: 25px;
+      right: 24px;
+      bottom: 24px;
 
       min-width: 260px;
-      max-width: 370px;
+      max-width: 360px;
 
-      padding: 13px 16px;
+      padding: 13px 15px;
 
-      border-radius: 12px;
+      border-radius: 13px;
 
       background: #111827;
-
-      color: #fff;
+      color: white;
 
       box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.18);
+        0 15px 40px rgba(15, 23, 42, 0.25);
 
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
 
-      z-index: 5000;
-
+      transform: translateY(120px);
       opacity: 0;
-
-      transform:
-        translateY(20px);
 
       pointer-events: none;
 
-      transition: 0.25s ease;
+      transition: 0.3s ease;
+
+      z-index: 3000;
     }
 
     .toast.show {
+      transform: translateY(0);
       opacity: 1;
+    }
 
-      transform:
-        translateY(0);
+    .toast.success {
+      background: #166534;
+    }
+
+    .toast.error {
+      background: #991b1b;
     }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
 
-    @media (max-width: 1150px) {
-
-      .status-grid {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
-
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 850px) {
+      :root {
+        --sidebar-width: 260px;
+      }
 
       .sidebar {
-        transform:
-          translateX(-100%);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
       }
 
       .sidebar.open {
-        transform:
-          translateX(0);
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.show {
+        display: block;
       }
 
       .main {
@@ -1021,10 +1024,8 @@
       }
 
       .mobile-menu-btn {
-        display: inline-flex;
-
-        align-items: center;
-        justify-content: center;
+        display: grid;
+        place-items: center;
       }
 
       .topbar {
@@ -1032,374 +1033,234 @@
       }
 
       .content {
-        padding:
-          22px 18px 35px;
+        padding: 20px;
       }
 
-    }
-
-    @media (max-width: 700px) {
-
-      .security-card {
-        align-items: flex-start;
-
-        flex-direction: column;
+      .system-status {
+        display: none;
       }
-
-      .security-badge {
-        align-self: flex-start;
-      }
-
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-
     }
 
     @media (max-width: 600px) {
-
-      .content {
-        padding:
-          18px 12px 30px;
+      .topbar {
+        height: 64px;
       }
 
-      .page-title h1 {
-        font-size: 18px;
+      .page-title h2 {
+        font-size: 16px;
       }
 
       .page-title p {
         display: none;
       }
 
-      .topbar-actions .icon-btn:first-child {
-        display: none;
+      .content {
+        padding: 14px;
       }
 
-      .section-header {
-        align-items: flex-start;
-
-        flex-direction: column;
+      .hero {
+        padding: 22px;
+        border-radius: 19px;
       }
 
-      .action-buttons {
-        display: grid;
-
-        grid-template-columns:
-          1fr 1fr;
-
-        width: 100%;
+      .hero h1 {
+        font-size: 25px;
       }
 
-      .action-buttons .btn {
-        width: 100%;
+      .hero p {
+        font-size: 11px;
       }
 
-      .toast {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-
-        min-width: auto;
+      .card-header,
+      .card-body {
+        padding: 16px;
       }
 
-    }
+      .permission-item {
+        padding: 13px;
+      }
 
-    @media (max-width: 400px) {
+      .permission-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+      }
 
-      .action-buttons {
+      .permission-info strong {
+        font-size: 12px;
+      }
+
+      .permission-info span {
+        font-size: 9px;
+      }
+
+      .actions {
         grid-template-columns: 1fr;
       }
 
+      .btn-full {
+        grid-column: auto;
+      }
+
+      .toast {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .permission-item {
+        align-items: flex-start;
+      }
+
+      .permission-left {
+        gap: 9px;
+      }
+
+      .switch {
+        transform: scale(0.9);
+        transform-origin: right center;
+      }
+    }
+
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.22);
+      outline-offset: 2px;
     }
 
     @media (prefers-reduced-motion: reduce) {
-
       *,
       *::before,
       *::after {
-        animation-duration:
-          0.01ms !important;
-
-        transition-duration:
-          0.01ms !important;
-
-        scroll-behavior:
-          auto !important;
+        scroll-behavior: auto !important;
+        transition: none !important;
       }
-
     }
-
   </style>
 </head>
 
 <body>
 
-  <!-- =======================================================
+  <!-- =========================================================
        SIDEBAR
-  ======================================================== -->
+  ========================================================= -->
 
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
+  <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-
-      <div class="brand-logo">
-        DS
-      </div>
+      <div class="brand-icon">DS</div>
 
       <div class="brand-text">
-
-        <h2>
-          Design System
-        </h2>
-
-        <span>
-          Admin Control Panel
-        </span>
-
+        <h1>Design System</h1>
+        <p>Admin Control Center</p>
       </div>
-
     </div>
 
+    <nav class="nav">
 
-    <nav class="sidebar-menu">
+      <div class="nav-title">Main</div>
 
-      <div class="menu-title">
-        Main
-      </div>
-
-      <a
-        class="menu-item"
-        href="./dashboard.html"
-      >
-        <span class="menu-icon">
-          ▦
-        </span>
-
-        <span>
-          Dashboard
-        </span>
+      <a href="./dashboard.html" class="nav-link">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
       </a>
 
-
-      <a
-        class="menu-item"
-        href="./website.html"
-      >
-        <span class="menu-icon">
-          🌐
-        </span>
-
-        <span>
-          Website
-        </span>
+      <a href="./website.html" class="nav-link">
+        <span class="nav-icon">🌐</span>
+        <span>Website</span>
       </a>
 
-
-      <a
-        class="menu-item"
-        href="./website-edit.html"
-      >
-        <span class="menu-icon">
-          ✎
-        </span>
-
-        <span>
-          Website Editor
-        </span>
+      <a href="./website-edit.html" class="nav-link">
+        <span class="nav-icon">✏️</span>
+        <span>Website Editor</span>
       </a>
 
-
-      <div class="menu-title">
-        Management
-      </div>
-
-
-      <a
-        class="menu-item"
-        href="./design-manage.html"
-      >
-        <span class="menu-icon">
-          ▧
-        </span>
-
-        <span>
-          Design Management
-        </span>
+      <a href="./design-manage.html" class="nav-link">
+        <span class="nav-icon">🎨</span>
+        <span>Design Management</span>
       </a>
 
-
-      <a
-        class="menu-item"
-        href="./banner.html"
-      >
-        <span class="menu-icon">
-          ▤
-        </span>
-
-        <span>
-          Banner Manager
-        </span>
+      <a href="./banner.html" class="nav-link">
+        <span class="nav-icon">🖼️</span>
+        <span>Advertisement</span>
       </a>
 
+      <div class="nav-title">Chatter</div>
 
-      <a
-        class="menu-item active"
-        href="./browser-ui.html"
-      >
-        <span class="menu-icon">
-          ◉
-        </span>
-
-        <span>
-          Browser UI
-        </span>
+      <a href="./chatter.html" class="nav-link">
+        <span class="nav-icon">💬</span>
+        <span>Chatter Settings</span>
       </a>
 
-
-      <div class="menu-title">
-        System
-      </div>
-
-
-      <a
-        class="menu-item"
-        href="./chatter.html"
-      >
-        <span class="menu-icon">
-          💬
-        </span>
-
-        <span>
-          Chatter
-        </span>
+      <a href="./browser-ui.html" class="nav-link active">
+        <span class="nav-icon">🌐</span>
+        <span>Browser UI</span>
       </a>
 
-
-      <a
-        class="menu-item"
-        href="./live-monitor.html"
-      >
-        <span class="menu-icon">
-          ◉
-        </span>
-
-        <span>
-          Live Monitor
-        </span>
+      <a href="./live-monitor.html" class="nav-link">
+        <span class="nav-icon">📡</span>
+        <span>Live Monitor</span>
       </a>
 
+      <div class="nav-title">System</div>
 
-      <a
-        class="menu-item"
-        href="./system.html"
-      >
-        <span class="menu-icon">
-          ⚙
-        </span>
-
-        <span>
-          System Settings
-        </span>
+      <a href="./system.html" class="nav-link">
+        <span class="nav-icon">⚙️</span>
+        <span>System Settings</span>
       </a>
 
-
-      <a
-        class="menu-item"
-        href="./link-check.html"
-      >
-        <span class="menu-icon">
-          🔗
-        </span>
-
-        <span>
-          Link Checker
-        </span>
+      <a href="./link-check.html" class="nav-link">
+        <span class="nav-icon">🔗</span>
+        <span>Link Checker</span>
       </a>
 
-
-      <div class="menu-title">
-        Website
-      </div>
-
-
-      <a
-        class="menu-item"
-        href="../index.html"
-        target="_blank"
-      >
-        <span class="menu-icon">
-          ↗
-        </span>
-
-        <span>
-          View Website
-        </span>
+      <a href="../index.html" class="nav-link">
+        <span class="nav-icon">🏠</span>
+        <span>View Website</span>
       </a>
 
     </nav>
 
+    <div class="sidebar-footer">
 
-    <div class="sidebar-bottom">
+      <div class="admin-mini">
 
-      <div class="admin-profile">
-
-        <div
-          class="avatar"
-          id="profileAvatar"
-        >
-          A
+        <div class="admin-avatar" id="adminAvatar">
+          AD
         </div>
 
-
-        <div class="profile-info">
-
-          <div
-            class="profile-name"
-            id="profileName"
-          >
-            Admin
-          </div>
-
-          <div
-            class="profile-role"
-            id="profileRole"
-          >
-            Administrator
-          </div>
-
+        <div class="admin-info">
+          <strong id="adminName">System Admin</strong>
+          <span id="adminRole">Admin</span>
         </div>
-
-
-        <button
-          class="logout-btn"
-          id="logoutBtn"
-          type="button"
-          title="Logout"
-        >
-          ⎋
-        </button>
 
       </div>
+
+      <button class="logout-btn" id="logoutBtn">
+        Logout
+      </button>
 
     </div>
 
   </aside>
 
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-  ></div>
-
-
-  <!-- =======================================================
+  <!-- =========================================================
        MAIN
-  ======================================================== -->
+  ========================================================= -->
 
   <main class="main">
+
+    <!-- TOPBAR -->
 
     <header class="topbar">
 
@@ -1408,484 +1269,497 @@
         <button
           class="mobile-menu-btn"
           id="mobileMenuBtn"
-          type="button"
+          aria-label="Open menu"
         >
           ☰
         </button>
 
-
         <div class="page-title">
-
-          <h1>
-            Browser UI
-          </h1>
-
-          <p>
-            Browser permission guidance and feature availability.
-          </p>
-
+          <h2>Browser UI Management</h2>
+          <p>Manage browser permission preferences for Chatter</p>
         </div>
 
       </div>
 
+      <div class="topbar-right">
 
-      <div class="topbar-actions">
-
-        <button
-          class="icon-btn"
-          id="refreshBtn"
-          type="button"
-          title="Refresh"
-        >
-          ↻
-        </button>
-
-
-        <button
-          class="icon-btn"
-          type="button"
-          title="Open Permission Page"
-          onclick="window.open('../browser-permission.html', '_blank')"
-        >
-          ↗
-        </button>
+        <div class="system-status">
+          <span class="status-dot"></span>
+          System Online
+        </div>
 
       </div>
 
     </header>
 
+    <!-- CONTENT -->
 
     <section class="content">
 
-      <!-- ===================================================
-           SECURITY NOTICE
-      ==================================================== -->
+      <!-- HERO -->
 
-      <div class="security-card">
+      <div class="hero">
 
-        <div class="security-icon">
-          🔐
-        </div>
+        <div class="hero-content">
 
+          <div class="hero-badge">
+            🌐 Browser Control
+          </div>
 
-        <div class="security-content">
-
-          <h2>
-            Browser Permission Protection
-          </h2>
+          <h1>
+            Browser Permission & UI Control
+          </h1>
 
           <p>
-            Camera, microphone and screen sharing are controlled
-            by the user's browser. This admin page can show feature
-            availability and guidance, but it cannot secretly grant,
-            bypass or override browser permissions.
+            Manage which browser-based features are available to users.
+            These settings control feature availability only. Actual
+            camera, microphone and screen-share access always requires
+            the user's own browser permission.
           </p>
 
         </div>
 
-
-        <div class="security-badge">
-          Privacy Protected
-        </div>
-
       </div>
 
+      <!-- MAIN GRID -->
 
-      <!-- ===================================================
-           FEATURE STATUS
-      ==================================================== -->
+      <div class="grid">
 
-      <div class="section-header">
+        <!-- LEFT -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <h3>Permission Features</h3>
+
+              <p>
+                Control availability of browser-based Chatter features.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="card-body">
+
+            <div class="browser-status">
+
+              <div class="browser-status-top">
+
+                <div class="browser-status-icon">
+                  🌐
+                </div>
+
+                <div>
+                  <strong id="browserStatusTitle">
+                    Browser controls are active
+                  </strong>
+
+                  <span id="browserStatusText">
+                    Users can manage their browser permissions from
+                    the permission page.
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="permission-list">
+
+              <!-- CAMERA -->
+
+              <div class="permission-item">
+
+                <div class="permission-left">
+
+                  <div class="permission-icon">
+                    📷
+                  </div>
+
+                  <div class="permission-info">
+
+                    <strong>Camera</strong>
+
+                    <span>
+                      Allow the Chatter camera feature to be available.
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="cameraToggle"
+                  />
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+              <!-- MICROPHONE -->
+
+              <div class="permission-item">
+
+                <div class="permission-left">
+
+                  <div class="permission-icon">
+                    🎤
+                  </div>
+
+                  <div class="permission-info">
+
+                    <strong>Microphone</strong>
+
+                    <span>
+                      Allow voice and microphone-based communication.
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="microphoneToggle"
+                  />
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+              <!-- SCREEN SHARE -->
+
+              <div class="permission-item">
+
+                <div class="permission-left">
+
+                  <div class="permission-icon">
+                    🖥️
+                  </div>
+
+                  <div class="permission-info">
+
+                    <strong>Screen Share</strong>
+
+                    <span>
+                      Allow users to start browser-native screen sharing.
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="screenShareToggle"
+                  />
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+              <!-- NOTIFICATION -->
+
+              <div class="permission-item">
+
+                <div class="permission-left">
+
+                  <div class="permission-icon">
+                    🔔
+                  </div>
+
+                  <div class="permission-info">
+
+                    <strong>Notifications</strong>
+
+                    <span>
+                      Allow Chatter notification features to be available.
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="notificationToggle"
+                  />
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
 
         <div>
 
-          <h2>
-            Browser Feature Status
-          </h2>
+          <!-- QUICK ACTIONS -->
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <h3>Quick Actions</h3>
+
+                <p>
+                  Apply common browser UI settings quickly.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="actions">
+
+                <button
+                  class="btn btn-primary"
+                  id="saveBtn"
+                >
+                  💾 Save Settings
+                </button>
+
+                <button
+                  class="btn"
+                  id="enableAllBtn"
+                >
+                  ✓ Enable All
+                </button>
+
+                <button
+                  class="btn"
+                  id="disableAllBtn"
+                >
+                  Disable All
+                </button>
+
+                <button
+                  class="btn"
+                  id="resetBtn"
+                >
+                  ↺ Reset Defaults
+                </button>
+
+                <a
+                  href="../browser-permission.html"
+                  class="btn"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                  "
+                >
+                  🔐 Open Permission Page
+                </a>
+
+                <a
+                  href="../chatter/index.html"
+                  class="btn"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                  "
+                >
+                  💬 Open Chatter
+                </a>
+
+                <button
+                  class="btn btn-full btn-danger"
+                  id="clearBtn"
+                >
+                  🗑️ Clear Browser UI Settings
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- CURRENT STATUS -->
+
+          <div class="card" style="margin-top:22px;">
+
+            <div class="card-header">
+
+              <div>
+                <h3>Current Status</h3>
+
+                <p>
+                  Current saved browser feature configuration.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="info-list">
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Camera
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="cameraStatus"
+                  >
+                    Disabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Microphone
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="microphoneStatus"
+                  >
+                    Disabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Screen Share
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="screenShareStatus"
+                  >
+                    Disabled
+                  </span>
+
+                </div>
+
+                <div class="info-row">
+
+                  <span class="info-label">
+                    Notifications
+                  </span>
+
+                  <span
+                    class="info-value"
+                    id="notificationStatus"
+                  >
+                    Disabled
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PRIVACY NOTICE -->
+
+      <div class="notice">
+
+        <div class="notice-icon">
+          🔐
+        </div>
+
+        <div>
+
+          <strong>
+            Privacy & Browser Security
+          </strong>
 
           <p>
-            Current browser capability and system feature status.
+            These controls do not give the administrator hidden access
+            to a user's camera, microphone or screen. The user must
+            explicitly grant permission through the browser's native
+            permission system. Screen sharing is started through the
+            browser's own screen-selection dialog. No recording or
+            historical media storage is used by this page.
           </p>
 
         </div>
 
       </div>
 
+      <!-- ACTIVITY -->
 
-      <div
-        class="status-grid"
-        id="statusGrid"
-      >
+      <div class="activity card">
 
-        <!-- Camera -->
-
-        <div class="status-card">
-
-          <div class="status-top">
-
-            <div class="status-left">
-
-              <div class="feature-icon">
-                📷
-              </div>
-
-              <div>
-
-                <div class="status-name">
-                  Camera
-                </div>
-
-                <div class="status-description">
-                  Required for video calls and camera preview.
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <span
-              class="status-pill"
-              id="cameraStatus"
-            >
-              Checking
-            </span>
-
-          </div>
-
-
-          <div class="status-detail">
-
-            <span>
-              Browser API
-            </span>
-
-            <strong id="cameraApi">
-              Checking...
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <!-- Microphone -->
-
-        <div class="status-card">
-
-          <div class="status-top">
-
-            <div class="status-left">
-
-              <div class="feature-icon green">
-                🎙
-              </div>
-
-              <div>
-
-                <div class="status-name">
-                  Microphone
-                </div>
-
-                <div class="status-description">
-                  Required for voice and video calls.
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <span
-              class="status-pill"
-              id="microphoneStatus"
-            >
-              Checking
-            </span>
-
-          </div>
-
-
-          <div class="status-detail">
-
-            <span>
-              Browser API
-            </span>
-
-            <strong id="microphoneApi">
-              Checking...
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <!-- Screen Share -->
-
-        <div class="status-card">
-
-          <div class="status-top">
-
-            <div class="status-left">
-
-              <div class="feature-icon purple">
-                🖥
-              </div>
-
-              <div>
-
-                <div class="status-name">
-                  Screen Share
-                </div>
-
-                <div class="status-description">
-                  Browser-native screen sharing for live sessions.
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <span
-              class="status-pill"
-              id="screenStatus"
-            >
-              Checking
-            </span>
-
-          </div>
-
-
-          <div class="status-detail">
-
-            <span>
-              Browser API
-            </span>
-
-            <strong id="screenApi">
-              Checking...
-            </strong>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           BROWSER RULES
-      ==================================================== -->
-
-      <div class="rules-card">
-
-        <div class="section-header">
+        <div class="card-header">
 
           <div>
-
-            <h2>
-              Permission Rules
-            </h2>
+            <h3>Recent Activity</h3>
 
             <p>
-              Important rules for camera, microphone and screen sharing.
+              Browser UI setting changes made from this panel.
             </p>
-
           </div>
 
         </div>
 
+        <div class="card-body">
 
-        <div class="rules-list">
-
-          <div class="rule">
-
-            <div class="rule-number">
-              01
-            </div>
-
-            <div class="rule-content">
-
-              <h3>
-                User must grant permission
-              </h3>
-
-              <p>
-                The browser asks the user before allowing camera
-                or microphone access. Admin cannot silently approve it.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="rule">
-
-            <div class="rule-number">
-              02
-            </div>
-
-            <div class="rule-content">
-
-              <h3>
-                Screen sharing uses the native browser picker
-              </h3>
-
-              <p>
-                The user chooses the screen, window or tab from the
-                browser's own screen-sharing dialog.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="rule">
-
-            <div class="rule-number">
-              03
-            </div>
-
-            <div class="rule-content">
-
-              <h3>
-                No hidden recording
-              </h3>
-
-              <p>
-                This project does not record camera, microphone or
-                screen-share sessions. Live media disappears when
-                the active session ends.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="rule">
-
-            <div class="rule-number">
-              04
-            </div>
-
-            <div class="rule-content">
-
-              <h3>
-                HTTPS is recommended
-              </h3>
-
-              <p>
-                Production camera, microphone and screen-sharing
-                features should run on a secure HTTPS website such
-                as GitHub Pages.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           ACTION PANEL
-      ==================================================== -->
-
-      <div class="action-panel">
-
-        <div class="section-header">
-
-          <div>
-
-            <h2>
-              Permission Tools
-            </h2>
-
-            <p>
-              Open the user-side permission page or refresh browser capability status.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="action-buttons">
-
-          <button
-            class="btn btn-primary"
-            id="openPermissionBtn"
-            type="button"
+          <div
+            class="activity-list"
+            id="activityList"
           >
-            🔐 Open Permission Page
-          </button>
+            <div class="activity-item">
 
+              <span class="activity-dot"></span>
 
-          <button
-            class="btn btn-light"
-            id="checkStatusBtn"
-            type="button"
-          >
-            ↻ Check Browser Status
-          </button>
+              <div class="activity-text">
 
+                Browser UI manager loaded.
 
-          <button
-            class="btn btn-light"
-            id="openChatterBtn"
-            type="button"
-          >
-            💬 Open Chatter
-          </button>
+                <span class="activity-time">
+                  Waiting for activity...
+                </span>
 
+              </div>
 
-          <button
-            class="btn btn-warning"
-            id="clearPermissionBtn"
-            type="button"
-          >
-            Reset Local Permission Preferences
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           ACTIVITY LOG
-      ==================================================== -->
-
-      <div class="log-card">
-
-        <div class="section-header">
-
-          <div>
-
-            <h2>
-              Browser UI Activity
-            </h2>
-
-            <p>
-              Local activity generated by this admin page.
-            </p>
+            </div>
 
           </div>
 
-        </div>
-
-
-        <div
-          class="log-list"
-          id="logList"
-        >
         </div>
 
       </div>
@@ -1894,10 +1768,9 @@
 
   </main>
 
-
-  <!-- =======================================================
+  <!-- =========================================================
        TOAST
-  ======================================================== -->
+  ========================================================= -->
 
   <div
     class="toast"
@@ -1905,734 +1778,125 @@
   ></div>
 
 
-  <!-- =======================================================
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================= -->
+
+  <script src="./auth-guard.js"></script>
+
+
+  <!-- =========================================================
        JAVASCRIPT
-  ======================================================== -->
+  ========================================================= -->
 
   <script>
 
     /* =========================================================
-       STORAGE KEYS
+       STORAGE
     ========================================================= */
 
-    const SESSION_KEY =
-      "chatterAdminSession";
-
-    const CHATTER_SETTINGS_KEY =
-      "chatterSystemSettings";
-
-    const BROWSER_PERMISSION_KEY =
-      "chatterBrowserPermissions";
-
+    const SETTINGS_KEY = "chatterBrowserUISettings";
+    const PERMISSION_KEY = "chatterBrowserPermissions";
+    const SESSION_KEY = "chatterAdminSession";
+    const ACTIVITY_KEY = "chatterBrowserUIActivity";
 
     /* =========================================================
-       DEFAULT PERMISSIONS
+       DEFAULT SETTINGS
     ========================================================= */
 
-    const DEFAULT_PERMISSIONS = {
-
-      camera: false,
-
-      microphone: false,
-
-      screenShare: false
-
+    const DEFAULT_SETTINGS = {
+      camera: true,
+      microphone: true,
+      screenShare: true,
+      notifications: true
     };
-
 
     /* =========================================================
        DOM
     ========================================================= */
 
-    const sidebar =
-      document.getElementById(
-        "sidebar"
-      );
+    const cameraToggle =
+      document.getElementById("cameraToggle");
 
-    const sidebarOverlay =
-      document.getElementById(
-        "sidebarOverlay"
-      );
+    const microphoneToggle =
+      document.getElementById("microphoneToggle");
 
-    const mobileMenuBtn =
-      document.getElementById(
-        "mobileMenuBtn"
-      );
+    const screenShareToggle =
+      document.getElementById("screenShareToggle");
+
+    const notificationToggle =
+      document.getElementById("notificationToggle");
+
+    const cameraStatus =
+      document.getElementById("cameraStatus");
+
+    const microphoneStatus =
+      document.getElementById("microphoneStatus");
+
+    const screenShareStatus =
+      document.getElementById("screenShareStatus");
+
+    const notificationStatus =
+      document.getElementById("notificationStatus");
+
+    const activityList =
+      document.getElementById("activityList");
 
     const toast =
-      document.getElementById(
-        "toast"
-      );
-
-    const logList =
-      document.getElementById(
-        "logList"
-      );
-
+      document.getElementById("toast");
 
     /* =========================================================
-       INIT
+       GET SETTINGS
     ========================================================= */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-        loadAdminProfile();
-
-        checkBrowserStatus();
-
-        renderActivityLog();
-
-        bindEvents();
-
-      }
-    );
-
-
-    /* =========================================================
-       BIND EVENTS
-    ========================================================= */
-
-    function bindEvents() {
-
-      mobileMenuBtn.addEventListener(
-        "click",
-        openSidebar
-      );
-
-
-      sidebarOverlay.addEventListener(
-        "click",
-        closeSidebar
-      );
-
-
-      document.getElementById(
-        "logoutBtn"
-      ).addEventListener(
-        "click",
-        logout
-      );
-
-
-      document.getElementById(
-        "refreshBtn"
-      ).addEventListener(
-        "click",
-        () => {
-
-          checkBrowserStatus();
-
-          renderActivityLog();
-
-          showToast(
-            "Browser status refreshed."
-          );
-
-        }
-      );
-
-
-      document.getElementById(
-        "checkStatusBtn"
-      ).addEventListener(
-        "click",
-        () => {
-
-          checkBrowserStatus();
-
-          addLog(
-            "Browser capability status checked."
-          );
-
-          showToast(
-            "Browser status checked."
-          );
-
-        }
-      );
-
-
-      document.getElementById(
-        "openPermissionBtn"
-      ).addEventListener(
-        "click",
-        () => {
-
-          window.open(
-            "../browser-permission.html",
-            "_blank"
-          );
-
-          addLog(
-            "User permission page opened."
-          );
-
-        }
-      );
-
-
-      document.getElementById(
-        "openChatterBtn"
-      ).addEventListener(
-        "click",
-        () => {
-
-          window.open(
-            "../chatter/index.html",
-            "_blank"
-          );
-
-          addLog(
-            "Chatter opened from Browser UI."
-          );
-
-        }
-      );
-
-
-      document.getElementById(
-        "clearPermissionBtn"
-      ).addEventListener(
-        "click",
-        resetPermissionPreferences
-      );
-
-
-      window.addEventListener(
-        "storage",
-        event => {
-
-          if (
-            event.key ===
-            BROWSER_PERMISSION_KEY
-          ) {
-
-            checkBrowserStatus();
-
-            addLog(
-              "Browser permission preference changed."
-            );
-
-          }
-
-
-          if (
-            event.key ===
-            CHATTER_SETTINGS_KEY
-          ) {
-
-            checkBrowserStatus();
-
-            addLog(
-              "Chatter system settings changed."
-            );
-
-          }
-
-
-          if (
-            event.key ===
-            SESSION_KEY
-          ) {
-
-            loadAdminProfile();
-
-          }
-
-        }
-      );
-
-
-      document.addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Escape"
-          ) {
-
-            closeSidebar();
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       LOAD ADMIN PROFILE
-    ========================================================= */
-
-    function loadAdminProfile() {
-
-      const profileName =
-        document.getElementById(
-          "profileName"
-        );
-
-      const profileRole =
-        document.getElementById(
-          "profileRole"
-        );
-
-      const profileAvatar =
-        document.getElementById(
-          "profileAvatar"
-        );
-
+    function getSettings() {
 
       try {
 
-        const raw =
-          localStorage.getItem(
-            SESSION_KEY
+        const saved =
+          JSON.parse(
+            localStorage.getItem(SETTINGS_KEY)
           );
-
-        if (!raw) {
-
-          profileName.textContent =
-            "Admin";
-
-          profileRole.textContent =
-            "Administrator";
-
-          profileAvatar.textContent =
-            "A";
-
-          return;
-
-        }
-
-
-        const session =
-          JSON.parse(raw);
-
-
-        const name =
-          session.name ||
-          session.email ||
-          "Admin";
-
-
-        const role =
-          session.role === "superadmin"
-            ? "Super Administrator"
-            : "Administrator";
-
-
-        profileName.textContent =
-          name;
-
-        profileRole.textContent =
-          role;
-
-        profileAvatar.textContent =
-          getInitials(name);
-
-      } catch (error) {
-
-        console.warn(
-          "Could not load admin profile.",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       INITIALS
-    ========================================================= */
-
-    function getInitials(
-      name
-    ) {
-
-      const words =
-        String(name)
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean);
-
-
-      if (!words.length) {
-
-        return "A";
-
-      }
-
-
-      if (words.length === 1) {
-
-        return words[0]
-          .substring(0, 2)
-          .toUpperCase();
-
-      }
-
-
-      return (
-        words[0][0] +
-        words[words.length - 1][0]
-      ).toUpperCase();
-
-    }
-
-
-    /* =========================================================
-       LOAD SYSTEM SETTINGS
-    ========================================================= */
-
-    function getSystemSettings() {
-
-      const defaults = {
-
-        enabled: true,
-
-        messaging: true,
-
-        voiceCalls: true,
-
-        videoCalls: true,
-
-        voiceMessages: false,
-
-        camera: true,
-
-        microphone: true,
-
-        screenShare: true,
-
-        fileSharing: true,
-
-        imageSharing: true,
-
-        typingIndicator: true,
-
-        notifications: true
-
-      };
-
-
-      try {
-
-        const raw =
-          localStorage.getItem(
-            CHATTER_SETTINGS_KEY
-          );
-
-
-        if (!raw) {
-
-          return defaults;
-
-        }
-
-
-        const parsed =
-          JSON.parse(raw);
-
 
         return {
-          ...defaults,
-          ...parsed
-        };
-
-      } catch (error) {
-
-        return defaults;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       LOAD USER PERMISSION PREFERENCES
-    ========================================================= */
-
-    function getBrowserPreferences() {
-
-      try {
-
-        const raw =
-          localStorage.getItem(
-            BROWSER_PERMISSION_KEY
-          );
-
-
-        if (!raw) {
-
-          return {
-            ...DEFAULT_PERMISSIONS
-          };
-
-        }
-
-
-        const parsed =
-          JSON.parse(raw);
-
-
-        return {
-          ...DEFAULT_PERMISSIONS,
-          ...parsed
+          ...DEFAULT_SETTINGS,
+          ...(saved || {})
         };
 
       } catch (error) {
 
         return {
-          ...DEFAULT_PERMISSIONS
+          ...DEFAULT_SETTINGS
         };
 
       }
 
     }
 
-
     /* =========================================================
-       CHECK BROWSER STATUS
+       SAVE SETTINGS
     ========================================================= */
 
-    async function checkBrowserStatus() {
-
-      const settings =
-        getSystemSettings();
-
-
-      const preferences =
-        getBrowserPreferences();
-
-
-      /* -------------------------------------------------------
-         CAMERA
-      ------------------------------------------------------- */
-
-      const cameraSupported =
-        Boolean(
-          navigator.mediaDevices &&
-          navigator.mediaDevices.getUserMedia
-        );
-
-
-      updateStatus(
-        "cameraStatus",
-        "cameraApi",
-        cameraSupported,
-        settings.enabled &&
-        settings.camera,
-        preferences.camera
-      );
-
-
-      /* -------------------------------------------------------
-         MICROPHONE
-      ------------------------------------------------------- */
-
-      const microphoneSupported =
-        Boolean(
-          navigator.mediaDevices &&
-          navigator.mediaDevices.getUserMedia
-        );
-
-
-      updateStatus(
-        "microphoneStatus",
-        "microphoneApi",
-        microphoneSupported,
-        settings.enabled &&
-        settings.microphone,
-        preferences.microphone
-      );
-
-
-      /* -------------------------------------------------------
-         SCREEN SHARE
-      ------------------------------------------------------- */
-
-      const screenSupported =
-        Boolean(
-          navigator.mediaDevices &&
-          navigator.mediaDevices.getDisplayMedia
-        );
-
-
-      updateStatus(
-        "screenStatus",
-        "screenApi",
-        screenSupported,
-        settings.enabled &&
-        settings.screenShare,
-        preferences.screenShare
-      );
-
-    }
-
-
-    /* =========================================================
-       UPDATE STATUS CARD
-    ========================================================= */
-
-    function updateStatus(
-      statusId,
-      apiId,
-      supported,
-      systemEnabled,
-      userPreference
-    ) {
-
-      const status =
-        document.getElementById(
-          statusId
-        );
-
-      const api =
-        document.getElementById(
-          apiId
-        );
-
-
-      status.className =
-        "status-pill";
-
-
-      if (!supported) {
-
-        status.textContent =
-          "Not Supported";
-
-        status.classList.add(
-          "warning"
-        );
-
-        api.textContent =
-          "Unavailable";
-
-        return;
-
-      }
-
-
-      api.textContent =
-        "Available";
-
-
-      if (!systemEnabled) {
-
-        status.textContent =
-          "System Disabled";
-
-        status.classList.add(
-          "disabled"
-        );
-
-        return;
-
-      }
-
-
-      if (userPreference) {
-
-        status.textContent =
-          "Enabled";
-
-        status.classList.add(
-          "ready"
-        );
-
-      } else {
-
-        status.textContent =
-          "Permission Needed";
-
-        status.classList.add(
-          "warning"
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       RESET PERMISSION PREFERENCES
-    ========================================================= */
-
-    function resetPermissionPreferences() {
-
-      const confirmed =
-        window.confirm(
-          "Reset local camera, microphone and screen-share preferences?"
-        );
-
-
-      if (!confirmed) {
-
-        return;
-
-      }
-
+    function saveSettings(settings) {
 
       localStorage.setItem(
-        BROWSER_PERMISSION_KEY,
-        JSON.stringify(
-          DEFAULT_PERMISSIONS
-        )
-      );
-
-
-      checkBrowserStatus();
-
-
-      addLog(
-        "Local browser permission preferences were reset."
-      );
-
-
-      showToast(
-        "Permission preferences reset."
+        SETTINGS_KEY,
+        JSON.stringify(settings)
       );
 
     }
 
-
     /* =========================================================
-       ACTIVITY LOG STORAGE
+       GET ACTIVITY
     ========================================================= */
 
-    const LOG_KEY =
-      "browserUiActivityLog";
-
-
-    function getLogs() {
+    function getActivity() {
 
       try {
 
-        const raw =
-          localStorage.getItem(
-            LOG_KEY
-          );
-
-
-        if (!raw) {
-
-          return [];
-
-        }
-
-
-        const parsed =
-          JSON.parse(raw);
-
-
-        return Array.isArray(parsed)
-          ? parsed
-          : [];
+        return JSON.parse(
+          localStorage.getItem(ACTIVITY_KEY)
+        ) || [];
 
       } catch (error) {
 
@@ -2642,185 +1906,513 @@
 
     }
 
+    /* =========================================================
+       ADD ACTIVITY
+    ========================================================= */
 
-    function addLog(
-      message
-    ) {
+    function addActivity(message) {
 
-      const logs =
-        getLogs();
+      const activities =
+        getActivity();
 
-
-      logs.unshift({
+      activities.unshift({
 
         message,
 
         time:
-          new Date()
-            .toLocaleString()
+          new Date().toLocaleString()
 
       });
 
-
-      const limited =
-        logs.slice(0, 30);
-
-
       localStorage.setItem(
-        LOG_KEY,
-        JSON.stringify(limited)
+        ACTIVITY_KEY,
+        JSON.stringify(
+          activities.slice(0, 12)
+        )
       );
 
-
-      renderActivityLog();
+      renderActivity();
 
     }
 
+    /* =========================================================
+       RENDER ACTIVITY
+    ========================================================= */
 
-    function renderActivityLog() {
+    function renderActivity() {
 
-      const logs =
-        getLogs();
+      const activities =
+        getActivity();
 
+      if (!activities.length) {
 
-      logList.innerHTML =
-        "";
+        activityList.innerHTML = `
+          <div class="activity-item">
 
+            <span class="activity-dot"></span>
 
-      if (!logs.length) {
+            <div class="activity-text">
 
-        logList.innerHTML = `
+              No activity yet.
 
-          <div class="log-item">
-
-            <div class="log-dot"></div>
-
-            <div class="log-text">
-
-              <strong>
-                Browser UI initialized.
-              </strong>
-
-              <span>
-                No previous activity found.
+              <span class="activity-time">
+                Waiting for changes...
               </span>
 
             </div>
 
           </div>
-
         `;
 
         return;
 
       }
 
+      activityList.innerHTML =
+        activities.map(item => {
 
-      logs.forEach(
-        log => {
+          return `
+            <div class="activity-item">
 
-          const item =
-            document.createElement(
-              "div"
-            );
+              <span class="activity-dot"></span>
 
+              <div class="activity-text">
 
-          item.className =
-            "log-item";
+                ${escapeHtml(item.message)}
 
+                <span class="activity-time">
+                  ${escapeHtml(item.time)}
+                </span>
 
-          item.innerHTML = `
-
-            <div class="log-dot"></div>
-
-            <div class="log-text">
-
-              <strong>
-                ${escapeHtml(
-                  log.message
-                )}
-              </strong>
-
-              <span>
-                ${escapeHtml(
-                  log.time
-                )}
-              </span>
+              </div>
 
             </div>
-
           `;
 
+        }).join("");
 
-          logList.appendChild(
-            item
+    }
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+    /* =========================================================
+       LOAD UI
+    ========================================================= */
+
+    function loadUI() {
+
+      const settings =
+        getSettings();
+
+      cameraToggle.checked =
+        !!settings.camera;
+
+      microphoneToggle.checked =
+        !!settings.microphone;
+
+      screenShareToggle.checked =
+        !!settings.screenShare;
+
+      notificationToggle.checked =
+        !!settings.notifications;
+
+      updateStatus();
+
+      renderActivity();
+
+      syncPermissionPage();
+
+    }
+
+    /* =========================================================
+       GET FORM SETTINGS
+    ========================================================= */
+
+    function getFormSettings() {
+
+      return {
+
+        camera:
+          cameraToggle.checked,
+
+        microphone:
+          microphoneToggle.checked,
+
+        screenShare:
+          screenShareToggle.checked,
+
+        notifications:
+          notificationToggle.checked
+
+      };
+
+    }
+
+    /* =========================================================
+       UPDATE STATUS
+    ========================================================= */
+
+    function updateStatus() {
+
+      updateStatusElement(
+        cameraStatus,
+        cameraToggle.checked
+      );
+
+      updateStatusElement(
+        microphoneStatus,
+        microphoneToggle.checked
+      );
+
+      updateStatusElement(
+        screenShareStatus,
+        screenShareToggle.checked
+      );
+
+      updateStatusElement(
+        notificationStatus,
+        notificationToggle.checked
+      );
+
+      const enabledCount =
+        [
+          cameraToggle.checked,
+          microphoneToggle.checked,
+          screenShareToggle.checked,
+          notificationToggle.checked
+        ].filter(Boolean).length;
+
+      const title =
+        document.getElementById(
+          "browserStatusTitle"
+        );
+
+      const text =
+        document.getElementById(
+          "browserStatusText"
+        );
+
+      if (enabledCount === 0) {
+
+        title.textContent =
+          "Browser features are disabled";
+
+        text.textContent =
+          "All browser-based Chatter permission features are currently unavailable.";
+
+      } else if (enabledCount === 4) {
+
+        title.textContent =
+          "All browser features are available";
+
+        text.textContent =
+          "Users can use the enabled browser features after granting native browser permission.";
+
+      } else {
+
+        title.textContent =
+          `${enabledCount} browser features available`;
+
+        text.textContent =
+          "Only enabled browser features will be available to users.";
+
+      }
+
+    }
+
+    /* =========================================================
+       STATUS ELEMENT
+    ========================================================= */
+
+    function updateStatusElement(element, enabled) {
+
+      if (enabled) {
+
+        element.textContent =
+          "Enabled";
+
+        element.classList.add(
+          "value-success"
+        );
+
+        element.classList.remove(
+          "value-warning"
+        );
+
+      } else {
+
+        element.textContent =
+          "Disabled";
+
+        element.classList.add(
+          "value-warning"
+        );
+
+        element.classList.remove(
+          "value-success"
+        );
+
+      }
+
+    }
+
+    /* =========================================================
+       SYNC USER PERMISSION PAGE
+    ========================================================= */
+
+    function syncPermissionPage() {
+
+      const settings =
+        getSettings();
+
+      let permissions = {};
+
+      try {
+
+        permissions =
+          JSON.parse(
+            localStorage.getItem(
+              PERMISSION_KEY
+            )
+          ) || {};
+
+      } catch (error) {
+
+        permissions = {};
+
+      }
+
+      /*
+        Important:
+        Admin settings control availability.
+        They do NOT grant actual browser permission.
+      */
+
+      if (!settings.camera) {
+
+        permissions.camera = false;
+
+      }
+
+      if (!settings.microphone) {
+
+        permissions.microphone = false;
+
+      }
+
+      if (!settings.screenShare) {
+
+        permissions.screenShare = false;
+
+      }
+
+      if (!settings.notifications) {
+
+        permissions.notifications = false;
+
+      }
+
+      localStorage.setItem(
+        PERMISSION_KEY,
+        JSON.stringify(permissions)
+      );
+
+    }
+
+    /* =========================================================
+       SAVE BUTTON
+    ========================================================= */
+
+    document
+      .getElementById("saveBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          const settings =
+            getFormSettings();
+
+          saveSettings(settings);
+
+          syncPermissionPage();
+
+          addActivity(
+            "Browser UI settings saved."
+          );
+
+          showToast(
+            "Browser UI settings saved successfully.",
+            "success"
+          );
+
+          updateStatus();
+
+        }
+      );
+
+    /* =========================================================
+       ENABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById("enableAllBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          cameraToggle.checked = true;
+
+          microphoneToggle.checked = true;
+
+          screenShareToggle.checked = true;
+
+          notificationToggle.checked = true;
+
+          updateStatus();
+
+          showToast(
+            "All browser features enabled. Click Save to apply.",
+            "success"
           );
 
         }
       );
 
-    }
-
-
     /* =========================================================
-       SIDEBAR
+       DISABLE ALL
     ========================================================= */
 
-    function openSidebar() {
+    document
+      .getElementById("disableAllBtn")
+      .addEventListener(
+        "click",
+        () => {
 
-      sidebar.classList.add(
-        "open"
+          cameraToggle.checked = false;
+
+          microphoneToggle.checked = false;
+
+          screenShareToggle.checked = false;
+
+          notificationToggle.checked = false;
+
+          updateStatus();
+
+          showToast(
+            "All browser features disabled. Click Save to apply.",
+            "success"
+          );
+
+        }
       );
-
-      sidebarOverlay.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function closeSidebar() {
-
-      sidebar.classList.remove(
-        "open"
-      );
-
-      sidebarOverlay.classList.remove(
-        "show"
-      );
-
-    }
-
 
     /* =========================================================
-       LOGOUT
+       RESET
     ========================================================= */
 
-    function logout() {
+    document
+      .getElementById("resetBtn")
+      .addEventListener(
+        "click",
+        () => {
 
-      const confirmed =
-        window.confirm(
-          "Do you want to logout?"
-        );
+          cameraToggle.checked =
+            DEFAULT_SETTINGS.camera;
 
+          microphoneToggle.checked =
+            DEFAULT_SETTINGS.microphone;
 
-      if (!confirmed) {
+          screenShareToggle.checked =
+            DEFAULT_SETTINGS.screenShare;
 
-        return;
+          notificationToggle.checked =
+            DEFAULT_SETTINGS.notifications;
 
-      }
+          updateStatus();
 
+          showToast(
+            "Default settings restored. Click Save to apply."
+          );
 
-      localStorage.removeItem(
-        SESSION_KEY
+        }
       );
 
+    /* =========================================================
+       CLEAR SETTINGS
+    ========================================================= */
 
-      window.location.href =
-        "../login/index.html";
+    document
+      .getElementById("clearBtn")
+      .addEventListener(
+        "click",
+        () => {
 
-    }
+          const confirmed =
+            confirm(
+              "Clear all Browser UI settings?"
+            );
 
+          if (!confirmed) {
+            return;
+          }
+
+          localStorage.removeItem(
+            SETTINGS_KEY
+          );
+
+          localStorage.removeItem(
+            PERMISSION_KEY
+          );
+
+          cameraToggle.checked = false;
+          microphoneToggle.checked = false;
+          screenShareToggle.checked = false;
+          notificationToggle.checked = false;
+
+          updateStatus();
+
+          addActivity(
+            "Browser UI settings were cleared."
+          );
+
+          showToast(
+            "Browser UI settings cleared.",
+            "success"
+          );
+
+        }
+      );
+
+    /* =========================================================
+       LIVE UI UPDATE
+    ========================================================= */
+
+    [
+      cameraToggle,
+      microphoneToggle,
+      screenShareToggle,
+      notificationToggle
+    ].forEach(input => {
+
+      input.addEventListener(
+        "change",
+        updateStatus
+      );
+
+    });
 
     /* =========================================================
        TOAST
@@ -2828,24 +2420,24 @@
 
     let toastTimer = null;
 
-
     function showToast(
-      message
+      message,
+      type = ""
     ) {
+
+      clearTimeout(toastTimer);
 
       toast.textContent =
         message;
 
+      toast.className =
+        "toast show";
 
-      toast.classList.add(
-        "show"
-      );
+      if (type) {
 
+        toast.classList.add(type);
 
-      clearTimeout(
-        toastTimer
-      );
-
+      }
 
       toastTimer =
         setTimeout(
@@ -2856,59 +2448,230 @@
             );
 
           },
-          2600
+          2800
         );
 
     }
-
 
     /* =========================================================
-       ESCAPE HTML
+       ADMIN PROFILE
     ========================================================= */
 
-    function escapeHtml(
-      value
-    ) {
+    function loadAdminProfile() {
 
-      return String(value)
+      let session = null;
 
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
+      try {
 
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            )
+          );
 
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
+      } catch (error) {
 
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
+        session = null;
 
-        .replaceAll(
-          "'",
-          "&#039;"
+      }
+
+      if (!session) {
+        return;
+      }
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+      const role =
+        session.role ||
+        "admin";
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+      const avatar =
+        document.getElementById(
+          "adminAvatar"
         );
+
+      if (session.avatar) {
+
+        avatar.innerHTML = `
+          <img
+            src="${escapeHtml(session.avatar)}"
+            alt="Admin"
+          />
+        `;
+
+      } else {
+
+        const initials =
+          name
+            .split(" ")
+            .map(word =>
+              word.charAt(0)
+            )
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+
+        avatar.textContent =
+          initials || "AD";
+
+      }
 
     }
 
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const overlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
+
+    const mobileMenuBtn =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
+
+    function openSidebar() {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      overlay.classList.add(
+        "show"
+      );
+
+    }
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      overlay.classList.remove(
+        "show"
+      );
+
+    }
+
+    mobileMenuBtn.addEventListener(
+      "click",
+      openSidebar
+    );
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+    document
+      .querySelectorAll(".nav-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            if (
+              window.innerWidth <= 850
+            ) {
+
+              closeSidebar();
+
+            }
+
+          }
+        );
+
+      });
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          if (
+            window.AdminAuth &&
+            typeof window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+
+          }
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+          window.location.href =
+            "../login/index.html";
+
+        }
+      );
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key === SETTINGS_KEY ||
+          event.key === PERMISSION_KEY ||
+          event.key === SESSION_KEY
+        ) {
+
+          loadUI();
+
+          loadAdminProfile();
+
+        }
+
+      }
+    );
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    loadAdminProfile();
+
+    loadUI();
+
   </script>
-
-
-  <!-- =======================================================
-       ADMIN AUTH GUARD
-  ======================================================== -->
-
-  <script
-    src="./auth-guard.js"
-  ></script>
 
 </body>
 </html>
