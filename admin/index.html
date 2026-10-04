@@ -1,807 +1,3447 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Admin Login — Doctor Poster Maker</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #087f86;
-            --primary-dark: #05656b;
-            --primary-light: #e9f8f7;
-            --dark: #12343b;
-            --text: #52666b;
-            --border: #dce8e9;
-            --white: #ffffff;
-            --bg: #f4f9f9;
-        }
-
-        body {
-            min-height: 100vh;
-            font-family: "Inter", sans-serif;
-            background:
-                radial-gradient(
-                    circle at 15% 15%,
-                    rgba(8, 127, 134, 0.10),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 85% 85%,
-                    rgba(8, 127, 134, 0.08),
-                    transparent 30%
-                ),
-                var(--bg);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            color: var(--dark);
-        }
-
-        .login-wrapper {
-            width: 100%;
-            max-width: 980px;
-            min-height: 600px;
-
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            background: var(--white);
-            border: 1px solid rgba(8, 127, 134, 0.10);
-            border-radius: 28px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 25px 70px rgba(18, 52, 59, 0.12);
-        }
-
-        /* =========================================
-           LEFT PANEL
-        ========================================= */
-
-        .brand-panel {
-            position: relative;
-            overflow: hidden;
-
-            padding: 55px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #087f86 0%,
-                    #05656b 100%
-                );
-
-            color: white;
-        }
-
-        .brand-panel::before {
-            content: "";
-            position: absolute;
-
-            width: 320px;
-            height: 320px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 50%;
+  <title>Website Management | Design System</title>
 
-            top: -120px;
-            right: -120px;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .brand-panel::after {
-            content: "";
-            position: absolute;
+    :root {
+      --sidebar: #0f172a;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #94a3b8;
 
-            width: 420px;
-            height: 420px;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
 
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 50%;
+      --text: #111827;
+      --muted: #64748b;
 
-            bottom: -220px;
-            left: -180px;
-        }
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
 
-        .brand-content {
-            position: relative;
-            z-index: 2;
-        }
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 70px;
-        }
+      --sidebar-width: 260px;
 
-        .logo-icon {
-            width: 46px;
-            height: 46px;
+      --shadow:
+        0 12px 35px rgba(15, 23, 42, 0.08);
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+      --radius: 18px;
+    }
 
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.20);
+    html {
+      scroll-behavior: smooth;
+    }
 
-            border-radius: 13px;
+    body {
+      min-height: 100vh;
 
-            font-size: 24px;
-            font-weight: 800;
-        }
+      background: var(--bg);
 
-        .logo-text strong {
-            display: block;
-            font-size: 17px;
-            line-height: 1.2;
-        }
+      color: var(--text);
 
-        .logo-text span {
-            display: block;
-            margin-top: 3px;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
+      overflow-x: hidden;
+    }
 
-            opacity: 0.75;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .brand-content h1 {
-            max-width: 390px;
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-            font-size: 42px;
-            line-height: 1.12;
-            letter-spacing: -1.5px;
+    button {
+      cursor: pointer;
+    }
 
-            margin-bottom: 22px;
-        }
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
 
-        .brand-content p {
-            max-width: 390px;
+    .sidebar {
+      position: fixed;
 
-            font-size: 15px;
-            line-height: 1.8;
+      top: 0;
+      left: 0;
+      bottom: 0;
 
-            color: rgba(255,255,255,0.78);
-        }
+      width: var(--sidebar-width);
 
-        .brand-features {
-            position: relative;
-            z-index: 2;
+      z-index: 1000;
 
-            display: grid;
-            gap: 14px;
-        }
+      display: flex;
+      flex-direction: column;
 
-        .brand-feature {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+      color: white;
 
-            font-size: 13px;
-            color: rgba(255,255,255,0.88);
-        }
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a 0%,
+          #111827 55%,
+          #0b1220 100%
+        );
 
-        .feature-icon {
-            width: 30px;
-            height: 30px;
+      border-right:
+        1px solid rgba(255,255,255,0.06);
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    .brand {
+      display: flex;
+      align-items: center;
 
-            border-radius: 9px;
+      gap: 12px;
 
-            background: rgba(255,255,255,0.12);
-        }
+      padding: 24px 20px;
 
-        /* =========================================
-           LOGIN PANEL
-        ========================================= */
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
+    }
 
-        .login-panel {
-            padding: 55px;
+    .brand-icon {
+      width: 42px;
+      height: 42px;
 
-            display: flex;
-            align-items: center;
-        }
+      display: grid;
+      place-items: center;
 
-        .login-box {
-            width: 100%;
-            max-width: 390px;
-            margin: auto;
-        }
+      flex-shrink: 0;
 
-        .login-heading {
-            margin-bottom: 34px;
-        }
+      border-radius: 13px;
 
-        .login-heading .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
 
-            margin-bottom: 13px;
+      font-size: 19px;
+      font-weight: 900;
 
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.3px;
-            text-transform: uppercase;
+      box-shadow:
+        0 10px 25px
+        rgba(37,99,235,0.35);
+    }
 
-            color: var(--primary);
-        }
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 800;
+    }
 
-        .eyebrow-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--primary);
-        }
+    .brand-text p {
+      margin-top: 3px;
 
-        .login-heading h2 {
-            font-size: 30px;
-            letter-spacing: -0.8px;
-            margin-bottom: 9px;
-        }
+      color: var(--sidebar-muted);
 
-        .login-heading p {
-            color: var(--text);
-            font-size: 14px;
-            line-height: 1.6;
-        }
+      font-size: 10px;
+    }
 
-        /* FORM */
+    .nav {
+      flex: 1;
 
-        .form-group {
-            margin-bottom: 19px;
-        }
+      overflow-y: auto;
 
-        .form-group label {
-            display: block;
+      padding: 18px 12px;
+    }
 
-            margin-bottom: 8px;
+    .nav-title {
+      padding: 8px 12px;
 
-            font-size: 12px;
-            font-weight: 700;
+      margin-bottom: 6px;
 
-            color: var(--dark);
-        }
+      color: #64748b;
 
-        .input-wrapper {
-            position: relative;
-        }
+      font-size: 10px;
+      font-weight: 800;
 
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
+      text-transform: uppercase;
 
-            transform: translateY(-50%);
+      letter-spacing: 1px;
+    }
 
-            color: #8ba1a5;
+    .nav-link {
+      display: flex;
+      align-items: center;
 
-            font-size: 17px;
+      gap: 12px;
 
-            pointer-events: none;
-        }
+      padding: 11px 13px;
 
-        .form-input {
-            width: 100%;
-            height: 52px;
+      margin-bottom: 4px;
 
-            border: 1px solid var(--border);
-            border-radius: 13px;
+      border-radius: 12px;
 
-            background: #fbfdfd;
+      color: var(--sidebar-text);
 
-            padding: 0 16px 0 44px;
+      font-size: 13px;
+      font-weight: 600;
 
-            outline: none;
+      transition: 0.2s ease;
+    }
 
-            color: var(--dark);
+    .nav-link:hover {
+      background:
+        rgba(255,255,255,0.07);
 
-            font-family: inherit;
-            font-size: 14px;
+      color: white;
 
-            transition: 0.2s ease;
-        }
+      transform:
+        translateX(2px);
+    }
 
-        .form-input:focus {
-            border-color: var(--primary);
+    .nav-link.active {
+      color: white;
 
-            background: white;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37,99,235,0.95),
+          rgba(79,70,229,0.95)
+        );
 
-            box-shadow:
-                0 0 0 4px rgba(8,127,134,0.08);
-        }
+      box-shadow:
+        0 8px 20px
+        rgba(37,99,235,0.25);
+    }
 
-        .password-toggle {
-            position: absolute;
+    .nav-icon {
+      width: 22px;
 
-            right: 14px;
-            top: 50%;
+      text-align: center;
 
-            transform: translateY(-50%);
+      font-size: 15px;
+    }
 
-            border: 0;
-            background: transparent;
+    .sidebar-footer {
+      padding: 14px;
 
-            cursor: pointer;
+      border-top:
+        1px solid rgba(255,255,255,0.08);
+    }
 
-            color: #7d9296;
+    .admin-mini {
+      display: flex;
+      align-items: center;
 
-            font-size: 12px;
-            font-weight: 600;
-        }
+      gap: 10px;
 
-        .password-toggle:hover {
-            color: var(--primary);
-        }
+      padding: 10px;
 
-        .login-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+      border-radius: 13px;
 
-            margin: 5px 0 25px;
-        }
+      background:
+        rgba(255,255,255,0.05);
+    }
 
-        .remember {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
 
-            color: var(--text);
+      flex-shrink: 0;
 
-            font-size: 12px;
-        }
+      display: grid;
+      place-items: center;
 
-        .remember input {
-            accent-color: var(--primary);
-        }
+      overflow: hidden;
 
-        .forgot {
-            color: var(--primary);
+      border-radius: 50%;
 
-            font-size: 12px;
-            font-weight: 600;
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #9333ea
+        );
 
-            text-decoration: none;
-        }
+      font-size: 11px;
+      font-weight: 800;
+    }
 
-        .forgot:hover {
-            text-decoration: underline;
-        }
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
 
-        .login-btn {
-            width: 100%;
-            height: 54px;
+      object-fit: cover;
+    }
 
-            border: 0;
-            border-radius: 13px;
+    .admin-info {
+      min-width: 0;
+      flex: 1;
+    }
 
-            background: var(--primary);
-            color: white;
+    .admin-info strong {
+      display: block;
 
-            font-family: inherit;
+      color: white;
 
-            font-size: 14px;
-            font-weight: 700;
+      font-size: 12px;
 
-            cursor: pointer;
+      white-space: nowrap;
 
-            box-shadow:
-                0 12px 25px rgba(8,127,134,0.18);
+      overflow: hidden;
 
-            transition: 0.2s ease;
-        }
+      text-overflow: ellipsis;
+    }
 
-        .login-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+    .admin-info span {
+      display: block;
 
-            box-shadow:
-                0 15px 30px rgba(8,127,134,0.24);
-        }
+      margin-top: 2px;
 
-        .login-btn:active {
-            transform: translateY(0);
-        }
+      color: #94a3b8;
 
-        .login-message {
-            display: none;
+      font-size: 10px;
 
-            margin-top: 15px;
-            padding: 12px 14px;
+      text-transform: capitalize;
+    }
 
-            border-radius: 10px;
+    .logout-btn {
+      width: 100%;
 
-            font-size: 12px;
-            line-height: 1.5;
+      margin-top: 9px;
 
-            background: #fff4f4;
-            color: #b33a3a;
-            border: 1px solid #f2d5d5;
-        }
+      padding: 9px;
 
-        .security-note {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
+      border: 0;
 
-            margin-top: 24px;
+      border-radius: 10px;
 
-            color: #83979b;
+      background:
+        rgba(220,38,38,0.12);
 
-            font-size: 11px;
-        }
+      color: #fca5a5;
 
-        .footer-text {
-            margin-top: 42px;
+      font-size: 11px;
+      font-weight: 700;
+    }
 
-            text-align: center;
+    .logout-btn:hover {
+      background:
+        rgba(220,38,38,0.2);
 
-            font-size: 11px;
-            color: #9aabad;
-        }
+      color: white;
+    }
 
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
 
-        @media (max-width: 800px) {
+    .sidebar-overlay {
+      display: none;
 
-            body {
-                padding: 15px;
-            }
+      position: fixed;
+      inset: 0;
 
-            .login-wrapper {
-                grid-template-columns: 1fr;
-                max-width: 520px;
-            }
+      z-index: 900;
 
-            .brand-panel {
-                min-height: 300px;
-                padding: 35px;
-            }
+      background:
+        rgba(15,23,42,0.55);
 
-            .logo {
-                margin-bottom: 35px;
-            }
+      backdrop-filter: blur(2px);
+    }
 
-            .brand-content h1 {
-                font-size: 32px;
-            }
+    /* =========================================================
+       MAIN
+    ========================================================= */
 
-            .brand-features {
-                display: none;
-            }
+    .main {
+      min-height: 100vh;
 
-            .login-panel {
-                padding: 40px 30px;
-            }
-        }
+      margin-left: var(--sidebar-width);
+    }
 
-        @media (max-width: 450px) {
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
 
-            .brand-panel {
-                padding: 28px;
-            }
+    .topbar {
+      position: sticky;
 
-            .brand-content h1 {
-                font-size: 28px;
-            }
+      top: 0;
 
-            .login-panel {
-                padding: 35px 22px;
-            }
+      z-index: 500;
 
-            .login-heading h2 {
-                font-size: 26px;
-            }
-        }
-    </style>
+      height: 72px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 28px;
+
+      background:
+        rgba(255,255,255,0.92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      place-items: center;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 19px;
+    }
+
+    .page-title h2 {
+      font-size: 19px;
+
+      letter-spacing: -0.4px;
+    }
+
+    .page-title p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+    }
+
+    .top-btn {
+      padding: 9px 13px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: white;
+
+      color: var(--text);
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .top-btn:hover {
+      color: var(--primary);
+
+      border-color: #bfdbfe;
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      max-width: 1500px;
+
+      margin: 0 auto;
+
+      padding: 28px;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 29px;
+
+      margin-bottom: 22px;
+
+      border-radius: 23px;
+
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(59,130,246,0.23),
+          transparent 31%
+        ),
+        linear-gradient(
+          135deg,
+          #111827,
+          #1e293b
+        );
+
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 7px 11px;
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,0.08);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+    }
+
+    .hero h1 {
+      margin-top: 13px;
+
+      font-size:
+        clamp(25px, 3vw, 36px);
+
+      line-height: 1.15;
+
+      letter-spacing: -0.8px;
+    }
+
+    .hero p {
+      max-width: 760px;
+
+      margin-top: 10px;
+
+      color: #cbd5e1;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-top: 18px;
+    }
+
+    .hero-btn {
+      padding: 10px 14px;
+
+      border-radius: 10px;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .hero-btn.primary {
+      border: 0;
+
+      background: white;
+
+      color: #111827;
+    }
+
+    .hero-btn.secondary {
+      border:
+        1px solid rgba(255,255,255,0.15);
+
+      background:
+        rgba(255,255,255,0.08);
+
+      color: white;
+    }
+
+    .hero-btn:hover {
+      transform:
+        translateY(-1px);
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 15px;
+
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      padding: 19px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 12px;
+
+      background: #eff6ff;
+
+      font-size: 18px;
+    }
+
+    .status-pill {
+      padding: 5px 8px;
+
+      border-radius: 999px;
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .status-pill.success {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .status-pill.warning {
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .status-pill.danger {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .stat-label {
+      margin-top: 13px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 4px;
+
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .stat-description {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       TWO COLUMN
+    ========================================================= */
+
+    .two-column {
+      display: grid;
+
+      grid-template-columns:
+        1.15fr 0.85fr;
+
+      gap: 18px;
+
+      margin-bottom: 18px;
+    }
+
+    .card {
+      padding: 20px;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 17px;
+    }
+
+    .card-header h3 {
+      font-size: 14px;
+    }
+
+    .card-header p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       STATUS ROWS
+    ========================================================= */
+
+    .status-list {
+      display: grid;
+
+      gap: 9px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 12px;
+
+      border:
+        1px solid #eef2f7;
+
+      border-radius: 12px;
+
+      background: #f8fafc;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      min-width: 0;
+    }
+
+    .status-icon {
+      width: 34px;
+      height: 34px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: white;
+
+      box-shadow:
+        0 4px 10px
+        rgba(15,23,42,0.05);
+    }
+
+    .status-name strong {
+      display: block;
+
+      font-size: 10px;
+    }
+
+    .status-name span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    /* =========================================================
+       SWITCH
+    ========================================================= */
+
+    .switch {
+      position: relative;
+
+      width: 42px;
+      height: 23px;
+
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+
+      inset: 0;
+
+      border-radius: 999px;
+
+      background: #cbd5e1;
+
+      transition: 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 17px;
+      height: 17px;
+
+      left: 3px;
+      top: 3px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      box-shadow:
+        0 2px 5px
+        rgba(15,23,42,0.18);
+
+      transition: 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--primary);
+    }
+
+    .switch input:checked + .slider::before {
+      transform:
+        translateX(19px);
+    }
+
+    /* =========================================================
+       QUICK ACTIONS
+    ========================================================= */
+
+    .quick-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 9px;
+    }
+
+    .quick-btn {
+      min-height: 68px;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: flex-start;
+      justify-content: center;
+
+      gap: 5px;
+
+      padding: 12px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background: white;
+
+      text-align: left;
+
+      transition: 0.2s ease;
+    }
+
+    .quick-btn:hover {
+      border-color: #bfdbfe;
+
+      background: #f8fbff;
+
+      transform:
+        translateY(-2px);
+    }
+
+    .quick-btn strong {
+      font-size: 10px;
+    }
+
+    .quick-btn span {
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    /* =========================================================
+       WEBSITE INFO
+    ========================================================= */
+
+    .website-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+    }
+
+    .info-box {
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background: #f8fafc;
+
+      border:
+        1px solid #eef2f7;
+    }
+
+    .info-box label {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .info-box strong {
+      display: block;
+
+      margin-top: 5px;
+
+      font-size: 11px;
+
+      word-break: break-word;
+    }
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    .activity-list {
+      display: grid;
+
+      gap: 9px;
+
+      max-height: 280px;
+
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      display: flex;
+
+      gap: 10px;
+
+      padding: 10px;
+
+      border-radius: 11px;
+
+      background: #f8fafc;
+    }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+
+      flex-shrink: 0;
+
+      margin-top: 5px;
+
+      border-radius: 50%;
+
+      background: var(--primary);
+    }
+
+    .activity-content {
+      min-width: 0;
+    }
+
+    .activity-content strong {
+      display: block;
+
+      font-size: 9px;
+    }
+
+    .activity-content span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      line-height: 1.5;
+    }
+
+    .empty-activity {
+      padding: 25px 10px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    .security {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 12px;
+
+      padding: 17px;
+
+      margin-top: 18px;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eff6ff,
+          #f8fbff
+        );
+    }
+
+    .security-icon {
+      width: 38px;
+      height: 38px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background: white;
+
+      font-size: 17px;
+    }
+
+    .security h3 {
+      font-size: 11px;
+    }
+
+    .security p {
+      margin-top: 4px;
+
+      color: #64748b;
+
+      font-size: 9px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      right: 24px;
+      bottom: 24px;
+
+      min-width: 260px;
+      max-width: 370px;
+
+      padding: 13px 15px;
+
+      z-index: 3000;
+
+      border-radius: 13px;
+
+      color: white;
+
+      background: #111827;
+
+      box-shadow:
+        0 15px 40px
+        rgba(15,23,42,0.25);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transform:
+        translateY(120px);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: 0.3s ease;
+    }
+
+    .toast.show {
+      transform:
+        translateY(0);
+
+      opacity: 1;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1150px) {
+
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .two-column {
+        grid-template-columns:
+          1fr;
+      }
+
+      .website-grid {
+        grid-template-columns:
+          repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 850px) {
+
+      .sidebar {
+        transform:
+          translateX(-100%);
+
+        transition:
+          transform 0.25s ease;
+      }
+
+      .sidebar.open {
+        transform:
+          translateX(0);
+      }
+
+      .sidebar-overlay.show {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu-btn {
+        display: grid;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 650px) {
+
+      .topbar {
+        height: 64px;
+      }
+
+      .page-title h2 {
+        font-size: 16px;
+      }
+
+      .page-title p {
+        display: none;
+      }
+
+      .top-btn {
+        display: none;
+      }
+
+      .content {
+        padding: 14px;
+      }
+
+      .hero {
+        padding: 21px;
+
+        border-radius: 19px;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .stats-grid {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .website-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .toast {
+        left: 14px;
+        right: 14px;
+
+        min-width: auto;
+
+        bottom: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+
+      .stats-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns:
+          1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline:
+        3px solid
+        rgba(37,99,235,0.2);
+
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="login-wrapper">
+  <!-- =========================================================
+       SIDEBAR
+  ========================================================= -->
 
-        <!-- =========================================
-             BRAND PANEL
-        ========================================== -->
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
 
-        <section class="brand-panel">
+    <div class="brand">
 
-            <div class="brand-content">
+      <div class="brand-icon">
+        DS
+      </div>
 
-                <div class="logo">
+      <div class="brand-text">
 
-                    <div class="logo-icon">
-                        ✚
-                    </div>
+        <h1>
+          Design System
+        </h1>
 
-                    <div class="logo-text">
-                        <strong>Doctor Poster Maker</strong>
-                        <span>Administration</span>
-                    </div>
+        <p>
+          Admin Control Center
+        </p>
 
-                </div>
-
-                <h1>
-                    Manage your poster platform.
-                </h1>
-
-                <p>
-                    Access your administration dashboard to manage
-                    website content, advertisements, poster designs
-                    and system settings.
-                </p>
-
-            </div>
-
-            <div class="brand-features">
-
-                <div class="brand-feature">
-                    <span class="feature-icon">✓</span>
-                    Secure administration
-                </div>
-
-                <div class="brand-feature">
-                    <span class="feature-icon">✦</span>
-                    Manage poster designs
-                </div>
-
-                <div class="brand-feature">
-                    <span class="feature-icon">⚙</span>
-                    Control website settings
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             LOGIN PANEL
-        ========================================== -->
-
-        <section class="login-panel">
-
-            <div class="login-box">
-
-                <div class="login-heading">
-
-                    <div class="eyebrow">
-                        <span class="eyebrow-dot"></span>
-                        Admin Access
-                    </div>
-
-                    <h2>
-                        Welcome back
-                    </h2>
-
-                    <p>
-                        Sign in to access your administration dashboard.
-                    </p>
-
-                </div>
-
-
-                <form id="loginForm">
-
-                    <!-- EMAIL -->
-
-                    <div class="form-group">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                @
-                            </span>
-
-                            <input
-                                type="email"
-                                id="email"
-                                class="form-input"
-                                placeholder="admin@example.com"
-                                autocomplete="username"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-
-                    <div class="form-group">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                ●
-                            </span>
-
-                            <input
-                                type="password"
-                                id="password"
-                                class="form-input"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                id="togglePassword">
-                                Show
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- OPTIONS -->
-
-                    <div class="login-options">
-
-                        <label class="remember">
-
-                            <input
-                                type="checkbox"
-                                id="remember">
-
-                            Remember me
-
-                        </label>
-
-                        <a href="#" class="forgot">
-                            Forgot password?
-                        </a>
-
-                    </div>
-
-
-                    <!-- LOGIN -->
-
-                    <button
-                        type="submit"
-                        class="login-btn">
-
-                        Sign In to Dashboard →
-
-                    </button>
-
-                    <div
-                        class="login-message"
-                        id="loginMessage">
-                    </div>
-
-                </form>
-
-
-                <div class="security-note">
-                    🔒 Protected administration area
-                </div>
-
-                <div class="footer-text">
-                    © 2026 Doctor Poster Maker
-                </div>
-
-            </div>
-
-        </section>
+      </div>
 
     </div>
 
 
-    <script>
+    <nav class="nav">
 
-        const loginForm = document.getElementById("loginForm");
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
-        const loginMessage = document.getElementById("loginMessage");
+      <div class="nav-title">
+        Main
+      </div>
+
+      <a
+        href="./dashboard.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        href="./website.html"
+        class="nav-link active"
+      >
+        <span class="nav-icon">🌐</span>
+        <span>Website</span>
+      </a>
+
+      <a
+        href="./website-edit.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">✏️</span>
+        <span>Website Editor</span>
+      </a>
+
+      <a
+        href="./design-manage.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🎨</span>
+        <span>Design Management</span>
+      </a>
+
+      <a
+        href="./banner.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🖼️</span>
+        <span>Advertisement</span>
+      </a>
 
 
-        /* Show / Hide Password */
+      <div class="nav-title">
+        Chatter
+      </div>
 
-        togglePassword.addEventListener("click", () => {
+      <a
+        href="./chatter.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">💬</span>
+        <span>Chatter Settings</span>
+      </a>
 
-            const isPassword =
-                passwordInput.type === "password";
+      <a
+        href="./browser-ui.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🌐</span>
+        <span>Browser UI</span>
+      </a>
 
-            passwordInput.type =
-                isPassword ? "text" : "password";
-
-            togglePassword.textContent =
-                isPassword ? "Hide" : "Show";
-
-        });
-
-
-        /* Temporary Frontend Login */
-
-        loginForm.addEventListener("submit", (event) => {
-
-            event.preventDefault();
-
-            const email =
-                document.getElementById("email").value.trim();
-
-            const password =
-                passwordInput.value.trim();
+      <a
+        href="./live-monitor.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">📡</span>
+        <span>Live Monitor</span>
+      </a>
 
 
-            if (!email || !password) {
+      <div class="nav-title">
+        System
+      </div>
 
-                showMessage(
-                    "Please enter your email and password."
-                );
+      <a
+        href="./system.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">⚙️</span>
+        <span>System Settings</span>
+      </a>
 
-                return;
+      <a
+        href="./link-check.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🔗</span>
+        <span>Link Checker</span>
+      </a>
+
+      <a
+        href="../index.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">🏠</span>
+        <span>View Website</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+      <div class="admin-mini">
+
+        <div
+          class="admin-avatar"
+          id="adminAvatar"
+        >
+          AD
+        </div>
+
+        <div class="admin-info">
+
+          <strong id="adminName">
+            System Admin
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <div class="page-title">
+
+          <h2>
+            Website Management
+          </h2>
+
+          <p>
+            Control the public website from one place
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <a
+          href="../index.html"
+          target="_blank"
+          rel="noopener"
+          class="top-btn"
+        >
+          ↗ Open Website
+        </a>
+
+        <a
+          href="./website-edit.html"
+          class="top-btn"
+        >
+          ✏️ Edit Website
+        </a>
+
+      </div>
+
+    </header>
+
+
+    <!-- =======================================================
+         CONTENT
+    ======================================================= -->
+
+    <section class="content">
+
+      <!-- HERO -->
+
+      <div class="hero">
+
+        <div class="hero-badge">
+          🌐 Website Control
+        </div>
+
+        <h1>
+          Manage Your Website
+        </h1>
+
+        <p>
+          Control website availability, design gallery visibility,
+          Chatter availability, maintenance mode and other public
+          website settings without touching the homepage code.
+        </p>
+
+        <div class="hero-actions">
+
+          <a
+            href="../index.html"
+            target="_blank"
+            rel="noopener"
+            class="hero-btn primary"
+          >
+            👁 View Live Website
+          </a>
+
+          <a
+            href="./website-edit.html"
+            class="hero-btn secondary"
+          >
+            ✏️ Open Website Editor
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           STATS
+      ===================================================== -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🌐
+            </div>
+
+            <span
+              class="status-pill success"
+              id="websiteStatusPill"
+            >
+              Online
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Website Status
+          </div>
+
+          <div
+            class="stat-value"
+            id="websiteStatusValue"
+          >
+            Online
+          </div>
+
+          <div class="stat-description">
+            Public website availability
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🎨
+            </div>
+
+            <span
+              class="status-pill success"
+              id="designStatusPill"
+            >
+              Visible
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Design Gallery
+          </div>
+
+          <div
+            class="stat-value"
+            id="designStatusValue"
+          >
+            Visible
+          </div>
+
+          <div class="stat-description">
+            Public design gallery status
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              💬
+            </div>
+
+            <span
+              class="status-pill success"
+              id="chatterStatusPill"
+            >
+              Enabled
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Chatter
+          </div>
+
+          <div
+            class="stat-value"
+            id="chatterStatusValue"
+          >
+            Enabled
+          </div>
+
+          <div class="stat-description">
+            Website communication feature
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <div class="stat-icon">
+              🔧
+            </div>
+
+            <span
+              class="status-pill success"
+              id="maintenanceStatusPill"
+            >
+              Normal
+            </span>
+
+          </div>
+
+          <div class="stat-label">
+            Maintenance
+          </div>
+
+          <div
+            class="stat-value"
+            id="maintenanceStatusValue"
+          >
+            Normal
+          </div>
+
+          <div class="stat-description">
+            Public maintenance mode
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           TWO COLUMN
+      ===================================================== -->
+
+      <div class="two-column">
+
+        <!-- WEBSITE SETTINGS -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <h3>
+                Website Controls
+              </h3>
+
+              <p>
+                Changes are saved locally in this prototype.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-list">
+
+            <!-- WEBSITE -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🌐
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Website Enabled
+                  </strong>
+
+                  <span>
+                    Allow visitors to access the website
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="websiteEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- DESIGNS -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🎨
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Design Gallery
+                  </strong>
+
+                  <span>
+                    Show design gallery on homepage
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="showDesigns"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- CHATTER -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  💬
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Chatter
+                  </strong>
+
+                  <span>
+                    Show Chatter navigation and feature
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="chatterEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- MAINTENANCE -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🔧
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    Maintenance Mode
+                  </strong>
+
+                  <span>
+                    Display maintenance screen to visitors
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="maintenanceMode"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="status-row">
+
+              <div class="status-left">
+
+                <div class="status-icon">
+                  🔔
+                </div>
+
+                <div class="status-name">
+
+                  <strong>
+                    System Notifications
+                  </strong>
+
+                  <span>
+                    Allow website notification UI
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  id="notificationsEnabled"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <h3>
+                Quick Actions
+              </h3>
+
+              <p>
+                Frequently used website controls.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-grid">
+
+            <button
+              class="quick-btn"
+              id="saveBtn"
+            >
+
+              <strong>
+                💾 Save Settings
+              </strong>
+
+              <span>
+                Save current website state
+              </span>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="enableAllBtn"
+            >
+
+              <strong>
+                ✅ Enable All
+              </strong>
+
+              <span>
+                Turn on public features
+              </span>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="disableAllBtn"
+            >
+
+              <strong>
+                ⛔ Disable All
+              </strong>
+
+              <span>
+                Turn off public features
+              </span>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="resetBtn"
+            >
+
+              <strong>
+                ↺ Reset Defaults
+              </strong>
+
+              <span>
+                Restore normal website state
+              </span>
+
+            </button>
+
+
+            <a
+              href="./website-edit.html"
+              class="quick-btn"
+            >
+
+              <strong>
+                ✏️ Website Editor
+              </strong>
+
+              <span>
+                Edit homepage content
+              </span>
+
+            </a>
+
+
+            <a
+              href="./banner.html"
+              class="quick-btn"
+            >
+
+              <strong>
+                🖼️ Advertisement
+              </strong>
+
+              <span>
+                Manage website ads
+              </span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           WEBSITE INFORMATION
+      ===================================================== -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Website Information
+            </h3>
+
+            <p>
+              Current project and routing information.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="website-grid">
+
+          <div class="info-box">
+
+            <label>
+              Homepage
+            </label>
+
+            <strong>
+              ../index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Login
+            </label>
+
+            <strong>
+              ../login/index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Chatter
+            </label>
+
+            <strong>
+              ../chatter/index.html
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Design Folder
+            </label>
+
+            <strong>
+              ../design/
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Advertisement
+            </label>
+
+            <strong>
+              websiteBannerData
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <label>
+              Settings Storage
+            </label>
+
+            <strong>
+              websiteSettings
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ACTIVITY
+      ===================================================== -->
+
+      <div class="card" style="margin-top:18px;">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>
+              Recent Website Activity
+            </h3>
+
+            <p>
+              Changes made from the Website Management panel.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="activity-list"
+          id="activityList"
+        ></div>
+
+      </div>
+
+
+      <!-- =====================================================
+           SECURITY
+      ===================================================== -->
+
+      <div class="security">
+
+        <div class="security-icon">
+          🔐
+        </div>
+
+        <div>
+
+          <h3>
+            Prototype Security Notice
+          </h3>
+
+          <p>
+            These settings currently use browser LocalStorage.
+            They are suitable for UI testing only. Firebase/backend
+            authentication and database rules should be added later
+            for real production access control. This page does not
+            secretly access camera, microphone or screen and contains
+            no recording system.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+
+  <!-- =========================================================
+       AUTH GUARD
+  ========================================================= -->
+
+  <script src="./auth-guard.js"></script>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
+
+  <script>
+
+    /* =========================================================
+       STORAGE KEYS
+    ========================================================= */
+
+    const WEBSITE_KEY =
+      "websiteSettings";
+
+    const ACTIVITY_KEY =
+      "websiteManagementActivity";
+
+    const SESSION_KEY =
+      "chatterAdminSession";
+
+    const BANNER_KEY =
+      "websiteBannerData";
+
+    const BANNER_SETTINGS_KEY =
+      "websiteBannerSettings";
+
+
+    /* =========================================================
+       DEFAULT SETTINGS
+    ========================================================= */
+
+    const DEFAULT_SETTINGS = {
+
+      websiteEnabled: true,
+
+      showDesigns: true,
+
+      chatterEnabled: true,
+
+      maintenanceMode: false,
+
+      notificationsEnabled: true
+
+    };
+
+
+    /* =========================================================
+       GET SETTINGS
+    ========================================================= */
+
+    function getSettings() {
+
+      try {
+
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              WEBSITE_KEY
+            )
+          );
+
+
+        return {
+
+          ...DEFAULT_SETTINGS,
+
+          ...(saved || {})
+
+        };
+
+      } catch (error) {
+
+        return {
+          ...DEFAULT_SETTINGS
+        };
+
+      }
+
+    }
+
+
+    /* =========================================================
+       SAVE SETTINGS
+    ========================================================= */
+
+    function saveSettings(
+      showToastMessage = true
+    ) {
+
+      const settings = {
+
+        websiteEnabled:
+          document.getElementById(
+            "websiteEnabled"
+          ).checked,
+
+        showDesigns:
+          document.getElementById(
+            "showDesigns"
+          ).checked,
+
+        chatterEnabled:
+          document.getElementById(
+            "chatterEnabled"
+          ).checked,
+
+        maintenanceMode:
+          document.getElementById(
+            "maintenanceMode"
+          ).checked,
+
+        notificationsEnabled:
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked
+
+      };
+
+
+      localStorage.setItem(
+        WEBSITE_KEY,
+        JSON.stringify(settings)
+      );
+
+
+      addActivity(
+        "Website settings updated."
+      );
+
+
+      updateDashboard();
+
+
+      if (showToastMessage) {
+
+        showToast(
+          "Website settings saved successfully."
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       LOAD SETTINGS
+    ========================================================= */
+
+    function loadSettings() {
+
+      const settings =
+        getSettings();
+
+
+      document.getElementById(
+        "websiteEnabled"
+      ).checked =
+        settings.websiteEnabled;
+
+
+      document.getElementById(
+        "showDesigns"
+      ).checked =
+        settings.showDesigns;
+
+
+      document.getElementById(
+        "chatterEnabled"
+      ).checked =
+        settings.chatterEnabled;
+
+
+      document.getElementById(
+        "maintenanceMode"
+      ).checked =
+        settings.maintenanceMode;
+
+
+      document.getElementById(
+        "notificationsEnabled"
+      ).checked =
+        settings.notificationsEnabled;
+
+
+      updateDashboard();
+
+    }
+
+
+    /* =========================================================
+       UPDATE DASHBOARD
+    ========================================================= */
+
+    function updateDashboard() {
+
+      const settings =
+        getSettings();
+
+
+      /* WEBSITE */
+
+      const websiteValue =
+        document.getElementById(
+          "websiteStatusValue"
+        );
+
+      const websitePill =
+        document.getElementById(
+          "websiteStatusPill"
+        );
+
+
+      if (
+        settings.websiteEnabled
+      ) {
+
+        websiteValue.textContent =
+          "Online";
+
+        setPill(
+          websitePill,
+          "Online",
+          "success"
+        );
+
+      } else {
+
+        websiteValue.textContent =
+          "Offline";
+
+        setPill(
+          websitePill,
+          "Offline",
+          "danger"
+        );
+
+      }
+
+
+      /* DESIGN */
+
+      const designValue =
+        document.getElementById(
+          "designStatusValue"
+        );
+
+      const designPill =
+        document.getElementById(
+          "designStatusPill"
+        );
+
+
+      if (
+        settings.showDesigns
+      ) {
+
+        designValue.textContent =
+          "Visible";
+
+        setPill(
+          designPill,
+          "Visible",
+          "success"
+        );
+
+      } else {
+
+        designValue.textContent =
+          "Hidden";
+
+        setPill(
+          designPill,
+          "Hidden",
+          "warning"
+        );
+
+      }
+
+
+      /* CHATTER */
+
+      const chatterValue =
+        document.getElementById(
+          "chatterStatusValue"
+        );
+
+      const chatterPill =
+        document.getElementById(
+          "chatterStatusPill"
+        );
+
+
+      if (
+        settings.chatterEnabled
+      ) {
+
+        chatterValue.textContent =
+          "Enabled";
+
+        setPill(
+          chatterPill,
+          "Enabled",
+          "success"
+        );
+
+      } else {
+
+        chatterValue.textContent =
+          "Disabled";
+
+        setPill(
+          chatterPill,
+          "Disabled",
+          "warning"
+        );
+
+      }
+
+
+      /* MAINTENANCE */
+
+      const maintenanceValue =
+        document.getElementById(
+          "maintenanceStatusValue"
+        );
+
+      const maintenancePill =
+        document.getElementById(
+          "maintenanceStatusPill"
+        );
+
+
+      if (
+        settings.maintenanceMode
+      ) {
+
+        maintenanceValue.textContent =
+          "Active";
+
+        setPill(
+          maintenancePill,
+          "Active",
+          "danger"
+        );
+
+      } else {
+
+        maintenanceValue.textContent =
+          "Normal";
+
+        setPill(
+          maintenancePill,
+          "Normal",
+          "success"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PILL
+    ========================================================= */
+
+    function setPill(
+      element,
+      text,
+      type
+    ) {
+
+      element.textContent =
+        text;
+
+      element.className =
+        `status-pill ${type}`;
+
+    }
+
+
+    /* =========================================================
+       AUTO SAVE CHANGE
+    ========================================================= */
+
+    document
+      .querySelectorAll(
+        '.status-row input[type="checkbox"]'
+      )
+      .forEach(
+        checkbox => {
+
+          checkbox.addEventListener(
+            "change",
+            () => {
+
+              saveSettings(
+                false
+              );
+
+              showToast(
+                "Website setting updated."
+              );
+
             }
+          );
+
+        }
+      );
 
 
-            /*
-             * Temporary frontend navigation.
-             *
-             * Real authentication will be connected
-             * later with Node.js + Express + MongoDB.
-             */
+    /* =========================================================
+       SAVE BUTTON
+    ========================================================= */
 
-            window.location.href = "dashboard.html";
+    document
+      .getElementById(
+        "saveBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
 
-        });
+          saveSettings();
+
+        }
+      );
 
 
-        function showMessage(message) {
+    /* =========================================================
+       ENABLE ALL
+    ========================================================= */
 
-            loginMessage.textContent = message;
+    document
+      .getElementById(
+        "enableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
 
-            loginMessage.style.display = "block";
+          document.getElementById(
+            "websiteEnabled"
+          ).checked = true;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked = true;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked = true;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked = false;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked = true;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "All public website features enabled."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       DISABLE ALL
+    ========================================================= */
+
+    document
+      .getElementById(
+        "disableAllBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "websiteEnabled"
+          ).checked = false;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked = false;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked = false;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked = true;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked = false;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "Website switched to restricted mode."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    document
+      .getElementById(
+        "resetBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "websiteEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.websiteEnabled;
+
+
+          document.getElementById(
+            "showDesigns"
+          ).checked =
+            DEFAULT_SETTINGS.showDesigns;
+
+
+          document.getElementById(
+            "chatterEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.chatterEnabled;
+
+
+          document.getElementById(
+            "maintenanceMode"
+          ).checked =
+            DEFAULT_SETTINGS.maintenanceMode;
+
+
+          document.getElementById(
+            "notificationsEnabled"
+          ).checked =
+            DEFAULT_SETTINGS.notificationsEnabled;
+
+
+          saveSettings(
+            false
+          );
+
+
+          showToast(
+            "Website settings restored to defaults."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    function getActivities() {
+
+      try {
+
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              ACTIVITY_KEY
+            )
+          );
+
+
+        if (
+          Array.isArray(saved)
+        ) {
+
+          return saved;
 
         }
 
-    </script>
+      } catch (error) {}
+
+
+      return [];
+
+    }
+
+
+    function addActivity(
+      message
+    ) {
+
+      const activities =
+        getActivities();
+
+
+      activities.unshift({
+
+        message,
+
+        time:
+          new Date().toISOString()
+
+      });
+
+
+      localStorage.setItem(
+        ACTIVITY_KEY,
+        JSON.stringify(
+          activities.slice(0,30)
+        )
+      );
+
+
+      renderActivities();
+
+    }
+
+
+    function renderActivities() {
+
+      const container =
+        document.getElementById(
+          "activityList"
+        );
+
+
+      const activities =
+        getActivities();
+
+
+      if (
+        !activities.length
+      ) {
+
+        container.innerHTML = `
+          <div class="empty-activity">
+            No website activity yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        activities
+          .slice(0,12)
+          .map(
+            item => `
+
+              <div class="activity-item">
+
+                <div class="activity-dot"></div>
+
+                <div class="activity-content">
+
+                  <strong>
+                    ${escapeHtml(
+                      item.message
+                    )}
+                  </strong>
+
+                  <span>
+                    ${formatTime(
+                      item.time
+                    )}
+                  </span>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+    /* =========================================================
+       FORMAT TIME
+    ========================================================= */
+
+    function formatTime(
+      value
+    ) {
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Unknown time";
+
+      }
+
+
+      return date.toLocaleString(
+        undefined,
+        {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function loadProfile() {
+
+      let session = null;
+
+
+      try {
+
+        session =
+          JSON.parse(
+            localStorage.getItem(
+              SESSION_KEY
+            )
+          );
+
+      } catch (error) {
+
+        session = null;
+
+      }
+
+
+      if (!session) {
+        return;
+      }
+
+
+      const name =
+        session.name ||
+        session.email ||
+        "System Admin";
+
+
+      const role =
+        session.role ||
+        "admin";
+
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
+        name;
+
+
+      document.getElementById(
+        "adminRole"
+      ).textContent =
+        role === "superadmin"
+          ? "Super Admin"
+          : "Admin";
+
+
+      const avatar =
+        document.getElementById(
+          "adminAvatar"
+        );
+
+
+      if (
+        session.avatar
+      ) {
+
+        avatar.innerHTML = `
+          <img
+            src="${escapeHtml(
+              session.avatar
+            )}"
+            alt="Admin"
+          >
+        `;
+
+      } else {
+
+        avatar.textContent =
+          name
+            .split(" ")
+            .map(
+              word =>
+                word.charAt(0)
+            )
+            .join("")
+            .slice(0,2)
+            .toUpperCase() ||
+          "AD";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       BANNER SUMMARY
+    ========================================================= */
+
+    function getBannerSummary() {
+
+      let banners = [];
+
+      let settings = {};
+
+
+      try {
+
+        banners =
+          JSON.parse(
+            localStorage.getItem(
+              BANNER_KEY
+            )
+          ) || [];
+
+      } catch (error) {
+
+        banners = [];
+
+      }
+
+
+      try {
+
+        settings =
+          JSON.parse(
+            localStorage.getItem(
+              BANNER_SETTINGS_KEY
+            )
+          ) || {};
+
+      } catch (error) {
+
+        settings = {};
+
+      }
+
+
+      return {
+
+        total:
+          Array.isArray(banners)
+            ? banners.length
+            : 0,
+
+        enabled:
+          settings.enabled !== false
+
+      };
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
+
+    function showToast(
+      message
+    ) {
+
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toast.textContent =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2500
+        );
+
+    }
+
+
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const overlay =
+      document.getElementById(
+        "sidebarOverlay"
+      );
+
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenuBtn"
+      );
+
+
+    function openSidebar() {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      overlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      overlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
+    );
+
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+
+    document
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              if (
+                window.innerWidth <= 850
+              ) {
+
+                closeSidebar();
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          if (
+            window.AdminAuth &&
+            typeof
+              window.AdminAuth.logout ===
+              "function"
+          ) {
+
+            window.AdminAuth.logout();
+
+            return;
+
+          }
+
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+
+          window.location.href =
+            "../login/index.html";
+
+        }
+      );
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================================
+       STORAGE SYNC
+    ========================================================= */
+
+    window.addEventListener(
+      "storage",
+      event => {
+
+        if (
+          event.key ===
+          WEBSITE_KEY
+        ) {
+
+          loadSettings();
+
+        }
+
+
+        if (
+          event.key ===
+          ACTIVITY_KEY
+        ) {
+
+          renderActivities();
+
+        }
+
+
+        if (
+          event.key ===
+          SESSION_KEY
+        ) {
+
+          loadProfile();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    loadProfile();
+
+    loadSettings();
+
+    renderActivities();
+
+    getBannerSummary();
+
+  </script>
 
 </body>
 </html>
-```
